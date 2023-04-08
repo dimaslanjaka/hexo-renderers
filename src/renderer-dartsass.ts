@@ -18,7 +18,7 @@ export function rendererDartSass(hexo: Hexo) {
         resolve(result.css.toString());
       });*/
       sass
-        .compileAsync(data.path, config)
+        .compileAsync(data.path as string, config)
         .then(function (result) {
           resolve(result.css);
         })
