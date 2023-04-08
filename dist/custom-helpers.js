@@ -37,6 +37,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerCustomHelper = exports.getTheAuthor = void 0;
 var fs_1 = __importDefault(require("fs"));
+var hexoUtil = __importStar(require("hexo-util"));
 var lodash_toarray_1 = __importDefault(require("lodash.toarray"));
 var path_1 = __importDefault(require("path"));
 var url_1 = require("url");
@@ -187,5 +188,12 @@ function registerCustomHelper(hexo) {
     hexo.extend.helper.register('relative_date', date.relative_date);
     hexo.extend.helper.register('time_tag', date.time_tag);
     hexo.extend.helper.register('moment', date.moment);
+    // hexo.extend.helper.register('url_for', hexoUtil.url_for);
+    for (var key in hexoUtil) {
+        if (Object.prototype.hasOwnProperty.call(hexoUtil, key)) {
+            var helper = hexoUtil[key];
+            hexo.extend.helper.register(key, helper);
+        }
+    }
 }
 exports.registerCustomHelper = registerCustomHelper;
