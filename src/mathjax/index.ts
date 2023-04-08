@@ -1,6 +1,6 @@
-import path from 'path';
 import ejs from 'ejs';
 import fs from 'fs';
+import path from 'path';
 
 const layout = 'layout.ejs';
 const bodyTag = '</body>';
@@ -12,7 +12,7 @@ const mathjaxScript = fs.readFileSync(path.join(__dirname, 'mathjax.html'));
  */
 export function rendererMathjax(hexo: import('hexo')) {
   hexo.extend.renderer.register('ejs', 'html', function (data, options) {
-    const path = (options.filename = data.path);
+    const path = (options.filename = data.path) as string;
     let content = data.text;
     if (layout === path.substring(path.length - layout.length)) {
       content = content.replace(bodyTag, mathjaxScript + '\n' + bodyTag);
