@@ -1,5 +1,6 @@
 import fs from 'fs';
 import Hexo from 'hexo';
+import * as hexoUtil from 'hexo-util';
 import _toArray from 'lodash.toarray';
 import path from 'path';
 import { parse } from 'url';
@@ -159,4 +160,11 @@ export function registerCustomHelper(hexo: Hexo) {
   hexo.extend.helper.register('relative_date', date.relative_date);
   hexo.extend.helper.register('time_tag', date.time_tag);
   hexo.extend.helper.register('moment', date.moment);
+  // hexo.extend.helper.register('url_for', hexoUtil.url_for);
+  for (const key in hexoUtil) {
+    if (Object.prototype.hasOwnProperty.call(hexoUtil, key)) {
+      const helper = (<Record<string, any>>hexoUtil)[key];
+      hexo.extend.helper.register(key, helper);
+    }
+  }
 }

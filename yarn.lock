@@ -459,6 +459,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/linkify-it@npm:*":
+  version: 3.0.2
+  resolution: "@types/linkify-it@npm:3.0.2"
+  checksum: dff8f10fafb885422474e456596f12d518ec4cdd6c33cca7a08e7c86b912d301ed91cf5a7613e148c45a12600dc9ab3d85ad16d5b48dc1aaeda151a68f16b536
+  languageName: node
+  linkType: hard
+
 "@types/lodash.toarray@npm:^4.4.7":
   version: 4.4.7
   resolution: "@types/lodash.toarray@npm:4.4.7"
@@ -472,6 +479,23 @@ __metadata:
   version: 4.14.191
   resolution: "@types/lodash@npm:4.14.191"
   checksum: ba0d5434e10690869f32d5ea49095250157cae502f10d57de0a723fd72229ce6c6a4979576f0f13e0aa9fbe3ce2457bfb9fa7d4ec3d6daba56730a51906d1491
+  languageName: node
+  linkType: hard
+
+"@types/markdown-it@npm:^12.2.3":
+  version: 12.2.3
+  resolution: "@types/markdown-it@npm:12.2.3"
+  dependencies:
+    "@types/linkify-it": "*"
+    "@types/mdurl": "*"
+  checksum: 868824a3e4d00718ba9cd4762cf16694762a670860f4b402e6e9f952b6841a2027488bdc55d05c2b960bf5078df21a9d041270af7e8949514645fe88fdb722ac
+  languageName: node
+  linkType: hard
+
+"@types/mdurl@npm:*":
+  version: 1.0.2
+  resolution: "@types/mdurl@npm:1.0.2"
+  checksum: 79c7e523b377f53cf1f5a240fe23d0c6cae856667692bd21bf1d064eafe5ccc40ae39a2aa0a9a51e8c94d1307228c8f6b121e847124591a9a828c3baf65e86e2
   languageName: node
   linkType: hard
 
@@ -3725,6 +3749,7 @@ __metadata:
     "@types/gulp": ^4.0.10
     "@types/hexo": "https://github.com/dimaslanjaka/nodejs-package-types/tarball/hexo"
     "@types/lodash.toarray": ^4.4.7
+    "@types/markdown-it": ^12.2.3
     "@types/node": ^18.15.11
     "@types/node-sass": ^4.11.3
     "@types/nunjucks": ^3.2.2
@@ -3737,6 +3762,7 @@ __metadata:
     hexo: ^6.3.0
     hexo-util: ^3.0.1
     lodash.toarray: ^4.4.0
+    markdown-it: ^13.0.1
     moment: ^2.29.4
     moment-timezone: ^0.5.43
     nib: ^1.2.0

@@ -1,6 +1,11 @@
 # hexo-renderers
 All in one hexo renderers. Load all hexo renderer engines at once.
 
+## Features
+- use hexo helpers inside post (`full_url`, `url_for`, etc)
+- use any type layout inside source
+- more custom helpers
+
 ## Specify renderers
 You can specify some renderers by `_config.yml`
 ```yaml
