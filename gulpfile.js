@@ -9,6 +9,7 @@ gulp.task('default', function () {
 });
 
 gulp.task('commit', async function () {
+  // git add dist release
   // to get commits between two commits
   // ex: https://github.com/dimaslanjaka/hexo-renderers/compare/edc31272058871caca481a01d14798ce304368c5...6ec53581e4b5b0d6a61ecdb142ef226cb1651905
   const repo = 'https://github.com/dimaslanjaka/hexo-renderers';
