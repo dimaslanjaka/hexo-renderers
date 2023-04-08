@@ -432,7 +432,7 @@ __metadata:
 
 "@types/hexo@https://github.com/dimaslanjaka/nodejs-package-types/tarball/hexo":
   version: 3.9.0
-  resolution: "@types/hexo@https://github.com/dimaslanjaka/nodejs-package-types.git#commit=e3c3ee5afffdac5e73bba7b6945deafa7f4d9e8c"
+  resolution: "@types/hexo@https://github.com/dimaslanjaka/nodejs-package-types.git#commit=361cf4301b7a989e8868eae58702f1b74d537170"
   dependencies:
     "@types/bluebird": ^3.5.38
     "@types/bunyan": "*"
@@ -446,7 +446,7 @@ __metadata:
     moment: ^2.29.4
     underscore: ^1.13.6
     upath: ^2.0.1
-  checksum: 2d5845a413a10af13dbf654b2d5a8906040b69e86f13452ad1b293ea9e68513d95d2f499352e4c841add1692133c27ee975e50beee96991d22d802272c47bf96
+  checksum: f7d741f2536dc7e38bd10f8b34aeb936e34d3efeffa0d0e44e9016b70e12e8e2f49bf8d225b7c02d9d616277410e4f02e121a46e1eee3e599edf1480ccfce9d1
   languageName: node
   linkType: hard
 
@@ -2363,6 +2363,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eastasianwidth@npm:~0.2.0":
+  version: 0.2.0
+  resolution: "eastasianwidth@npm:0.2.0"
+  checksum: 7d00d7cd8e49b9afa762a813faac332dee781932d6f2c848dc348939c4253f1d4564341b7af1d041853bc3f32c2ef141b58e0a4d9862c17a7f08f68df1e0f1ed
+  languageName: node
+  linkType: hard
+
 "ecc-jsbn@npm:~0.1.1":
   version: 0.1.2
   resolution: "ecc-jsbn@npm:0.1.2"
@@ -3763,6 +3770,17 @@ __metadata:
     hexo-util: ^3.0.1
     lodash.toarray: ^4.4.0
     markdown-it: ^13.0.1
+    markdown-it-abbr: ^1.0.4
+    markdown-it-attrs: ^4.1.3
+    markdown-it-cjk-breaks: ^1.1.2
+    markdown-it-container: ^3.0.0
+    markdown-it-deflist: ^2.0.3
+    markdown-it-emoji: ^2.0.0
+    markdown-it-footnote: ^3.0.1
+    markdown-it-ins: ^3.0.0
+    markdown-it-mark: ^3.0.0
+    markdown-it-sub: ^1.0.0
+    markdown-it-sup: ^1.0.0
     moment: ^2.29.4
     moment-timezone: ^0.5.43
     nib: ^1.2.0
@@ -4995,7 +5013,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"markdown-it-attrs@npm:^4.1.6":
+"markdown-it-attrs@npm:^4.1.3, markdown-it-attrs@npm:^4.1.6":
   version: 4.1.6
   resolution: "markdown-it-attrs@npm:4.1.6"
   peerDependencies:
@@ -5004,14 +5022,51 @@ __metadata:
   languageName: node
   linkType: hard
 
-"markdown-it-footnote@npm:^3.0.3":
+"markdown-it-cjk-breaks@npm:^1.1.2":
+  version: 1.1.3
+  resolution: "markdown-it-cjk-breaks@npm:1.1.3"
+  dependencies:
+    eastasianwidth: ~0.2.0
+  checksum: 28cc79e964d3b0a5127b1025b6f6af3514296d52cc27a5656662d09afbd316ada9d2d1793b62c287c4b410c83a9c5a3eb01a5f10d47ebe8aedc9ba97dbbedd8a
+  languageName: node
+  linkType: hard
+
+"markdown-it-container@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "markdown-it-container@npm:3.0.0"
+  checksum: 8638a2f7587afe0c7c725558599d541fac46f8578b7ba2a7d305d87db8549d07edfb89c59147d0d17ffa189c8d39eff3f16a80613ec7aaf92af8ead713292693
+  languageName: node
+  linkType: hard
+
+"markdown-it-deflist@npm:^2.0.3":
+  version: 2.1.0
+  resolution: "markdown-it-deflist@npm:2.1.0"
+  checksum: 6d5b0cc8c0e729cb8d0add4cbfa98cc39bf3cbc8aa33a8bd7dab50da10273aac834b5fc85a36985235ff945048a246ec3688ecaf5469e64668e94b4449f79531
+  languageName: node
+  linkType: hard
+
+"markdown-it-emoji@npm:^2.0.0":
+  version: 2.0.2
+  resolution: "markdown-it-emoji@npm:2.0.2"
+  checksum: e93ca19591b8dd543029e1997763e094a0861185f71403ffa522f09860da0a6457b3a2bd50e6e59cf1551b28ff464a2c2f596045a577323bd1d546cd1f0cc377
+  languageName: node
+  linkType: hard
+
+"markdown-it-footnote@npm:^3.0.1, markdown-it-footnote@npm:^3.0.3":
   version: 3.0.3
   resolution: "markdown-it-footnote@npm:3.0.3"
   checksum: 3657f943f938603ec74e86a41883bfac5564eec7733b8d74e00894cb2b2b73f823c072bccd8aa07c418ae1e017a4f5d22c6309627dfc2800100fcb2c6c71e24b
   languageName: node
   linkType: hard
 
-"markdown-it-mark@npm:^3.0.1":
+"markdown-it-ins@npm:^3.0.0":
+  version: 3.0.1
+  resolution: "markdown-it-ins@npm:3.0.1"
+  checksum: f4ddc456bf67eeae872bd77146723cd6c6a035b2dfa4c8a6f282c1fc6eb35b503836ac567aee4d6550bbd5e67a014003f52bad4c28661387662e215c3c1ab2ae
+  languageName: node
+  linkType: hard
+
+"markdown-it-mark@npm:^3.0.0, markdown-it-mark@npm:^3.0.1":
   version: 3.0.1
   resolution: "markdown-it-mark@npm:3.0.1"
   checksum: cb9d8bee158440938e615d9f2866b6ee3b98666aba7d4c1a78d9df2e0c121a23f2c9172d1f92680883eae9229794a5e6e7e15e76bfd151fadf8be2299330905f
@@ -5649,7 +5704,7 @@ __metadata:
     through2: ^4.0.2
     true-case-path: ^2.2.1
     upath: ^2.0.1
-  checksum: 8de7e70a165ef214131acae763b874d2c4a50774732e6ee03f7c38cbf82a2435ef58f4bedc3069a779dc8fb5f1d873090a114060edfe3494749fd1095fcb0768
+  checksum: 90c9bb66c9d3ae68180509a7946e944b64e3c00c8e7579c218e5cbdb8d36c8e350b9812f05e7a088334d41a392625ab38e0be23cb6fd543c3c718aa43a7f8ac1
   languageName: node
   linkType: hard
 

@@ -30,7 +30,8 @@
   "homepage": "https://github.com/dimaslanjaka/static-blog-generator-hexo/tree/master/packages/hexo-renderers",
   "scripts": {
     "update": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/.prettierrc.json > .prettierrc.json && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/postinstall.js > postinstall.js && curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/packer.js > packer.js && npx npm-check-updates -u",
-    "build": "tsc --build tsconfig.build.json && gulp && node packer.js --yarn"
+    "build": "tsc --build tsconfig.build.json && gulp && node packer.js --yarn",
+    "update:types": "yarn up @types/hexo@https://github.com/dimaslanjaka/nodejs-package-types/tarball/hexo"
   },
   "license": "MIT",
   "description": "All in one hexo renderers",
