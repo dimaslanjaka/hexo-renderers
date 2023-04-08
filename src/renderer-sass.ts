@@ -1,10 +1,10 @@
 import Hexo from 'hexo';
 import sass from 'node-sass';
-import * as util from 'util';
-const extend = util['_extend'];
+// import * as util from 'util';
+const extend = Object.assign; //util['_extend'];
 
 const sassRenderer = (ext: string) =>
-  function (data: Hexo.Render.Data) {
+  function (this: Hexo, data: Hexo.Render.Data) {
     // support global and theme-specific config
     const userConfig = extend(this.theme.config.node_sass || {}, this.config.node_sass || {});
 
@@ -26,7 +26,7 @@ const sassRenderer = (ext: string) =>
       // result is now Buffer instead of String
       // https://github.com/sass/node-sass/issues/711
       return Promise.resolve(result.css.toString());
-    } catch (error) {
+    } catch (error: any) {
       console.error(error.toString());
       throw error;
     }
