@@ -61,7 +61,7 @@ class Renderer {
     this.disableNunjucks = false;
   }
 
-  render(data: Hexo.PageData, options: any) {
+  render(data: Hexo.PageData | Hexo.extend.RendererData, options: any) {
     this.hexo.execFilterSync('markdown-it:renderer', this.parser, { context: this });
     return this.parser.render(data.text, {
       postPath: data.path
@@ -70,4 +70,4 @@ class Renderer {
 }
 
 // module.exports = Renderer;
-exports = Renderer;
+export default Renderer;
