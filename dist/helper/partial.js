@@ -9,8 +9,9 @@ function partialWithLayout(ctx) {
         if (typeof name !== 'string')
             throw new TypeError('name must be a string!');
         var cache = options.cache;
-        var viewDir = this.view_dir;
-        var currentView = this.filename.substring(viewDir.length);
+        var self = this;
+        var viewDir = self.view_dir;
+        var currentView = self.filename.substring(viewDir.length);
         var path = (0, upath_1.join)((0, upath_1.dirname)(currentView), name);
         var view = ctx.theme.getView(path) || ctx.theme.getView(name);
         var viewLocals = { layout: false };

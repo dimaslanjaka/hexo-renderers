@@ -1,3 +1,4 @@
+"use strict";
 var ejs = require('ejs');
 var toArray = require('./custom-helpers').toArray;
 /**

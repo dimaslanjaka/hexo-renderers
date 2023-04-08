@@ -1,3 +1,4 @@
+"use strict";
 var stylus = require('stylus');
 /**
  * hexo-renderer-stylus

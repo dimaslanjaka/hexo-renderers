@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -18,6 +41,7 @@ var lodash_toarray_1 = __importDefault(require("lodash.toarray"));
 var path_1 = __importDefault(require("path"));
 var url_1 = require("url");
 var yaml_1 = __importDefault(require("yaml"));
+var date = __importStar(require("./helper/date"));
 var partial_1 = require("./helper/partial");
 var config = yaml_1.default.parse(fs_1.default.readFileSync(path_1.default.join(process.cwd(), '_config.yml')).toString());
 var THEME_LOCATION = path_1.default.join(process.cwd(), 'themes', config.theme || 'landscape');
@@ -156,5 +180,12 @@ function registerCustomHelper(hexo) {
         return [];
     });
     hexo.extend.helper.register('partialWithLayout', partial_1.partialWithLayout);
+    hexo.extend.helper.register('date', date.date);
+    hexo.extend.helper.register('date_xml', date.date_xml);
+    hexo.extend.helper.register('time', date.time);
+    hexo.extend.helper.register('full_date', date.full_date);
+    hexo.extend.helper.register('relative_date', date.relative_date);
+    hexo.extend.helper.register('time_tag', date.time_tag);
+    hexo.extend.helper.register('moment', date.moment);
 }
 exports.registerCustomHelper = registerCustomHelper;

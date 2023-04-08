@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.rendererMathjax = void 0;
-var path_1 = __importDefault(require("path"));
 var ejs_1 = __importDefault(require("ejs"));
 var fs_1 = __importDefault(require("fs"));
+var path_1 = __importDefault(require("path"));
 var layout = 'layout.ejs';
 var bodyTag = '</body>';
 var mathjaxScript = fs_1.default.readFileSync(path_1.default.join(__dirname, 'mathjax.html'));

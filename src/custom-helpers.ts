@@ -4,6 +4,7 @@ import _toArray from 'lodash.toarray';
 import path from 'path';
 import { parse } from 'url';
 import yaml from 'yaml';
+import * as date from './helper/date';
 import { partialWithLayout } from './helper/partial';
 
 const config: Hexo.Config = yaml.parse(fs.readFileSync(path.join(process.cwd(), '_config.yml')).toString());
@@ -89,7 +90,7 @@ export function registerCustomHelper(hexo: Hexo) {
      * @returns
      */
     function (this: Hexo) {
-      const page = this['page'];
+      const page = (<any>this)['page'];
       return page.posts;
     }
   );
@@ -151,4 +152,11 @@ export function registerCustomHelper(hexo: Hexo) {
   );
 
   hexo.extend.helper.register('partialWithLayout', partialWithLayout);
+  hexo.extend.helper.register('date', date.date);
+  hexo.extend.helper.register('date_xml', date.date_xml);
+  hexo.extend.helper.register('time', date.time);
+  hexo.extend.helper.register('full_date', date.full_date);
+  hexo.extend.helper.register('relative_date', date.relative_date);
+  hexo.extend.helper.register('time_tag', date.time_tag);
+  hexo.extend.helper.register('moment', date.moment);
 }

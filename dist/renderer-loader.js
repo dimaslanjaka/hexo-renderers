@@ -1,3 +1,4 @@
+"use strict";
 var rendererNunjucks = require('./renderer-nunjucks').rendererNunjucks;
 var rendererEjs = require('./renderer-ejs').rendererEjs;
 var rendererPug = require('./renderer-pug').rendererPug;

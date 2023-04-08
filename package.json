@@ -1,7 +1,7 @@
 {
   "packageManager": "yarn@3.4.1",
   "name": "hexo-renderers",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "main": "dist/renderer-loader.js",
   "types": "dist/renderer-loader.d.ts",
   "files": [
@@ -38,6 +38,7 @@
     "@types/ejs": "^3.1.2",
     "@types/fs-extra": "^11.0.1",
     "@types/gulp": "^4.0.10",
+    "@types/hexo": "https://github.com/dimaslanjaka/nodejs-package-types/tarball/hexo",
     "@types/lodash.toarray": "^4.4.7",
     "@types/node": "^18.15.11",
     "@types/node-sass": "^4.11.3",
@@ -45,7 +46,7 @@
     "@types/pug": "^2.0.6",
     "eslint": "^8.38.0",
     "gulp": "^4.0.2",
-    "hexo": "7.0.0-rc1",
+    "hexo": "^6.3.0",
     "prettier": "^2.8.7",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
@@ -56,6 +57,8 @@
     "fs-extra": "^11.1.1",
     "hexo-util": "^3.0.1",
     "lodash.toarray": "^4.4.0",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
     "nib": "^1.2.0",
     "node-sass": "^8.0.0",
     "nunjucks": "^3.2.3",
