@@ -5,6 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var renderer_1 = __importDefault(require("./markdown-it/renderer"));
+/**
+ * hexo-renderer-markdown-it
+ * @param hexo
+ */
 function rendererMarkdownIt(hexo) {
     hexo.config.markdown = Object.assign({
         preset: 'default',

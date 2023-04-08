@@ -1,10 +1,14 @@
 'use strict';
-var MarkdownIt = require('markdown-it');
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var markdown_it_1 = __importDefault(require("markdown-it"));
 var Renderer = /** @class */ (function () {
     /**
      * constructor
      *
-     * @param {*} hexo context of hexo
+     * @param hexo context of hexo
      */
     function Renderer(hexo) {
         this.hexo = hexo;
@@ -17,7 +21,7 @@ var Renderer = /** @class */ (function () {
             hexo.log.warn("Deprecated config detected. Please use\n\nmarkdown:\n  preset: ".concat(markdown.preset, "\n\nSee https://github.com/hexojs/hexo-renderer-markdown-it#options"));
         }
         var preset = markdown.preset, render = markdown.render, enable_rules = markdown.enable_rules, disable_rules = markdown.disable_rules, plugins = markdown.plugins, anchors = markdown.anchors, images = markdown.images;
-        this.parser = new MarkdownIt(preset, render);
+        this.parser = new markdown_it_1.default(preset, render);
         if (enable_rules) {
             this.parser.enable(enable_rules);
         }
@@ -51,4 +55,5 @@ var Renderer = /** @class */ (function () {
     };
     return Renderer;
 }());
-module.exports = Renderer;
+// module.exports = Renderer;
+exports.default = Renderer;

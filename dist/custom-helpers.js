@@ -188,7 +188,7 @@ function registerCustomHelper(hexo) {
     hexo.extend.helper.register('relative_date', date.relative_date);
     hexo.extend.helper.register('time_tag', date.time_tag);
     hexo.extend.helper.register('moment', date.moment);
-    // hexo.extend.helper.register('url_for', hexoUtil.url_for);
+    hexo.extend.helper.register('url_for', hexoUtil.url_for);
     for (var key in hexoUtil) {
         if (Object.prototype.hasOwnProperty.call(hexoUtil, key)) {
             var helper = hexoUtil[key];

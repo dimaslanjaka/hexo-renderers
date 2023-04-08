@@ -1,13 +1,15 @@
-export = Renderer;
+import Hexo from 'hexo';
+import MarkdownIt from 'markdown-it';
 declare class Renderer {
+    parser: MarkdownIt;
+    hexo: Hexo;
+    disableNunjucks: boolean;
     /**
      * constructor
      *
-     * @param {*} hexo context of hexo
+     * @param hexo context of hexo
      */
-    constructor(hexo: any);
-    hexo: any;
-    parser: any;
-    disableNunjucks: boolean;
-    render(data: any, options: any): any;
+    constructor(hexo: Hexo);
+    render(data: Hexo.PageData | Hexo.extend.RendererData, options: any): string;
 }
+export default Renderer;
