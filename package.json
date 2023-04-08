@@ -9,10 +9,12 @@
     "test": "test"
   },
   "scripts": {
-    "test": "yarn build && cd test && hexo clean && hexo server -p 4000",
+    "test": "yarn build && yarn site:clean && yarn site:server",
     "build": "yarn workspace hexo-renderers build",
     "patch": "yarn workspace hexo-renderers version patch",
-    "update": "yarn workspaces foreach run update:ncu && yarn cache clean && yarn install"
+    "update": "yarn workspaces foreach run update:ncu && yarn cache clean && yarn install",
+    "site:clean": "yarn workspace site run clean",
+    "site:server": "yarn workspace site run server"
   },
   "repository": {
     "type": "git",
