@@ -14,7 +14,8 @@ export default function rendererMarkdownIt(hexo: Hexo) {
     {
       preset: 'default',
       render: {},
-      anchors: {}
+      anchors: {},
+      disableNunjucks: true
     },
     hexo.config.markdown
   );

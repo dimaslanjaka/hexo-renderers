@@ -13,7 +13,8 @@ function rendererMarkdownIt(hexo) {
     hexo.config.markdown = Object.assign({
         preset: 'default',
         render: {},
-        anchors: {}
+        anchors: {},
+        disableNunjucks: true
     }, hexo.config.markdown);
     hexo.config.markdown.render = Object.assign({
         html: true,

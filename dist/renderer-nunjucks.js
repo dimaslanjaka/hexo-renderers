@@ -13,7 +13,10 @@ var logfile = path.join(tmpdir, 'nunjucks-log.json');
  * @param {import('hexo')} hexo
  */
 function rendererNunjucks(hexo) {
-    var themeDir = path.join(__dirname, '../themes', hexo.config.theme);
+    /**
+     * theme directory
+     */
+    var themeDir = path.join(hexo.base_dir, 'themes', hexo.config.theme);
     var env = nunjucks.configure([themeDir, path.join(themeDir, 'layout')], {
         noCache: true,
         autoescape: false,
@@ -59,5 +62,6 @@ function rendererNunjucks(hexo) {
     // hexo.extend.renderer.register('swig', 'html', render, true);
     hexo.extend.renderer.register('njk', 'html', render, false);
     hexo.extend.renderer.register('j2', 'html', render, false);
+    return { render: render, rendererNunjucks: rendererNunjucks, compile: compile };
 }
 module.exports = { rendererNunjucks: rendererNunjucks };

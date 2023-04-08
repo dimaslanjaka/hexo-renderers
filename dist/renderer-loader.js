@@ -39,6 +39,9 @@ if (typeof hexo !== 'undefined') {
                 case 'njk':
                     rendererNunjucks(hexo);
                     break;
+                case 'markdown-it':
+                    rendererMarkdownIt(hexo);
+                    break;
             }
         }
     }
