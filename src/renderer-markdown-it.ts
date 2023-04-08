@@ -5,6 +5,10 @@
 import Hexo from 'hexo';
 import Renderer from './markdown-it/renderer';
 
+/**
+ * hexo-renderer-markdown-it
+ * @param hexo
+ */
 export default function rendererMarkdownIt(hexo: Hexo) {
   hexo.config.markdown = Object.assign(
     {
