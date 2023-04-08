@@ -4,7 +4,7 @@
 		"target": "es5",
 		"module": "commonjs",
 		"lib": ["ESNext"],
-		//"composite": true,
+		"composite": true,
 
 		/* Strict Type-Checking Options */
 		"strict": true,

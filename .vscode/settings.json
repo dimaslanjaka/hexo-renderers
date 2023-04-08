@@ -1,5 +1,11 @@
 {
-  "emmet.includeLanguages": {
-    "njk": "html"
-  }
+	"emmet.includeLanguages": {
+		"njk": "html"
+	},
+	"npm.packageManager": "yarn",
+	"eslint.packageManager": "yarn",
+	"editor.codeActionsOnSave": {
+		"source.fixAll": true,
+		"source.organizeImports": true
+	}
 }
