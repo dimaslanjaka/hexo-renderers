@@ -1,14 +1,19 @@
 'use strict';
 
-const MarkdownIt = require('markdown-it');
+import Hexo from 'hexo';
+import MarkdownIt from 'markdown-it';
 
 class Renderer {
+  parser: MarkdownIt;
+  hexo: Hexo;
+  disableNunjucks: boolean;
+
   /**
    * constructor
    *
-   * @param {*} hexo context of hexo
+   * @param hexo context of hexo
    */
-  constructor(hexo) {
+  constructor(hexo: Hexo) {
     this.hexo = hexo;
 
     let { markdown } = hexo.config;
@@ -35,7 +40,7 @@ class Renderer {
     }
 
     if (plugins) {
-      this.parser = plugins.reduce((parser, pugs) => {
+      this.parser = plugins.reduce((parser: any, pugs: any) => {
         if (pugs instanceof Object && pugs.name) {
           return parser.use(require(pugs.name), pugs.options);
         }
@@ -56,7 +61,7 @@ class Renderer {
     this.disableNunjucks = false;
   }
 
-  render(data, options) {
+  render(data: Hexo.PageData, options: any) {
     this.hexo.execFilterSync('markdown-it:renderer', this.parser, { context: this });
     return this.parser.render(data.text, {
       postPath: data.path
@@ -64,4 +69,5 @@ class Renderer {
   }
 }
 
-module.exports = Renderer;
+// module.exports = Renderer;
+exports = Renderer;
