@@ -9,7 +9,7 @@ All in one hexo renderers. Load all hexo renderer engines at once.
 ## Specify renderers
 You can specify some renderers by `_config.yml`
 ```yaml
-renderers: ['ejs', 'stylus', 'nunjucks', 'dartsass', 'pug', 'sass']
+renderers: ['ejs', 'stylus', 'nunjucks', 'dartsass', 'pug', 'sass', 'markdown-it']
 ```
 
 > - dartsass improved from `hexo-renderer-dartsass`
@@ -27,3 +27,14 @@ set config for your desired renderer engine.
 - improved `dartsass`
 - add and improved `hexo-renderer-sass`
 - optimize docs
+
+### 1.0.6
+- add more helpers
+
+### 1.0.7
+- hotfix known issues
+
+### 1.0.8
+- add `hexo-renderer-markdown-it`
+- hotfix nunjucks renderer
+- update dependencies
