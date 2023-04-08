@@ -7,6 +7,7 @@ var ansiColors = require('ansi-colors');
 var registerCustomHelper = require('./custom-helpers').registerCustomHelper;
 var rendererDartSass = require('./renderer-dartsass').rendererDartSass;
 var rendererSass = require('./renderer-sass').rendererSass;
+var rendererMarkdownIt = require('./renderer-markdown-it').default;
 var logname = ansiColors.magenta('hexo-renderers');
 if (typeof hexo !== 'undefined') {
     global.hexo = hexo;
@@ -49,6 +50,7 @@ if (typeof hexo !== 'undefined') {
         rendererStylus(hexo);
         // rendererDartSass(hexo);
         rendererSass(hexo);
+        rendererMarkdownIt(hexo);
     }
 }
 else {
