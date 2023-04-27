@@ -6,3 +6,11 @@
 	path = package
 	url = https://github.com/dimaslanjaka/hexo-renderers.git
 	branch = master
+[submodule "packages/embed-git"]
+	path = packages/embed-git
+	url = https://github.com/dimaslanjaka/embed-like-gist.git
+	branch = private
+[submodule "packages/hexo-shortcodes"]
+	path = packages/hexo-shortcodes
+	url = https://github.com/dimaslanjaka/hexo-shortcodes.git
+	branch = monorepo
