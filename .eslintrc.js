@@ -14,6 +14,9 @@ const config = {
     ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
     sourceType: 'module' // Allows for the use of imports
   },
+  globals: {
+    hljs: true
+  },
   extends: [
     'eslint:recommended', // uses eslint default recommended
     'plugin:@typescript-eslint/eslint-recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
