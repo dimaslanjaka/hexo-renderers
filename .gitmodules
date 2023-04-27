@@ -1,7 +1,7 @@
 [submodule "site"]
 	path = test
 	url = https://github.com/dimaslanjaka/site.git
-	branch = hexo-shortcodes
+	branch = hexo-renderers
 [submodule "package"]
 	path = package
 	url = https://github.com/dimaslanjaka/hexo-renderers.git
