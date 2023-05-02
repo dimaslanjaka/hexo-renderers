@@ -1,4 +1,5 @@
 import Hexo from 'hexo';
+import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import MarkdownIt from 'markdown-it';
 declare class Renderer {
     parser: MarkdownIt;
@@ -10,6 +11,6 @@ declare class Renderer {
      * @param hexo context of hexo
      */
     constructor(hexo: Hexo);
-    render(data: Hexo.PageData | Hexo.extend.RendererData, options: any): string;
+    render(data: StoreFunctionData, _options: any): string;
 }
 export default Renderer;

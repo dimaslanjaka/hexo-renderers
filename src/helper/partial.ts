@@ -7,7 +7,7 @@ export function partialWithLayout(ctx: Hexo) {
   return function partialWithLayout(
     this: Record<string, any>,
     name: string,
-    locals: Hexo.Locals,
+    locals: import('hexo')['locals'],
     options: Record<string, any> = {}
   ) {
     if (typeof name !== 'string') throw new TypeError('name must be a string!');

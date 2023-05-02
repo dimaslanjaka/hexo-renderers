@@ -8,7 +8,9 @@ import yaml from 'yaml';
 import * as date from './helper/date';
 import { partialWithLayout } from './helper/partial';
 
-const config: Hexo.Config = yaml.parse(fs.readFileSync(path.join(process.cwd(), '_config.yml')).toString());
+const config: import('hexo')['config'] = yaml.parse(
+  fs.readFileSync(path.join(process.cwd(), '_config.yml')).toString()
+);
 const THEME_LOCATION = path.join(process.cwd(), 'themes', config.theme || 'landscape');
 const _THEME_SCRIPTS = path.join(THEME_LOCATION, 'scripts');
 
@@ -90,13 +92,13 @@ export function registerCustomHelper(hexo: Hexo) {
     /**
      * @returns
      */
-    function (this: Hexo) {
-      const page = (<any>this)['page'];
+    function getPosts() {
+      const page = this['page'];
       return page.posts;
     }
   );
 
-  hexo.extend.helper.register('getAuthor', function (author, fallback) {
+  hexo.extend.helper.register('getAuthor', function getAuthor(author, fallback) {
     if (!author) return fallback;
     const test1 = getTheAuthor(author);
     if (typeof test1 === 'string') return test1;
@@ -113,7 +115,7 @@ export function registerCustomHelper(hexo: Hexo) {
      * @param filternames
      * @returns
      */
-    function (
+    function getPostByLabel(
       this: Hexo & Record<string, any>,
       by: 'tags' | 'categories',
       filternames: string[]
@@ -126,12 +128,7 @@ export function registerCustomHelper(hexo: Hexo) {
           .map((filtername) => {
             const filter = data.filter(({ name }) => String(name).toLowerCase() == filtername.toLowerCase());
             return filter.map((group) => {
-              return group.posts.map(function ({
-                title,
-                permalink,
-                thumbnail,
-                photos
-              }: Hexo.Post.Data & Record<string, any>) {
+              return group.posts.map(function ({ title, permalink, thumbnail, photos }: Record<string, any>) {
                 // get title and permalink
                 // for more keys, you can look at https://github.com/dimaslanjaka/nodejs-package-types/blob/ec9b509d81eefdfada79f1658ac02118936a1e5a/index.d.ts#L757-L762
                 return { title, permalink, thumbnail, photos };

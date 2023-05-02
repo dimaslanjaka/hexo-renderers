@@ -47,7 +47,7 @@ var Renderer = /** @class */ (function () {
         }
         this.disableNunjucks = false;
     }
-    Renderer.prototype.render = function (data, options) {
+    Renderer.prototype.render = function (data, _options) {
         this.hexo.execFilterSync('markdown-it:renderer', this.parser, { context: this });
         return this.parser.render(data.text, {
             postPath: data.path

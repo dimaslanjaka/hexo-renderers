@@ -4,7 +4,7 @@ import sass from 'node-sass';
 const extend = Object.assign; //util['_extend'];
 
 const sassRenderer = (ext: string) =>
-  function (this: Hexo, data: Hexo.Render.Data) {
+  function (this: Hexo, data: { text?: any; path?: any; }) {
     // support global and theme-specific config
     const userConfig = extend(this.theme.config.node_sass || {}, this.config.node_sass || {});
 

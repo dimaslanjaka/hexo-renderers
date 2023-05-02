@@ -4,6 +4,7 @@
 
 import Hexo from 'hexo';
 import Renderer from './markdown-it/renderer';
+import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 
 /**
  * hexo-renderer-markdown-it
@@ -50,7 +51,7 @@ export default function rendererMarkdownIt(hexo: Hexo) {
 
   renderer.disableNunjucks = Boolean(hexo.config.markdown.disableNunjucks);
 
-  function render(data: Hexo.extend.RendererData, options: Record<string, any>) {
+  function render(data: StoreFunctionData, options: Record<string, any>) {
     return renderer.render(data, options);
   }
 

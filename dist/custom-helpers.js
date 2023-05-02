@@ -126,11 +126,11 @@ function registerCustomHelper(hexo) {
     /**
      * @returns
      */
-    function () {
+    function getPosts() {
         var page = this['page'];
         return page.posts;
     });
-    hexo.extend.helper.register('getAuthor', function (author, fallback) {
+    hexo.extend.helper.register('getAuthor', function getAuthor(author, fallback) {
         if (!author)
             return fallback;
         var test1 = getTheAuthor(author);
@@ -148,7 +148,7 @@ function registerCustomHelper(hexo) {
      * @param filternames
      * @returns
      */
-    function (by, filternames) {
+    function getPostByLabel(by, filternames) {
         var hexo = this;
         var data = hexo.site[by].data;
         if (Array.isArray(data)) {
