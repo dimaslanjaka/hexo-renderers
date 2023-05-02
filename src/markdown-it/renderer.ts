@@ -61,7 +61,7 @@ class Renderer {
     this.disableNunjucks = false;
   }
 
-  render(data: { text: string; path: string; }, options: any) {
+  render(data: { text: string; path: string; }, _options: any) {
     this.hexo.execFilterSync('markdown-it:renderer', this.parser, { context: this });
     return this.parser.render(data.text, {
       postPath: data.path
