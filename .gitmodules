@@ -5,4 +5,4 @@
 [submodule "package"]
 	path = package
 	url = https://github.com/dimaslanjaka/hexo-renderers.git
-	branch = master
+	branch = pre-release
