@@ -14,7 +14,8 @@
     "patch": "yarn workspace hexo-renderers version patch",
     "update": "yarn workspaces foreach run update:ncu && yarn cache clean && yarn install",
     "site:clean": "yarn workspace site run clean",
-    "site:server": "yarn workspace site run server"
+    "site:server": "yarn workspace site run server",
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",
