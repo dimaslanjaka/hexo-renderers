@@ -32,10 +32,9 @@
   },
   "license": "MIT",
   "workspaces": [
-    "test",
-    "package",
     "packages/embed-git",
-    "packages/hexo-shortcodes"
+    "package",
+    "test"
   ],
   "devDependencies": {
     "@types/eslint": "^8",
@@ -46,6 +45,7 @@
     "@types/prettier": "^2",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@typescript-eslint/parser": "^5.54.1",
+    "binary-collections": "git+https://github.com/dimaslanjaka/bin.git",
     "eslint": "^8.35.0",
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-prettier": "^4.2.1",
