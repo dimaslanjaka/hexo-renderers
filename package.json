@@ -15,7 +15,7 @@
     "update": "yarn workspaces foreach run update:ncu && yarn cache clean && yarn install",
     "site:clean": "yarn workspace site run clean",
     "site:server": "yarn workspace site run server",
-    "postinstall": "npm run build"
+    "post-install": "npm run build"
   },
   "repository": {
     "type": "git",
