@@ -75,7 +75,7 @@
     "nunjucks": "^3.2.3",
     "pug": "^3.0.2",
     "sass": "^1.61.0",
-    "sbg-utility": "^1.0.8",
+    "sbg-utility": "^1.0.9",
     "stylus": "^0.59.0",
     "upath": "^2.0.1"
   }
