@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerCustomHelper = exports.getTheAuthor = void 0;
+exports.registerCustomHelper = exports.getTheAuthor = exports.BASE_DIR = void 0;
 var fs_1 = __importDefault(require("fs"));
 var hexoUtil = __importStar(require("hexo-util"));
 var lodash_toarray_1 = __importDefault(require("lodash.toarray"));
@@ -44,7 +44,14 @@ var url_1 = require("url");
 var yaml_1 = __importDefault(require("yaml"));
 var date = __importStar(require("./helper/date"));
 var partial_1 = require("./helper/partial");
-var config = yaml_1.default.parse(fs_1.default.readFileSync(path_1.default.join(process.cwd(), '_config.yml')).toString());
+exports.BASE_DIR = typeof hexo === 'undefined' ? process.cwd() : hexo.base_dir;
+var config;
+if (typeof hexo === 'undefined') {
+    config = yaml_1.default.parse(fs_1.default.readFileSync(path_1.default.join(exports.BASE_DIR, '_config.yml')).toString());
+}
+else {
+    config = yaml_1.default.parse(fs_1.default.readFileSync(path_1.default.join(exports.BASE_DIR, '_config.yml')).toString());
+}
 var THEME_LOCATION = path_1.default.join(process.cwd(), 'themes', config.theme || 'landscape');
 var _THEME_SCRIPTS = path_1.default.join(THEME_LOCATION, 'scripts');
 // loadScripts(THEME_SCRIPTS);

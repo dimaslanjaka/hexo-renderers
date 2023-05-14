@@ -39,14 +39,6 @@ export declare const toMomentLocale: import("moize").Moized<typeof toMomentLocal
     onExpire: import("moize").OnExpire;
     profileName: string;
     serializer: import("moize").Serialize;
-    /**
-     * Convert Hexo language code to Moment locale code.
-     * examples:
-     *   default => en
-     *   zh-CN => zh-cn
-     *
-     * Moment defined locales: https://github.com/moment/moment/tree/master/locale
-     */
     transformArgs: import("moize").TransformKey;
     updateCacheForKey: import("moize").UpdateCacheForKey;
     updateExpire: boolean;
