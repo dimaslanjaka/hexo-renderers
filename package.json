@@ -34,7 +34,7 @@
   },
   "license": "MIT",
   "workspaces": [
-    "package",
+    "lib",
     "test"
   ],
   "devDependencies": {
