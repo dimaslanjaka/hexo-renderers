@@ -8,9 +8,13 @@ import yaml from 'yaml';
 import * as date from './helper/date';
 import { partialWithLayout } from './helper/partial';
 
-const config: import('hexo')['config'] = yaml.parse(
-  fs.readFileSync(path.join(process.cwd(), '_config.yml')).toString()
-);
+let config: import('hexo')['config'];
+if (typeof hexo === 'undefined') {
+  config = yaml.parse(fs.readFileSync(path.join(process.cwd(), '_config.yml')).toString());
+} else {
+  config = yaml.parse(fs.readFileSync(path.join(hexo.base_dir, '_config.yml')).toString());
+}
+
 const THEME_LOCATION = path.join(process.cwd(), 'themes', config.theme || 'landscape');
 const _THEME_SCRIPTS = path.join(THEME_LOCATION, 'scripts');
 
