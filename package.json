@@ -4,8 +4,7 @@
   "main": "dist/renderer-loader.js",
   "types": "dist/renderer-loader.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "keywords": [
     "hexo",
