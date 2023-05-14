@@ -1,6 +1,30 @@
-# Release `hexo-renderers` Tarball
+# Release `hexo-renderers` tarball
+## Releases
+| version | tarball url |
+| :--- | :--- |
+| 1.0.0 | https://github.com/dimaslanjaka/hexo-renderers/raw/e6629ab/release/hexo-renderers-1.0.0.tgz |
+| 1.0.10 | https://github.com/dimaslanjaka/hexo-renderers/raw/21dc34a/release/hexo-renderers-1.0.10.tgz |
+| 1.0.4 | https://github.com/dimaslanjaka/hexo-renderers/raw/e6629ab/release/hexo-renderers-1.0.4.tgz |
+| 1.0.5 | https://github.com/dimaslanjaka/hexo-renderers/raw/e6629ab/release/hexo-renderers-1.0.5.tgz |
+| 1.0.6 | https://github.com/dimaslanjaka/hexo-renderers/raw/e6629ab/release/hexo-renderers-1.0.6.tgz |
+| 1.0.7 | https://github.com/dimaslanjaka/hexo-renderers/raw/e6629ab/release/hexo-renderers-1.0.7.tgz |
+| 1.0.8 | https://github.com/dimaslanjaka/hexo-renderers/raw/91c9be3/release/hexo-renderers-1.0.8.tgz |
+| 1.0.9 | https://github.com/dimaslanjaka/hexo-renderers/raw/10088e9/release/hexo-renderers-1.0.9.tgz |
+| latest | https://github.com/dimaslanjaka/hexo-renderers/raw/21dc34a/release/hexo-renderers.tgz |
+| latest | https://github.com/dimaslanjaka/hexo-renderers/raw/pre-release/release/hexo-renderers.tgz |
 
-## Get URL of `hexo-renderers` Release Tarball
+use this tarball with `resolutions`:
+```json
+{
+  "resolutions": {
+    "hexo-renderers": "<url of tarball>"
+  }
+}
+```
+
+## Releases
+
+    ## Get URL of `hexo-renderers` Release Tarball
 - select tarball file
 ![gambar](https://user-images.githubusercontent.com/12471057/203216375-8af4b5d9-00c2-40fb-8d3d-d220beaabd46.png)
 - copy raw url
