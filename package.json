@@ -52,6 +52,7 @@
     "markdown-it-mark": "^3.0.1",
     "markdown-it-sub": "^1.0.0",
     "markdown-it-sup": "^1.0.0",
+    "moize": "^6.1.6",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
     "nib": "^1.2.0",
@@ -61,7 +62,8 @@
     "sass": "^1.62.1",
     "sbg-utility": "^1.1.0",
     "stylus": "^0.59.0",
-    "upath": "^2.0.1"
+    "upath": "^2.0.1",
+    "yaml": "^2.2.2"
   },
   "devDependencies": {
     "@types/ejs": "^3.1.2",
@@ -72,12 +74,18 @@
     "@types/hexo-util": "https://github.com/dimaslanjaka/hexo/raw/bad3309/releases/hexo-util.tgz",
     "@types/lodash.toarray": "^4.4.7",
     "@types/markdown-it": "^12.2.3",
+    "@types/minimist": "^1",
     "@types/node": "^20.1.4",
     "@types/node-sass": "^4.11.3",
     "@types/nunjucks": "^3.2.2",
     "@types/pug": "^2.0.6",
+    "axios": "^1.4.0",
+    "cross-spawn": "https://github.com/dimaslanjaka/node-cross-spawn/raw/5560156/release/cross-spawn.tgz",
     "eslint": "^8.40.0",
+    "git-command-helper": "^1.2.3",
+    "glob": "^10.2.3",
     "gulp": "^4.0.2",
+    "minimist": "^1.2.8",
     "prettier": "^2.8.8",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
