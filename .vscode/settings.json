@@ -12,7 +12,8 @@
     "**/node_modules": true
   },
   "search.exclude": {
-    "**/dist": true
+    "**/dist": true,
+    "**/.yarn": true
   },
   "code-runner.executorMapByGlob": {
     "*.test.ts": "jest --runInBand"
