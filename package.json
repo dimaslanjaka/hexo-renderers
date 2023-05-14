@@ -36,7 +36,7 @@
     "@types/ejs": "^3.1.2",
     "@types/fs-extra": "^11.0.1",
     "@types/gulp": "^4.0.10",
-    "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/hexo.tgz",
+    "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/b5606f1/releases/hexo.tgz",
     "@types/lodash.toarray": "^4.4.7",
     "@types/markdown-it": "^12.2.3",
     "@types/node": "^18.15.11",
