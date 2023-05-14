@@ -37,6 +37,8 @@
     "@types/fs-extra": "^11.0.1",
     "@types/gulp": "^4.0.10",
     "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/b5606f1/releases/hexo.tgz",
+    "@types/hexo-log": "https://github.com/dimaslanjaka/hexo/raw/b5606f1/releases/hexo-log.tgz",
+    "@types/hexo-util": "https://github.com/dimaslanjaka/hexo/raw/b5606f1/releases/hexo-util.tgz",
     "@types/lodash.toarray": "^4.4.7",
     "@types/markdown-it": "^12.2.3",
     "@types/node": "^18.15.11",
@@ -75,7 +77,7 @@
     "nunjucks": "^3.2.3",
     "pug": "^3.0.2",
     "sass": "^1.61.0",
-    "sbg-utility": "^1.0.9",
+    "sbg-utility": "^1.1.0",
     "stylus": "^0.59.0",
     "upath": "^2.0.1"
   }
