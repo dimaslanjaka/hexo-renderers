@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.rendererDartSass = void 0;
-var sass = require("sass");
+var sass_1 = __importDefault(require("sass"));
 /**
  * hexo-renderer-dartsass
  * @param hexo
@@ -17,7 +20,7 @@ function rendererDartSass(hexo) {
               }
               resolve(result.css.toString());
             });*/
-            sass
+            sass_1.default
                 .compileAsync(data.path, config)
                 .then(function (result) {
                 resolve(result.css);

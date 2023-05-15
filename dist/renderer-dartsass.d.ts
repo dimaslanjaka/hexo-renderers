@@ -1,4 +1,4 @@
-import Hexo = require('hexo');
+import Hexo from 'hexo';
 /**
  * hexo-renderer-dartsass
  * @param hexo
