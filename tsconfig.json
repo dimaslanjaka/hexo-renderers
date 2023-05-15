@@ -3,7 +3,7 @@
     /* Basic Options */
 		"target": "es5",
 		"module": "commonjs",
-		"lib": ["ESNext"],
+		// "lib": ["ESNext"],
 		"outDir": "./dist",
     "allowJs": true,
     "checkJs": false,
