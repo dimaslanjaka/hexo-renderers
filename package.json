@@ -70,6 +70,7 @@
     "@types/fs-extra": "^11.0.1",
     "@types/gulp": "^4.0.10",
     "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/bad3309/releases/hexo.tgz",
+    "@types/hexo-cli": "https://github.com/dimaslanjaka/hexo/raw/bad3309/releases/hexo-cli.tgz",
     "@types/hexo-log": "https://github.com/dimaslanjaka/hexo/raw/bad3309/releases/hexo-log.tgz",
     "@types/hexo-util": "https://github.com/dimaslanjaka/hexo/raw/bad3309/releases/hexo-util.tgz",
     "@types/lodash.toarray": "^4.4.7",
