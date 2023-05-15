@@ -1,12 +1,16 @@
-import Hexo = require('hexo');
-import sass = require('sass');
+import Hexo from 'hexo';
+import sass from 'sass';
 
 /**
  * hexo-renderer-dartsass
  * @param hexo
  */
 export function rendererDartSass(hexo: Hexo) {
-  const make = function (this: Hexo, data: Parameters<Parameters<import('hexo')['extend']['renderer']['register']>[2]>[0], _options: { [key: string]: any }) {
+  const make = function (
+    this: Hexo,
+    data: Parameters<Parameters<Hexo['extend']['renderer']['register']>[2]>[0],
+    _options: { [key: string]: any }
+  ) {
     const config = Object.assign(this.theme.config.sass || {}, this.config.sass || {}, { file: data.path });
 
     return new Promise<string>((resolve, reject) => {
