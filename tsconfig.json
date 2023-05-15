@@ -2,11 +2,11 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo",
     "allowJs": true,
     "checkJs": false,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true
   },
-  // "include": ["./src/**/*", "./src/*"],
-  "exclude": ["**/dist/**"]
+  "exclude": ["**/dist/**", "**/node_modules/**"]
 }
