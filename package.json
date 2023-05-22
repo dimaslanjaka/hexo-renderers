@@ -63,6 +63,8 @@
     "fs-extra": "^11.1.0"
   },
   "resolutions": {
+    "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo.tgz",
+    "@types/hexo-log": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo-log.tgz",
     "hexo": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo.tgz",
     "hexo-asset-link": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo-asset-link.tgz",
     "hexo-cli": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo-cli.tgz",
