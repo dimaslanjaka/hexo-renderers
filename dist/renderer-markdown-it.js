@@ -34,7 +34,9 @@ function rendererMarkdownIt(hexo) {
         separator: '-'
     }, hexo.config.markdown.anchors);
     var renderer = new renderer_1.default(hexo);
-    renderer.disableNunjucks = Boolean(hexo.config.markdown.disableNunjucks);
+    if (typeof hexo.config.markdown.disableNunjucks !== 'boolean') {
+        renderer.disableNunjucks = hexo.config.markdown.disableNunjucks === 'true';
+    }
     function render(data, options) {
         return renderer.render(data, options);
     }
