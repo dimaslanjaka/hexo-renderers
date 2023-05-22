@@ -3,8 +3,8 @@
 'use strict';
 
 import Hexo from 'hexo';
-import Renderer from './markdown-it/renderer';
 import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
+import Renderer from './markdown-it/renderer';
 
 /**
  * hexo-renderer-markdown-it
