@@ -6,21 +6,83 @@ import Hexo from 'hexo';
 import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import Renderer from './markdown-it/renderer';
 
+const defaultMarkdownOptions = {
+  markdown: {
+    preset: 'default',
+    render: {
+      html: true,
+      xhtmlOut: false,
+      langPrefix: 'language-',
+      breaks: true,
+      linkify: true,
+      typographer: true,
+      quotes: '“”‘’'
+    },
+    enable_rules: null,
+    disable_rules: null,
+    plugins: [
+      'markdown-it-abbr',
+      'markdown-it-attrs',
+      'markdown-it-bracketed-spans',
+      'markdown-it-sup',
+      'markdown-it-cjk-breaks',
+      'markdown-it-sub',
+      'markdown-it-deflist',
+      'markdown-it-footnote',
+      'markdown-it-ins',
+      'markdown-it-mark',
+      {
+        name: 'markdown-it-emoji',
+        options: {
+          shortcuts: {
+            laughing: ':D'
+          }
+        }
+      },
+      {
+        name: 'markdown-it-table-of-contents',
+        options: {
+          includeLevel: [1, 2, 3, 4, 5, 6]
+        }
+      }
+    ],
+    anchors: {
+      level: 2,
+      collisionSuffix: '',
+      permalink: false,
+      permalinkClass: 'header-anchor',
+      permalinkSide: 'left',
+      permalinkSymbol: '¶',
+      case: 0,
+      separator: '-'
+    },
+    images: {
+      lazyload: false,
+      prepend_root: false,
+      post_asset: false
+    }
+  }
+};
+
+export type { defaultMarkdownOptions };
+
 /**
  * hexo-renderer-markdown-it
  * @param hexo
  */
 export default function rendererMarkdownIt(hexo: Hexo) {
+
   hexo.config.markdown = Object.assign(
-    {
+    /*{
       preset: 'default',
       render: {},
       anchors: {}
-    },
+    },*/
+    defaultMarkdownOptions,
     hexo.config.markdown
   );
 
-  hexo.config.markdown.render = Object.assign(
+  /*hexo.config.markdown.render = Object.assign(
     {
       html: true,
       xhtmlOut: false,
@@ -44,7 +106,7 @@ export default function rendererMarkdownIt(hexo: Hexo) {
       separator: '-'
     },
     hexo.config.markdown.anchors
-  );
+  );*/
 
   const renderer = new Renderer(hexo);
 

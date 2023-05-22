@@ -30,10 +30,17 @@ var Renderer = /** @class */ (function () {
         }
         if (plugins) {
             this.parser = plugins.reduce(function (parser, pugs) {
-                if (pugs instanceof Object && pugs.name) {
-                    return parser.use(require(pugs.name), pugs.options);
+                if (typeof pugs === 'string') {
+                    return parser.use(require(pugs));
                 }
-                return parser.use(require(pugs));
+                else {
+                    try {
+                        // return parser.use(require(pugs.name), pugs.options);
+                    }
+                    catch (e) {
+                        console.log(require.resolve(pugs.name));
+                    }
+                }
             }, this.parser);
         }
         if (anchors) {
