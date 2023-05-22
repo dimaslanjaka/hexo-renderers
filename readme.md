@@ -24,6 +24,9 @@ set config for your desired renderer engine.
 
 ## Changelog
 
+### 1.0.12
+- fix: cannot find installed `markdown-it` plugins
+
 ### 1.0.5
 - improved `dartsass`
 - add and improved `hexo-renderer-sass`
