@@ -4,11 +4,12 @@
 
 import Hexo from 'hexo';
 import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
+import MarkdownIt from 'markdown-it';
 import Renderer from './markdown-it/renderer';
 
-const defaultMarkdownOptions = {
+export const defaultMarkdownOptions = {
   markdown: {
-    preset: 'default',
+    preset: 'default' as MarkdownIt.PresetName,
     render: {
       html: true,
       xhtmlOut: false,
@@ -63,8 +64,6 @@ const defaultMarkdownOptions = {
     }
   }
 };
-
-export type { defaultMarkdownOptions };
 
 /**
  * hexo-renderer-markdown-it

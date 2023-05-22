@@ -1,7 +1,8 @@
 import Hexo from 'hexo';
-declare const defaultMarkdownOptions: {
+import MarkdownIt from 'markdown-it';
+export declare const defaultMarkdownOptions: {
     markdown: {
-        preset: string;
+        preset: MarkdownIt.PresetName;
         render: {
             html: boolean;
             xhtmlOut: boolean;
@@ -45,7 +46,6 @@ declare const defaultMarkdownOptions: {
         };
     };
 };
-export type { defaultMarkdownOptions };
 /**
  * hexo-renderer-markdown-it
  * @param hexo
