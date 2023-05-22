@@ -1,7 +1,13 @@
 {
   "$schema": "http://json.schemastore.org/nodemon",
   "exec": "npm start",
-  "watch": ["./lib/src/**/*.ts", "./packages/**/src/**/*.ts", "./test/_config.defaults.yml"],
+  "watch": [
+    "./lib/src/**/*.ts",
+    "./packages/**/src/**/*.ts",
+    "./test/_config.defaults.yml",
+    "lib/package.json",
+    "test/package.json"
+  ],
   "ignore": [
     "**/dist/**",
     "**/node_modules/**"
