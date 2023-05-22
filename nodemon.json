@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json.schemastore.org/nodemon",
+  "exec": "npm start",
+  "watch": ["./lib/src/**/*.ts", "./packages/**/src/**/*.ts"],
+  "ignore": [
+    "**/dist/**",
+    "**/node_modules/**"
+  ],
+  "delay": 3000,
+  "ext": "*",
+  "verbose": false
+}
