@@ -40,7 +40,6 @@ var fs_1 = __importDefault(require("fs"));
 var hexoUtil = __importStar(require("hexo-util"));
 var lodash_toarray_1 = __importDefault(require("lodash.toarray"));
 var path_1 = __importDefault(require("path"));
-var url_1 = require("url");
 var yaml_1 = __importDefault(require("yaml"));
 var date = __importStar(require("./helper/date"));
 var partial_1 = require("./helper/partial");
@@ -109,7 +108,7 @@ function registerCustomHelper(hexo) {
         var hexo = this;
         var config = hexo.config, theme = hexo.theme, url_for = hexo.url_for, __ = hexo.__;
         var theme_config = {
-            hostname: (0, url_1.parse)(config.url).hostname || config.url,
+            hostname: new URL(config.url).hostname || config.url,
             root: config.root
         };
         var hexo_config = {

@@ -3,7 +3,6 @@ import Hexo from 'hexo';
 import * as hexoUtil from 'hexo-util';
 import _toArray from 'lodash.toarray';
 import path from 'path';
-import { parse } from 'url';
 import yaml from 'yaml';
 import * as date from './helper/date';
 import { partialWithLayout } from './helper/partial';
@@ -74,7 +73,7 @@ export function registerCustomHelper(hexo: Hexo) {
     const hexo = this;
     const { config, theme, url_for, __ } = hexo;
     const theme_config = {
-      hostname: parse(config.url).hostname || config.url,
+      hostname: new URL(config.url).hostname || config.url,
       root: config.root
     };
     const hexo_config = {
