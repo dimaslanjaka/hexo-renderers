@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var markdown_it_1 = __importDefault(require("markdown-it"));
+var upath_1 = __importDefault(require("upath"));
 var Renderer = /** @class */ (function () {
     /**
      * constructor
@@ -30,17 +31,35 @@ var Renderer = /** @class */ (function () {
         }
         if (plugins) {
             this.parser = plugins.reduce(function (parser, pugs) {
-                if (typeof pugs === 'string') {
+                if (pugs instanceof Object && pugs.name) {
+                    var resolved = require.resolve(pugs.name, {
+                        paths: [
+                            hexo.base_dir,
+                            upath_1.default.join(hexo.base_dir, 'node_modules'),
+                            upath_1.default.join(__dirname, '../../'),
+                            upath_1.default.join(__dirname, '../../node_modules')
+                        ]
+                    });
+                    return parser.use(require(resolved), pugs.options);
+                }
+                else if (typeof pugs === 'string') {
                     return parser.use(require(pugs));
                 }
                 else {
-                    try {
-                        // return parser.use(require(pugs.name), pugs.options);
-                    }
-                    catch (e) {
-                        console.log(require.resolve(pugs.name));
-                    }
+                    return parser.use(require(require.resolve(pugs.name)), pugs.options);
                 }
+                /*else {
+                  if (isModuleInstalled(pugs.name)) {
+                    return parser.use(require(pugs.name), pugs.options);
+                  } else {
+                    try {
+                      hexo.log.e(pugs.name, 'not installed', { resolve: require.resolve(pugs.name) });
+                      return parser.use(require(require.resolve(pugs.name)), pugs.options);
+                    } catch (e) {
+                      console.log(require.resolve(pugs.name));
+                    }
+                  }
+                }*/
             }, this.parser);
         }
         if (anchors) {

@@ -3,6 +3,15 @@
 import Hexo from 'hexo';
 import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import MarkdownIt from 'markdown-it';
+import path from 'upath';
+import { defaultMarkdownOptions } from '../renderer-markdown-it';
+
+export type MarkdownItRendererOptions =
+  | string
+  | {
+      name: string;
+      options?: Record<string, any>;
+    };
 
 class Renderer {
   parser: MarkdownIt;
@@ -29,7 +38,15 @@ class Renderer {
       );
     }
 
-    const { preset, render, enable_rules, disable_rules, plugins, anchors, images } = markdown;
+    const {
+      preset,
+      render,
+      enable_rules,
+      disable_rules,
+      plugins,
+      anchors,
+      images
+    }: (typeof defaultMarkdownOptions)['markdown'] = markdown;
     this.parser = new MarkdownIt(preset, render);
 
     if (enable_rules) {
@@ -41,11 +58,35 @@ class Renderer {
     }
 
     if (plugins) {
-      this.parser = plugins.reduce((parser: any, pugs: any) => {
+      this.parser = plugins.reduce((parser: typeof this.parser, pugs: MarkdownItRendererOptions) => {
         if (pugs instanceof Object && pugs.name) {
-          return parser.use(require(pugs.name), pugs.options);
+          const resolved = require.resolve(pugs.name, {
+            paths: [
+              hexo.base_dir,
+              path.join(hexo.base_dir, 'node_modules'),
+              path.join(__dirname, '../../'),
+              path.join(__dirname, '../../node_modules')
+            ]
+          });
+          return parser.use(require(resolved), pugs.options);
+        } else if (typeof pugs === 'string') {
+          return parser.use(require(pugs));
+        } else {
+          return parser.use(require(require.resolve(pugs.name)), pugs.options);
         }
-        return parser.use(require(pugs));
+
+        /*else {
+          if (isModuleInstalled(pugs.name)) {
+            return parser.use(require(pugs.name), pugs.options);
+          } else {
+            try {
+              hexo.log.e(pugs.name, 'not installed', { resolve: require.resolve(pugs.name) });
+              return parser.use(require(require.resolve(pugs.name)), pugs.options);
+            } catch (e) {
+              console.log(require.resolve(pugs.name));
+            }
+          }
+        }*/
       }, this.parser);
     }
 
