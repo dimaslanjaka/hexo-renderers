@@ -20,6 +20,7 @@ renderers: ['ejs', 'stylus', 'nunjucks', 'dartsass', 'pug', 'sass', 'markdown-it
 set config for your desired renderer engine.
 - [hexo-renderer-dartsass](https://github.com/KentarouTakeda/hexo-renderer-dartsass/blob/master/README.md)
 - [hexo-renderer-sass](https://github.com/knksmith57/hexo-renderer-sass#_configyml)
+- [hexo-renderer-markdown-it](https://github.com/hexojs/hexo-renderer-markdown-it/blob/master/README.md)
 
 ## Changelog
 
