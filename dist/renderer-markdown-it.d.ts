@@ -15,11 +15,7 @@ export declare const defaultMarkdownOptions: {
     disable_rules: null;
     plugins: (string | {
         name: string;
-        options: {
-            shortcuts: {
-                laughing: string;
-            };
-        };
+        options: Record<string, any>;
     })[];
     anchors: {
         level: number;

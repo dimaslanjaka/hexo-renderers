@@ -37,7 +37,7 @@ export const defaultMarkdownOptions = {
         shortcuts: {
           laughing: ':D'
         }
-      }
+      } as Record<string, any>
     }
   ],
   anchors: {
