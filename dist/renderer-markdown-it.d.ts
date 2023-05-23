@@ -19,13 +19,6 @@ export declare const defaultMarkdownOptions: {
             shortcuts: {
                 laughing: string;
             };
-            includeLevel?: undefined;
-        };
-    } | {
-        name: string;
-        options: {
-            includeLevel: number[];
-            shortcuts?: undefined;
         };
     })[];
     anchors: {
