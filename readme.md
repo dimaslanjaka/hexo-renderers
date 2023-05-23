@@ -23,6 +23,8 @@ set config for your desired renderer engine.
 - [hexo-renderer-markdown-it](https://github.com/hexojs/hexo-renderer-markdown-it/blob/master/README.md)
 
 ## Changelog
+### 1.0.13
+- fix: invalid default markdown options
 
 ### 1.0.12
 - fix: cannot find installed `markdown-it` plugins
