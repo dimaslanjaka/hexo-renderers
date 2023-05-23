@@ -6,7 +6,8 @@
     "./packages/**/src/**/*.ts",
     "./test/_config.defaults.yml",
     "lib/package.json",
-    "test/package.json"
+    "test/package.json",
+    "test/_config.loader.js"
   ],
   "ignore": [
     "**/dist/**",
