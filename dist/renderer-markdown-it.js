@@ -7,88 +7,45 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.defaultMarkdownOptions = void 0;
 var renderer_1 = __importDefault(require("./markdown-it/renderer"));
 exports.defaultMarkdownOptions = {
-    markdown: {
-        preset: 'default',
-        render: {
-            html: true,
-            xhtmlOut: false,
-            langPrefix: 'language-',
-            breaks: true,
-            linkify: true,
-            typographer: true,
-            quotes: '“”‘’'
-        },
-        enable_rules: null,
-        disable_rules: null,
-        plugins: [
-            'markdown-it-abbr',
-            'markdown-it-attrs',
-            'markdown-it-bracketed-spans',
-            'markdown-it-sup',
-            'markdown-it-cjk-breaks',
-            'markdown-it-sub',
-            'markdown-it-deflist',
-            'markdown-it-footnote',
-            'markdown-it-ins',
-            'markdown-it-mark',
-            {
-                name: 'markdown-it-emoji',
-                options: {
-                    shortcuts: {
-                        laughing: ':D'
-                    }
-                }
-            },
-            {
-                name: 'markdown-it-table-of-contents',
-                options: {
-                    includeLevel: [1, 2, 3, 4, 5, 6]
-                }
-            }
-        ],
-        anchors: {
-            level: 2,
-            collisionSuffix: '',
-            permalink: false,
-            permalinkClass: 'header-anchor',
-            permalinkSide: 'left',
-            permalinkSymbol: '¶',
-            case: 0,
-            separator: '-'
-        },
-        images: {
-            lazyload: false,
-            prepend_root: false,
-            post_asset: false
-        }
-    }
-};
-/**
- * hexo-renderer-markdown-it
- * @param hexo
- */
-function rendererMarkdownIt(hexo) {
-    hexo.config.markdown = Object.assign(
-    /*{
-      preset: 'default',
-      render: {},
-      anchors: {}
-    },*/
-    exports.defaultMarkdownOptions, hexo.config.markdown);
-    /*hexo.config.markdown.render = Object.assign(
-      {
+    preset: 'default',
+    render: {
         html: true,
         xhtmlOut: false,
+        langPrefix: 'language-',
         breaks: true,
         linkify: true,
         typographer: true,
         quotes: '“”‘’'
-      },
-      hexo.config.markdown.render
-    );
-  
-    hexo.config.markdown.anchors = Object.assign(
-      {
+    },
+    enable_rules: null,
+    disable_rules: null,
+    plugins: [
+        'markdown-it-abbr',
+        'markdown-it-attrs',
+        'markdown-it-bracketed-spans',
+        'markdown-it-sup',
+        'markdown-it-cjk-breaks',
+        'markdown-it-sub',
+        'markdown-it-deflist',
+        'markdown-it-footnote',
+        'markdown-it-ins',
+        'markdown-it-mark',
+        {
+            name: 'markdown-it-emoji',
+            options: {
+                shortcuts: {
+                    laughing: ':D'
+                }
+            }
+        },
+        {
+            name: 'markdown-it-table-of-contents',
+            options: {
+                includeLevel: [1, 2, 3, 4, 5, 6]
+            }
+        }
+    ],
+    anchors: {
         level: 2,
         collisionSuffix: '',
         permalink: false,
@@ -97,9 +54,43 @@ function rendererMarkdownIt(hexo) {
         permalinkSymbol: '¶',
         case: 0,
         separator: '-'
-      },
-      hexo.config.markdown.anchors
-    );*/
+    },
+    images: {
+        lazyload: false,
+        prepend_root: false,
+        post_asset: false
+    }
+};
+/**
+ * hexo-renderer-markdown-it
+ * @param hexo
+ */
+function rendererMarkdownIt(hexo) {
+    hexo.config.markdown = Object.assign({
+        preset: 'default',
+        render: {},
+        anchors: {}
+    }, exports.defaultMarkdownOptions, 
+    // fallback to empty object when `markdown` options is undefined
+    hexo.config.markdown || {});
+    hexo.config.markdown.render = Object.assign({
+        html: true,
+        xhtmlOut: false,
+        breaks: true,
+        linkify: true,
+        typographer: true,
+        quotes: '“”‘’'
+    }, hexo.config.markdown.render || {});
+    hexo.config.markdown.anchors = Object.assign({
+        level: 2,
+        collisionSuffix: '',
+        permalink: false,
+        permalinkClass: 'header-anchor',
+        permalinkSide: 'left',
+        permalinkSymbol: '¶',
+        case: 0,
+        separator: '-'
+    }, hexo.config.markdown.anchors || {});
     var renderer = new renderer_1.default(hexo);
     if (typeof hexo.config.markdown.disableNunjucks !== 'boolean') {
         renderer.disableNunjucks = hexo.config.markdown.disableNunjucks === 'true';

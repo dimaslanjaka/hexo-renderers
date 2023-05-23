@@ -38,15 +38,8 @@ class Renderer {
       );
     }
 
-    const {
-      preset,
-      render,
-      enable_rules,
-      disable_rules,
-      plugins,
-      anchors,
-      images
-    }: (typeof defaultMarkdownOptions)['markdown'] = markdown;
+    const { preset, render, enable_rules, disable_rules, plugins, anchors, images }: typeof defaultMarkdownOptions =
+      markdown;
     this.parser = new MarkdownIt(preset, render);
 
     if (enable_rules) {

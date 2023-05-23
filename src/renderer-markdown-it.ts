@@ -8,60 +8,58 @@ import MarkdownIt from 'markdown-it';
 import Renderer from './markdown-it/renderer';
 
 export const defaultMarkdownOptions = {
-  markdown: {
-    preset: 'default' as MarkdownIt.PresetName,
-    render: {
-      html: true,
-      xhtmlOut: false,
-      langPrefix: 'language-',
-      breaks: true,
-      linkify: true,
-      typographer: true,
-      quotes: '“”‘’'
-    },
-    enable_rules: null,
-    disable_rules: null,
-    plugins: [
-      'markdown-it-abbr',
-      'markdown-it-attrs',
-      'markdown-it-bracketed-spans',
-      'markdown-it-sup',
-      'markdown-it-cjk-breaks',
-      'markdown-it-sub',
-      'markdown-it-deflist',
-      'markdown-it-footnote',
-      'markdown-it-ins',
-      'markdown-it-mark',
-      {
-        name: 'markdown-it-emoji',
-        options: {
-          shortcuts: {
-            laughing: ':D'
-          }
-        }
-      },
-      {
-        name: 'markdown-it-table-of-contents',
-        options: {
-          includeLevel: [1, 2, 3, 4, 5, 6]
+  preset: 'default' as MarkdownIt.PresetName,
+  render: {
+    html: true,
+    xhtmlOut: false,
+    langPrefix: 'language-',
+    breaks: true,
+    linkify: true,
+    typographer: true,
+    quotes: '“”‘’'
+  },
+  enable_rules: null,
+  disable_rules: null,
+  plugins: [
+    'markdown-it-abbr',
+    'markdown-it-attrs',
+    'markdown-it-bracketed-spans',
+    'markdown-it-sup',
+    'markdown-it-cjk-breaks',
+    'markdown-it-sub',
+    'markdown-it-deflist',
+    'markdown-it-footnote',
+    'markdown-it-ins',
+    'markdown-it-mark',
+    {
+      name: 'markdown-it-emoji',
+      options: {
+        shortcuts: {
+          laughing: ':D'
         }
       }
-    ],
-    anchors: {
-      level: 2,
-      collisionSuffix: '',
-      permalink: false,
-      permalinkClass: 'header-anchor',
-      permalinkSide: 'left',
-      permalinkSymbol: '¶',
-      case: 0,
-      separator: '-'
     },
-    images: {
-      lazyload: false,
-      prepend_root: false,
-      post_asset: false
+    {
+      name: 'markdown-it-table-of-contents',
+      options: {
+        includeLevel: [1, 2, 3, 4, 5, 6]
+      }
     }
+  ],
+  anchors: {
+    level: 2,
+    collisionSuffix: '',
+    permalink: false,
+    permalinkClass: 'header-anchor',
+    permalinkSide: 'left',
+    permalinkSymbol: '¶',
+    case: 0,
+    separator: '-'
+  },
+  images: {
+    lazyload: false,
+    prepend_root: false,
+    post_asset: false
   }
 };
 
@@ -70,18 +68,18 @@ export const defaultMarkdownOptions = {
  * @param hexo
  */
 export default function rendererMarkdownIt(hexo: Hexo) {
-
   hexo.config.markdown = Object.assign(
-    /*{
+    {
       preset: 'default',
       render: {},
       anchors: {}
-    },*/
+    },
     defaultMarkdownOptions,
-    hexo.config.markdown
+    // fallback to empty object when `markdown` options is undefined
+    hexo.config.markdown || {}
   );
 
-  /*hexo.config.markdown.render = Object.assign(
+  hexo.config.markdown.render = Object.assign(
     {
       html: true,
       xhtmlOut: false,
@@ -90,7 +88,7 @@ export default function rendererMarkdownIt(hexo: Hexo) {
       typographer: true,
       quotes: '“”‘’'
     },
-    hexo.config.markdown.render
+    hexo.config.markdown.render || {}
   );
 
   hexo.config.markdown.anchors = Object.assign(
@@ -104,8 +102,8 @@ export default function rendererMarkdownIt(hexo: Hexo) {
       case: 0,
       separator: '-'
     },
-    hexo.config.markdown.anchors
-  );*/
+    hexo.config.markdown.anchors || {}
+  );
 
   const renderer = new Renderer(hexo);
 

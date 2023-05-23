@@ -1,49 +1,47 @@
 import Hexo from 'hexo';
 import MarkdownIt from 'markdown-it';
 export declare const defaultMarkdownOptions: {
-    markdown: {
-        preset: MarkdownIt.PresetName;
-        render: {
-            html: boolean;
-            xhtmlOut: boolean;
-            langPrefix: string;
-            breaks: boolean;
-            linkify: boolean;
-            typographer: boolean;
-            quotes: string;
-        };
-        enable_rules: null;
-        disable_rules: null;
-        plugins: (string | {
-            name: string;
-            options: {
-                shortcuts: {
-                    laughing: string;
-                };
-                includeLevel?: undefined;
+    preset: MarkdownIt.PresetName;
+    render: {
+        html: boolean;
+        xhtmlOut: boolean;
+        langPrefix: string;
+        breaks: boolean;
+        linkify: boolean;
+        typographer: boolean;
+        quotes: string;
+    };
+    enable_rules: null;
+    disable_rules: null;
+    plugins: (string | {
+        name: string;
+        options: {
+            shortcuts: {
+                laughing: string;
             };
-        } | {
-            name: string;
-            options: {
-                includeLevel: number[];
-                shortcuts?: undefined;
-            };
-        })[];
-        anchors: {
-            level: number;
-            collisionSuffix: string;
-            permalink: boolean;
-            permalinkClass: string;
-            permalinkSide: string;
-            permalinkSymbol: string;
-            case: number;
-            separator: string;
+            includeLevel?: undefined;
         };
-        images: {
-            lazyload: boolean;
-            prepend_root: boolean;
-            post_asset: boolean;
+    } | {
+        name: string;
+        options: {
+            includeLevel: number[];
+            shortcuts?: undefined;
         };
+    })[];
+    anchors: {
+        level: number;
+        collisionSuffix: string;
+        permalink: boolean;
+        permalinkClass: string;
+        permalinkSide: string;
+        permalinkSymbol: string;
+        case: number;
+        separator: string;
+    };
+    images: {
+        lazyload: boolean;
+        prepend_root: boolean;
+        post_asset: boolean;
     };
 };
 /**
