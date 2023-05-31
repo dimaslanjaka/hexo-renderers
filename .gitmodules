@@ -6,3 +6,11 @@
 	path = lib
 	url = https://github.com/dimaslanjaka/hexo-renderers.git
 	branch = pre-release
+[submodule "packages/hexo-theme-claudia"]
+	path = packages/hexo-theme-claudia
+	url = https://github.com/dimaslanjaka/hexo-theme-claudia.git
+	branch = private
+[submodule "packages/hexo-theme-next"]
+	path = packages/hexo-theme-next
+	url = https://github.com/dimaslanjaka/hexo-theme-next.git
+	branch = private

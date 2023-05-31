@@ -17,5 +17,7 @@
   },
   "code-runner.executorMapByGlob": {
     "*.test.ts": "jest --runInBand"
-  }
+  },
+  "git.autofetchPeriod": 180,
+  "git.autorefresh": false
 }
