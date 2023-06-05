@@ -9,7 +9,11 @@ All in one hexo renderers. Load all hexo renderer engines at once.
 ## Specify renderers
 You can specify some renderers by `_config.yml`
 ```yaml
-renderers: ['ejs', 'stylus', 'nunjucks', 'dartsass', 'pug', 'sass', 'markdown-it']
+renderers:
+  engines: ['ejs', 'stylus', 'nunjucks', 'dartsass', 'pug', 'sass', 'markdown-it']
+  generator:
+    # enable generate <domain>/meta.json
+    - meta
 ```
 
 > - dartsass improved from `hexo-renderer-dartsass`
