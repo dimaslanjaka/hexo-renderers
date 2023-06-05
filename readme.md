@@ -27,6 +27,11 @@ set config for your desired renderer engine.
 - [hexo-renderer-markdown-it](https://github.com/hexojs/hexo-renderer-markdown-it/blob/master/README.md)
 
 ## Changelog
+
+### 2.0.0
+- change options structure
+- add `meta.json` generator which available at `http://example.com/meta.json`
+
 ### 1.0.13
 - fix: invalid default markdown options
 
