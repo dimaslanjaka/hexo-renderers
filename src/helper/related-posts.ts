@@ -4,7 +4,7 @@ const assign = lodash.assign;
 
 function addCount<T extends any[]>(array: T, searchProperty: string, newProperty: string) {
   return array.reduce(function (newArray, item) {
-    let i = objectArrayIndexOf(newArray, item[searchProperty], searchProperty);
+    const i = objectArrayIndexOf(newArray, item[searchProperty], searchProperty);
     if (i === -1) {
       item[newProperty] = 1;
       newArray.push(item);
@@ -26,7 +26,7 @@ function dynamicSort(property: string, isAscending: boolean) {
   let sortOrder = -1;
   if (isAscending) sortOrder = 1;
   return function (a: { [x: string]: any }, b: { [x: string]: any }) {
-    let result = a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
+    const result = a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
     return result * sortOrder;
   };
 }
@@ -63,7 +63,7 @@ function listRelatedPosts(
     options
   );
 
-  let orderOption = ['date', 'random'];
+  const orderOption = ['date', 'random'];
   if (orderOption.indexOf(options.orderBy) === -1) {
     options.orderBy = 'date';
   }
@@ -77,12 +77,12 @@ function listRelatedPosts(
       });
     });
   } else {
-    hexo.log.error('tags not found in _post', Object.assign(_post))
+    hexo.log.error('tags not found in _post', Object.assign(_post));
   }
 
   postList = addCount(postList, '_id', 'count');
 
-  let thisPostPosition = objectArrayIndexOf(postList, _post._id, '_id');
+  const thisPostPosition = objectArrayIndexOf(postList, _post._id, '_id');
   postList.splice(thisPostPosition, 1);
 
   if (options.orderBy === 'random') {
