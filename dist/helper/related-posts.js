@@ -47,14 +47,11 @@ function shuffle(array) {
     return array;
 }
 function listRelatedPosts(options) {
-    if (!options) {
-        options = {};
-    }
     options = assign({
         maxCount: 5,
         orderBy: 'date',
         isAscending: false
-    }, options);
+    }, options || {});
     var orderOption = ['date', 'random'];
     if (orderOption.indexOf(options.orderBy) === -1) {
         options.orderBy = 'date';

@@ -46,18 +46,22 @@ function shuffle<T extends any[]>(array: T) {
   return array;
 }
 
-export function listRelatedPosts(this: Hexo, options: { orderBy?: any; isAscending?: any }) {
-  if (!options) {
-    options = {};
+export function listRelatedPosts(
+  this: Hexo,
+  options: {
+    maxCount: number;
+    /** 'date' | 'updated' */
+    orderBy: string;
+    isAscending?: any;
   }
-
+) {
   options = assign(
     {
       maxCount: 5,
       orderBy: 'date',
       isAscending: false
     },
-    options
+    options || {}
   );
 
   const orderOption = ['date', 'random'];
