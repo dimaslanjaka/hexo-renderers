@@ -1,11 +1,13 @@
 import fs from 'fs';
 import Hexo from 'hexo';
 import * as hexoUtil from 'hexo-util';
-import _toArray from 'lodash.toarray';
+import lodash from 'lodash';
 import path from 'path';
 import yaml from 'yaml';
 import * as date from './helper/date';
 import { partialWithLayout } from './helper/partial';
+
+const _toArray = lodash.toArray;
 
 export const BASE_DIR = typeof hexo === 'undefined' ? process.cwd() : hexo.base_dir;
 let config: import('hexo')['config'];

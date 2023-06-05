@@ -38,11 +38,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerCustomHelper = exports.getTheAuthor = exports.BASE_DIR = void 0;
 var fs_1 = __importDefault(require("fs"));
 var hexoUtil = __importStar(require("hexo-util"));
-var lodash_toarray_1 = __importDefault(require("lodash.toarray"));
+var lodash_1 = __importDefault(require("lodash"));
 var path_1 = __importDefault(require("path"));
 var yaml_1 = __importDefault(require("yaml"));
 var date = __importStar(require("./helper/date"));
 var partial_1 = require("./helper/partial");
+var _toArray = lodash_1.default.toArray;
 exports.BASE_DIR = typeof hexo === 'undefined' ? process.cwd() : hexo.base_dir;
 var config;
 if (typeof hexo === 'undefined') {
@@ -81,7 +82,7 @@ function toArray(value) {
     else if (Array.isArray(value)) {
         return value;
     }
-    return (0, lodash_toarray_1.default)(value);
+    return _toArray(value);
 }
 function getTheAuthor(authorObj) {
     if (typeof authorObj === 'string')
