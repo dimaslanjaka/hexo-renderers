@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var ansi_colors_1 = __importDefault(require("ansi-colors"));
-var custom_helpers_1 = require("./custom-helpers");
 var generator_1 = require("./generator");
+var helper_1 = require("./helper");
 var renderer_dartsass_1 = require("./renderer-dartsass");
 var renderer_ejs_1 = require("./renderer-ejs");
 var renderer_markdown_it_1 = __importDefault(require("./renderer-markdown-it"));
@@ -20,7 +20,7 @@ if (typeof hexo !== 'undefined') {
     var config = hexo.config;
     var renderers = config['renderers'];
     // register custom helper
-    (0, custom_helpers_1.registerCustomHelper)(hexo);
+    (0, helper_1.registerCustomHelper)(hexo);
     // register custom generator
     (0, generator_1.registerCustomGenerator)(hexo);
     var engines = [];

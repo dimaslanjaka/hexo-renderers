@@ -1,6 +1,6 @@
 import ansiColors from 'ansi-colors';
-import { registerCustomHelper } from './custom-helpers';
 import { registerCustomGenerator } from './generator';
+import { registerCustomHelper } from './helper';
 import { rendererDartSass } from './renderer-dartsass';
 import { rendererEjs } from './renderer-ejs';
 import { default as rendererMarkdownIt } from './renderer-markdown-it';

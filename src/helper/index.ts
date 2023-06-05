@@ -4,9 +4,9 @@ import * as hexoUtil from 'hexo-util';
 import lodash from 'lodash';
 import path from 'path';
 import yaml from 'yaml';
-import * as date from './helper/date';
-import { partialWithLayout } from './helper/partial';
-import { related_posts_helper } from './helper/related-posts';
+import * as date from './date';
+import { partialWithLayout } from './partial';
+import { related_posts_helper } from './related-posts';
 
 const _toArray = lodash.toArray;
 

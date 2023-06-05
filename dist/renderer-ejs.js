@@ -1,6 +1,6 @@
 "use strict";
 var ejs = require('ejs');
-var toArray = require('./custom-helpers').toArray;
+var toArray = require('./helper').toArray;
 /**
  * hexo-renderer-ejs
  * @param {import('hexo')} hexo

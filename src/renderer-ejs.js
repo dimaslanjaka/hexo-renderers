@@ -1,5 +1,5 @@
 const ejs = require('ejs');
-const { toArray } = require('./custom-helpers');
+const { toArray } = require('./helper');
 
 /**
  * hexo-renderer-ejs

@@ -3,7 +3,7 @@
 const nunjucks = require('nunjucks');
 const fs = require('fs-extra');
 const path = require('upath');
-const { toArray } = require('./custom-helpers');
+const { toArray } = require('./helper');
 //const ansiColors = require('ansi-colors');
 const { writefile } = require('sbg-utility');
 //const logname = ansiColors.magentaBright('hexo-renderer-nunjucks');
