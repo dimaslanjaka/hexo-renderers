@@ -93,7 +93,7 @@ function toArray(value) {
 function registerCustomHelper(hexo) {
     hexo.extend.helper.register('toArray', toArray);
     hexo.extend.helper.register('isObject', isObject);
-    (0, related_posts_1.related_posts_helper)(hexo);
+    (0, related_posts_1.getRelatedPosts)(hexo);
     (0, getAuthor_1.getAuthor)(hexo);
     /**
      * Export theme config

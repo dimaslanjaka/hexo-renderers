@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.related_posts_helper = void 0;
+exports.getRelatedPosts = void 0;
 var lodash_1 = __importDefault(require("lodash"));
 var path_1 = __importDefault(require("path"));
 var sbg_utility_1 = require("sbg-utility");
@@ -48,7 +48,7 @@ function shuffle(array) {
     }
     return array;
 }
-function related_posts_helper(hexo) {
+function getRelatedPosts(hexo) {
     hexo.extend.helper.register('list_related_posts', function (options) {
         options = assign({
             maxCount: 5,
@@ -100,4 +100,4 @@ function related_posts_helper(hexo) {
         return postList;
     });
 }
-exports.related_posts_helper = related_posts_helper;
+exports.getRelatedPosts = getRelatedPosts;
