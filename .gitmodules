@@ -14,3 +14,7 @@
 	path = packages/hexo-theme-next
 	url = https://github.com/dimaslanjaka/hexo-theme-next.git
 	branch = private
+[submodule "packages/hexo"]
+	path = packages/hexo
+	url = https://github.com/dimaslanjaka/hexo.git
+	branch = v7-yarn-v3
