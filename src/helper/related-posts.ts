@@ -1,8 +1,8 @@
 import lodash from 'lodash';
 
-const assign = lodash.assign
+const assign = lodash.assign;
 
-function addCount(array:any[], searchProperty: string, newProperty: string) {
+function addCount<T extends any[]>(array: T, searchProperty: string, newProperty: string) {
   return array.reduce(function (newArray, item) {
     let i = objectArrayIndexOf(newArray, item[searchProperty], searchProperty);
     if (i === -1) {
@@ -25,7 +25,7 @@ function objectArrayIndexOf(array: any[], searchTerm: string, property: string) 
 function dynamicSort(property: string, isAscending: boolean) {
   let sortOrder = -1;
   if (isAscending) sortOrder = 1;
-  return function (a: { [x: string]: any; }, b: { [x: string]: any; }) {
+  return function (a: { [x: string]: any }, b: { [x: string]: any }) {
     let result = a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
     return result * sortOrder;
   };
@@ -70,11 +70,15 @@ function listRelatedPosts(
 
   let postList = [] as any[];
   // console.log(_post.tags);
-  _post.tags.each(function (tag) {
-    tag.posts.each(function (post: Record<string, any>) {
-      postList.push(post);
+  if (_post.tags) {
+    _post.tags.each(function (tag) {
+      tag.posts.each(function (post: Record<string, any>) {
+        postList.push(post);
+      });
     });
-  });
+  } else {
+    hexo.log.error('tags not found in _post')
+  }
 
   postList = addCount(postList, '_id', 'count');
 
@@ -91,7 +95,7 @@ function listRelatedPosts(
   return postList;
 }
 
-export function related_posts_helper(hexo: import('hexo')){
+export function related_posts_helper(hexo: import('hexo')) {
   hexo.extend.helper.register('list_related_posts', function (post, options, hexo) {
     return listRelatedPosts(post, options, hexo);
   });

@@ -61,11 +61,16 @@ function listRelatedPosts(_post, options, _hexo) {
     }
     var postList = [];
     // console.log(_post.tags);
-    _post.tags.each(function (tag) {
-        tag.posts.each(function (post) {
-            postList.push(post);
+    if (_post.tags) {
+        _post.tags.each(function (tag) {
+            tag.posts.each(function (post) {
+                postList.push(post);
+            });
         });
-    });
+    }
+    else {
+        hexo.log.error('tags not found in _post');
+    }
     postList = addCount(postList, '_id', 'count');
     var thisPostPosition = objectArrayIndexOf(postList, _post._id, '_id');
     postList.splice(thisPostPosition, 1);
