@@ -10,7 +10,7 @@ export function partialWithLayout(ctx: Hexo) {
     locals: import('hexo')['locals'],
     options: Record<string, any> = {}
   ) {
-    if (typeof name !== 'string') throw new TypeError('name must be a string!');
+    if (typeof name !== 'string') throw new TypeError('argument name must be a string!');
 
     const { cache } = options;
     const self = this;

@@ -7,7 +7,7 @@ function partialWithLayout(ctx) {
     return function partialWithLayout(name, locals, options) {
         if (options === void 0) { options = {}; }
         if (typeof name !== 'string')
-            throw new TypeError('name must be a string!');
+            throw new TypeError('argument name must be a string!');
         var cache = options.cache;
         var self = this;
         var viewDir = self.view_dir;
