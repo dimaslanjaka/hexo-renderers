@@ -50,8 +50,16 @@ function listRelatedPosts(options) {
     options = assign({
         maxCount: 5,
         orderBy: 'date',
-        isAscending: false
+        isAscending: false,
+        pClass: 'related-posts-none',
+        ulClass: 'related-posts',
+        liClass: 'related-posts-item',
+        aClass: 'related-posts-link',
+        generateAbstract: false,
+        abstractClass: 'related-posts-item-abstract',
+        abstractLength: 110
     }, options || {});
+    // fix descending
     var orderOption = ['date', 'random'];
     if (orderOption.indexOf(options.orderBy) === -1) {
         options.orderBy = 'date';
@@ -66,13 +74,13 @@ function listRelatedPosts(options) {
         });
     }
     else {
-        hexo.log.error('tags not found in _post', _post.tags);
+        hexo.log.error('tags not found in _post', _post);
     }
     postList = addCount(postList, '_id', 'count');
     var thisPostPosition = objectArrayIndexOf(postList, _post._id, '_id');
     postList.splice(thisPostPosition, 1);
     if (options.orderBy === 'random') {
-        shuffle(postList);
+        postList = shuffle(postList);
     }
     else {
         postList.sort(dynamicSort(options.orderBy, options.isAscending));

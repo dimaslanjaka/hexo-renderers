@@ -59,11 +59,19 @@ export function listRelatedPosts(
     {
       maxCount: 5,
       orderBy: 'date',
-      isAscending: false
+      isAscending: false,
+      pClass: 'related-posts-none',
+      ulClass: 'related-posts',
+      liClass: 'related-posts-item',
+      aClass: 'related-posts-link',
+      generateAbstract: false,
+      abstractClass: 'related-posts-item-abstract',
+      abstractLength: 110
     },
     options || {}
   );
 
+  // fix descending
   const orderOption = ['date', 'random'];
   if (orderOption.indexOf(options.orderBy) === -1) {
     options.orderBy = 'date';
@@ -78,20 +86,23 @@ export function listRelatedPosts(
       });
     });
   } else {
-    hexo.log.error('tags not found in _post', _post.tags);
+    hexo.log.error('tags not found in _post', _post);
   }
 
-  postList = addCount(postList, '_id', 'count');
+  // sort post when post list not-empty
+  if (postList.length > 0) {
+    postList = addCount(postList, '_id', 'count');
 
-  const thisPostPosition = objectArrayIndexOf(postList, _post._id, '_id');
-  postList.splice(thisPostPosition, 1);
+    const thisPostPosition = objectArrayIndexOf(postList, _post._id, '_id');
+    postList.splice(thisPostPosition, 1);
 
-  if (options.orderBy === 'random') {
-    shuffle(postList);
-  } else {
-    postList.sort(dynamicSort(options.orderBy, options.isAscending));
+    if (options.orderBy === 'random') {
+      postList = shuffle(postList);
+    } else {
+      postList = postList.sort(dynamicSort(options.orderBy, options.isAscending));
+    }
+    postList = postList.sort(dynamicSort('count', false));
   }
-  postList.sort(dynamicSort('count', false));
 
   return postList;
 }
