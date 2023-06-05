@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.related_posts_helper = void 0;
+exports.related_posts_helper = exports.listRelatedPosts = void 0;
 var lodash_1 = __importDefault(require("lodash"));
 var assign = lodash_1.default.assign;
 function addCount(array, searchProperty, newProperty) {
@@ -46,7 +46,7 @@ function shuffle(array) {
     }
     return array;
 }
-function listRelatedPosts(_post, options, _hexo) {
+function listRelatedPosts(options) {
     if (!options) {
         options = {};
     }
@@ -60,9 +60,9 @@ function listRelatedPosts(_post, options, _hexo) {
         options.orderBy = 'date';
     }
     var postList = [];
-    // console.log(_post.tags);
-    if (_post.tags) {
-        _post.tags.each(function (tag) {
+    var _post = this.post;
+    if (typeof _post === 'object' && 'tags' in _post) {
+        _post['tags'].each(function (tag) {
             tag.posts.each(function (post) {
                 postList.push(post);
             });
@@ -83,9 +83,10 @@ function listRelatedPosts(_post, options, _hexo) {
     postList.sort(dynamicSort('count', false));
     return postList;
 }
+exports.listRelatedPosts = listRelatedPosts;
 function related_posts_helper(hexo) {
-    hexo.extend.helper.register('list_related_posts', function (post, options, hexo) {
-        return listRelatedPosts(post, options, hexo);
+    hexo.extend.helper.register('list_related_posts', function (_post, options, _hexo) {
+        return listRelatedPosts.bind(hexo)(options);
     });
 }
 exports.related_posts_helper = related_posts_helper;

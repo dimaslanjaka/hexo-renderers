@@ -1,3 +1,4 @@
+import Hexo from 'hexo';
 import lodash from 'lodash';
 
 const assign = lodash.assign;
@@ -45,11 +46,7 @@ function shuffle<T extends any[]>(array: T) {
   return array;
 }
 
-function listRelatedPosts(
-  _post: { [key: string]: any; tags: { each: (arg0: (tag: any) => void) => void }; _id: any },
-  options: { orderBy?: any; isAscending?: any },
-  _hexo: any
-) {
+export function listRelatedPosts(this: Hexo, options: { orderBy?: any; isAscending?: any }) {
   if (!options) {
     options = {};
   }
@@ -69,9 +66,9 @@ function listRelatedPosts(
   }
 
   let postList = [] as any[];
-  // console.log(_post.tags);
-  if (_post.tags) {
-    _post.tags.each(function (tag) {
+  const _post = this.post as Record<string, any>;
+  if (typeof _post === 'object' && 'tags' in _post) {
+    _post['tags'].each(function (tag: Record<string, any>) {
       tag.posts.each(function (post: Record<string, any>) {
         postList.push(post);
       });
@@ -96,7 +93,7 @@ function listRelatedPosts(
 }
 
 export function related_posts_helper(hexo: import('hexo')) {
-  hexo.extend.helper.register('list_related_posts', function (post, options, hexo) {
-    return listRelatedPosts(post, options, hexo);
+  hexo.extend.helper.register('list_related_posts', function (_post, options, _hexo) {
+    return listRelatedPosts.bind(hexo)(options);
   });
 }
