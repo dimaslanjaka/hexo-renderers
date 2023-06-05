@@ -9,7 +9,7 @@ process.cwd = () => rootDir;
 const hexo = new Hexo(rootDir);
 (async function () {
   await hexo.init();
-  await hexo.call('clean');
+  // await hexo.call('clean');
   await hexo.call('server');
   axios.get('http://localhost:4000/docs/hexo-renderers/nunjucks');
 })();
