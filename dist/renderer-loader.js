@@ -8,6 +8,7 @@ var registerCustomHelper = require('./custom-helpers').registerCustomHelper;
 var rendererDartSass = require('./renderer-dartsass').rendererDartSass;
 var rendererSass = require('./renderer-sass').rendererSass;
 var rendererMarkdownIt = require('./renderer-markdown-it').default;
+var registerCustomGenerator = require('./generator').registerCustomGenerator;
 var logname = ansiColors.magenta('hexo-renderers');
 if (typeof hexo !== 'undefined') {
     global.hexo = hexo;
@@ -15,6 +16,8 @@ if (typeof hexo !== 'undefined') {
     var renderers = config['renderers'];
     // register custom helper
     registerCustomHelper(hexo);
+    // register custom generator
+    registerCustomGenerator(hexo);
     // activate specific engine
     if (Array.isArray(renderers)) {
         for (var i = 0; i < renderers.length; i++) {

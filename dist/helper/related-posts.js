@@ -69,7 +69,7 @@ function listRelatedPosts(_post, options, _hexo) {
         });
     }
     else {
-        hexo.log.error('tags not found in _post');
+        hexo.log.error('tags not found in _post', Object.assign(_post));
     }
     postList = addCount(postList, '_id', 'count');
     var thisPostPosition = objectArrayIndexOf(postList, _post._id, '_id');

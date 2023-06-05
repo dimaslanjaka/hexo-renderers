@@ -7,6 +7,7 @@ const { registerCustomHelper } = require('./custom-helpers');
 const { rendererDartSass } = require('./renderer-dartsass');
 const { rendererSass } = require('./renderer-sass');
 const { default: rendererMarkdownIt } = require('./renderer-markdown-it');
+const { registerCustomGenerator } = require('./generator');
 
 const logname = ansiColors.magenta('hexo-renderers');
 
@@ -16,6 +17,8 @@ if (typeof hexo !== 'undefined') {
   const renderers = config['renderers'];
   // register custom helper
   registerCustomHelper(hexo);
+  // register custom generator
+  registerCustomGenerator(hexo);
 
   // activate specific engine
   if (Array.isArray(renderers)) {
