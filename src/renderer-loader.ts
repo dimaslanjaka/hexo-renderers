@@ -1,18 +1,19 @@
-const { rendererNunjucks } = require('./renderer-nunjucks');
-const { rendererEjs } = require('./renderer-ejs');
-const { rendererPug } = require('./renderer-pug');
-const { rendererStylus } = require('./renderer-stylus');
-const ansiColors = require('ansi-colors');
-const { registerCustomHelper } = require('./custom-helpers');
-const { rendererDartSass } = require('./renderer-dartsass');
-const { rendererSass } = require('./renderer-sass');
-const { default: rendererMarkdownIt } = require('./renderer-markdown-it');
-const { registerCustomGenerator } = require('./generator');
+import ansiColors from 'ansi-colors';
+import { registerCustomHelper } from './custom-helpers';
+import { registerCustomGenerator } from './generator';
+import { rendererDartSass } from './renderer-dartsass';
+import { rendererEjs } from './renderer-ejs';
+import { default as rendererMarkdownIt } from './renderer-markdown-it';
+import { rendererNunjucks } from './renderer-nunjucks';
+import { rendererPug } from './renderer-pug';
+import { rendererSass } from './renderer-sass';
+import { rendererStylus } from './renderer-stylus';
 
 const logname = ansiColors.magenta('hexo-renderers');
 
 if (typeof hexo !== 'undefined') {
-  global.hexo = hexo;
+  // assign hexo to global variable
+  (global as any).hexo = hexo;
   const config = hexo.config;
   const renderers = config['renderers'];
   // register custom helper
@@ -20,11 +21,17 @@ if (typeof hexo !== 'undefined') {
   // register custom generator
   registerCustomGenerator(hexo);
 
-  // activate specific engine
+  let engines = [];
+
   if (Array.isArray(renderers)) {
-    for (let i = 0; i < renderers.length; i++) {
-      const renderer = renderers[i];
-      switch (renderer) {
+    engines = renderers;
+  }
+
+  if (engines.length > 0) {
+    // activate specific engine
+    for (let i = 0; i < engines.length; i++) {
+      const engine = engines[i];
+      switch (engine) {
         case 'ejs':
           rendererEjs(hexo);
           break;
