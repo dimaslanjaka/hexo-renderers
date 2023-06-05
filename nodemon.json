@@ -5,10 +5,11 @@
     "./lib/src/**/*.{ts,js}",
     "./packages/**/src/**/*.{ts,js}",
     "./test/_config.defaults.yml",
-    "lib/package.json",
-    "test/package.json",
-    "test/_config.loader.js",
-    "**/yarn.lock"
+    "./lib/package.json",
+    "./test/package.json",
+    "./test/_config.loader.js",
+    "**/yarn.lock",
+    "./nodemon.runner.js"
   ],
   "ignore": [
     "**/dist/**",
