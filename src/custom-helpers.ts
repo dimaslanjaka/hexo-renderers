@@ -6,6 +6,7 @@ import path from 'path';
 import yaml from 'yaml';
 import * as date from './helper/date';
 import { partialWithLayout } from './helper/partial';
+import { related_posts_helper } from './helper/related-posts';
 
 const _toArray = lodash.toArray;
 
@@ -67,6 +68,7 @@ export function getTheAuthor(authorObj: Record<string, any> | string) {
 export function registerCustomHelper(hexo: Hexo) {
   hexo.extend.helper.register('toArray', toArray);
   hexo.extend.helper.register('isObject', isObject);
+  related_posts_helper(hexo);
 
   /**
    * Export theme config

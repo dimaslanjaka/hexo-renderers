@@ -43,6 +43,7 @@ var path_1 = __importDefault(require("path"));
 var yaml_1 = __importDefault(require("yaml"));
 var date = __importStar(require("./helper/date"));
 var partial_1 = require("./helper/partial");
+var related_posts_1 = require("./helper/related-posts");
 var _toArray = lodash_1.default.toArray;
 exports.BASE_DIR = typeof hexo === 'undefined' ? process.cwd() : hexo.base_dir;
 var config;
@@ -102,6 +103,7 @@ exports.getTheAuthor = getTheAuthor;
 function registerCustomHelper(hexo) {
     hexo.extend.helper.register('toArray', toArray);
     hexo.extend.helper.register('isObject', isObject);
+    (0, related_posts_1.related_posts_helper)(hexo);
     /**
      * Export theme config
      */

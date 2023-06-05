@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.related_posts_helper = void 0;
 var lodash_1 = __importDefault(require("lodash"));
 var assign = lodash_1.default.assign;
 function addCount(array, searchProperty, newProperty) {
@@ -77,6 +78,9 @@ function listRelatedPosts(_post, options, _hexo) {
     postList.sort(dynamicSort('count', false));
     return postList;
 }
-hexo.extend.helper.register('list_related_posts', function (post, options, hexo) {
-    return listRelatedPosts(post, options, hexo);
-});
+function related_posts_helper(hexo) {
+    hexo.extend.helper.register('list_related_posts', function (post, options, hexo) {
+        return listRelatedPosts(post, options, hexo);
+    });
+}
+exports.related_posts_helper = related_posts_helper;
