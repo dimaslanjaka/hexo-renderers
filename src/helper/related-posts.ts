@@ -77,7 +77,7 @@ function listRelatedPosts(
       });
     });
   } else {
-    hexo.log.error('tags not found in _post')
+    hexo.log.error('tags not found in _post', Object.assign(_post))
   }
 
   postList = addCount(postList, '_id', 'count');
