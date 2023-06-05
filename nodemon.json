@@ -7,7 +7,8 @@
     "./test/_config.defaults.yml",
     "lib/package.json",
     "test/package.json",
-    "test/_config.loader.js"
+    "test/_config.loader.js",
+    "**/yarn.lock"
   ],
   "ignore": [
     "**/dist/**",
