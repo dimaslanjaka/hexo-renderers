@@ -13,7 +13,8 @@
   },
   "search.exclude": {
     "**/dist": true,
-    "**/.yarn": true
+    "**/.yarn": true,
+    "**/tmp": true
   },
   "code-runner.executorMapByGlob": {
     "*.test.ts": "jest --runInBand"
