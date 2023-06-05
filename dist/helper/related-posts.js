@@ -5,6 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.related_posts_helper = void 0;
 var lodash_1 = __importDefault(require("lodash"));
+var path_1 = __importDefault(require("path"));
+var sbg_utility_1 = require("sbg-utility");
 var assign = lodash_1.default.assign;
 function addCount(array, searchProperty, newProperty) {
     return array.reduce(function (newArray, item) {
@@ -71,14 +73,16 @@ function related_posts_helper(hexo) {
             if ('tags' in _post) {
                 _post.each(function (tag) {
                     tag.posts.each(function (post) {
-                        console.log(post);
                         postList.push(post);
                     });
                 });
             }
             else {
-                hexo.log.error('dump', Object.keys(_post));
+                (0, sbg_utility_1.writefile)(path_1.default.join(hexo.base_dir, 'tmp/hexo-renderers/dump-tags.json'), (0, sbg_utility_1.jsonStringifyWithCircularRefs)(_post));
             }
+        }
+        else {
+            console.log('', hexo.post);
         }
         // sort post when post list not-empty
         if (postList.length > 0) {

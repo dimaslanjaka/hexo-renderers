@@ -5,6 +5,7 @@ import lodash from 'lodash';
 import path from 'path';
 import yaml from 'yaml';
 import * as date from './date';
+import { getAuthor } from './getAuthor';
 import { partialWithLayout } from './partial';
 import { related_posts_helper } from './related-posts';
 
@@ -54,13 +55,6 @@ function toArray(value: any) {
   return _toArray(value);
 }
 
-export function getTheAuthor(authorObj: Record<string, any> | string) {
-  if (typeof authorObj === 'string') return authorObj;
-  if (typeof authorObj.name === 'string') return authorObj.name;
-  if (typeof authorObj.nick === 'string') return authorObj.nick;
-  if (typeof authorObj.nickname === 'string') return authorObj.nickname;
-}
-
 /**
  * register custom helpers
  * @param hexo
@@ -69,6 +63,7 @@ export function registerCustomHelper(hexo: Hexo) {
   hexo.extend.helper.register('toArray', toArray);
   hexo.extend.helper.register('isObject', isObject);
   related_posts_helper(hexo);
+  getAuthor(hexo);
 
   /**
    * Export theme config
@@ -105,15 +100,6 @@ export function registerCustomHelper(hexo: Hexo) {
       return page.posts;
     }
   );
-
-  hexo.extend.helper.register('getAuthor', function getAuthor(author, fallback) {
-    if (!author) return fallback;
-    const test1 = getTheAuthor(author);
-    if (typeof test1 === 'string') return test1;
-    const test2 = getTheAuthor(this.config.author);
-    if (typeof test2 === 'string') return test2;
-    return 'default user';
-  });
 
   hexo.extend.helper.register(
     'getPostByLabel',

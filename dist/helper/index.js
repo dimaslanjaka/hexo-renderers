@@ -35,13 +35,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerCustomHelper = exports.getTheAuthor = exports.BASE_DIR = void 0;
+exports.registerCustomHelper = exports.BASE_DIR = void 0;
 var fs_1 = __importDefault(require("fs"));
 var hexoUtil = __importStar(require("hexo-util"));
 var lodash_1 = __importDefault(require("lodash"));
 var path_1 = __importDefault(require("path"));
 var yaml_1 = __importDefault(require("yaml"));
 var date = __importStar(require("./date"));
+var getAuthor_1 = require("./getAuthor");
 var partial_1 = require("./partial");
 var related_posts_1 = require("./related-posts");
 var _toArray = lodash_1.default.toArray;
@@ -85,17 +86,6 @@ function toArray(value) {
     }
     return _toArray(value);
 }
-function getTheAuthor(authorObj) {
-    if (typeof authorObj === 'string')
-        return authorObj;
-    if (typeof authorObj.name === 'string')
-        return authorObj.name;
-    if (typeof authorObj.nick === 'string')
-        return authorObj.nick;
-    if (typeof authorObj.nickname === 'string')
-        return authorObj.nickname;
-}
-exports.getTheAuthor = getTheAuthor;
 /**
  * register custom helpers
  * @param hexo
@@ -104,6 +94,7 @@ function registerCustomHelper(hexo) {
     hexo.extend.helper.register('toArray', toArray);
     hexo.extend.helper.register('isObject', isObject);
     (0, related_posts_1.related_posts_helper)(hexo);
+    (0, getAuthor_1.getAuthor)(hexo);
     /**
      * Export theme config
      */
@@ -138,17 +129,6 @@ function registerCustomHelper(hexo) {
     function getPosts() {
         var page = this['page'];
         return page.posts;
-    });
-    hexo.extend.helper.register('getAuthor', function getAuthor(author, fallback) {
-        if (!author)
-            return fallback;
-        var test1 = getTheAuthor(author);
-        if (typeof test1 === 'string')
-            return test1;
-        var test2 = getTheAuthor(this.config.author);
-        if (typeof test2 === 'string')
-            return test2;
-        return 'default user';
     });
     hexo.extend.helper.register('getPostByLabel', 
     /**
