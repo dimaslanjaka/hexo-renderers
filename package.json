@@ -60,7 +60,8 @@
   },
   "packageManager": "yarn@3.5.0",
   "dependencies": {
-    "fs-extra": "^11.1.0"
+    "fs-extra": "^11.1.0",
+    "hexo": "^7.0.0-rc1"
   },
   "resolutions": {
     "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo.tgz",
