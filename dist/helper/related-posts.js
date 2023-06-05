@@ -69,7 +69,7 @@ function listRelatedPosts(options) {
         });
     }
     else {
-        hexo.log.error('tags not found in _post', Object.assign(_post));
+        hexo.log.error('tags not found in _post', _post.tags);
     }
     postList = addCount(postList, '_id', 'count');
     var thisPostPosition = objectArrayIndexOf(postList, _post._id, '_id');
@@ -85,8 +85,6 @@ function listRelatedPosts(options) {
 }
 exports.listRelatedPosts = listRelatedPosts;
 function related_posts_helper(hexo) {
-    hexo.extend.helper.register('list_related_posts', function (_post, options, _hexo) {
-        return listRelatedPosts.bind(hexo)(options);
-    });
+    hexo.extend.helper.register('list_related_posts', listRelatedPosts);
 }
 exports.related_posts_helper = related_posts_helper;
