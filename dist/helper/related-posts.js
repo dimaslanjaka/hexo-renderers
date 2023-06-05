@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.related_posts_helper = exports.listRelatedPosts = void 0;
+exports.related_posts_helper = void 0;
 var lodash_1 = __importDefault(require("lodash"));
 var assign = lodash_1.default.assign;
 function addCount(array, searchProperty, newProperty) {
@@ -46,50 +46,54 @@ function shuffle(array) {
     }
     return array;
 }
-function listRelatedPosts(options) {
-    options = assign({
-        maxCount: 5,
-        orderBy: 'date',
-        isAscending: false,
-        pClass: 'related-posts-none',
-        ulClass: 'related-posts',
-        liClass: 'related-posts-item',
-        aClass: 'related-posts-link',
-        generateAbstract: false,
-        abstractClass: 'related-posts-item-abstract',
-        abstractLength: 110
-    }, options || {});
-    // fix descending
-    var orderOption = ['date', 'random'];
-    if (orderOption.indexOf(options.orderBy) === -1) {
-        options.orderBy = 'date';
-    }
-    var postList = [];
-    var _post = this.post;
-    if (typeof _post === 'object' && 'tags' in _post) {
-        _post['tags'].each(function (tag) {
-            tag.posts.each(function (post) {
-                postList.push(post);
-            });
-        });
-    }
-    else {
-        hexo.log.error('tags not found in _post', _post);
-    }
-    postList = addCount(postList, '_id', 'count');
-    var thisPostPosition = objectArrayIndexOf(postList, _post._id, '_id');
-    postList.splice(thisPostPosition, 1);
-    if (options.orderBy === 'random') {
-        postList = shuffle(postList);
-    }
-    else {
-        postList.sort(dynamicSort(options.orderBy, options.isAscending));
-    }
-    postList.sort(dynamicSort('count', false));
-    return postList;
-}
-exports.listRelatedPosts = listRelatedPosts;
 function related_posts_helper(hexo) {
-    hexo.extend.helper.register('list_related_posts', listRelatedPosts);
+    hexo.extend.helper.register('list_related_posts', function (options) {
+        options = assign({
+            maxCount: 5,
+            orderBy: 'date',
+            isAscending: false,
+            pClass: 'related-posts-none',
+            ulClass: 'related-posts',
+            liClass: 'related-posts-item',
+            aClass: 'related-posts-link',
+            generateAbstract: false,
+            abstractClass: 'related-posts-item-abstract',
+            abstractLength: 110
+        }, options || {});
+        // fix descending
+        var orderOption = ['date', 'random'];
+        if (orderOption.indexOf(options.orderBy) === -1) {
+            options.orderBy = 'date';
+        }
+        var postList = [];
+        var _post = this.post;
+        if (_post) {
+            if ('tags' in _post) {
+                _post.each(function (tag) {
+                    tag.posts.each(function (post) {
+                        console.log(post);
+                        postList.push(post);
+                    });
+                });
+            }
+            else {
+                hexo.log.error('dump', Object.keys(_post));
+            }
+        }
+        // sort post when post list not-empty
+        if (postList.length > 0) {
+            postList = addCount(postList, '_id', 'count');
+            var thisPostPosition = objectArrayIndexOf(postList, _post._id, '_id');
+            postList.splice(thisPostPosition, 1);
+            if (options.orderBy === 'random') {
+                postList = shuffle(postList);
+            }
+            else {
+                postList = postList.sort(dynamicSort(options.orderBy, options.isAscending));
+            }
+            postList = postList.sort(dynamicSort('count', false));
+        }
+        return postList;
+    });
 }
 exports.related_posts_helper = related_posts_helper;

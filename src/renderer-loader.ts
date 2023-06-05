@@ -14,23 +14,25 @@ const logname = ansiColors.magenta('hexo-renderers');
 if (typeof hexo !== 'undefined') {
   // assign hexo to global variable
   (global as any).hexo = hexo;
-  const config = hexo.config;
-  const renderers = config['renderers'];
+  const options: { generator: string[]; engines: string[] } = Object.assign(
+    { generator: ['meta'], engines: [] as string[] },
+    hexo.config.renderers?.generator || {}
+  );
+
+  // shim v1 options
+  if (Array.isArray(hexo.config.renderers)) {
+    options.engines = hexo.config.renderers;
+  }
+
   // register custom helper
   registerCustomHelper(hexo);
   // register custom generator
-  registerCustomGenerator(hexo);
+  registerCustomGenerator(hexo, options.generator);
 
-  let engines = [];
-
-  if (Array.isArray(renderers)) {
-    engines = renderers;
-  }
-
-  if (engines.length > 0) {
+  if (options.engines.length > 0) {
     // activate specific engine
-    for (let i = 0; i < engines.length; i++) {
-      const engine = engines[i];
+    for (let i = 0; i < options.engines.length; i++) {
+      const engine = options.engines[i];
       switch (engine) {
         case 'ejs':
           rendererEjs(hexo);

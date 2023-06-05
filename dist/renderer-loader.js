@@ -2,6 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 var ansi_colors_1 = __importDefault(require("ansi-colors"));
 var generator_1 = require("./generator");
@@ -17,20 +18,19 @@ var logname = ansi_colors_1.default.magenta('hexo-renderers');
 if (typeof hexo !== 'undefined') {
     // assign hexo to global variable
     global.hexo = hexo;
-    var config = hexo.config;
-    var renderers = config['renderers'];
+    var options = Object.assign({ generator: ['meta'], engines: [] }, ((_a = hexo.config.renderers) === null || _a === void 0 ? void 0 : _a.generator) || {});
+    // shim v1 options
+    if (Array.isArray(hexo.config.renderers)) {
+        options.engines = hexo.config.renderers;
+    }
     // register custom helper
     (0, helper_1.registerCustomHelper)(hexo);
     // register custom generator
-    (0, generator_1.registerCustomGenerator)(hexo);
-    var engines = [];
-    if (Array.isArray(renderers)) {
-        engines = renderers;
-    }
-    if (engines.length > 0) {
+    (0, generator_1.registerCustomGenerator)(hexo, options.generator);
+    if (options.engines.length > 0) {
         // activate specific engine
-        for (var i = 0; i < engines.length; i++) {
-            var engine = engines[i];
+        for (var i = 0; i < options.engines.length; i++) {
+            var engine = options.engines[i];
             switch (engine) {
                 case 'ejs':
                     (0, renderer_ejs_1.rendererEjs)(hexo);
