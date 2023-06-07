@@ -90,7 +90,7 @@ var getPostData = function () { return postData; };
 exports.getPostData = getPostData;
 function collectorPost(post, hexo) {
     return __awaiter(this, void 0, void 0, function () {
-        var integrity, _a, exPost, description, img, $_1;
+        var integrity, _a, exPostIndex, exPost, isModified, description, img, $_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -104,10 +104,12 @@ function collectorPost(post, hexo) {
                     _b.label = 3;
                 case 3:
                     integrity = _a;
+                    exPostIndex = postData.findIndex(function (exPost) { return post.path === exPost.path; });
                     exPost = postData.find(function (exPost) { return post.path === exPost.path; });
                     // skip processing same integrity (it means unmodified)
                     if (exPost && exPost.integrity === integrity)
                         return [2 /*return*/];
+                    isModified = exPost && exPost.integrity !== integrity;
                     post.integrity = integrity;
                     // get description
                     if (post.description && post.description !== '') {
@@ -149,7 +151,13 @@ function collectorPost(post, hexo) {
                         post.cover = img;
                         post.thumbnail = img;
                     }
-                    postData.push(post);
+                    if (!isModified) {
+                        postData.push(post);
+                    }
+                    else {
+                        // update post
+                        postData[exPostIndex] = post;
+                    }
                     (0, sbg_utility_1.writefile)(postDataFilePath(hexo), (0, sbg_utility_1.jsonStringifyWithCircularRefs)(postData));
                     return [2 /*return*/];
             }

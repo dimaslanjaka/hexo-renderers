@@ -30,9 +30,11 @@ export const getPostData = () => postData;
 export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
   const integrity = post.full_source ? await file_to_hash('sha1', post.full_source, 'hex') : md5(post.path + post.raw);
   /** existing post */
+  const exPostIndex = postData.findIndex((exPost) => post.path === exPost.path);
   const exPost = postData.find((exPost) => post.path === exPost.path);
   // skip processing same integrity (it means unmodified)
   if (exPost && exPost.integrity === integrity) return;
+  const isModified = exPost && exPost.integrity !== integrity;
 
   post.integrity = integrity;
   let description: string;
@@ -72,7 +74,13 @@ export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
     post.cover = img;
     post.thumbnail = img;
   }
-  postData.push(post);
+
+  if (!isModified) {
+    postData.push(post);
+  } else {
+    // update post
+    postData[exPostIndex] = post;
+  }
 
   writefile(postDataFilePath(hexo), jsonStringifyWithCircularRefs(postData));
 }
