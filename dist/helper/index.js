@@ -124,11 +124,7 @@ function registerCustomHelper(hexo) {
         var json = data.length === 1 ? data[0] : Object.assign.apply(Object, __spreadArray([{}], data, false));
         return "<script class=\"json-config\" data-name=\"".concat(name, "\" type=\"application/json\">").concat(JSON.stringify(json).replace(/</g, '\\u003c'), "</script>");
     });
-    hexo.extend.helper.register('getPosts', 
-    /**
-     * @returns
-     */
-    function getPosts() {
+    hexo.extend.helper.register('getPosts', function getPosts() {
         var page = this['page'];
         return page.posts;
     });

@@ -92,16 +92,10 @@ export function registerCustomHelper(hexo: Hexo) {
     return `<script class="json-config" data-name="${name}" type="application/json">${JSON.stringify(json).replace(/</g, '\\u003c')}</script>`;
   });
 
-  hexo.extend.helper.register(
-    'getPosts',
-    /**
-     * @returns
-     */
-    function getPosts() {
-      const page = this['page'];
-      return page.posts;
-    }
-  );
+  hexo.extend.helper.register('getPosts', function getPosts(this: Hexo) {
+    const page = this['page'];
+    return page.posts;
+  });
 
   hexo.extend.helper.register('partialWithLayout', partialWithLayout);
   hexo.extend.helper.register('date', date.date);
