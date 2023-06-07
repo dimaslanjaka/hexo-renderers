@@ -7,6 +7,7 @@ exports.getRelatedPosts = void 0;
 var lodash_1 = __importDefault(require("lodash"));
 var path_1 = __importDefault(require("path"));
 var sbg_utility_1 = require("sbg-utility");
+var collector_1 = require("./collector");
 var assign = lodash_1.default.assign;
 function addCount(array, searchProperty, newProperty) {
     return array.reduce(function (newArray, item) {
@@ -68,26 +69,27 @@ function getRelatedPosts(hexo) {
             options.orderBy = 'date';
         }
         var postList = [];
-        var _post = this.post;
-        if (_post) {
-            if ('tags' in _post) {
-                _post.each(function (tag) {
-                    tag.posts.each(function (post) {
-                        postList.push(post);
+        var post = this.post || this.page;
+        if (post) {
+            if ('tags' in post) {
+                var tags = post.tags;
+                if ('each' in tags) {
+                    tags.each(function (tag) {
+                        tag.posts.each(function (post) {
+                            postList.push(post);
+                        });
                     });
-                });
-            }
-            else {
-                (0, sbg_utility_1.writefile)(path_1.default.join(hexo.base_dir, 'tmp/hexo-renderers/dump-tags.json'), (0, sbg_utility_1.jsonStringifyWithCircularRefs)(_post));
+                }
             }
         }
-        else {
-            console.log('', hexo.post);
+        if (postList.length === 0) {
+            var postData = (0, collector_1.getPostData)();
+            (0, sbg_utility_1.writefile)(path_1.default.join(hexo.base_dir, 'tmp/hexo-renderers/postData.json'), postData);
         }
         // sort post when post list not-empty
         if (postList.length > 0) {
             postList = addCount(postList, '_id', 'count');
-            var thisPostPosition = objectArrayIndexOf(postList, _post._id, '_id');
+            var thisPostPosition = objectArrayIndexOf(postList, post._id, '_id');
             postList.splice(thisPostPosition, 1);
             if (options.orderBy === 'random') {
                 postList = shuffle(postList);

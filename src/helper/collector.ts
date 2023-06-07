@@ -3,7 +3,7 @@ import fs from 'fs-extra';
 import Hexo from 'hexo';
 import path from 'path';
 import { file_to_hash, jsonStringifyWithCircularRefs, md5, writefile } from 'sbg-utility';
-import { HexoLocalsData } from './hexoLocalData';
+import { HexoLocalsData } from './hexoLocalsData';
 
 const postData: HexoLocalsData[] = [];
 

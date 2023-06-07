@@ -82,6 +82,10 @@ function loadPostData(hexo) {
     }
 }
 exports.loadPostData = loadPostData;
+/**
+ * get loaded post data (getter)
+ * @returns
+ */
 var getPostData = function () { return postData; };
 exports.getPostData = getPostData;
 function collectorPost(post, hexo) {
