@@ -106,6 +106,8 @@ export function getRelatedPosts(hexo: import('hexo')) {
           } else if (post.tags) {
             tags = post.tags;
           }
+          // fix post.tags is internal hexo class
+          // get only array of string tags
           if (!tags.some) tags = tagName(tags);
           return tags.some((tag: any) => thisPageTags.includes(tag));
         });

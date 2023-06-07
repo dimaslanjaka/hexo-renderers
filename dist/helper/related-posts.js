@@ -92,10 +92,13 @@ function getRelatedPosts(hexo) {
                 else if (post.tags) {
                     tags = post.tags;
                 }
+                // fix post.tags is internal hexo class
+                // get only array of string tags
                 if (!tags.some)
                     tags = (0, util_1.tagName)(tags);
                 return tags.some(function (tag) { return thisPageTags_1.includes(tag); });
             });
+            postList.push.apply(postList, postData);
         }
         // sort post when post list not-empty
         if (postList.length > 0) {
