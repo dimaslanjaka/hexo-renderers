@@ -7,6 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var ansi_colors_1 = __importDefault(require("ansi-colors"));
 var generator_1 = require("./generator");
 var helper_1 = require("./helper");
+var collector_1 = require("./helper/collector");
 var renderer_dartsass_1 = require("./renderer-dartsass");
 var renderer_ejs_1 = require("./renderer-ejs");
 var renderer_markdown_it_1 = __importDefault(require("./renderer-markdown-it"));
@@ -23,10 +24,18 @@ if (typeof hexo !== 'undefined') {
     if (Array.isArray(hexo.config.renderers)) {
         options.engines = hexo.config.renderers;
     }
+    // initial process - restoration
+    hexo.extend.filter.register('after_init', function () {
+        (0, collector_1.loadPostData)(this);
+    });
     // register custom helper
     (0, helper_1.registerCustomHelper)(hexo);
     // register custom generator
     (0, generator_1.registerCustomGenerator)(hexo, options.generator);
+    // collect post information
+    hexo.extend.filter.register('after_post_render', function (post) {
+        return (0, collector_1.collectorPost)(post, this);
+    });
     if (options.engines.length > 0) {
         // activate specific engine
         for (var i = 0; i < options.engines.length; i++) {

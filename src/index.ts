@@ -1,6 +1,8 @@
 import ansiColors from 'ansi-colors';
+import Hexo from 'hexo';
 import { registerCustomGenerator } from './generator';
 import { registerCustomHelper } from './helper';
+import { collectorPost, loadPostData } from './helper/collector';
 import { rendererDartSass } from './renderer-dartsass';
 import { rendererEjs } from './renderer-ejs';
 import { default as rendererMarkdownIt } from './renderer-markdown-it';
@@ -24,10 +26,19 @@ if (typeof hexo !== 'undefined') {
     options.engines = hexo.config.renderers;
   }
 
+  // initial process - restoration
+  hexo.extend.filter.register('after_init', function (this: Hexo) {
+    loadPostData(this);
+  });
+
   // register custom helper
   registerCustomHelper(hexo);
   // register custom generator
   registerCustomGenerator(hexo, options.generator);
+  // collect post information
+  hexo.extend.filter.register('after_post_render', function (this: Hexo, post: any) {
+    return collectorPost(post, this);
+  });
 
   if (options.engines.length > 0) {
     // activate specific engine
