@@ -84,7 +84,7 @@ function loadPostData(hexo) {
 exports.loadPostData = loadPostData;
 function collectorPost(post, hexo) {
     return __awaiter(this, void 0, void 0, function () {
-        var integrity, _a, description, img, $_1;
+        var integrity, _a, exPost, description, img, $_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -98,6 +98,10 @@ function collectorPost(post, hexo) {
                     _b.label = 3;
                 case 3:
                     integrity = _a;
+                    exPost = postData.find(function (exPost) { return post.path === exPost.path; });
+                    // skip processing same integrity (it means unmodified)
+                    if (exPost && exPost.integrity === integrity)
+                        return [2 /*return*/];
                     post.integrity = integrity;
                     // get description
                     if (post.description && post.description !== '') {

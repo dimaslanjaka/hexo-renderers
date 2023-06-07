@@ -5,7 +5,7 @@ import path from 'path';
 import { file_to_hash, jsonStringifyWithCircularRefs, md5, writefile } from 'sbg-utility';
 import { HexoLocalsData } from './hexoLocalData';
 
-const postData: any[] = [];
+const postData: HexoLocalsData[] = [];
 
 export function postDataFilePath(hexo: Hexo) {
   return path.join(hexo.base_dir, 'tmp/post-data.json');
@@ -23,6 +23,11 @@ export function loadPostData(hexo: Hexo) {
 
 export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
   const integrity = post.full_source ? await file_to_hash('sha1', post.full_source, 'hex') : md5(post.path + post.raw);
+  /** existing post */
+  const exPost = postData.find((exPost) => post.path === exPost.path);
+  // skip processing same integrity (it means unmodified)
+  if (exPost && exPost.integrity === integrity) return;
+
   post.integrity = integrity;
   let description: string;
   // get description
