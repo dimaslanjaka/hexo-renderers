@@ -12,7 +12,7 @@ export function getPostByLabelInternal(
   filternames: string[]
 ): Record<string, string>[] {
   const hexo = this;
-  const data: any[] = hexo.site[by].data;
+  const data: any = hexo.site[by].data;
   if (Array.isArray(data)) {
     console.log(typeof data.filter);
     const map = filternames
