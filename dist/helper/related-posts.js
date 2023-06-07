@@ -5,9 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getRelatedPosts = void 0;
 var lodash_1 = __importDefault(require("lodash"));
-var path_1 = __importDefault(require("path"));
-var sbg_utility_1 = require("sbg-utility");
 var collector_1 = require("./collector");
+var util_1 = require("./util");
 var assign = lodash_1.default.assign;
 function addCount(array, searchProperty, newProperty) {
     return array.reduce(function (newArray, item) {
@@ -83,8 +82,20 @@ function getRelatedPosts(hexo) {
             }
         }
         if (postList.length === 0) {
-            var postData = (0, collector_1.getPostData)();
-            (0, sbg_utility_1.writefile)(path_1.default.join(hexo.base_dir, 'tmp/hexo-renderers/postData.json'), postData);
+            var thisPageTags_1 = this.page.tags || [];
+            var postData = (0, collector_1.getPostData)().filter(function (post) {
+                var _a;
+                var tags = [];
+                if ((_a = post.tags) === null || _a === void 0 ? void 0 : _a.toArray) {
+                    tags = post.tags.toArray();
+                }
+                else if (post.tags) {
+                    tags = post.tags;
+                }
+                if (!tags.some)
+                    tags = (0, util_1.tagName)(tags);
+                return tags.some(function (tag) { return thisPageTags_1.includes(tag); });
+            });
         }
         // sort post when post list not-empty
         if (postList.length > 0) {

@@ -1,5 +1,7 @@
 import Hexo from 'hexo';
 import lodash from 'lodash';
+import { getPostData } from './collector';
+import { tagName } from './util';
 
 const assign = lodash.assign;
 
@@ -46,67 +48,86 @@ function shuffle<T extends any[]>(array: T) {
   return array;
 }
 
-export function listRelatedPosts(
-  this: Hexo,
-  options: {
-    maxCount: number;
-    /** 'date' | 'updated' */
-    orderBy: string;
-    isAscending?: any;
-  }
-) {
-  options = assign(
-    {
-      maxCount: 5,
-      orderBy: 'date',
-      isAscending: false,
-      pClass: 'related-posts-none',
-      ulClass: 'related-posts',
-      liClass: 'related-posts-item',
-      aClass: 'related-posts-link',
-      generateAbstract: false,
-      abstractClass: 'related-posts-item-abstract',
-      abstractLength: 110
-    },
-    options || {}
-  );
+export function getRelatedPosts(hexo: import('hexo')) {
+  hexo.extend.helper.register(
+    'list_related_posts',
+    function (
+      this: Hexo,
+      options: {
+        maxCount: number;
+        /** 'date' | 'updated' */
+        orderBy: string;
+        isAscending?: any;
+      }
+    ) {
+      options = assign(
+        {
+          maxCount: 5,
+          orderBy: 'date',
+          isAscending: false,
+          pClass: 'related-posts-none',
+          ulClass: 'related-posts',
+          liClass: 'related-posts-item',
+          aClass: 'related-posts-link',
+          generateAbstract: false,
+          abstractClass: 'related-posts-item-abstract',
+          abstractLength: 110
+        },
+        options || {}
+      );
 
-  // fix descending
-  const orderOption = ['date', 'random'];
-  if (orderOption.indexOf(options.orderBy) === -1) {
-    options.orderBy = 'date';
-  }
+      // fix descending
+      const orderOption = ['date', 'random'];
+      if (orderOption.indexOf(options.orderBy) === -1) {
+        options.orderBy = 'date';
+      }
 
-  let postList = [] as any[];
-  const _post = this.post as Record<string, any>;
-  if (typeof _post === 'object' && 'tags' in _post) {
-    _post['tags'].each(function (tag: Record<string, any>) {
-      tag.posts.each(function (post: Record<string, any>) {
-        postList.push(post);
-      });
-    });
-  } else {
-    hexo.log.error('tags not found in _post', _post);
-  }
+      let postList = [] as any[];
+      const post = this.post || this.page;
+      if (post) {
+        if ('tags' in post) {
+          const tags = post.tags as Record<string, any>;
+          if ('each' in tags) {
+            tags.each(function (tag: Record<string, any>) {
+              tag.posts.each(function (post: Record<string, any>) {
+                postList.push(post);
+              });
+            });
+          }
+        }
+      }
 
-  // sort post when post list not-empty
-  if (postList.length > 0) {
-    postList = addCount(postList, '_id', 'count');
+      if (postList.length === 0) {
+        const thisPageTags = this.page.tags || [];
+        const postData = getPostData().filter((post) => {
+          let tags: any[] = [];
+          if (post.tags?.toArray) {
+            tags = post.tags.toArray();
+          } else if (post.tags) {
+            tags = post.tags;
+          }
+          if (!tags.some) tags = tagName(tags);
+          return tags.some((tag: any) => thisPageTags.includes(tag));
+        });
+        postList.push(...postData);
+      }
 
-    const thisPostPosition = objectArrayIndexOf(postList, _post._id, '_id');
-    postList.splice(thisPostPosition, 1);
+      // sort post when post list not-empty
+      if (postList.length > 0) {
+        postList = addCount(postList, '_id', 'count');
 
-    if (options.orderBy === 'random') {
-      postList = shuffle(postList);
-    } else {
-      postList = postList.sort(dynamicSort(options.orderBy, options.isAscending));
+        const thisPostPosition = objectArrayIndexOf(postList, (post as Record<string, any>)._id, '_id');
+        postList.splice(thisPostPosition, 1);
+
+        if (options.orderBy === 'random') {
+          postList = shuffle(postList);
+        } else {
+          postList = postList.sort(dynamicSort(options.orderBy, options.isAscending));
+        }
+        postList = postList.sort(dynamicSort('count', false));
+      }
+
+      return postList;
     }
-    postList = postList.sort(dynamicSort('count', false));
-  }
-
-  return postList;
-}
-
-export function related_posts_helper(hexo: import('hexo')) {
-  hexo.extend.helper.register('list_related_posts', listRelatedPosts);
+  );
 }
