@@ -62,7 +62,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.collectorPost = exports.loadPostData = exports.postDataFilePath = void 0;
+exports.collectorPost = exports.getPostData = exports.loadPostData = exports.postDataFilePath = void 0;
 var cheerio = __importStar(require("cheerio"));
 var fs_extra_1 = __importDefault(require("fs-extra"));
 var path_1 = __importDefault(require("path"));
@@ -73,7 +73,7 @@ function postDataFilePath(hexo) {
 }
 exports.postDataFilePath = postDataFilePath;
 /**
- * load existing database
+ * load existing database (initial only)
  */
 function loadPostData(hexo) {
     var file = postDataFilePath(hexo);
@@ -82,6 +82,8 @@ function loadPostData(hexo) {
     }
 }
 exports.loadPostData = loadPostData;
+var getPostData = function () { return postData; };
+exports.getPostData = getPostData;
 function collectorPost(post, hexo) {
     return __awaiter(this, void 0, void 0, function () {
         var integrity, _a, exPost, description, img, $_1;

@@ -12,7 +12,7 @@ export function postDataFilePath(hexo: Hexo) {
 }
 
 /**
- * load existing database
+ * load existing database (initial only)
  */
 export function loadPostData(hexo: Hexo) {
   const file = postDataFilePath(hexo);
@@ -20,6 +20,12 @@ export function loadPostData(hexo: Hexo) {
     postData.push(...JSON.parse(fs.readFileSync(file, 'utf-8')));
   }
 }
+
+/**
+ * get loaded post data (getter)
+ * @returns
+ */
+export const getPostData = () => postData;
 
 export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
   const integrity = post.full_source ? await file_to_hash('sha1', post.full_source, 'hex') : md5(post.path + post.raw);
