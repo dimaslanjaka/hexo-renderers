@@ -9,7 +9,7 @@
     "test": "test"
   },
   "scripts": {
-    "start": "yarn build && node -r ./test/_config.loader.js -r ts-node/register nodemon.runner.js",
+    "start": "yarn build && node ./test/_config.loader.js && node nodemon.runner.js",
     "test": "yarn build && yarn site:clean && yarn site:server",
     "build": "yarn workspace hexo-renderers build",
     "patch": "yarn workspace hexo-renderers version patch",
