@@ -35,7 +35,8 @@
   "license": "MIT",
   "workspaces": [
     "lib",
-    "test"
+    "test",
+    "packages/hexo"
   ],
   "devDependencies": {
     "@types/eslint": "^8",
@@ -64,12 +65,10 @@
   "dependencies": {
     "axios": "^1.4.0",
     "fs-extra": "^11.1.0",
-    "hexo": "^7.0.0-rc1"
+    "hexo": "workspace:^"
   },
   "resolutions": {
-    "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo.tgz",
     "@types/hexo-log": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo-log.tgz",
-    "hexo": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo.tgz",
     "hexo-asset-link": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo-asset-link.tgz",
     "hexo-cli": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo-cli.tgz",
     "hexo-front-matter": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo-front-matter.tgz",
