@@ -24,7 +24,7 @@
     "type": "git",
     "url": "https://github.com/dimaslanjaka/hexo-renderers.git"
   },
-  "homepage": "https://webmanajemen.com/docs/hexo-renderers",
+  "homepage": "https://www.webmanajemen.com/docs/hexo-renderers",
   "scripts": {
     "update": "run-s \"update:**\"",
     "update:ci": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/.github/workflows/build-release.yml > .github/workflows/build-release.yml",
