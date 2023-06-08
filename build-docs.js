@@ -1,0 +1,58 @@
+const path = require('upath');
+const fs = require('fs-extra');
+const { default: gch } = require('git-command-helper');
+const spawn = require('cross-spawn').async;
+const glob = require('glob');
+
+// publish pages
+
+const testDir = path.resolve(__dirname, 'test');
+const src = path.join(testDir, 'public');
+const deployDir = path.resolve(testDir, '.deploy_git/hexo-renderers');
+(async function () {
+  // build package
+  await spawn('yarn', ['build'], { cwd: __dirname, shell: true, stdio: 'inherit' });
+
+  // check deploy directory
+  if (!fs.existsSync(deployDir)) {
+    await spawn('git', ['clone', '-b', 'master', 'https://github.com/dimaslanjaka/docs.git', 'test/.deploy_git'], {
+      shell: true,
+      cwd: __dirname
+    });
+  } else {
+    await spawn('git', ['pull', 'origin', 'master', '-X', 'theirs'], { cwd: deployDir, shell: true, stdio: 'inherit' });
+  }
+
+  // build site start
+  await spawn('yarn', ['build'], { cwd: testDir, shell: true, stdio: 'inherit' });
+
+  // callback calls
+  const scriptsDir = path.join(__dirname, 'scripts');
+  if (fs.existsSync(scriptsDir)) {
+    glob.glob('**/*.js', { cwd: scriptsDir });
+  }
+
+  // commit start
+  const projectGit = new gch(__dirname, 'master');
+  const commit = await projectGit.latestCommit(__dirname);
+  const repo = (await projectGit.getremote()).fetch.url.replace(/.git$/, '');
+  const message = `chore: update from ${repo}/commit/${commit}`;
+
+  // copy start
+  if (fs.existsSync(deployDir)) {
+    await fs.rm(deployDir, { recursive: true, force: true });
+    await fs.mkdir(deployDir);
+  }
+  await fs.copy(src, deployDir, { overwrite: true });
+
+  try {
+    const destSpawnOpt = { cwd: deployDir, stdio: 'inherit' };
+    //await spawn('git', ['remote', 'set-url', 'origin', 'https://github.com/dimaslanjaka/docs.git'], destSpawnOpt);
+    await spawn('git', ['add', '.'], destSpawnOpt);
+    await spawn('git', ['commit', '-m', `${message}`], destSpawnOpt);
+    await spawn('git', ['checkout', 'master'], destSpawnOpt);
+    await spawn('git', ['push', '-u', 'origin', 'master'], destSpawnOpt);
+  } catch (e) {
+    console.error('cannot push', e);
+  }
+})();
