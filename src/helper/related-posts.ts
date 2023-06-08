@@ -43,18 +43,38 @@ function dynamicSort(property: string, isAscending: boolean) {
   };
 }
 
-function shuffle<T extends any[]>(array: T) {
-  let currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-  while (0 !== currentIndex) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
+/**
+ * generate random number
+ * @see {@link https://stackoverflow.com/a/65638217/6404439}
+ * @param n
+ * @returns
+ */
+const rand = (n: number) => 0 | (Math.random() * n);
+
+/**
+ * fast shuffle array (internal)
+ * @see {@link https://stackoverflow.com/a/65638217/6404439}
+ * @param t
+ */
+function swap<T extends any[]>(t: T, i: number, j: number) {
+  const q = t[i];
+  t[i] = t[j];
+  t[j] = q;
+  return t;
+}
+
+/**
+ * fast shuffle array
+ * @see {@link https://stackoverflow.com/a/65638217/6404439}
+ * @param t
+ */
+function shuffle<T extends any[]>(t: T) {
+  let last = t.length;
+  let n;
+  while (last > 0) {
+    n = rand(last);
+    swap(t, n, --last);
   }
-  return array;
 }
 
 export function getRelatedPosts(hexo: import('hexo')) {
