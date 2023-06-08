@@ -5,7 +5,7 @@ All in one hexo renderers. Load all hexo renderer engines at once.
 <!-- - use hexo helpers inside post (`full_url`, `url_for`, etc) -->
 - use any type layout inside source
 - more custom helpers
-- related post helpers
+- related post helpers [examples](https://github.com/dimaslanjaka/site/tree/hexo-renderers/views)
 
 ## Specify renderers
 You can specify some renderers by `_config.yml`
