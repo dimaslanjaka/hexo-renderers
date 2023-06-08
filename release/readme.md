@@ -2,18 +2,18 @@
 ## Releases
 | version | tarball url |
 | :--- | :--- |
-| 1.0.0 | https://github.com/dimaslanjaka/hexo-renderers/raw/f9be64c/release/hexo-renderers-1.0.0.tgz |
-| 1.0.10 | https://github.com/dimaslanjaka/hexo-renderers/raw/f9be64c/release/hexo-renderers-1.0.10.tgz |
-| 1.0.11 | https://github.com/dimaslanjaka/hexo-renderers/raw/f9be64c/release/hexo-renderers-1.0.11.tgz |
-| 1.0.12 | https://github.com/dimaslanjaka/hexo-renderers/raw/f9be64c/release/hexo-renderers-1.0.12.tgz |
-| 1.0.4 | https://github.com/dimaslanjaka/hexo-renderers/raw/f9be64c/release/hexo-renderers-1.0.4.tgz |
-| 1.0.5 | https://github.com/dimaslanjaka/hexo-renderers/raw/f9be64c/release/hexo-renderers-1.0.5.tgz |
-| 1.0.6 | https://github.com/dimaslanjaka/hexo-renderers/raw/f9be64c/release/hexo-renderers-1.0.6.tgz |
-| 1.0.7 | https://github.com/dimaslanjaka/hexo-renderers/raw/f9be64c/release/hexo-renderers-1.0.7.tgz |
-| 1.0.8 | https://github.com/dimaslanjaka/hexo-renderers/raw/f9be64c/release/hexo-renderers-1.0.8.tgz |
-| 1.0.9 | https://github.com/dimaslanjaka/hexo-renderers/raw/f9be64c/release/hexo-renderers-1.0.9.tgz |
-| 2.0.0 | https://github.com/dimaslanjaka/hexo-renderers/raw/f9be64c/release/hexo-renderers-2.0.0.tgz |
-| latest | https://github.com/dimaslanjaka/hexo-renderers/raw/f9be64c/release/hexo-renderers.tgz |
+| 1.0.0 | https://github.com/dimaslanjaka/hexo-renderers/raw/e1503ca/release/hexo-renderers-1.0.0.tgz |
+| 1.0.10 | https://github.com/dimaslanjaka/hexo-renderers/raw/e1503ca/release/hexo-renderers-1.0.10.tgz |
+| 1.0.11 | https://github.com/dimaslanjaka/hexo-renderers/raw/e1503ca/release/hexo-renderers-1.0.11.tgz |
+| 1.0.12 | https://github.com/dimaslanjaka/hexo-renderers/raw/e1503ca/release/hexo-renderers-1.0.12.tgz |
+| 1.0.4 | https://github.com/dimaslanjaka/hexo-renderers/raw/e1503ca/release/hexo-renderers-1.0.4.tgz |
+| 1.0.5 | https://github.com/dimaslanjaka/hexo-renderers/raw/e1503ca/release/hexo-renderers-1.0.5.tgz |
+| 1.0.6 | https://github.com/dimaslanjaka/hexo-renderers/raw/e1503ca/release/hexo-renderers-1.0.6.tgz |
+| 1.0.7 | https://github.com/dimaslanjaka/hexo-renderers/raw/e1503ca/release/hexo-renderers-1.0.7.tgz |
+| 1.0.8 | https://github.com/dimaslanjaka/hexo-renderers/raw/e1503ca/release/hexo-renderers-1.0.8.tgz |
+| 1.0.9 | https://github.com/dimaslanjaka/hexo-renderers/raw/e1503ca/release/hexo-renderers-1.0.9.tgz |
+| 2.0.0 | https://github.com/dimaslanjaka/hexo-renderers/raw/e1503ca/release/hexo-renderers-2.0.0.tgz |
+| latest | https://github.com/dimaslanjaka/hexo-renderers/raw/e1503ca/release/hexo-renderers.tgz |
 | latest | https://github.com/dimaslanjaka/hexo-renderers/raw/master/release/hexo-renderers.tgz |
 
 use this tarball with `resolutions`:
