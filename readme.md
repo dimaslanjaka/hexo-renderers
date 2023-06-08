@@ -32,6 +32,7 @@ set config for your desired renderer engine.
 ### 2.0.0
 - change options structure
 - add `meta.json` generator which available at `http://example.com/meta.json`
+- add related post helper
 
 ### 1.0.13
 - fix: invalid default markdown options
