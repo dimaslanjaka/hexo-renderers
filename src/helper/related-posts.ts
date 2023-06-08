@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
 import lodash from 'lodash';
 import path from 'path';
-import { jsonStringifyWithCircularRefs, slugify, writefile } from 'sbg-utility';
+import { array_shuffle, jsonStringifyWithCircularRefs, slugify, writefile } from 'sbg-utility';
 import { getPostData } from './collector';
 import { tagName } from './util';
 
@@ -41,40 +41,6 @@ function dynamicSort(property: string, isAscending: boolean) {
     const result = a[property] < b[property] ? -1 : a[property] > b[property] ? 1 : 0;
     return result * sortOrder;
   };
-}
-
-/**
- * generate random number
- * @see {@link https://stackoverflow.com/a/65638217/6404439}
- * @param n
- * @returns
- */
-const rand = (n: number) => 0 | (Math.random() * n);
-
-/**
- * fast shuffle array (internal)
- * @see {@link https://stackoverflow.com/a/65638217/6404439}
- * @param t
- */
-function swap<T extends any[]>(t: T, i: number, j: number) {
-  const q = t[i];
-  t[i] = t[j];
-  t[j] = q;
-  return t;
-}
-
-/**
- * fast shuffle array
- * @see {@link https://stackoverflow.com/a/65638217/6404439}
- * @param t
- */
-function shuffle<T extends any[]>(t: T) {
-  let last = t.length;
-  let n;
-  while (last > 0) {
-    n = rand(last);
-    swap(t, n, --last);
-  }
 }
 
 export function getRelatedPosts(hexo: import('hexo')) {
@@ -162,7 +128,7 @@ export function getRelatedPosts(hexo: import('hexo')) {
         if (currentPostIndex !== -1) postList.splice(currentPostIndex, 1);
 
         if (options.orderBy === 'random') {
-          shuffle(postList);
+          array_shuffle(postList);
         } else {
           postList.sort(dynamicSort(options.orderBy, options.isAscending));
         }

@@ -48,37 +48,6 @@ function dynamicSort(property, isAscending) {
         return result * sortOrder;
     };
 }
-/**
- * generate random number
- * @see {@link https://stackoverflow.com/a/65638217/6404439}
- * @param n
- * @returns
- */
-var rand = function (n) { return 0 | (Math.random() * n); };
-/**
- * fast shuffle array (internal)
- * @see {@link https://stackoverflow.com/a/65638217/6404439}
- * @param t
- */
-function swap(t, i, j) {
-    var q = t[i];
-    t[i] = t[j];
-    t[j] = q;
-    return t;
-}
-/**
- * fast shuffle array
- * @see {@link https://stackoverflow.com/a/65638217/6404439}
- * @param t
- */
-function shuffle(t) {
-    var last = t.length;
-    var n;
-    while (last > 0) {
-        n = rand(last);
-        swap(t, n, --last);
-    }
-}
 function getRelatedPosts(hexo) {
     hexo.extend.helper.register('list_related_posts', function (options) {
         var _this = this;
@@ -152,7 +121,7 @@ function getRelatedPosts(hexo) {
             if (currentPostIndex !== -1)
                 postList.splice(currentPostIndex, 1);
             if (options.orderBy === 'random') {
-                shuffle(postList);
+                (0, sbg_utility_1.array_shuffle)(postList);
             }
             else {
                 postList.sort(dynamicSort(options.orderBy, options.isAscending));
