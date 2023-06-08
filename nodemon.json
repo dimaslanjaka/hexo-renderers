@@ -9,7 +9,8 @@
     "./test/package.json",
     "./test/_config.loader.js",
     "**/yarn.lock",
-    "./nodemon.runner.js"
+    "./nodemon.runner.js",
+    "./test/views/**/*"
   ],
   "ignore": [
     "**/dist/**",
