@@ -1,5 +1,5 @@
 # hexo-renderers
-All in one hexo renderers. Load all hexo renderer engines at once.
+All in one theme renderers and helpers for hexo. Load all hexo renderer engines at once.
 
 ## Features
 <!-- - use hexo helpers inside post (`full_url`, `url_for`, etc) -->
