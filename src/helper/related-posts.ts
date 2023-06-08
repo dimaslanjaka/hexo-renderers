@@ -1,5 +1,7 @@
-import Hexo from 'hexo';
+import fs from 'fs-extra';
 import lodash from 'lodash';
+import path from 'path';
+import { jsonStringifyWithCircularRefs, slugify, writefile } from 'sbg-utility';
 import { getPostData } from './collector';
 import { tagName } from './util';
 
@@ -18,7 +20,14 @@ function addCount<T extends any[]>(array: T, searchProperty: string, newProperty
   }, []);
 }
 
-function objectArrayIndexOf(array: any[], searchTerm: string, property: string) {
+/**
+ * get index of array of objects by property
+ * @param array
+ * @param searchTerm
+ * @param property
+ * @returns
+ */
+export function objectArrayIndexOf<T extends any[]>(array: T, searchTerm: string, property: string) {
   for (let i = 0; i < array.length; i++) {
     if (array[i][property] === searchTerm) return i;
   }
@@ -51,15 +60,14 @@ function shuffle<T extends any[]>(array: T) {
 export function getRelatedPosts(hexo: import('hexo')) {
   hexo.extend.helper.register(
     'list_related_posts',
-    function (
-      this: Hexo,
-      options: {
-        maxCount: number;
-        /** 'date' | 'updated' */
-        orderBy: string;
-        isAscending?: any;
-      }
-    ) {
+    function (options: {
+      maxCount: number;
+      /** 'date' | 'updated' */
+      orderBy: string;
+      isAscending?: any;
+    }) {
+      /** related post cache file */
+      const relatedDb = path.join(hexo.base_dir, 'tmp/hexo-renderers', slugify(this.page.title), 'related.json');
       options = assign(
         {
           maxCount: 5,
@@ -83,50 +91,64 @@ export function getRelatedPosts(hexo: import('hexo')) {
       }
 
       let postList = [] as any[];
-      const post = this.post || this.page;
-      if (post) {
-        if ('tags' in post) {
-          const tags = post.tags as Record<string, any>;
-          if ('each' in tags) {
-            tags.each(function (tag: Record<string, any>) {
-              tag.posts.each(function (post: Record<string, any>) {
-                postList.push(post);
+      if (fs.existsSync(relatedDb)) {
+        // load from cache
+        postList = JSON.parse(fs.readFileSync(relatedDb, 'utf-8'));
+      } else {
+        // regenerate cache
+        const post = this.post || this.page;
+        if (post) {
+          if ('tags' in post) {
+            const tags = post.tags as Record<string, any>;
+            if ('each' in tags) {
+              tags.each(function (tag: Record<string, any>) {
+                tag.posts.each(function (post: Record<string, any>) {
+                  postList.push(post);
+                });
               });
-            });
+            }
           }
         }
-      }
 
-      if (postList.length === 0) {
-        const thisPageTags = this.page.tags || [];
-        const postData = getPostData().filter((post) => {
-          let tags: any[] = [];
-          if (post.tags?.toArray) {
-            tags = post.tags.toArray();
-          } else if (post.tags) {
-            tags = post.tags;
-          }
-          // fix post.tags is internal hexo class
-          // get only array of string tags
-          if (!tags.some) tags = tagName(tags);
-          return tags.some((tag: any) => thisPageTags.includes(tag));
-        });
-        postList.push(...postData);
+        if (postList.length === 0) {
+          const thisPageTags = this.page.tags || [];
+          const postData = getPostData().filter((post) => {
+            let tags: any[] = [];
+            if (post.tags?.toArray) {
+              tags = post.tags.toArray();
+            } else if (post.tags) {
+              tags = post.tags;
+            }
+            // fix post.tags is internal hexo class
+            // get only array of string tags
+            if (!tags.some) tags = tagName(tags);
+            return tags.some((tag: any) => thisPageTags.includes(tag));
+          });
+          postList.push(...postData);
+        }
       }
 
       // sort post when post list not-empty
       if (postList.length > 0) {
         postList = addCount(postList, '_id', 'count');
 
-        const thisPostPosition = objectArrayIndexOf(postList, (post as Record<string, any>)._id, '_id');
-        postList.splice(thisPostPosition, 1);
+        // delete current post from related post (prevent duplicate)
+        /*const thisPostPosition = objectArrayIndexOf(postList, (post as Record<string, any>)._id, '_id');
+        if (thisPostPosition !== -1) postList.splice(thisPostPosition, 1);
+        */
+        const currentPostIndex = postList.findIndex(
+          (post) => post._id === this.page._id || post.title === this.page.title
+        );
+        if (currentPostIndex !== -1) postList.splice(currentPostIndex, 1);
 
         if (options.orderBy === 'random') {
-          postList = shuffle(postList);
+          shuffle(postList);
         } else {
-          postList = postList.sort(dynamicSort(options.orderBy, options.isAscending));
+          postList.sort(dynamicSort(options.orderBy, options.isAscending));
         }
-        postList = postList.sort(dynamicSort('count', false));
+        postList.sort(dynamicSort('count', false));
+
+        writefile(relatedDb, jsonStringifyWithCircularRefs(postList));
       }
 
       return postList;
