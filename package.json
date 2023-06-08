@@ -11,12 +11,14 @@
   "scripts": {
     "start": "yarn build && node ./test/_config.loader.js && node nodemon.runner.js",
     "test": "yarn build && yarn site:clean && yarn site:server",
-    "build": "yarn workspace hexo-renderers build",
+    "build:hexo": "yarn workspace hexo run build",
+    "build:lib": "yarn workspace hexo-renderers run build",
+    "build": "run-s \"build:**\"",
     "patch": "yarn workspace hexo-renderers version patch",
     "update": "yarn workspaces foreach run update:ncu && yarn cache clean && yarn install",
     "site:clean": "yarn workspace site run clean",
     "site:server": "yarn workspace site run server",
-    "post-install": "npm run build"
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",
