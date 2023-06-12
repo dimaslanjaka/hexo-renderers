@@ -5,7 +5,7 @@ import Hexo from 'hexo';
 import path from 'path';
 import { file_to_hash, jsonStringifyWithCircularRefs, md5, writefile } from 'sbg-utility';
 import { HexoLocalsData } from './hexoLocalsData';
-import { DeepPartial, tagName } from './util';
+import { DeepPartial, categorieName, tagName } from './util';
 
 const logname = ansiColors.magentaBright('hexo-renderers');
 const postData: HexoLocalsData[] = [];
@@ -88,8 +88,16 @@ export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
   if ('site' in post) delete (post as DeepPartial<typeof post>).site;
   if ('posts' in post) delete (post as DeepPartial<typeof post>).posts;
   // simplify tags and categories (avoid circular references)
-  if ('tags' in post) post.tags = tagName(post.tags);
-  if ('categories' in post) post.categories = tagName(post.categories);
+  if ('tags' in post) {
+    const names = tagName(post.tags);
+    delete (post as DeepPartial<typeof post>).tags;
+    post.tags = names;
+  }
+  if ('categories' in post) {
+    const names = categorieName(post.categories);
+    delete (post as DeepPartial<typeof post>).categories;
+    post.categories = names;
+  }
 
   if (!isModified) {
     postData.push(post);

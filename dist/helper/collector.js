@@ -98,7 +98,7 @@ var getPostData = function () { return postData; };
 exports.getPostData = getPostData;
 function collectorPost(post, hexo) {
     return __awaiter(this, void 0, void 0, function () {
-        var integrity, _a, exPostIndex, exPost, isModified, description, img, $_1, map;
+        var integrity, _a, exPostIndex, exPost, isModified, description, img, $_1, names, names, map;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -167,10 +167,16 @@ function collectorPost(post, hexo) {
                     if ('posts' in post)
                         delete post.posts;
                     // simplify tags and categories (avoid circular references)
-                    if ('tags' in post)
-                        post.tags = (0, util_1.tagName)(post.tags);
-                    if ('categories' in post)
-                        post.categories = (0, util_1.tagName)(post.categories);
+                    if ('tags' in post) {
+                        names = (0, util_1.tagName)(post.tags);
+                        delete post.tags;
+                        post.tags = names;
+                    }
+                    if ('categories' in post) {
+                        names = (0, util_1.categorieName)(post.categories);
+                        delete post.categories;
+                        post.categories = names;
+                    }
                     if (!isModified) {
                         postData.push(post);
                     }
