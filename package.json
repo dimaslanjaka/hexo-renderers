@@ -12,6 +12,7 @@
     "start": "yarn build && node ./test/_config.loader.js && node nodemon.runner.js",
     "test": "yarn build && yarn site:clean && yarn site:server",
     "build:hexo": "yarn workspace hexo run build",
+    "build:sbg-utility": "yarn workspace sbg-utility run build",
     "build:lib": "yarn workspace hexo-renderers run build",
     "build": "run-s \"build:**\"",
     "clean:hexo": "yarn workspace hexo exec \"rm -rf dist\"",
@@ -42,7 +43,8 @@
   "workspaces": [
     "lib",
     "test",
-    "packages/hexo"
+    "packages/hexo",
+    "packages/sbg-utility/packages/sbg-utility"
   ],
   "devDependencies": {
     "@types/eslint": "^8",
