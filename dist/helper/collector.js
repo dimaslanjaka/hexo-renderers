@@ -161,6 +161,7 @@ function collectorPost(post, hexo) {
                         delete post.site;
                     if ('posts' in post)
                         delete post.posts;
+                    // simplify tags and categories (avoid circular references)
                     if ('tags' in post)
                         post.tags = (0, util_1.tagName)(post.tags);
                     if ('categories' in post)

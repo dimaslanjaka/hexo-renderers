@@ -82,6 +82,7 @@ export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
   if ('config' in post) delete (post as DeepPartial<typeof post>).config;
   if ('site' in post) delete (post as DeepPartial<typeof post>).site;
   if ('posts' in post) delete (post as DeepPartial<typeof post>).posts;
+  // simplify tags and categories (avoid circular references)
   if ('tags' in post) post.tags = tagName(post.tags);
   if ('categories' in post) post.categories = tagName(post.categories);
 
