@@ -29,6 +29,9 @@ set config for your desired renderer engine.
 
 ## Changelog
 
+### 2.0.1
+- fix maximum call stack exceeded
+
 ### 2.0.0
 - change options structure
 - add `meta.json` generator which available at `http://example.com/meta.json`
