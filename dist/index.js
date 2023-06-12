@@ -4,10 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-var ansi_colors_1 = __importDefault(require("ansi-colors"));
 var generator_1 = require("./generator");
 var helper_1 = require("./helper");
 var collector_1 = require("./helper/collector");
+var util_1 = require("./helper/util");
 var renderer_dartsass_1 = require("./renderer-dartsass");
 var renderer_ejs_1 = require("./renderer-ejs");
 var renderer_markdown_it_1 = __importDefault(require("./renderer-markdown-it"));
@@ -15,7 +15,6 @@ var renderer_nunjucks_1 = require("./renderer-nunjucks");
 var renderer_pug_1 = require("./renderer-pug");
 var renderer_sass_1 = require("./renderer-sass");
 var renderer_stylus_1 = require("./renderer-stylus");
-var logname = ansi_colors_1.default.magenta('hexo-renderers');
 if (typeof hexo !== 'undefined') {
     // assign hexo to global variable
     global.hexo = hexo;
@@ -67,6 +66,7 @@ if (typeof hexo !== 'undefined') {
         }
     }
     else {
+        hexo.log.info(util_1.logname, 'activating all engines');
         // activate all available engines
         (0, renderer_nunjucks_1.rendererNunjucks)(hexo);
         (0, renderer_ejs_1.rendererEjs)(hexo);
@@ -78,5 +78,5 @@ if (typeof hexo !== 'undefined') {
     }
 }
 else {
-    console.error(logname, 'not hexo instance');
+    console.error(util_1.logname, 'not hexo instance');
 }

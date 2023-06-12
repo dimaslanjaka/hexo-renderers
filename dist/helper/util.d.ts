@@ -6,3 +6,4 @@ export declare const tagName: (inTags: any) => string[];
 export type DeepPartial<T> = {
     [P in keyof T]?: DeepPartial<T[P]>;
 };
+export declare const logname: string;

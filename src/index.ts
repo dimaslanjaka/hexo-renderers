@@ -1,8 +1,8 @@
-import ansiColors from 'ansi-colors';
 import Hexo from 'hexo';
 import { registerCustomGenerator } from './generator';
 import { registerCustomHelper } from './helper';
 import { collectorPost, loadPostData } from './helper/collector';
+import { logname } from './helper/util';
 import { rendererDartSass } from './renderer-dartsass';
 import { rendererEjs } from './renderer-ejs';
 import { default as rendererMarkdownIt } from './renderer-markdown-it';
@@ -10,8 +10,6 @@ import { rendererNunjucks } from './renderer-nunjucks';
 import { rendererPug } from './renderer-pug';
 import { rendererSass } from './renderer-sass';
 import { rendererStylus } from './renderer-stylus';
-
-const logname = ansiColors.magenta('hexo-renderers');
 
 if (typeof hexo !== 'undefined') {
   // assign hexo to global variable
@@ -70,6 +68,7 @@ if (typeof hexo !== 'undefined') {
       }
     }
   } else {
+    hexo.log.info(logname, 'activating all engines');
     // activate all available engines
     rendererNunjucks(hexo);
     rendererEjs(hexo);

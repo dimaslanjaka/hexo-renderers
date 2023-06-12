@@ -1,13 +1,11 @@
-import ansiColors from 'ansi-colors';
 import * as cheerio from 'cheerio';
 import fs from 'fs-extra';
 import Hexo from 'hexo';
 import path from 'path';
 import { file_to_hash, jsonStringifyWithCircularRefs, md5, writefile } from 'sbg-utility';
 import { HexoLocalsData } from './hexoLocalsData';
-import { DeepPartial, categorieName, tagName } from './util';
+import { DeepPartial, categorieName, logname, tagName } from './util';
 
-const logname = ansiColors.magentaBright('hexo-renderers');
 const postData: HexoLocalsData[] = [];
 
 /**

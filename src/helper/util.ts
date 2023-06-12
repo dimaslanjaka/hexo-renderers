@@ -1,3 +1,5 @@
+import ansiColors from 'ansi-colors';
+
 /** get category names */
 export const categorieName = (inCategories: any) => {
   if (!inCategories) return [] as string[];
@@ -26,3 +28,5 @@ export const tagName = (inTags: any) => {
 export type DeepPartial<T> = {
   [P in keyof T]?: DeepPartial<T[P]>;
 };
+
+export const logname = ansiColors.magentaBright('hexo-renderers');
