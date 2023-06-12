@@ -19,9 +19,11 @@ var tagName = function (inTags) {
     if (!inTags)
         return [];
     var retTags = [];
-    inTags.data.forEach(function (item) {
-        retTags.push(item.name);
-    });
+    if (Array.isArray(inTags.data)) {
+        inTags.data.forEach(function (item) {
+            retTags.push(item.name);
+        });
+    }
     return retTags;
 };
 exports.tagName = tagName;

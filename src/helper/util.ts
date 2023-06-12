@@ -12,11 +12,14 @@ export const categorieName = (inCategories: any) => {
 export const tagName = (inTags: any) => {
   if (!inTags) return [] as string[];
   const retTags = [] as string[];
-  inTags.data.forEach((item: any) => {
-    retTags.push(item.name);
-  });
+  if (Array.isArray(inTags.data)) {
+    inTags.data.forEach((item: any) => {
+      retTags.push(item.name);
+    });
+  }
   return retTags;
 };
+
 /** turn all type as partial recursively */
 export type DeepPartial<T> = {
   [P in keyof T]?: DeepPartial<T[P]>;
