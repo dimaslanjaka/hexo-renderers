@@ -17,3 +17,7 @@ export const tagName = (inTags: any) => {
   });
   return retTags;
 };
+/** turn all type as partial recursively */
+export type DeepPartial<T> = {
+  [P in keyof T]?: DeepPartial<T[P]>;
+};
