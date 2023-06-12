@@ -71,6 +71,11 @@ var sbg_utility_1 = require("sbg-utility");
 var util_1 = require("./util");
 var logname = ansi_colors_1.default.magentaBright('hexo-renderers');
 var postData = [];
+/**
+ * get post database path
+ * @param hexo
+ * @returns
+ */
 function postDataFilePath(hexo) {
     return path_1.default.join(hexo.base_dir, 'tmp/post-data.json');
 }

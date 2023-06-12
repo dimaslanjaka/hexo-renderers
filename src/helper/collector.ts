@@ -10,6 +10,11 @@ import { DeepPartial, tagName } from './util';
 const logname = ansiColors.magentaBright('hexo-renderers');
 const postData: HexoLocalsData[] = [];
 
+/**
+ * get post database path
+ * @param hexo
+ * @returns
+ */
 export function postDataFilePath(hexo: Hexo) {
   return path.join(hexo.base_dir, 'tmp/post-data.json');
 }
