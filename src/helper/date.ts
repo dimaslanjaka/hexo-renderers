@@ -33,6 +33,7 @@ function toISOString(date: moment.MomentInput) {
 }
 
 function dateHelper(this: Hexo, date: moment.MomentInput, format: string) {
+  if (!date) return 'date is undefined';
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const { config } = this;
   const moment = getMoment(date, getLanguage(this), config.timezone);
@@ -40,6 +41,7 @@ function dateHelper(this: Hexo, date: moment.MomentInput, format: string) {
 }
 
 function timeHelper(this: Hexo, date: moment.MomentInput, format: string) {
+  if (!date) return 'date is undefined';
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const { config } = this;
   const moment = getMoment(date, getLanguage(this), config.timezone);
@@ -47,6 +49,7 @@ function timeHelper(this: Hexo, date: moment.MomentInput, format: string) {
 }
 
 function fullDateHelper(this: Hexo & Record<string, any>, date: moment.MomentInput, format: string) {
+  if (!date) return 'date is undefined';
   if (format) {
     const moment = getMoment(date, getLanguage(this), this.config.timezone);
     return moment.format(format);
@@ -56,6 +59,7 @@ function fullDateHelper(this: Hexo & Record<string, any>, date: moment.MomentInp
 }
 
 function relativeDateHelper(this: Hexo & Record<string, any>, date: moment.MomentInput) {
+  if (!date) return 'date is undefined';
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const { config } = this;
   const moment = getMoment(date, getLanguage(this), config.timezone);
@@ -63,6 +67,7 @@ function relativeDateHelper(this: Hexo & Record<string, any>, date: moment.Momen
 }
 
 function timeTagHelper(this: Hexo & Record<string, any>, date: moment.MomentInput, format: string) {
+  if (!date) return 'date is undefined';
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const { config } = this;
   return `<time datetime="${toISOString(date)}">${this.date(date, format, getLanguage(this), config.timezone)}</time>`;
