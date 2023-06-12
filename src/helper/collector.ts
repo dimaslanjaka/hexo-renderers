@@ -5,6 +5,7 @@ import Hexo from 'hexo';
 import path from 'path';
 import { file_to_hash, jsonStringifyWithCircularRefs, md5, writefile } from 'sbg-utility';
 import { HexoLocalsData } from './hexoLocalsData';
+import { DeepPartial } from './util';
 
 const logname = ansiColors.magentaBright('hexo-renderers');
 const postData: HexoLocalsData[] = [];
@@ -85,7 +86,15 @@ export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
   }
 
   try {
-    writefile(postDataFilePath(hexo), jsonStringifyWithCircularRefs(postData));
+    writefile(
+      postDataFilePath(hexo),
+      jsonStringifyWithCircularRefs(
+        postData.map((o) => {
+          if ('config' in o) delete (o as DeepPartial<typeof o>).config;
+          return o;
+        })
+      )
+    );
   } catch (e: any) {
     hexo.log.error(logname, 'fail write postdata', String(e));
   }

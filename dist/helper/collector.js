@@ -161,7 +161,11 @@ function collectorPost(post, hexo) {
                         postData[exPostIndex] = post;
                     }
                     try {
-                        (0, sbg_utility_1.writefile)(postDataFilePath(hexo), (0, sbg_utility_1.jsonStringifyWithCircularRefs)(postData));
+                        (0, sbg_utility_1.writefile)(postDataFilePath(hexo), (0, sbg_utility_1.jsonStringifyWithCircularRefs)(postData.map(function (o) {
+                            if ('config' in o)
+                                delete o.config;
+                            return o;
+                        })));
                     }
                     catch (e) {
                         hexo.log.error(logname, 'fail write postdata', String(e));
