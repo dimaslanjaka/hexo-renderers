@@ -68,6 +68,7 @@ var cheerio = __importStar(require("cheerio"));
 var fs_extra_1 = __importDefault(require("fs-extra"));
 var path_1 = __importDefault(require("path"));
 var sbg_utility_1 = require("sbg-utility");
+var util_1 = require("./util");
 var logname = ansi_colors_1.default.magentaBright('hexo-renderers');
 var postData = [];
 function postDataFilePath(hexo) {
@@ -153,6 +154,17 @@ function collectorPost(post, hexo) {
                         post.cover = img;
                         post.thumbnail = img;
                     }
+                    // delete unecessary property
+                    if ('config' in post)
+                        delete post.config;
+                    if ('site' in post)
+                        delete post.site;
+                    if ('posts' in post)
+                        delete post.posts;
+                    if ('tags' in post)
+                        post.tags = (0, util_1.tagName)(post.tags);
+                    if ('categories' in post)
+                        post.categories = (0, util_1.tagName)(post.categories);
                     if (!isModified) {
                         postData.push(post);
                     }
