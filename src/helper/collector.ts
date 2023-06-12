@@ -56,7 +56,8 @@ export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
   } else {
     description = String(post.title + post.content);
   }
-  if (post.excerpt === '') post.excerpt = description;
+  if (post.excerpt === '' || !post.excerpt) post.excerpt = description;
+  if (post.description === '' || !post.description) post.description = description;
   // clean description
   post.excerpt = cleanText(post.excerpt);
   post.description = cleanText(post.description);
