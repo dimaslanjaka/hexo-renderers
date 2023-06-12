@@ -1,4 +1,6 @@
+import fs from 'fs-extra';
 import Hexo from 'hexo';
+import path from 'upath';
 import { registerCustomGenerator } from './generator';
 import { registerCustomHelper } from './helper';
 import { collectorPost, loadPostData } from './helper/collector';
@@ -27,6 +29,13 @@ if (typeof hexo !== 'undefined') {
   // initial process - restoration
   hexo.extend.filter.register('after_init', function (this: Hexo) {
     loadPostData(this);
+  });
+
+  // clean temp files after clean
+  hexo.extend.filter.register('after_clean', function () {
+    const rm = (p: string) => fs.existsSync(p) && fs.rmSync(p, { force: true, recursive: true });
+    rm(path.join(hexo.base_dir, 'tmp/hexo-renderers'));
+    rm(path.join(hexo.base_dir, 'tmp/post-data.json'));
   });
 
   // register custom helper

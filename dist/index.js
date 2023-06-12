@@ -4,6 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
+var fs_extra_1 = __importDefault(require("fs-extra"));
+var upath_1 = __importDefault(require("upath"));
 var generator_1 = require("./generator");
 var helper_1 = require("./helper");
 var collector_1 = require("./helper/collector");
@@ -26,6 +28,12 @@ if (typeof hexo !== 'undefined') {
     // initial process - restoration
     hexo.extend.filter.register('after_init', function () {
         (0, collector_1.loadPostData)(this);
+    });
+    // clean temp files after clean
+    hexo.extend.filter.register('after_clean', function () {
+        var rm = function (p) { return fs_extra_1.default.existsSync(p) && fs_extra_1.default.rmSync(p, { force: true, recursive: true }); };
+        rm(upath_1.default.join(hexo.base_dir, 'tmp/hexo-renderers'));
+        rm(upath_1.default.join(hexo.base_dir, 'tmp/post-data.json'));
     });
     // register custom helper
     (0, helper_1.registerCustomHelper)(hexo);
