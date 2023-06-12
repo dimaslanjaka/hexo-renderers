@@ -5,6 +5,9 @@ exports.tagName = exports.categorieName = void 0;
 var categorieName = function (inCategories) {
     if (!inCategories)
         return [];
+    // return when first array is string
+    if (typeof inCategories.data[0] === 'string')
+        return inCategories;
     var catName = '';
     for (var r = 0; r < inCategories.data.length; r++) {
         if (catName != '')
@@ -16,8 +19,11 @@ var categorieName = function (inCategories) {
 exports.categorieName = categorieName;
 /** get tag names */
 var tagName = function (inTags) {
-    if (!inTags)
+    if (!inTags || !Array.isArray(inTags.data))
         return [];
+    // return when first array is string
+    if (typeof inTags.data[0] === 'string')
+        return inTags;
     var retTags = [];
     inTags.data.forEach(function (item) {
         retTags.push(item.name);

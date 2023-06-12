@@ -1,12 +1,20 @@
+import ansiColors from 'ansi-colors';
 import * as cheerio from 'cheerio';
 import fs from 'fs-extra';
 import Hexo from 'hexo';
 import path from 'path';
 import { file_to_hash, jsonStringifyWithCircularRefs, md5, writefile } from 'sbg-utility';
 import { HexoLocalsData } from './hexoLocalsData';
+import { DeepPartial, categorieName, tagName } from './util';
 
+const logname = ansiColors.magentaBright('hexo-renderers');
 const postData: HexoLocalsData[] = [];
 
+/**
+ * get post database path
+ * @param hexo
+ * @returns
+ */
 export function postDataFilePath(hexo: Hexo) {
   return path.join(hexo.base_dir, 'tmp/post-data.json');
 }
@@ -48,7 +56,8 @@ export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
   } else {
     description = String(post.title + post.content);
   }
-  if (post.excerpt === '') post.excerpt = description;
+  if (post.excerpt === '' || !post.excerpt) post.excerpt = description;
+  if (post.description === '' || !post.description) post.description = description;
   // clean description
   post.excerpt = cleanText(post.excerpt);
   post.description = cleanText(post.description);
@@ -75,6 +84,22 @@ export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
     post.thumbnail = img;
   }
 
+  // delete unecessary property
+  if ('config' in post) delete (post as DeepPartial<typeof post>).config;
+  if ('site' in post) delete (post as DeepPartial<typeof post>).site;
+  if ('posts' in post) delete (post as DeepPartial<typeof post>).posts;
+  // simplify tags and categories (avoid circular references)
+  if ('tags' in post) {
+    const names = tagName(post.tags);
+    delete (post as DeepPartial<typeof post>).tags;
+    post.tags = names;
+  }
+  if ('categories' in post) {
+    const names = categorieName(post.categories);
+    delete (post as DeepPartial<typeof post>).categories;
+    post.categories = names;
+  }
+
   if (!isModified) {
     postData.push(post);
   } else {
@@ -82,7 +107,16 @@ export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
     postData[exPostIndex] = post;
   }
 
-  writefile(postDataFilePath(hexo), jsonStringifyWithCircularRefs(postData));
+  try {
+    const map = postData.map((o) => {
+      if ('config' in o) delete (o as DeepPartial<typeof o>).config;
+      if ('site' in o) delete (o as DeepPartial<typeof o>).site;
+      return o;
+    });
+    writefile(postDataFilePath(hexo), jsonStringifyWithCircularRefs(map));
+  } catch (e: any) {
+    hexo.log.error(logname, 'fail write postdata', String(e));
+  }
 }
 
 function cleanText(str: string) {

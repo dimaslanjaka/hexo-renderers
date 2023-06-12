@@ -1,5 +1,5 @@
 # hexo-renderers
-All in one hexo renderers. Load all hexo renderer engines at once.
+All in one theme renderers and helpers for hexo. Load all hexo renderer engines at once.
 
 ## Features
 <!-- - use hexo helpers inside post (`full_url`, `url_for`, etc) -->
@@ -28,6 +28,9 @@ set config for your desired renderer engine.
 - [hexo-renderer-markdown-it](https://github.com/hexojs/hexo-renderer-markdown-it/blob/master/README.md)
 
 ## Changelog
+
+### 2.0.1
+- fix maximum call stack exceeded
 
 ### 2.0.0
 - change options structure

@@ -63,11 +63,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.collectorPost = exports.getPostData = exports.loadPostData = exports.postDataFilePath = void 0;
+var ansi_colors_1 = __importDefault(require("ansi-colors"));
 var cheerio = __importStar(require("cheerio"));
 var fs_extra_1 = __importDefault(require("fs-extra"));
 var path_1 = __importDefault(require("path"));
 var sbg_utility_1 = require("sbg-utility");
+var util_1 = require("./util");
+var logname = ansi_colors_1.default.magentaBright('hexo-renderers');
 var postData = [];
+/**
+ * get post database path
+ * @param hexo
+ * @returns
+ */
 function postDataFilePath(hexo) {
     return path_1.default.join(hexo.base_dir, 'tmp/post-data.json');
 }
@@ -90,7 +98,7 @@ var getPostData = function () { return postData; };
 exports.getPostData = getPostData;
 function collectorPost(post, hexo) {
     return __awaiter(this, void 0, void 0, function () {
-        var integrity, _a, exPostIndex, exPost, isModified, description, img, $_1;
+        var integrity, _a, exPostIndex, exPost, isModified, description, img, $_1, names, names, map;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -123,8 +131,10 @@ function collectorPost(post, hexo) {
                     else {
                         description = String(post.title + post.content);
                     }
-                    if (post.excerpt === '')
+                    if (post.excerpt === '' || !post.excerpt)
                         post.excerpt = description;
+                    if (post.description === '' || !post.description)
+                        post.description = description;
                     // clean description
                     post.excerpt = cleanText(post.excerpt);
                     post.description = cleanText(post.description);
@@ -151,6 +161,24 @@ function collectorPost(post, hexo) {
                         post.cover = img;
                         post.thumbnail = img;
                     }
+                    // delete unecessary property
+                    if ('config' in post)
+                        delete post.config;
+                    if ('site' in post)
+                        delete post.site;
+                    if ('posts' in post)
+                        delete post.posts;
+                    // simplify tags and categories (avoid circular references)
+                    if ('tags' in post) {
+                        names = (0, util_1.tagName)(post.tags);
+                        delete post.tags;
+                        post.tags = names;
+                    }
+                    if ('categories' in post) {
+                        names = (0, util_1.categorieName)(post.categories);
+                        delete post.categories;
+                        post.categories = names;
+                    }
                     if (!isModified) {
                         postData.push(post);
                     }
@@ -158,7 +186,19 @@ function collectorPost(post, hexo) {
                         // update post
                         postData[exPostIndex] = post;
                     }
-                    (0, sbg_utility_1.writefile)(postDataFilePath(hexo), (0, sbg_utility_1.jsonStringifyWithCircularRefs)(postData));
+                    try {
+                        map = postData.map(function (o) {
+                            if ('config' in o)
+                                delete o.config;
+                            if ('site' in o)
+                                delete o.site;
+                            return o;
+                        });
+                        (0, sbg_utility_1.writefile)(postDataFilePath(hexo), (0, sbg_utility_1.jsonStringifyWithCircularRefs)(map));
+                    }
+                    catch (e) {
+                        hexo.log.error(logname, 'fail write postdata', String(e));
+                    }
                     return [2 /*return*/];
             }
         });

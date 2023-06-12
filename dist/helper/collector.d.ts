@@ -1,5 +1,10 @@
 import Hexo from 'hexo';
 import { HexoLocalsData } from './hexoLocalsData';
+/**
+ * get post database path
+ * @param hexo
+ * @returns
+ */
 export declare function postDataFilePath(hexo: Hexo): string;
 /**
  * load existing database (initial only)
