@@ -93,7 +93,12 @@ export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
   }
 
   try {
-    writefile(postDataFilePath(hexo), jsonStringifyWithCircularRefs(postData));
+    const map = postData.map((o) => {
+      if ('config' in o) delete (o as DeepPartial<typeof o>).config;
+      if ('site' in o) delete (o as DeepPartial<typeof o>).site;
+      return o;
+    });
+    writefile(postDataFilePath(hexo), jsonStringifyWithCircularRefs(map));
   } catch (e: any) {
     hexo.log.error(logname, 'fail write postdata', String(e));
   }

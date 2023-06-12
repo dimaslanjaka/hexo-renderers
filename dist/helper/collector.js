@@ -93,7 +93,7 @@ var getPostData = function () { return postData; };
 exports.getPostData = getPostData;
 function collectorPost(post, hexo) {
     return __awaiter(this, void 0, void 0, function () {
-        var integrity, _a, exPostIndex, exPost, isModified, description, img, $_1;
+        var integrity, _a, exPostIndex, exPost, isModified, description, img, $_1, map;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -173,7 +173,14 @@ function collectorPost(post, hexo) {
                         postData[exPostIndex] = post;
                     }
                     try {
-                        (0, sbg_utility_1.writefile)(postDataFilePath(hexo), (0, sbg_utility_1.jsonStringifyWithCircularRefs)(postData));
+                        map = postData.map(function (o) {
+                            if ('config' in o)
+                                delete o.config;
+                            if ('site' in o)
+                                delete o.site;
+                            return o;
+                        });
+                        (0, sbg_utility_1.writefile)(postDataFilePath(hexo), (0, sbg_utility_1.jsonStringifyWithCircularRefs)(map));
                     }
                     catch (e) {
                         hexo.log.error(logname, 'fail write postdata', String(e));
