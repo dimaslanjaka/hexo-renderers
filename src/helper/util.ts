@@ -12,15 +12,13 @@ export const categorieName = (inCategories: any) => {
 };
 /** get tag names */
 export const tagName = (inTags: any) => {
-  if (!inTags) return [] as string[];
+  if (!inTags || !Array.isArray(inTags.data)) return [] as string[];
   // return when first array is string
   if (typeof inTags.data[0] === 'string') return inTags as string[];
   const retTags = [] as string[];
-  if (Array.isArray(inTags.data)) {
-    inTags.data.forEach((item: any) => {
-      retTags.push(item.name);
-    });
-  }
+  inTags.data.forEach((item: any) => {
+    retTags.push(item.name);
+  });
   return retTags;
 };
 

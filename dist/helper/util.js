@@ -19,17 +19,15 @@ var categorieName = function (inCategories) {
 exports.categorieName = categorieName;
 /** get tag names */
 var tagName = function (inTags) {
-    if (!inTags)
+    if (!inTags || !Array.isArray(inTags.data))
         return [];
     // return when first array is string
     if (typeof inTags.data[0] === 'string')
         return inTags;
     var retTags = [];
-    if (Array.isArray(inTags.data)) {
-        inTags.data.forEach(function (item) {
-            retTags.push(item.name);
-        });
-    }
+    inTags.data.forEach(function (item) {
+        retTags.push(item.name);
+    });
     return retTags;
 };
 exports.tagName = tagName;
