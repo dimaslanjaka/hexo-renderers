@@ -1,3 +1,4 @@
+import ansiColors from 'ansi-colors';
 import * as cheerio from 'cheerio';
 import fs from 'fs-extra';
 import Hexo from 'hexo';
@@ -5,6 +6,7 @@ import path from 'path';
 import { file_to_hash, jsonStringifyWithCircularRefs, md5, writefile } from 'sbg-utility';
 import { HexoLocalsData } from './hexoLocalsData';
 
+const logname = ansiColors.magentaBright('hexo-renderers');
 const postData: HexoLocalsData[] = [];
 
 export function postDataFilePath(hexo: Hexo) {
@@ -82,7 +84,11 @@ export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
     postData[exPostIndex] = post;
   }
 
-  writefile(postDataFilePath(hexo), jsonStringifyWithCircularRefs(postData));
+  try {
+    writefile(postDataFilePath(hexo), jsonStringifyWithCircularRefs(postData));
+  } catch (e: any) {
+    hexo.log.error(logname, 'fail write postdata', String(e));
+  }
 }
 
 function cleanText(str: string) {

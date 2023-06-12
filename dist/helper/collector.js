@@ -63,10 +63,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.collectorPost = exports.getPostData = exports.loadPostData = exports.postDataFilePath = void 0;
+var ansi_colors_1 = __importDefault(require("ansi-colors"));
 var cheerio = __importStar(require("cheerio"));
 var fs_extra_1 = __importDefault(require("fs-extra"));
 var path_1 = __importDefault(require("path"));
 var sbg_utility_1 = require("sbg-utility");
+var logname = ansi_colors_1.default.magentaBright('hexo-renderers');
 var postData = [];
 function postDataFilePath(hexo) {
     return path_1.default.join(hexo.base_dir, 'tmp/post-data.json');
@@ -158,7 +160,12 @@ function collectorPost(post, hexo) {
                         // update post
                         postData[exPostIndex] = post;
                     }
-                    (0, sbg_utility_1.writefile)(postDataFilePath(hexo), (0, sbg_utility_1.jsonStringifyWithCircularRefs)(postData));
+                    try {
+                        (0, sbg_utility_1.writefile)(postDataFilePath(hexo), (0, sbg_utility_1.jsonStringifyWithCircularRefs)(postData));
+                    }
+                    catch (e) {
+                        hexo.log.error(logname, 'fail write postdata', String(e));
+                    }
                     return [2 /*return*/];
             }
         });
