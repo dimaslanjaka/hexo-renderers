@@ -1,13 +1,9 @@
-export = HexoRollupConfigs;
-declare class HexoRollupConfigs {
-    constructor(ctx: any);
-    ctx: any;
+import Hexo from 'hexo';
+export declare class HexoRollupConfigs {
+    ctx: Hexo;
+    constructor(ctx: Hexo);
     site(): any;
     theme(): any;
     overrideTheme(): any;
     merged(): any;
 }
-declare namespace HexoRollupConfigs {
-    export { Hexo };
-}
-type Hexo = NodeJS.EventEmitter;

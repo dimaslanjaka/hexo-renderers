@@ -1,6 +1,6 @@
 'use strict';
 const { rollup } = require('rollup');
-const HexoRollupConfigs = require('./HexoRollupConfigs');
+const { HexoRollupConfigs } = require('./HexoRollupConfigs');
 const objectWithoutKeys = require('./utils/objectWithoutKeys');
 
 /** @typedef {NodeJS.EventEmitter} Hexo */
@@ -31,8 +31,10 @@ module.exports.rollupRenderAsync = rollupRenderAsync;
  * @returns {Promise<string>}
  */
 async function renderer({ path, text }, _options) {
-  const rollupConfigs = new HexoRollupConfigs(this);
+  const hexo = this;
+  const rollupConfigs = new HexoRollupConfigs(hexo);
   const config = rollupConfigs.merged();
+  hexo.log.info('rollup', path);
 
   if (config.experimentalCodeSplitting) {
     throw new Error('hexo-renderer-rollup not Support "experimentalCodeSplitting".');

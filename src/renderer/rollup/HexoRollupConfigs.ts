@@ -1,26 +1,27 @@
 'use strict';
 
-const toAbsolutePath = require('./utils/toAbsolutePaths');
-const createRollupPlugin = require('./utils/createRollupPlugin');
-const createReadFilterProxy = require('./utils/createReadFilterProxy');
-const { getRawSiteConfig, getRawThemeConfig, getRawOverrideThemeConfig } = require('./utils/getHexoConfigs');
+import Hexo from 'hexo';
+
+import createReadFilterProxy from './utils/createReadFilterProxy';
+import createRollupPlugin from './utils/createRollupPlugin';
+import { getRawOverrideThemeConfig, getRawSiteConfig, getRawThemeConfig } from './utils/getHexoConfigs';
+import toAbsolutePath from './utils/toAbsolutePaths';
 
 /** @typedef {NodeJS.EventEmitter} Hexo */
 
 /**
- * @template T
- * @param {T} config
- * @param {string} baseDir
+ * @param config
+ * @param baseDir
  */
-const configFilterProxy = (config, baseDir) => {
+const configFilterProxy = <T>(config: T, baseDir: string) => {
   if (config == null) {
     return config;
   }
   return createReadFilterProxy(config, {
-    input(original, target) {
+    input(original: any, target: any) {
       return 'input' in target ? toAbsolutePath(original, baseDir) : original;
     },
-    plugins(original, target) {
+    plugins(original: any[], target: any) {
       if (!('plugins' in target)) {
         return original;
       }
@@ -34,11 +35,11 @@ const configFilterProxy = (config, baseDir) => {
 };
 
 /**
- * @param {Array<string|string[]|Record<string, string>>} array
- * @returns {string[]}
+ * @param array
+ * @returns
  */
-const reduceStrings = (array) => {
-  const initial = [];
+const reduceStrings = (array: Array<string | string[] | Record<string, string>>): string[] => {
+  const initial: any[] = [];
 
   return array.reduce((array, item) => {
     if (typeof item === 'string') {
@@ -52,8 +53,10 @@ const reduceStrings = (array) => {
   }, initial);
 };
 
-class HexoRollupConfigs {
-  constructor(ctx) {
+export class HexoRollupConfigs {
+  ctx: Hexo;
+
+  constructor(ctx: Hexo) {
     this.ctx = ctx;
   }
   site() {
@@ -72,13 +75,14 @@ class HexoRollupConfigs {
     const site = this.site();
     const theme = this.theme();
     const override = this.overrideTheme();
+    const hexo = this.ctx;
 
     const _default = {
       output: {
         format: 'esm'
       },
-      onwarn(warning) {
-        this.ctx.log.warning(warning);
+      onwarn(warning: any) {
+        hexo.log.warn(warning);
       }
     };
 
@@ -89,5 +93,3 @@ class HexoRollupConfigs {
     return Object.assign(_default, site, theme, override, { input });
   }
 }
-
-module.exports = HexoRollupConfigs;

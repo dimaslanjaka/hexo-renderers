@@ -1,36 +1,40 @@
 'use strict';
-var toAbsolutePath = require('./utils/toAbsolutePaths');
-var createRollupPlugin = require('./utils/createRollupPlugin');
-var createReadFilterProxy = require('./utils/createReadFilterProxy');
-var _a = require('./utils/getHexoConfigs'), getRawSiteConfig = _a.getRawSiteConfig, getRawThemeConfig = _a.getRawThemeConfig, getRawOverrideThemeConfig = _a.getRawOverrideThemeConfig;
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.HexoRollupConfigs = void 0;
+var createReadFilterProxy_1 = __importDefault(require("./utils/createReadFilterProxy"));
+var createRollupPlugin_1 = __importDefault(require("./utils/createRollupPlugin"));
+var getHexoConfigs_1 = require("./utils/getHexoConfigs");
+var toAbsolutePaths_1 = __importDefault(require("./utils/toAbsolutePaths"));
 /** @typedef {NodeJS.EventEmitter} Hexo */
 /**
- * @template T
- * @param {T} config
- * @param {string} baseDir
+ * @param config
+ * @param baseDir
  */
 var configFilterProxy = function (config, baseDir) {
     if (config == null) {
         return config;
     }
-    return createReadFilterProxy(config, {
+    return (0, createReadFilterProxy_1.default)(config, {
         input: function (original, target) {
-            return 'input' in target ? toAbsolutePath(original, baseDir) : original;
+            return 'input' in target ? (0, toAbsolutePaths_1.default)(original, baseDir) : original;
         },
         plugins: function (original, target) {
             if (!('plugins' in target)) {
                 return original;
             }
             if (Array.isArray(original)) {
-                return original.map(function (plugin) { return createRollupPlugin(plugin); });
+                return original.map(function (plugin) { return (0, createRollupPlugin_1.default)(plugin); });
             }
-            return createRollupPlugin(original);
+            return (0, createRollupPlugin_1.default)(original);
         }
     });
 };
 /**
- * @param {Array<string|string[]|Record<string, string>>} array
- * @returns {string[]}
+ * @param array
+ * @returns
  */
 var reduceStrings = function (array) {
     var initial = [];
@@ -52,27 +56,28 @@ var HexoRollupConfigs = /** @class */ (function () {
         this.ctx = ctx;
     }
     HexoRollupConfigs.prototype.site = function () {
-        var raw = getRawSiteConfig('rollup', this.ctx);
+        var raw = (0, getHexoConfigs_1.getRawSiteConfig)('rollup', this.ctx);
         return configFilterProxy(raw, this.ctx.base_dir);
     };
     HexoRollupConfigs.prototype.theme = function () {
-        var raw = getRawThemeConfig('rollup', this.ctx);
+        var raw = (0, getHexoConfigs_1.getRawThemeConfig)('rollup', this.ctx);
         return configFilterProxy(raw, this.ctx.theme_dir);
     };
     HexoRollupConfigs.prototype.overrideTheme = function () {
-        var raw = getRawOverrideThemeConfig('rollup', this.ctx);
+        var raw = (0, getHexoConfigs_1.getRawOverrideThemeConfig)('rollup', this.ctx);
         return configFilterProxy(raw, this.ctx.base_dir);
     };
     HexoRollupConfigs.prototype.merged = function () {
         var site = this.site();
         var theme = this.theme();
         var override = this.overrideTheme();
+        var hexo = this.ctx;
         var _default = {
             output: {
                 format: 'esm'
             },
             onwarn: function (warning) {
-                this.ctx.log.warning(warning);
+                hexo.log.warn(warning);
             }
         };
         var input = reduceStrings([site, theme, override].filter(function (config) { return config != null && 'input' in config; }).map(function (config) { return config.input; }));
@@ -80,4 +85,4 @@ var HexoRollupConfigs = /** @class */ (function () {
     };
     return HexoRollupConfigs;
 }());
-module.exports = HexoRollupConfigs;
+exports.HexoRollupConfigs = HexoRollupConfigs;

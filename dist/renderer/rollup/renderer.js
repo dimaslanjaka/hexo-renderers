@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var rollup = require('rollup').rollup;
-var HexoRollupConfigs = require('./HexoRollupConfigs');
+var HexoRollupConfigs = require('./HexoRollupConfigs').HexoRollupConfigs;
 var objectWithoutKeys = require('./utils/objectWithoutKeys');
 /** @typedef {NodeJS.EventEmitter} Hexo */
 /** @type {rollup.ModuleJSON[]} */
@@ -72,12 +72,14 @@ module.exports.rollupRenderAsync = rollupRenderAsync;
 function renderer(_a, _options) {
     var path = _a.path, text = _a.text;
     return __awaiter(this, void 0, void 0, function () {
-        var rollupConfigs, config, input, output, err_1;
+        var hexo, rollupConfigs, config, input, output, err_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    rollupConfigs = new HexoRollupConfigs(this);
+                    hexo = this;
+                    rollupConfigs = new HexoRollupConfigs(hexo);
                     config = rollupConfigs.merged();
+                    hexo.log.info('rollup', path);
                     if (config.experimentalCodeSplitting) {
                         throw new Error('hexo-renderer-rollup not Support "experimentalCodeSplitting".');
                     }
