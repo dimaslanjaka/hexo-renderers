@@ -20,11 +20,15 @@ const deployDir = path.resolve(testDir, '.deploy_git/hexo-renderers');
       cwd: __dirname
     });
   } else {
-    await spawn('git', ['pull', 'origin', 'master', '-X', 'theirs'], { cwd: deployDir, shell: true, stdio: 'inherit' });
+    await spawn('git', ['pull', 'origin', 'master', '-X', 'theirs', '--prune'], {
+      cwd: deployDir,
+      shell: true,
+      stdio: 'inherit'
+    });
   }
 
   // build site start
-  await spawn('yarn', ['build'], { cwd: testDir, shell: true, stdio: 'inherit' });
+  await spawn('yarn', ['run', 'build'], { cwd: testDir, shell: true, stdio: 'inherit' });
 
   // callback calls
   const scriptsDir = path.join(__dirname, 'scripts');
