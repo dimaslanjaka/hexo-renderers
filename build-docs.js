@@ -1,7 +1,7 @@
 const path = require('upath');
 const fs = require('fs-extra');
-const { default: gch } = require('git-command-helper');
-const spawn = require('cross-spawn').async;
+const { default: gch, spawn } = require('git-command-helper');
+// const spawn = require('cross-spawn').async;
 const glob = require('glob');
 
 // publish pages
