@@ -1,6 +1,6 @@
 'use strict';
 var rollupPluginFromName = require('./rollupPluginFromName');
-var objectWithoutKeys = require('./objectWithoutKeys');
+var objectWithoutKeys = require('./objectWithoutKeys').objectWithoutKeys;
 /**
  * @param {string|{name:string}} config
  */

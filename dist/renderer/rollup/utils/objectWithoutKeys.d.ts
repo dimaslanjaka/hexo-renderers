@@ -1,6 +1,5 @@
-export = objectWithoutKeys;
 /**
- * @param {object} obj
- * @param {string[]} keys
+ * @param obj
+ * @param keys
  */
-declare function objectWithoutKeys(obj: object, keys: string[]): {};
+export declare const objectWithoutKeys: (obj: Record<string, any>, keys: string[]) => Record<string, any>;

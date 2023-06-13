@@ -1,7 +1,9 @@
 'use strict';
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.objectWithoutKeys = void 0;
 /**
- * @param {object} obj
- * @param {string[]} keys
+ * @param obj
+ * @param keys
  */
 var objectWithoutKeys = function (obj, keys) {
     if (!Array.isArray(keys)) {
@@ -13,4 +15,5 @@ var objectWithoutKeys = function (obj, keys) {
         return newObject;
     }, {});
 };
-module.exports = objectWithoutKeys;
+exports.objectWithoutKeys = objectWithoutKeys;
+module.exports = exports.objectWithoutKeys;

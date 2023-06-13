@@ -1,12 +1,12 @@
 'use strict';
 
 const rollupPluginFromName = require('./rollupPluginFromName');
-const objectWithoutKeys = require('./objectWithoutKeys');
+const { objectWithoutKeys } = require('./objectWithoutKeys');
 
 /**
  * @param {string|{name:string}} config
  */
-const createRollupPlugin = config => {
+const createRollupPlugin = (config) => {
   if (typeof config === 'string') {
     return rollupPluginFromName(config)({});
   }
