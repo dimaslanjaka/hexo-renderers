@@ -12,6 +12,7 @@ import { rendererNunjucks } from './renderer-nunjucks';
 import { rendererPug } from './renderer-pug';
 import { rendererSass } from './renderer-sass';
 import { rendererStylus } from './renderer-stylus';
+import { rendererRollup } from './renderer/rollup';
 
 if (typeof hexo !== 'undefined') {
   // assign hexo to global variable
@@ -61,6 +62,9 @@ if (typeof hexo !== 'undefined') {
         case 'dartsass':
           rendererDartSass(hexo);
           break;
+        case 'rollup':
+          rendererRollup(hexo);
+          break;
         case 'sass':
           rendererSass(hexo);
           break;
@@ -83,6 +87,7 @@ if (typeof hexo !== 'undefined') {
     rendererEjs(hexo);
     rendererPug(hexo);
     rendererStylus(hexo);
+    rendererRollup(hexo);
     // rendererDartSass(hexo);
     rendererSass(hexo);
     rendererMarkdownIt(hexo);

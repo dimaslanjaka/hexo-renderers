@@ -17,6 +17,8 @@ var toAbsolutePath = function (targets, base) {
         return join(base, targets);
     }
     // Convert config of the entry from object.
-    return objectMap(targets, function (x) { return isAbsolute(x) ? x : join(base, x); });
+    return objectMap(targets, function (x) {
+        return isAbsolute(x) ? x : join(base, x);
+    });
 };
 module.exports = toAbsolutePath;

@@ -17,6 +17,7 @@ var renderer_nunjucks_1 = require("./renderer-nunjucks");
 var renderer_pug_1 = require("./renderer-pug");
 var renderer_sass_1 = require("./renderer-sass");
 var renderer_stylus_1 = require("./renderer-stylus");
+var rollup_1 = require("./renderer/rollup");
 if (typeof hexo !== 'undefined') {
     // assign hexo to global variable
     global.hexo = hexo;
@@ -57,6 +58,9 @@ if (typeof hexo !== 'undefined') {
                 case 'dartsass':
                     (0, renderer_dartsass_1.rendererDartSass)(hexo);
                     break;
+                case 'rollup':
+                    (0, rollup_1.rendererRollup)(hexo);
+                    break;
                 case 'sass':
                     (0, renderer_sass_1.rendererSass)(hexo);
                     break;
@@ -80,6 +84,7 @@ if (typeof hexo !== 'undefined') {
         (0, renderer_ejs_1.rendererEjs)(hexo);
         (0, renderer_pug_1.rendererPug)(hexo);
         (0, renderer_stylus_1.rendererStylus)(hexo);
+        (0, rollup_1.rendererRollup)(hexo);
         // rendererDartSass(hexo);
         (0, renderer_sass_1.rendererSass)(hexo);
         (0, renderer_markdown_it_1.default)(hexo);

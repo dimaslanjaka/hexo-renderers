@@ -62,29 +62,43 @@ var rollupRenderAsync = function (config) { return __awaiter(void 0, void 0, voi
         }
     });
 }); };
+module.exports.rollupRenderAsync = rollupRenderAsync;
 /**
- * @param {object} _data
+ * @param {Record<string,any>} _data
  * @param {string?} _data.path
  * @param {string?} _data.text
  * @returns {Promise<string>}
  */
-function renderer(_a) {
-    var _this = this;
+function renderer(_a, _options) {
     var path = _a.path, text = _a.text;
-    var rollupConfigs = new HexoRollupConfigs(this);
-    var config = rollupConfigs.merged();
-    if (config.experimentalCodeSplitting) {
-        throw new Error('hexo-renderer-rollup not Support "experimentalCodeSplitting".');
-    }
-    if (!config.input.includes(path)) {
-        return text;
-    }
-    config.input = path;
-    var input = objectWithoutKeys(config, ['output']);
-    var output = config.output;
-    return rollupRenderAsync({ input: input, output: output }).catch(function (err) {
-        _this.log.error(err);
-        throw err;
+    return __awaiter(this, void 0, void 0, function () {
+        var rollupConfigs, config, input, output, err_1;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    rollupConfigs = new HexoRollupConfigs(this);
+                    config = rollupConfigs.merged();
+                    if (config.experimentalCodeSplitting) {
+                        throw new Error('hexo-renderer-rollup not Support "experimentalCodeSplitting".');
+                    }
+                    if (!config.input.includes(path)) {
+                        return [2 /*return*/, text];
+                    }
+                    config.input = path;
+                    input = objectWithoutKeys(config, ['output']);
+                    output = config.output;
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, rollupRenderAsync({ input: input, output: output })];
+                case 2: return [2 /*return*/, _b.sent()];
+                case 3:
+                    err_1 = _b.sent();
+                    this.log.error(err_1);
+                    throw err_1;
+                case 4: return [2 /*return*/];
+            }
+        });
     });
 }
 module.exports = renderer;

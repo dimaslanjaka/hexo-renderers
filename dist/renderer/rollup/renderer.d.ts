@@ -1,15 +1,20 @@
 export = renderer;
 /**
- * @param {object} _data
+ * @param {Record<string,any>} _data
  * @param {string?} _data.path
  * @param {string?} _data.text
  * @returns {Promise<string>}
  */
-declare function renderer({ path, text }: {
-    path: string | null;
-    text: string | null;
-}): Promise<string>;
+declare function renderer({ path, text }: Record<string, any>, _options: any): Promise<string>;
 declare namespace renderer {
-    export { Hexo };
+    export { rollupRenderAsync, Hexo };
 }
+/**
+ * @param {{ input: rollup.RollupFileOptions; output: rollup.OutputOptions; }} config
+ * @return { Promise<string> }
+ */
+declare function rollupRenderAsync(config: {
+    input: rollup.RollupFileOptions;
+    output: rollup.OutputOptions;
+}): Promise<string>;
 type Hexo = NodeJS.EventEmitter;

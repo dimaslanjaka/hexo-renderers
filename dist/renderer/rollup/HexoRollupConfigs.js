@@ -29,7 +29,7 @@ var configFilterProxy = function (config, baseDir) {
     });
 };
 /**
- * @param {Array<string|string[]|Object<string, string>>} array
+ * @param {Array<string|string[]|Record<string, string>>} array
  * @returns {string[]}
  */
 var reduceStrings = function (array) {

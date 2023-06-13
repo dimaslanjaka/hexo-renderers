@@ -71,6 +71,7 @@
     "node-sass": "^9.0.0",
     "nunjucks": "^3.2.4",
     "pug": "^3.0.2",
+    "rollup": "^3.25.1",
     "sass": "^1.62.1",
     "sbg-utility": "*",
     "stylus": "^0.59.0",
