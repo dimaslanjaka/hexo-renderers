@@ -15,4 +15,5 @@ const hexo = new Hexo(rootDir);
   await hexo.call('server');
   await axios.get('http://localhost:4000/docs/hexo-renderers/nunjucks');
   await axios.get('http://localhost:4000/docs/hexo-renderers/css/bootstrap.css');
+  await axios.get('http://localhost:4000/docs/hexo-renderers/css/material.css');
 })();
