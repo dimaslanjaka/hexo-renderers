@@ -84,7 +84,7 @@ exports.postDataFilePath = postDataFilePath;
 function loadPostData(hexo) {
     var file = postDataFilePath(hexo);
     if (fs_extra_1.default.existsSync(file)) {
-        postData.push.apply(postData, JSON.parse(fs_extra_1.default.readFileSync(file, 'utf-8')));
+        postData.push.apply(postData, (0, sbg_utility_1.jsonParseWithCircularRefs)(fs_extra_1.default.readFileSync(file, 'utf-8')));
     }
 }
 exports.loadPostData = loadPostData;

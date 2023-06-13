@@ -1,7 +1,13 @@
 import fs from 'fs-extra';
 import lodash from 'lodash';
 import path from 'path';
-import { array_shuffle, jsonStringifyWithCircularRefs, slugify, writefile } from 'sbg-utility';
+import {
+  array_shuffle,
+  jsonParseWithCircularRefs,
+  jsonStringifyWithCircularRefs,
+  slugify,
+  writefile
+} from 'sbg-utility';
 import { getPostData } from './collector';
 import { tagName } from './util';
 
@@ -79,7 +85,7 @@ export function getRelatedPosts(hexo: import('hexo')) {
       let postList = [] as any[];
       if (fs.existsSync(relatedDb)) {
         // load from cache
-        postList = JSON.parse(fs.readFileSync(relatedDb, 'utf-8'));
+        postList = jsonParseWithCircularRefs(fs.readFileSync(relatedDb, 'utf-8'));
       } else {
         // regenerate cache
         const post = this.post || this.page;

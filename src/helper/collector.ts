@@ -2,7 +2,7 @@ import * as cheerio from 'cheerio';
 import fs from 'fs-extra';
 import Hexo from 'hexo';
 import path from 'path';
-import { file_to_hash, jsonStringifyWithCircularRefs, md5, writefile } from 'sbg-utility';
+import { file_to_hash, jsonParseWithCircularRefs, jsonStringifyWithCircularRefs, md5, writefile } from 'sbg-utility';
 import { HexoLocalsData } from './hexoLocalsData';
 import { DeepPartial, categorieName, logname, tagName } from './util';
 
@@ -23,7 +23,7 @@ export function postDataFilePath(hexo: Hexo) {
 export function loadPostData(hexo: Hexo) {
   const file = postDataFilePath(hexo);
   if (fs.existsSync(file)) {
-    postData.push(...JSON.parse(fs.readFileSync(file, 'utf-8')));
+    postData.push(...jsonParseWithCircularRefs(fs.readFileSync(file, 'utf-8')));
   }
 }
 

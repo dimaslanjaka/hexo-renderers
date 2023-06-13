@@ -73,7 +73,7 @@ function getRelatedPosts(hexo) {
         var postList = [];
         if (fs_extra_1.default.existsSync(relatedDb)) {
             // load from cache
-            postList = JSON.parse(fs_extra_1.default.readFileSync(relatedDb, 'utf-8'));
+            postList = (0, sbg_utility_1.jsonParseWithCircularRefs)(fs_extra_1.default.readFileSync(relatedDb, 'utf-8'));
         }
         else {
             // regenerate cache
