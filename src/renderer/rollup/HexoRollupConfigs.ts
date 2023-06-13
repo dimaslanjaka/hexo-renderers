@@ -2,6 +2,7 @@
 
 import Hexo from 'hexo';
 
+import { RollupOptions } from 'rollup';
 import createReadFilterProxy from './utils/createReadFilterProxy';
 import createRollupPlugin from './utils/createRollupPlugin';
 import { getRawOverrideThemeConfig, getRawSiteConfig, getRawThemeConfig } from './utils/getHexoConfigs';
@@ -71,13 +72,13 @@ export class HexoRollupConfigs {
     const raw = getRawOverrideThemeConfig('rollup', this.ctx);
     return configFilterProxy(raw, this.ctx.base_dir);
   }
-  merged() {
+  merged(): RollupOptions {
     const site = this.site();
     const theme = this.theme();
     const override = this.overrideTheme();
     const hexo = this.ctx;
 
-    const _default = {
+    const _default: RollupOptions = {
       output: {
         format: 'esm'
       },
