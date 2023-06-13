@@ -37,7 +37,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var rollup = require('rollup').rollup;
 var HexoRollupConfigs = require('./HexoRollupConfigs').HexoRollupConfigs;
-var objectWithoutKeys = require('./utils/objectWithoutKeys');
+var objectWithoutKeys = require('./utils/objectWithoutKeys').objectWithoutKeys;
+var _a = require('sbg-utility'), writefile = _a.writefile, jsonStringifyWithCircularRefs = _a.jsonStringifyWithCircularRefs;
+var join = require('path').join;
 /** @typedef {NodeJS.EventEmitter} Hexo */
 /** @type {rollup.ModuleJSON[]} */
 var rollupCache = [];
@@ -64,22 +66,21 @@ var rollupRenderAsync = function (config) { return __awaiter(void 0, void 0, voi
 }); };
 module.exports.rollupRenderAsync = rollupRenderAsync;
 /**
- * @param {Record<string,any>} _data
- * @param {string?} _data.path
- * @param {string?} _data.text
- * @returns {Promise<string>}
+ * rollup renderer callback
+ * @param {{text?:string,path?:string}} data
+ * @param {import('rollup').RollupOptions} _options
+ * @returns
  */
-function renderer(_a, _options) {
-    var path = _a.path, text = _a.text;
+function renderer(data, _options) {
     return __awaiter(this, void 0, void 0, function () {
-        var hexo, rollupConfigs, config, input, output, err_1;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var path, text, hexo, rollupConfigs, config, input, output, err_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0:
+                    path = data.path, text = data.text;
                     hexo = this;
                     rollupConfigs = new HexoRollupConfigs(hexo);
                     config = rollupConfigs.merged();
-                    hexo.log.info('rollup', path);
                     if (config.experimentalCodeSplitting) {
                         throw new Error('hexo-renderer-rollup not Support "experimentalCodeSplitting".');
                     }
@@ -89,13 +90,15 @@ function renderer(_a, _options) {
                     config.input = path;
                     input = objectWithoutKeys(config, ['output']);
                     output = config.output;
-                    _b.label = 1;
+                    //hexo.log.info('rollup', { input, output, path });
+                    writefile(join(hexo.base_dir, 'tmp/config/rollup.json'), jsonStringifyWithCircularRefs({ input: input, output: output, path: path }));
+                    _a.label = 1;
                 case 1:
-                    _b.trys.push([1, 3, , 4]);
+                    _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, rollupRenderAsync({ input: input, output: output })];
-                case 2: return [2 /*return*/, _b.sent()];
+                case 2: return [2 /*return*/, _a.sent()];
                 case 3:
-                    err_1 = _b.sent();
+                    err_1 = _a.sent();
                     this.log.error(err_1);
                     throw err_1;
                 case 4: return [2 /*return*/];

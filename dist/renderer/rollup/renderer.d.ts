@@ -1,11 +1,14 @@
 export = renderer;
 /**
- * @param {Record<string,any>} _data
- * @param {string?} _data.path
- * @param {string?} _data.text
- * @returns {Promise<string>}
+ * rollup renderer callback
+ * @param {{text?:string,path?:string}} data
+ * @param {import('rollup').RollupOptions} _options
+ * @returns
  */
-declare function renderer({ path, text }: Record<string, any>, _options: any): Promise<string>;
+declare function renderer(data: {
+    text?: string | undefined;
+    path?: string | undefined;
+}, _options: import('rollup').RollupOptions): Promise<string | undefined>;
 declare namespace renderer {
     export { rollupRenderAsync, Hexo };
 }

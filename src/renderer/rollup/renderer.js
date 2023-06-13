@@ -1,7 +1,9 @@
 'use strict';
 const { rollup } = require('rollup');
 const { HexoRollupConfigs } = require('./HexoRollupConfigs');
-const objectWithoutKeys = require('./utils/objectWithoutKeys');
+const { objectWithoutKeys } = require('./utils/objectWithoutKeys');
+const { writefile, jsonStringifyWithCircularRefs } = require('sbg-utility');
+const { join } = require('path');
 
 /** @typedef {NodeJS.EventEmitter} Hexo */
 
@@ -25,16 +27,17 @@ const rollupRenderAsync = async (config) => {
 module.exports.rollupRenderAsync = rollupRenderAsync;
 
 /**
- * @param {Record<string,any>} _data
- * @param {string?} _data.path
- * @param {string?} _data.text
- * @returns {Promise<string>}
+ * rollup renderer callback
+ * @param {{text?:string,path?:string}} data
+ * @param {import('rollup').RollupOptions} _options
+ * @returns
  */
-async function renderer({ path, text }, _options) {
+async function renderer(data, _options) {
+  const { path, text } = data;
+  /** @type {import('hexo')} */
   const hexo = this;
   const rollupConfigs = new HexoRollupConfigs(hexo);
   const config = rollupConfigs.merged();
-  hexo.log.info('rollup', path);
 
   if (config.experimentalCodeSplitting) {
     throw new Error('hexo-renderer-rollup not Support "experimentalCodeSplitting".');
@@ -48,6 +51,9 @@ async function renderer({ path, text }, _options) {
 
   const input = objectWithoutKeys(config, ['output']);
   const { output } = config;
+
+  //hexo.log.info('rollup', { input, output, path });
+  writefile(join(hexo.base_dir, 'tmp/config/rollup.json'), jsonStringifyWithCircularRefs({ input, output, path }));
 
   try {
     return await rollupRenderAsync({ input, output });
