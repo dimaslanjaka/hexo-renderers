@@ -1,5 +1,3 @@
-/* global hexo */
-
 'use strict';
 
 import Hexo from 'hexo';
