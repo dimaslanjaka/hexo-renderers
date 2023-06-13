@@ -11,7 +11,8 @@ const hexo = new Hexo(rootDir);
 (async function () {
   await spawn('yarn', ['workspace', 'hexo', 'run', 'build']);
   await hexo.init();
-  // await hexo.call('clean');
+  await hexo.call('clean');
   await hexo.call('server');
-  axios.get('http://localhost:4000/docs/hexo-renderers/nunjucks');
+  await axios.get('http://localhost:4000/docs/hexo-renderers/nunjucks');
+  await axios.get('http://localhost:4000/docs/hexo-renderers/css/bootstrap.css');
 })();
