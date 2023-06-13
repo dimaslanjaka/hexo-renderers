@@ -45,7 +45,7 @@ const deployDir = path.resolve(testDir, '.deploy_git/hexo-renderers');
   // copy start
   if (fs.existsSync(deployDir)) {
     await fs.rm(deployDir, { recursive: true, force: true });
-    await fs.mkdir(deployDir);
+    await fs.mkdir(deployDir, { recursive: true });
   }
   await fs.copy(src, deployDir, { overwrite: true });
 
