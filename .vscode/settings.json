@@ -20,5 +20,5 @@
     "*.test.ts": "jest --runInBand"
   },
   "git.autofetchPeriod": 180,
-  "git.autorefresh": false
+  "git.autorefresh": true
 }
