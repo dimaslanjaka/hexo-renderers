@@ -44,6 +44,8 @@
     "lib",
     "test",
     "packages/hexo",
+    "packages/hexo-theme-claudia",
+    "packages/hexo-theme-next",
     "packages/sbg-utility/packages/sbg-utility"
   ],
   "devDependencies": {
@@ -60,7 +62,7 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "execa": "^7.0.0",
-    "git-command-helper": "^1.2.3",
+    "git-command-helper": "^2.0.1",
     "gulp": "^4.0.2",
     "minimist": "^1.2.8",
     "nodemon": "^2.0.22",
