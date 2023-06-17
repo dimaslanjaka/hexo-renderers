@@ -99,7 +99,7 @@
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "git-command-helper": "^1.2.3",
+    "git-command-helper": "^2.0.1",
     "glob": "^10.2.6",
     "gulp": "^4.0.2",
     "minimist": "^1.2.8",
