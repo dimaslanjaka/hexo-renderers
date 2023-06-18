@@ -22,3 +22,7 @@
 	path = packages/sbg-utility
 	url = https://github.com/dimaslanjaka/static-blog-generator.git
 	branch = sbg-utility
+[submodule "packages/hexo-theme-butterfly"]
+	path = packages/hexo-theme-butterfly
+	url = https://github.com/dimaslanjaka/hexo-theme-butterfly.git
+	branch = dev

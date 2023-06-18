@@ -46,6 +46,7 @@
     "packages/hexo",
     "packages/hexo-theme-claudia",
     "packages/hexo-theme-next",
+    "packages/hexo-theme-butterfly",
     "packages/sbg-utility/packages/sbg-utility"
   ],
   "devDependencies": {
