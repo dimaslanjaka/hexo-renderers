@@ -1,6 +1,6 @@
 {
   "$schema": "http://json.schemastore.org/nodemon",
-  "exec": "npm start",
+  "exec": "yarn build && node ./test/_config.loader.js && node nodemon.runner.js",
   "watch": [
     "./lib/src/**/*.{ts,js}",
     "./packages/**/src/**/*.{ts,js}",
