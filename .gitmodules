@@ -25,4 +25,4 @@
 [submodule "packages/hexo-theme-butterfly"]
 	path = packages/hexo-theme-butterfly
 	url = https://github.com/dimaslanjaka/hexo-theme-butterfly.git
-	branch = dev
+	branch = private
