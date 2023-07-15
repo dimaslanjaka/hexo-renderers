@@ -84,7 +84,8 @@ exports.postDataFilePath = postDataFilePath;
 function loadPostData(hexo) {
     var file = postDataFilePath(hexo);
     if (fs_extra_1.default.existsSync(file)) {
-        postData.push.apply(postData, (0, sbg_utility_1.jsonParseWithCircularRefs)(fs_extra_1.default.readFileSync(file, 'utf-8')));
+        // postData.push(...jsonParseWithCircularRefs(fs.readFileSync(file, 'utf-8')));
+        postData = (0, sbg_utility_1.jsonParseWithCircularRefs)(fs_extra_1.default.readFileSync(file, 'utf-8'));
     }
 }
 exports.loadPostData = loadPostData;
@@ -195,7 +196,8 @@ function collectorPost(post, hexo) {
                         (0, sbg_utility_1.writefile)(postDataFilePath(hexo), (0, sbg_utility_1.jsonStringifyWithCircularRefs)(map));
                     }
                     catch (e) {
-                        hexo.log.error(util_1.logname, 'fail write postdata', String(e));
+                        hexo.log.error(util_1.logname, 'fail write postdata');
+                        console.trace(e);
                     }
                     return [2 /*return*/];
             }

@@ -6,7 +6,7 @@ import { file_to_hash, jsonParseWithCircularRefs, jsonStringifyWithCircularRefs,
 import { HexoLocalsData } from './hexoLocalsData';
 import { DeepPartial, categorieName, logname, tagName } from './util';
 
-const postData: HexoLocalsData[] = [];
+let postData: HexoLocalsData[] = [];
 
 /**
  * get post database path
@@ -23,7 +23,8 @@ export function postDataFilePath(hexo: Hexo) {
 export function loadPostData(hexo: Hexo) {
   const file = postDataFilePath(hexo);
   if (fs.existsSync(file)) {
-    postData.push(...jsonParseWithCircularRefs(fs.readFileSync(file, 'utf-8')));
+    // postData.push(...jsonParseWithCircularRefs(fs.readFileSync(file, 'utf-8')));
+    postData = jsonParseWithCircularRefs(fs.readFileSync(file, 'utf-8'));
   }
 }
 
@@ -113,7 +114,8 @@ export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
     });
     writefile(postDataFilePath(hexo), jsonStringifyWithCircularRefs(map));
   } catch (e: any) {
-    hexo.log.error(logname, 'fail write postdata', String(e));
+    hexo.log.error(logname, 'fail write postdata');
+    console.trace(e);
   }
 }
 

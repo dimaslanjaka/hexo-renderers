@@ -130,8 +130,8 @@ function registerCustomHelper(hexo) {
     });
     hexo.extend.helper.register('partialWithLayout', partial_1.partialWithLayout);
     hexo.extend.helper.register('date', date.date);
-    hexo.extend.helper.register('format_date', date.date);
-    hexo.extend.helper.register('date_format', date.date);
+    //hexo.extend.helper.register('format_date', date.date);
+    //hexo.extend.helper.register('date_format', date.date);
     hexo.extend.helper.register('date_xml', date.date_xml);
     hexo.extend.helper.register('time', date.time);
     hexo.extend.helper.register('full_date', date.full_date);
