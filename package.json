@@ -11,7 +11,7 @@
   "scripts": {
     "start": "yarn build && node ./test/_config.loader.js && node nodemon.runner.js",
     "test": "yarn build && yarn site:clean && yarn site:server",
-    "build:hexo": "yarn workspace hexo run build && yarn workspace hexo pack && mv packages/hexo/package.tgz ext/@types-hexo.tgz",
+    "build:hexo": "yarn workspace hexo run build",
     "build:sbg-utility": "yarn workspace sbg-utility run build",
     "build:lib": "yarn workspace hexo-renderers run build",
     "build:site": "yarn workspace hexo-renderers-test run build",
@@ -24,7 +24,8 @@
     "update": "yarn workspaces foreach run update:ncu && yarn cache clean && yarn install",
     "site:clean": "yarn workspace hexo-renderers-test run clean",
     "site:server": "yarn workspace hexo-renderers-test run server",
-    "postinstall": "yarn build:hexo && yarn build:sbg-utility"
+    "postinstall": "yarn build:hexo && yarn build:sbg-utility",
+    "pack": "yarn workspace hexo-renderers run pack"
   },
   "repository": {
     "type": "git",
