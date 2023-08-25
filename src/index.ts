@@ -1,5 +1,5 @@
-import fs from 'fs-extra';
 import Hexo from 'hexo';
+import { del } from 'sbg-utility';
 import path from 'upath';
 import { registerCustomGenerator } from './generator';
 import { registerCustomHelper } from './helper';
@@ -17,6 +17,8 @@ import { rendererRollup } from './renderer/rollup';
 if (typeof hexo !== 'undefined') {
   // assign hexo to global variable
   (global as any).hexo = hexo;
+
+  // define options
   const options: { generator: string[]; engines: string[] } = Object.assign(
     { generator: ['meta'], engines: [] as string[] },
     hexo.config.renderers?.generator || {}
@@ -34,8 +36,7 @@ if (typeof hexo !== 'undefined') {
 
   // clean temp files after clean
   hexo.extend.filter.register('after_clean', function () {
-    const rm = (p: string) => fs.existsSync(p) && fs.rmSync(p, { force: true, recursive: true });
-    rm(path.join(hexo.base_dir, 'tmp/hexo-renderers'));
+    return del(path.join(hexo.base_dir, 'tmp/hexo-renderers'));
   });
 
   // register custom helper
