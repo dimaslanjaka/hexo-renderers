@@ -59,7 +59,12 @@ export function getRelatedPosts(hexo: import('hexo')) {
       isAscending?: any;
     }) {
       /** related post cache file */
-      const relatedDb = path.join(hexo.base_dir, 'tmp/hexo-renderers', slugify(this.page.title), 'related.json');
+      const relatedDb = path.join(
+        hexo.base_dir,
+        'tmp/hexo-renderers/related-posts',
+        slugify(this.page.title),
+        'related.json'
+      );
       options = assign(
         {
           maxCount: 5,
