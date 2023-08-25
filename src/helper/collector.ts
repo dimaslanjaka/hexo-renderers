@@ -24,7 +24,11 @@ export function loadPostData(hexo: Hexo) {
   const file = postDataFilePath(hexo);
   if (fs.existsSync(file)) {
     // postData.push(...jsonParseWithCircularRefs(fs.readFileSync(file, 'utf-8')));
-    postData = jsonParseWithCircularRefs(fs.readFileSync(file, 'utf-8'));
+    try {
+      postData = jsonParseWithCircularRefs(fs.readFileSync(file, 'utf-8'));
+    } catch (e: any) {
+      hexo.log.error('fail load post data', file, e.message);
+    }
   }
 }
 
