@@ -75,7 +75,7 @@ var postData = [];
  * @returns
  */
 function postDataFilePath(hexo) {
-    return path_1.default.join(hexo.base_dir, 'tmp/post-data.json');
+    return path_1.default.join(hexo.base_dir, 'tmp/hexo-renderers/post-data.json');
 }
 exports.postDataFilePath = postDataFilePath;
 /**
@@ -85,7 +85,15 @@ function loadPostData(hexo) {
     var file = postDataFilePath(hexo);
     if (fs_extra_1.default.existsSync(file)) {
         // postData.push(...jsonParseWithCircularRefs(fs.readFileSync(file, 'utf-8')));
-        postData = (0, sbg_utility_1.jsonParseWithCircularRefs)(fs_extra_1.default.readFileSync(file, 'utf-8'));
+        try {
+            postData = (0, sbg_utility_1.jsonParseWithCircularRefs)(fs_extra_1.default.readFileSync(file, 'utf-8'));
+        }
+        catch (e) {
+            (0, sbg_utility_1.copyPath)(file, path_1.default.join(hexo.base_dir, 'tmp/hexo-renderers/errors/loadPostData.json'));
+            var tag = 'fail load post data';
+            hexo.log.error(tag, file);
+            hexo.log.error(tag, e.message);
+        }
     }
 }
 exports.loadPostData = loadPostData;

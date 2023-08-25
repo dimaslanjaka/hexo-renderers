@@ -2,7 +2,14 @@ import * as cheerio from 'cheerio';
 import fs from 'fs-extra';
 import Hexo from 'hexo';
 import path from 'path';
-import { file_to_hash, jsonParseWithCircularRefs, jsonStringifyWithCircularRefs, md5, writefile } from 'sbg-utility';
+import {
+  copyPath,
+  file_to_hash,
+  jsonParseWithCircularRefs,
+  jsonStringifyWithCircularRefs,
+  md5,
+  writefile
+} from 'sbg-utility';
 import { HexoLocalsData } from './hexoLocalsData';
 import { DeepPartial, categorieName, logname, tagName } from './util';
 
@@ -27,7 +34,10 @@ export function loadPostData(hexo: Hexo) {
     try {
       postData = jsonParseWithCircularRefs(fs.readFileSync(file, 'utf-8'));
     } catch (e: any) {
-      hexo.log.error('fail load post data', file, e.message);
+      copyPath(file, path.join(hexo.base_dir, 'tmp/hexo-renderers/errors/loadPostData.json'));
+      const tag = 'fail load post data';
+      hexo.log.error(tag, file);
+      hexo.log.error(tag, e.message);
     }
   }
 }

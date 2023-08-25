@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs_extra_1 = __importDefault(require("fs-extra"));
+var sbg_utility_1 = require("sbg-utility");
 var upath_1 = __importDefault(require("upath"));
 var generator_1 = require("./generator");
 var helper_1 = require("./helper");
@@ -21,6 +21,7 @@ var rollup_1 = require("./renderer/rollup");
 if (typeof hexo !== 'undefined') {
     // assign hexo to global variable
     global.hexo = hexo;
+    // define options
     var options = Object.assign({ generator: ['meta'], engines: [] }, ((_a = hexo.config.renderers) === null || _a === void 0 ? void 0 : _a.generator) || {});
     // shim v1 options
     if (Array.isArray(hexo.config.renderers)) {
@@ -32,9 +33,7 @@ if (typeof hexo !== 'undefined') {
     });
     // clean temp files after clean
     hexo.extend.filter.register('after_clean', function () {
-        var rm = function (p) { return fs_extra_1.default.existsSync(p) && fs_extra_1.default.rmSync(p, { force: true, recursive: true }); };
-        rm(upath_1.default.join(hexo.base_dir, 'tmp/hexo-renderers'));
-        rm(upath_1.default.join(hexo.base_dir, 'tmp/post-data.json'));
+        return (0, sbg_utility_1.del)(upath_1.default.join(hexo.base_dir, 'tmp/hexo-renderers'));
     });
     // register custom helper
     (0, helper_1.registerCustomHelper)(hexo);
