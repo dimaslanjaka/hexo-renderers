@@ -52,7 +52,7 @@ function getRelatedPosts(hexo) {
     hexo.extend.helper.register('list_related_posts', function (options) {
         var _this = this;
         /** related post cache file */
-        var relatedDb = path_1.default.join(hexo.base_dir, 'tmp/hexo-renderers', (0, sbg_utility_1.slugify)(this.page.title), 'related.json');
+        var relatedDb = path_1.default.join(hexo.base_dir, 'tmp/hexo-renderers/related-posts', (0, sbg_utility_1.slugify)(this.page.title), 'related.json');
         options = assign({
             maxCount: 5,
             orderBy: 'date',
