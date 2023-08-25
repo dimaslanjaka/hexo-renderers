@@ -49,7 +49,17 @@ function dynamicSort(property: string, isAscending: boolean) {
   };
 }
 
+/**
+ * populate related posts
+ * @param hexo hexo instance
+ */
 export function getRelatedPosts(hexo: import('hexo')) {
+  const options: string[] | undefined = hexo.config.renderers?.generator;
+  if (Array.isArray(options)) {
+    if (!options.includes('related-posts')) return;
+  } else {
+    return;
+  }
   hexo.extend.helper.register(
     'list_related_posts',
     function (options: {

@@ -6,4 +6,7 @@
  * @returns
  */
 export declare function objectArrayIndexOf<T extends any[]>(array: T, searchTerm: string, property: string): number;
+/**
+ * populate related posts
+ */
 export declare function getRelatedPosts(hexo: import('hexo')): void;

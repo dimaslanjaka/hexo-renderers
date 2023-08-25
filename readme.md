@@ -15,6 +15,8 @@ renderers:
   generator:
     # enable generate <domain>/meta.json
     - meta
+    # enable generate related posts
+    - related-posts
 ```
 
 > - dartsass improved from `hexo-renderer-dartsass`
