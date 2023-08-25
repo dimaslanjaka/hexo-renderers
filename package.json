@@ -82,12 +82,12 @@
   },
   "resolutions": {
     "@types/hexo": "./ext/@types-hexo.tgz",
-    "@types/hexo-log": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo-log.tgz",
-    "hexo-asset-link": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo-asset-link.tgz",
-    "hexo-cli": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo-cli.tgz",
-    "hexo-front-matter": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo-front-matter.tgz",
-    "hexo-log": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo-log.tgz",
-    "hexo-util": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo-util.tgz",
-    "warehouse": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/warehouse.tgz"
+    "@types/hexo-log": "https://github.com/dimaslanjaka/hexo/raw/b883503/releases/hexo-log.tgz",
+    "hexo-asset-link": "https://github.com/dimaslanjaka/hexo/raw/b883503/releases/hexo-asset-link.tgz",
+    "hexo-cli": "https://github.com/dimaslanjaka/hexo/raw/b883503/releases/hexo-cli.tgz",
+    "hexo-front-matter": "https://github.com/dimaslanjaka/hexo/raw/b883503/releases/hexo-front-matter.tgz",
+    "hexo-log": "https://github.com/dimaslanjaka/hexo/raw/b883503/releases/hexo-log.tgz",
+    "hexo-util": "https://github.com/dimaslanjaka/hexo/raw/b883503/releases/hexo-util.tgz",
+    "warehouse": "https://github.com/dimaslanjaka/hexo/raw/b883503/releases/warehouse.tgz"
   }
 }
