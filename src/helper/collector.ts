@@ -14,7 +14,7 @@ let postData: HexoLocalsData[] = [];
  * @returns
  */
 export function postDataFilePath(hexo: Hexo) {
-  return path.join(hexo.base_dir, 'tmp/post-data.json');
+  return path.join(hexo.base_dir, 'tmp/hexo-renderers/post-data.json');
 }
 
 /**

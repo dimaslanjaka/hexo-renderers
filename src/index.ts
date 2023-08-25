@@ -36,7 +36,6 @@ if (typeof hexo !== 'undefined') {
   hexo.extend.filter.register('after_clean', function () {
     const rm = (p: string) => fs.existsSync(p) && fs.rmSync(p, { force: true, recursive: true });
     rm(path.join(hexo.base_dir, 'tmp/hexo-renderers'));
-    rm(path.join(hexo.base_dir, 'tmp/post-data.json'));
   });
 
   // register custom helper
