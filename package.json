@@ -82,8 +82,8 @@
     "@types/ejs": "^3.1.2",
     "@types/fs-extra": "^11.0.1",
     "@types/gulp": "^4.0.10",
-    "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo.tgz",
-    "@types/hexo-log": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo-log.tgz",
+    "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/b883503/releases/hexo.tgz",
+    "@types/hexo-log": "https://github.com/dimaslanjaka/hexo/raw/b883503/releases/hexo-log.tgz",
     "@types/jsdom": "^21",
     "@types/lodash": "^4",
     "@types/markdown-it": "^12.2.3",
@@ -108,9 +108,9 @@
     "typescript": "^5.0.4"
   },
   "resolutions": {
-    "hexo-util": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo-util.tgz"
+    "hexo-util": "https://github.com/dimaslanjaka/hexo/raw/b883503/releases/hexo-util.tgz"
   },
   "overrides": {
-    "hexo-util": "https://github.com/dimaslanjaka/hexo/raw/7c3a93f/releases/hexo-util.tgz"
+    "hexo-util": "https://github.com/dimaslanjaka/hexo/raw/b883503/releases/hexo-util.tgz"
   }
 }
