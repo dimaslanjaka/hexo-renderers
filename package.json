@@ -14,6 +14,7 @@
     "build:hexo": "yarn workspace hexo run build && yarn workspace hexo pack && mv packages/hexo/package.tgz ext/@types-hexo.tgz",
     "build:sbg-utility": "yarn workspace sbg-utility run build",
     "build:lib": "yarn workspace hexo-renderers run build",
+    "build:site": "yarn workspace hexo-renderers-test run build",
     "build": "run-s \"build:**\"",
     "clean:hexo": "yarn workspace hexo exec \"rm -rf dist\"",
     "clean:lib": "yarn workspace hexo-renderers exec \"rm -rf dist\"",
@@ -21,9 +22,9 @@
     "clean": "run-s \"clean:**\"",
     "patch": "yarn workspace hexo-renderers version patch",
     "update": "yarn workspaces foreach run update:ncu && yarn cache clean && yarn install",
-    "site:clean": "yarn workspace site run clean",
-    "site:server": "yarn workspace site run server",
-    "postinstall": "npm run build"
+    "site:clean": "yarn workspace hexo-renderers-test run clean",
+    "site:server": "yarn workspace hexo-renderers-test run server",
+    "postinstall": "yarn build:hexo && yarn build:sbg-utility"
   },
   "repository": {
     "type": "git",
@@ -81,7 +82,8 @@
     "upath": "^2.0.1"
   },
   "resolutions": {
-    "@types/hexo": "./ext/@types-hexo.tgz",
+    "@types/hexo": "./packages/hexo",
+    "@types/sbg-utility": "./packages/sbg-utility/packages/sbg-utility",
     "@types/hexo-log": "https://github.com/dimaslanjaka/hexo/raw/638a594/releases/hexo-log.tgz",
     "hexo-asset-link": "https://github.com/dimaslanjaka/hexo/raw/638a594/releases/hexo-asset-link.tgz",
     "hexo-cli": "https://github.com/dimaslanjaka/hexo/raw/638a594/releases/hexo-cli.tgz",
