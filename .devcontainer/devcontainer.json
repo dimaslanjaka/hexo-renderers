@@ -13,9 +13,6 @@
     },
     "ghcr.io/devcontainers/features/nvidia-cuda:1": {
       "version": "latest"
-    },
-    "mcr.microsoft.com/vscode/devcontainers/typescript-node:dev-buster": {
-      "version": "latest"
     }
   },
 
