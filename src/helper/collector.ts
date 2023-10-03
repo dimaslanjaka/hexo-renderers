@@ -49,7 +49,9 @@ export function loadPostData(hexo: Hexo) {
 export const getPostData = () => postData;
 
 export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
-  const integrity = post.full_source ? await file_to_hash('sha1', post.full_source, 'hex') : md5(post.path + post.raw);
+  const integrity = post.full_source
+    ? await file_to_hash('sha1', post.full_source, 'hex')
+    : md5(String(post.path + post.raw));
   /** existing post */
   const exPostIndex = postData.findIndex((exPost) => post.path === exPost.path);
   const exPost = postData.find((exPost) => post.path === exPost.path);

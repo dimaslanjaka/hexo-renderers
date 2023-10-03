@@ -115,7 +115,7 @@ function collectorPost(post, hexo) {
                     _a = _b.sent();
                     return [3 /*break*/, 3];
                 case 2:
-                    _a = (0, sbg_utility_1.md5)(post.path + post.raw);
+                    _a = (0, sbg_utility_1.md5)(String(post.path + post.raw));
                     _b.label = 3;
                 case 3:
                     integrity = _a;
