@@ -59,7 +59,7 @@ export const defaultMarkdownOptions = {
  * hexo-renderer-markdown-it
  * @param hexo
  */
-export default function rendererMarkdownIt(hexo: Hexo) {
+export default function rendererMarkdownIt(hexo: Hexo): (data: StoreFunctionData, options?: Record<string, any>) => string {
   hexo.config.markdown = Object.assign(
     {
       preset: 'default',
@@ -103,7 +103,7 @@ export default function rendererMarkdownIt(hexo: Hexo) {
     renderer.disableNunjucks = hexo.config.markdown.disableNunjucks === 'true';
   }
 
-  function render(data: StoreFunctionData, options: Record<string, any>) {
+  function render(data: StoreFunctionData, options: Record<string, any> = {}) {
     return renderer.render(data, options);
   }
 
@@ -114,4 +114,6 @@ export default function rendererMarkdownIt(hexo: Hexo) {
   hexo.extend.renderer.register('mdwn', 'html', render, true);
   hexo.extend.renderer.register('mdtxt', 'html', render, true);
   hexo.extend.renderer.register('mdtext', 'html', render, true);
+
+  return render;
 }

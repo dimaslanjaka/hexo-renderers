@@ -50,6 +50,7 @@ function dynamicSort(property, isAscending) {
 }
 /**
  * populate related posts
+ * @param hexo hexo instance
  */
 function getRelatedPosts(hexo) {
     var _a;
