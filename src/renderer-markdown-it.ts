@@ -59,7 +59,9 @@ export const defaultMarkdownOptions = {
  * hexo-renderer-markdown-it
  * @param hexo
  */
-export default function rendererMarkdownIt(hexo: Hexo): (data: StoreFunctionData, options?: Record<string, any>) => string {
+export default function rendererMarkdownIt(
+  hexo: Hexo
+): (data: StoreFunctionData, options?: Record<string, any>) => string {
   hexo.config.markdown = Object.assign(
     {
       preset: 'default',
