@@ -3,7 +3,7 @@
     /* Basic Options */
 		"target": "es5",
 		"module": "commonjs",
-		// "lib": ["ESNext"],
+		"lib": ["ES2019"],
 		"outDir": "./dist",
     "allowJs": true,
     "checkJs": false,
