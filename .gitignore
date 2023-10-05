@@ -5,3 +5,6 @@
 **/tmp
 **/*.tsbuildinfo
 yarn.lock
+/lib
+/packages
+.env
