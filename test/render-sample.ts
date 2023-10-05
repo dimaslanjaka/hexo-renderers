@@ -24,5 +24,5 @@ hexo
         // disableNunjucks: true,
         engine: 'md'
       })
-      .then(console.log);
+      .then((result: { content: string }) => console.log(result.content));
   });
