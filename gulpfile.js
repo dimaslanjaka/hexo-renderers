@@ -42,5 +42,5 @@ gulp.task('test:render', function () {
       )
       .catch(testCb);
   };
-  run(() => gulp.watch('src/**/*.*', run));
+  run(() => gulp.watch(['src/**/*.*', 'test/**/*.*', '!**/node_modules/**', '!**/dist/**', '!**/tmp/**'], run));
 });
