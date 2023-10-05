@@ -1,6 +1,6 @@
 import renderer from '../src/renderer-markdown-it';
 import Hexo from 'hexo';
-import fs from 'fs'
+import fs from 'fs';
 
 const hexo = new Hexo(__dirname, { silent: true });
 const r = renderer(hexo);

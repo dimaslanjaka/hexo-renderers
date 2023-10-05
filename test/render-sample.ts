@@ -2,9 +2,13 @@ import fs from 'fs';
 import Hexo from 'hexo';
 
 const hexo = new Hexo(__dirname, { silent: true });
-const defaultCfg = JSON.parse(JSON.stringify(Object.assign(hexo.config, {
-  marked: {}
-})));
+const defaultCfg = JSON.parse(
+  JSON.stringify(
+    Object.assign(hexo.config, {
+      marked: {}
+    })
+  )
+);
 hexo.config.permalink = ':title';
 hexo.config = JSON.parse(JSON.stringify(defaultCfg));
 hexo.init().then(() => {
@@ -15,6 +19,4 @@ hexo.init().then(() => {
       engine: 'md'
     })
     .then(console.log);
-})
-
-
+});
