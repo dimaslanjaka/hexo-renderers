@@ -48,12 +48,15 @@ var partial_1 = require("./partial");
 var related_posts_1 = require("./related-posts");
 var _toArray = lodash_1.default.toArray;
 exports.BASE_DIR = typeof hexo === 'undefined' ? process.cwd() : hexo.base_dir;
-var config;
-if (typeof hexo === 'undefined') {
-    config = yaml_1.default.parse(fs_1.default.readFileSync(path_1.default.join(exports.BASE_DIR, '_config.yml')).toString());
-}
-else {
-    config = yaml_1.default.parse(fs_1.default.readFileSync(path_1.default.join(exports.BASE_DIR, '_config.yml')).toString());
+var configFile = path_1.default.join(exports.BASE_DIR, '_config.yml');
+var config = {};
+if (fs_1.default.existsSync(configFile)) {
+    if (typeof hexo === 'undefined') {
+        config = yaml_1.default.parse(fs_1.default.readFileSync(configFile).toString());
+    }
+    else {
+        config = hexo.config;
+    }
 }
 var THEME_LOCATION = path_1.default.join(process.cwd(), 'themes', config.theme || 'landscape');
 var _THEME_SCRIPTS = path_1.default.join(THEME_LOCATION, 'scripts');

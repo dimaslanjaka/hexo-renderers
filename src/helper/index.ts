@@ -13,11 +13,15 @@ import { getRelatedPosts } from './related-posts';
 const _toArray = lodash.toArray;
 
 export const BASE_DIR = typeof hexo === 'undefined' ? process.cwd() : hexo.base_dir;
-let config: import('hexo')['config'];
-if (typeof hexo === 'undefined') {
-  config = yaml.parse(fs.readFileSync(path.join(BASE_DIR, '_config.yml')).toString());
-} else {
-  config = yaml.parse(fs.readFileSync(path.join(BASE_DIR, '_config.yml')).toString());
+
+const configFile = path.join(BASE_DIR, '_config.yml');
+let config: import('hexo')['config'] = {} as any;
+if (fs.existsSync(configFile)) {
+  if (typeof hexo === 'undefined') {
+    config = yaml.parse(fs.readFileSync(configFile).toString());
+  } else {
+    config = hexo.config;
+  }
 }
 
 const THEME_LOCATION = path.join(process.cwd(), 'themes', config.theme || 'landscape');
