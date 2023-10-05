@@ -11,12 +11,18 @@ const defaultCfg = JSON.parse(
 );
 hexo.config.permalink = ':title';
 hexo.config = JSON.parse(JSON.stringify(defaultCfg));
-hexo.init().then(() => {
-  hexo.post
-    .render(null as any, {
-      content: fs.readFileSync(__dirname + '/fixtures/sample.md', 'utf-8'),
-      // disableNunjucks: true,
-      engine: 'md'
-    })
-    .then(console.log);
-});
+
+hexo
+  .init()
+  .then(() => {
+    return hexo.loadPlugin(require.resolve(__dirname + '/../dist/index.js'));
+  })
+  .then(() => {
+    hexo.post
+      .render(null as any, {
+        content: fs.readFileSync(__dirname + '/fixtures/sample.md', 'utf-8'),
+        // disableNunjucks: true,
+        engine: 'md'
+      })
+      .then(console.log);
+  });
