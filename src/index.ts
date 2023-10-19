@@ -92,6 +92,15 @@ if (typeof hexo !== 'undefined') {
     rendererSass(hexo);
     rendererMarkdownIt(hexo);
   }
-} else {
-  console.error(logname, 'not hexo instance');
 }
+
+export {
+  rendererDartSass,
+  rendererMarkdownIt,
+  rendererEjs,
+  rendererNunjucks,
+  rendererPug,
+  rendererRollup,
+  rendererSass,
+  rendererStylus
+};

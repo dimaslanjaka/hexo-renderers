@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.rendererStylus = exports.rendererSass = exports.rendererRollup = exports.rendererPug = exports.rendererNunjucks = exports.rendererEjs = exports.rendererMarkdownIt = exports.rendererDartSass = void 0;
 var sbg_utility_1 = require("sbg-utility");
 var upath_1 = __importDefault(require("upath"));
 var generator_1 = require("./generator");
@@ -11,13 +12,21 @@ var helper_1 = require("./helper");
 var collector_1 = require("./helper/collector");
 var util_1 = require("./helper/util");
 var renderer_dartsass_1 = require("./renderer-dartsass");
+Object.defineProperty(exports, "rendererDartSass", { enumerable: true, get: function () { return renderer_dartsass_1.rendererDartSass; } });
 var renderer_ejs_1 = require("./renderer-ejs");
+Object.defineProperty(exports, "rendererEjs", { enumerable: true, get: function () { return renderer_ejs_1.rendererEjs; } });
 var renderer_markdown_it_1 = __importDefault(require("./renderer-markdown-it"));
+Object.defineProperty(exports, "rendererMarkdownIt", { enumerable: true, get: function () { return renderer_markdown_it_1.default; } });
 var renderer_nunjucks_1 = require("./renderer-nunjucks");
+Object.defineProperty(exports, "rendererNunjucks", { enumerable: true, get: function () { return renderer_nunjucks_1.rendererNunjucks; } });
 var renderer_pug_1 = require("./renderer-pug");
+Object.defineProperty(exports, "rendererPug", { enumerable: true, get: function () { return renderer_pug_1.rendererPug; } });
 var renderer_sass_1 = require("./renderer-sass");
+Object.defineProperty(exports, "rendererSass", { enumerable: true, get: function () { return renderer_sass_1.rendererSass; } });
 var renderer_stylus_1 = require("./renderer-stylus");
+Object.defineProperty(exports, "rendererStylus", { enumerable: true, get: function () { return renderer_stylus_1.rendererStylus; } });
 var rollup_1 = require("./renderer/rollup");
+Object.defineProperty(exports, "rendererRollup", { enumerable: true, get: function () { return rollup_1.rendererRollup; } });
 if (typeof hexo !== 'undefined') {
     // assign hexo to global variable
     global.hexo = hexo;
@@ -88,7 +97,4 @@ if (typeof hexo !== 'undefined') {
         (0, renderer_sass_1.rendererSass)(hexo);
         (0, renderer_markdown_it_1.default)(hexo);
     }
-}
-else {
-    console.error(util_1.logname, 'not hexo instance');
 }
