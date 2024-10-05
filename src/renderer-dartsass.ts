@@ -1,4 +1,5 @@
 import Hexo from 'hexo';
+import { StoreFunction } from 'hexo/dist/extend/renderer-d';
 import sass from 'sass';
 
 /**
@@ -29,6 +30,6 @@ export function rendererDartSass(hexo: Hexo) {
         .catch(reject);
     });
   };
-  hexo.extend.renderer.register('scss', 'css', make);
-  hexo.extend.renderer.register('sass', 'css', make);
+  hexo.extend.renderer.register('scss', 'css', make as StoreFunction);
+  hexo.extend.renderer.register('sass', 'css', make as StoreFunction);
 }

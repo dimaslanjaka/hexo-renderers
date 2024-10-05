@@ -35,7 +35,7 @@ const anchor = function (md, opts) {
   const slugOpts = { transform: opts.case, ...opts };
 
   md.renderer.rules.heading_open = function (...args) {
-    const [tokens, idx, something, somethingelse, self] = args; // eslint-disable-line no-unused-vars
+    const [tokens, idx, _something, _somethingelse, self] = args;
 
     if (tokens[idx].tag.substr(1) >= opts.level) {
       let _tokens$idx;

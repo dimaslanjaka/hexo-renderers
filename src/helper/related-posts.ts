@@ -72,7 +72,7 @@ export function getRelatedPosts(hexo: import('hexo')) {
       const relatedDb = path.join(
         hexo.base_dir,
         'tmp/hexo-renderers/related-posts',
-        slugify(this.page.title),
+        slugify(this.page?.title as any),
         'related.json'
       );
       options = assign(
@@ -118,7 +118,7 @@ export function getRelatedPosts(hexo: import('hexo')) {
         }
 
         if (postList.length === 0) {
-          const thisPageTags = this.page.tags || [];
+          const thisPageTags = this.page?.tags || [];
           const postData = getPostData().filter((post) => {
             let tags: any[] = [];
             if (post.tags?.toArray) {
@@ -144,7 +144,7 @@ export function getRelatedPosts(hexo: import('hexo')) {
         if (thisPostPosition !== -1) postList.splice(thisPostPosition, 1);
         */
         const currentPostIndex = postList.findIndex(
-          (post) => post._id === this.page._id || post.title === this.page.title
+          (post) => post._id === this.page?._id || post.title === this.page?.title
         );
         if (currentPostIndex !== -1) postList.splice(currentPostIndex, 1);
 

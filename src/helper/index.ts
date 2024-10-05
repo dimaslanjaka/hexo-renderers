@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import fs from 'fs';
 import Hexo from 'hexo';
 import * as hexoUtil from 'hexo-util';
@@ -74,9 +75,10 @@ export function registerCustomHelper(hexo: Hexo) {
   /**
    * Export theme config
    */
-  hexo.extend.helper.register('json_config', function (this: Hexo & Record<string, any>) {
+  hexo.extend.helper.register('json_config', function () {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const hexo = this;
-    const { config, theme, url_for, __ } = hexo;
+    const { config, theme, url_for } = hexo;
     const theme_config = {
       hostname: new URL(config.url).hostname || config.url,
       root: config.root
@@ -96,9 +98,9 @@ export function registerCustomHelper(hexo: Hexo) {
     return `<script class="json-config" data-name="${name}" type="application/json">${JSON.stringify(json).replace(/</g, '\\u003c')}</script>`;
   });
 
-  hexo.extend.helper.register('getPosts', function getPosts(this: Hexo) {
+  hexo.extend.helper.register('getPosts', function getPosts() {
     const page = this['page'];
-    return page.posts;
+    return page?.posts;
   });
 
   hexo.extend.helper.register('partialWithLayout', partialWithLayout);
