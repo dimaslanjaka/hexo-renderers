@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 'use strict';
 
 import Hexo from 'hexo';
@@ -98,7 +99,7 @@ class Renderer {
 
   render(data: StoreFunctionData, _options: any) {
     this.hexo.execFilterSync('markdown-it:renderer', this.parser, { context: this });
-    return this.parser.render(data.text, {
+    return this.parser.render(data.text as string, {
       postPath: data.path
     });
   }
