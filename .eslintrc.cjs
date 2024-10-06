@@ -55,7 +55,7 @@ const config = {
       'error',
       {
         allowDestructuring: false, // Disallow `const { props, state } = this`; true by default
-        allowedNames: ['self'] // Allow `const self = this`; `[]` by default
+        allowedNames: ['self', 'hexo'] // Allow `const self = this`; `[]` by default
       }
     ],
     // "arrow-body-style" and "prefer-arrow-callback" are two ESLint core rules that can cause issues with prettier/prettier plugin, so turn them off.
