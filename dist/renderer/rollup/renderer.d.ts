@@ -6,9 +6,9 @@ export = renderer;
  * @returns
  */
 declare function renderer(data: {
-    text?: string | undefined;
-    path?: string | undefined;
-}, _options: import('rollup').RollupOptions): Promise<string | undefined>;
+    text?: string;
+    path?: string;
+}, _options: import("rollup").RollupOptions): Promise<string | undefined>;
 declare namespace renderer {
     export { rollupRenderAsync, Hexo };
 }

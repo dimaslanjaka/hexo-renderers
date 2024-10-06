@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rendererSass = void 0;
+exports.rendererSass = rendererSass;
 var node_sass_1 = __importDefault(require("node-sass"));
 var path_1 = __importDefault(require("path"));
 // import * as util from 'util';
@@ -49,4 +49,3 @@ function rendererSass(hexo) {
     hexo.extend.renderer.register('scss', 'css', sassRenderer('scss'));
     hexo.extend.renderer.register('sass', 'css', sassRenderer('sass'));
 }
-exports.rendererSass = rendererSass;

@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.defaultMarkdownOptions = void 0;
+exports.default = rendererMarkdownIt;
 var renderer_1 = __importDefault(require("./markdown-it/renderer"));
 exports.defaultMarkdownOptions = {
     preset: 'default',
@@ -101,4 +102,3 @@ function rendererMarkdownIt(hexo) {
     hexo.extend.renderer.register('mdtext', 'html', render, true);
     return render;
 }
-exports.default = rendererMarkdownIt;

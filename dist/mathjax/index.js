@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rendererMathjax = void 0;
+exports.rendererMathjax = rendererMathjax;
 var ejs_1 = __importDefault(require("ejs"));
 var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
@@ -24,4 +24,3 @@ function rendererMathjax(hexo) {
         return ejs_1.default.render(content, options, { async: true });
     });
 }
-exports.rendererMathjax = rendererMathjax;

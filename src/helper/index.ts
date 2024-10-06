@@ -2,6 +2,7 @@
 import fs from 'fs';
 import Hexo from 'hexo';
 import * as hexoUtil from 'hexo-util';
+import { PageSchema } from 'hexo/dist/types';
 import lodash from 'lodash';
 import path from 'path';
 import yaml from 'yaml';
@@ -99,7 +100,7 @@ export function registerCustomHelper(hexo: Hexo) {
   });
 
   hexo.extend.helper.register('getPosts', function getPosts() {
-    const page = this['page'];
+    const page = this['page'] as (PageSchema & Record<string, any>) | undefined;
     return page?.posts;
   });
 

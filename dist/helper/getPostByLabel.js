@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPostByLabel = exports.getPostByLabelInternal = void 0;
+exports.getPostByLabelInternal = getPostByLabelInternal;
+exports.getPostByLabel = getPostByLabel;
 /**
  * hexo get post by key with name
  * @param by
@@ -39,8 +40,6 @@ function getPostByLabelInternal(by, filternames) {
     }
     return [];
 }
-exports.getPostByLabelInternal = getPostByLabelInternal;
 function getPostByLabel(hexo) {
     hexo.extend.helper.register('getPostByLabel', getPostByLabelInternal);
 }
-exports.getPostByLabel = getPostByLabel;

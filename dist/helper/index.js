@@ -35,7 +35,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerCustomHelper = exports.BASE_DIR = void 0;
+exports.BASE_DIR = void 0;
+exports.registerCustomHelper = registerCustomHelper;
+/* eslint-disable @typescript-eslint/no-require-imports */
 var fs_1 = __importDefault(require("fs"));
 var hexoUtil = __importStar(require("hexo-util"));
 var lodash_1 = __importDefault(require("lodash"));
@@ -104,8 +106,9 @@ function registerCustomHelper(hexo) {
      * Export theme config
      */
     hexo.extend.helper.register('json_config', function () {
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         var hexo = this;
-        var config = hexo.config, theme = hexo.theme, url_for = hexo.url_for, __ = hexo.__;
+        var config = hexo.config, theme = hexo.theme, url_for = hexo.url_for;
         var theme_config = {
             hostname: new URL(config.url).hostname || config.url,
             root: config.root
@@ -129,7 +132,7 @@ function registerCustomHelper(hexo) {
     });
     hexo.extend.helper.register('getPosts', function getPosts() {
         var page = this['page'];
-        return page.posts;
+        return page === null || page === void 0 ? void 0 : page.posts;
     });
     hexo.extend.helper.register('partialWithLayout', partial_1.partialWithLayout);
     hexo.extend.helper.register('date', date.date);
@@ -149,4 +152,3 @@ function registerCustomHelper(hexo) {
         }
     }
 }
-exports.registerCustomHelper = registerCustomHelper;

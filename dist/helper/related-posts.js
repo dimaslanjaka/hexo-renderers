@@ -3,7 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getRelatedPosts = exports.objectArrayIndexOf = void 0;
+exports.objectArrayIndexOf = objectArrayIndexOf;
+exports.getRelatedPosts = getRelatedPosts;
 var fs_extra_1 = __importDefault(require("fs-extra"));
 var lodash_1 = __importDefault(require("lodash"));
 var path_1 = __importDefault(require("path"));
@@ -38,7 +39,6 @@ function objectArrayIndexOf(array, searchTerm, property) {
     }
     return -1;
 }
-exports.objectArrayIndexOf = objectArrayIndexOf;
 function dynamicSort(property, isAscending) {
     var sortOrder = -1;
     if (isAscending)
@@ -64,8 +64,9 @@ function getRelatedPosts(hexo) {
     }
     hexo.extend.helper.register('list_related_posts', function (options) {
         var _this = this;
+        var _a, _b;
         /** related post cache file */
-        var relatedDb = path_1.default.join(hexo.base_dir, 'tmp/hexo-renderers/related-posts', (0, sbg_utility_1.slugify)(this.page.title), 'related.json');
+        var relatedDb = path_1.default.join(hexo.base_dir, 'tmp/hexo-renderers/related-posts', (0, sbg_utility_1.slugify)((_a = this.page) === null || _a === void 0 ? void 0 : _a.title), 'related.json');
         options = assign({
             maxCount: 5,
             orderBy: 'date',
@@ -104,7 +105,7 @@ function getRelatedPosts(hexo) {
                 }
             }
             if (postList.length === 0) {
-                var thisPageTags_1 = this.page.tags || [];
+                var thisPageTags_1 = ((_b = this.page) === null || _b === void 0 ? void 0 : _b.tags) || [];
                 var postData = (0, collector_1.getPostData)().filter(function (post) {
                     var _a;
                     var tags = [];
@@ -130,7 +131,7 @@ function getRelatedPosts(hexo) {
             /*const thisPostPosition = objectArrayIndexOf(postList, (post as Record<string, any>)._id, '_id');
             if (thisPostPosition !== -1) postList.splice(thisPostPosition, 1);
             */
-            var currentPostIndex = postList.findIndex(function (post) { return post._id === _this.page._id || post.title === _this.page.title; });
+            var currentPostIndex = postList.findIndex(function (post) { var _a, _b; return post._id === ((_a = _this.page) === null || _a === void 0 ? void 0 : _a._id) || post.title === ((_b = _this.page) === null || _b === void 0 ? void 0 : _b.title); });
             if (currentPostIndex !== -1)
                 postList.splice(currentPostIndex, 1);
             if (options.orderBy === 'random') {
@@ -145,4 +146,3 @@ function getRelatedPosts(hexo) {
         return postList;
     });
 }
-exports.getRelatedPosts = getRelatedPosts;

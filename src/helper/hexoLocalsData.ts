@@ -18,3 +18,8 @@ export interface HexoLocalsData {
   /** absolute path source post markdown */
   full_source?: string;
 }
+
+export interface HexoRenderData {
+  text?: string;
+  path?: string;
+}
