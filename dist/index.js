@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rendererStylus = exports.rendererSass = exports.rendererRollup = exports.rendererPug = exports.rendererNunjucks = exports.rendererEjs = exports.rendererMarkdownIt = exports.rendererDartSass = void 0;
+exports.rendererStylus = exports.rendererSass = exports.rendererRollup = exports.rendererPug = exports.rendererNunjucks = exports.rendererMarkdownIt = exports.rendererEjs = exports.rendererDartSass = void 0;
 var sbg_utility_1 = require("sbg-utility");
 var upath_1 = __importDefault(require("upath"));
 var generator_1 = require("./generator");
@@ -92,7 +92,7 @@ if (typeof hexo !== 'undefined') {
         (0, renderer_ejs_1.rendererEjs)(hexo);
         (0, renderer_pug_1.rendererPug)(hexo);
         (0, renderer_stylus_1.rendererStylus)(hexo);
-        (0, rollup_1.rendererRollup)(hexo);
+        // rendererRollup(hexo);
         // rendererDartSass(hexo);
         (0, renderer_sass_1.rendererSass)(hexo);
         (0, renderer_markdown_it_1.default)(hexo);

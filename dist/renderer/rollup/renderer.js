@@ -68,7 +68,7 @@ module.exports.rollupRenderAsync = rollupRenderAsync;
 /**
  * rollup renderer callback
  * @param {{text?:string,path?:string}} data
- * @param {import('rollup').RollupOptions} _options
+ * @param {import('rollup').RollupOptions} [_options]
  * @returns
  */
 function renderer(data, _options) {
