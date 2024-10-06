@@ -87,7 +87,7 @@ if (typeof hexo !== 'undefined') {
     rendererEjs(hexo);
     rendererPug(hexo);
     rendererStylus(hexo);
-    rendererRollup(hexo);
+    // rendererRollup(hexo);
     // rendererDartSass(hexo);
     rendererSass(hexo);
     rendererMarkdownIt(hexo);
@@ -96,8 +96,8 @@ if (typeof hexo !== 'undefined') {
 
 export {
   rendererDartSass,
-  rendererMarkdownIt,
   rendererEjs,
+  rendererMarkdownIt,
   rendererNunjucks,
   rendererPug,
   rendererRollup,

@@ -31,6 +31,9 @@ set config for your desired renderer engine.
 
 ## Changelog
 
+### 2.0.5
+- chore: disable `rollup` renderer by default
+
 ### 2.0.4
 - feat: support for hexo 7.3.0
 - update dependencies (except markdown-it)
