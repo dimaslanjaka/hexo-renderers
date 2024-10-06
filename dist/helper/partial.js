@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.partialWithLayout = void 0;
+exports.partialWithLayout = partialWithLayout;
 var upath_1 = require("upath");
 // original https://github.com/hexojs/hexo/blob/cb19b2938d1f7882a4cb41a98974a3d673a63b45/lib/plugins/helper/partial.js#L5
 function partialWithLayout(ctx) {
@@ -33,4 +33,3 @@ function partialWithLayout(ctx) {
         return view.renderSync(viewLocals);
     };
 }
-exports.partialWithLayout = partialWithLayout;

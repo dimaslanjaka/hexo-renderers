@@ -38,10 +38,16 @@ function rendererPug(hexo) {
          });
         return pug.compile(data.text, opts);
     }
+    /**
+     * @param {import('./helper/hexoLocalsData').HexoLocalsData} data
+     * @param {Record<string, any>} locals
+     * @returns
+     */
     function pugRenderer(data, locals) {
         return pugCompile(data)(locals);
     }
     pugRenderer.compile = pugCompile;
     hexo.extend.renderer.register('pug', 'html', pugRenderer, true);
+    return pugRenderer;
 }
 module.exports = { rendererPug: rendererPug };

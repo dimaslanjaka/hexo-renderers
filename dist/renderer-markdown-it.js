@@ -1,10 +1,10 @@
-/* global hexo */
 'use strict';
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.defaultMarkdownOptions = void 0;
+exports.default = rendererMarkdownIt;
 var renderer_1 = __importDefault(require("./markdown-it/renderer"));
 exports.defaultMarkdownOptions = {
     preset: 'default',
@@ -90,6 +90,7 @@ function rendererMarkdownIt(hexo) {
         renderer.disableNunjucks = hexo.config.markdown.disableNunjucks === 'true';
     }
     function render(data, options) {
+        if (options === void 0) { options = {}; }
         return renderer.render(data, options);
     }
     hexo.extend.renderer.register('md', 'html', render, true);
@@ -99,5 +100,5 @@ function rendererMarkdownIt(hexo) {
     hexo.extend.renderer.register('mdwn', 'html', render, true);
     hexo.extend.renderer.register('mdtxt', 'html', render, true);
     hexo.extend.renderer.register('mdtext', 'html', render, true);
+    return render;
 }
-exports.default = rendererMarkdownIt;

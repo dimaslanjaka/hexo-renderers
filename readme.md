@@ -11,10 +11,12 @@ All in one theme renderers and helpers for hexo. Load all hexo renderer engines 
 You can specify some renderers by `_config.yml`
 ```yaml
 renderers:
-  engines: ['ejs', 'stylus', 'nunjucks', 'dartsass', 'pug', 'sass', 'markdown-it']
+  engines: ['ejs', 'stylus', 'nunjucks', 'dartsass', 'pug', 'sass', 'markdown-it', 'rollup']
   generator:
     # enable generate <domain>/meta.json
     - meta
+    # enable generate related posts
+    - related-posts
 ```
 
 > - dartsass improved from `hexo-renderer-dartsass`

@@ -1,8 +1,10 @@
-import ansiColors from 'ansi-colors';
 import Hexo from 'hexo';
+import { del } from 'sbg-utility';
+import path from 'upath';
 import { registerCustomGenerator } from './generator';
 import { registerCustomHelper } from './helper';
 import { collectorPost, loadPostData } from './helper/collector';
+import { logname } from './helper/util';
 import { rendererDartSass } from './renderer-dartsass';
 import { rendererEjs } from './renderer-ejs';
 import { default as rendererMarkdownIt } from './renderer-markdown-it';
@@ -10,12 +12,13 @@ import { rendererNunjucks } from './renderer-nunjucks';
 import { rendererPug } from './renderer-pug';
 import { rendererSass } from './renderer-sass';
 import { rendererStylus } from './renderer-stylus';
-
-const logname = ansiColors.magenta('hexo-renderers');
+import { rendererRollup } from './renderer/rollup';
 
 if (typeof hexo !== 'undefined') {
   // assign hexo to global variable
   (global as any).hexo = hexo;
+
+  // define options
   const options: { generator: string[]; engines: string[] } = Object.assign(
     { generator: ['meta'], engines: [] as string[] },
     hexo.config.renderers?.generator || {}
@@ -29,6 +32,11 @@ if (typeof hexo !== 'undefined') {
   // initial process - restoration
   hexo.extend.filter.register('after_init', function (this: Hexo) {
     loadPostData(this);
+  });
+
+  // clean temp files after clean
+  hexo.extend.filter.register('after_clean', function () {
+    return del(path.join(hexo.base_dir, 'tmp/hexo-renderers'));
   });
 
   // register custom helper
@@ -54,6 +62,9 @@ if (typeof hexo !== 'undefined') {
         case 'dartsass':
           rendererDartSass(hexo);
           break;
+        case 'rollup':
+          rendererRollup(hexo);
+          break;
         case 'sass':
           rendererSass(hexo);
           break;
@@ -70,15 +81,26 @@ if (typeof hexo !== 'undefined') {
       }
     }
   } else {
+    hexo.log.info(logname, 'activating all engines');
     // activate all available engines
     rendererNunjucks(hexo);
     rendererEjs(hexo);
     rendererPug(hexo);
     rendererStylus(hexo);
+    rendererRollup(hexo);
     // rendererDartSass(hexo);
     rendererSass(hexo);
     rendererMarkdownIt(hexo);
   }
-} else {
-  console.error(logname, 'not hexo instance');
 }
+
+export {
+  rendererDartSass,
+  rendererMarkdownIt,
+  rendererEjs,
+  rendererNunjucks,
+  rendererPug,
+  rendererRollup,
+  rendererSass,
+  rendererStylus
+};

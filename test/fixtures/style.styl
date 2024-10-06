@@ -1,0 +1,68 @@
+// Variables
+primary-color = #3498db
+secondary-color = #2ecc71
+font-size-large = 24px
+font-size-small = 14px
+
+// Mixin for button styling
+button-style(color, background-color)
+  color: color
+  background-color: background-color
+  padding: 10px 20px
+  border-radius: 5px
+  border: none
+  cursor: pointer
+
+// Mixin for responsive font size
+responsive-font-size(size)
+  font-size: size
+  @media (max-width: 600px)
+    font-size: size - 4px
+
+// Body styles
+body
+  font-family: Arial, sans-serif
+  background-color: #f5f5f5
+  margin: 0
+  padding: 0
+
+// Header styles
+header
+  background-color: primary-color
+  color: white
+  padding: 20px
+  text-align: center
+
+  h1
+    responsive-font-size(font-size-large)
+
+// Button styles with condition
+button
+  if primary-color == #3498db
+    button-style(white, primary-color)
+  else
+    button-style(black, secondary-color)
+
+// Nested navigation styles
+nav
+  ul
+    list-style: none
+    padding: 0
+    display: flex
+
+    li
+      margin-right: 20px
+
+      a
+        text-decoration: none
+        color: white
+
+// Footer styles
+footer
+  background-color: secondary-color
+  color: white
+  text-align: center
+  padding: 10px 0
+
+  p
+    responsive-font-size(font-size-small)

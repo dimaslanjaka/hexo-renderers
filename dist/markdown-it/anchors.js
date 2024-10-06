@@ -44,7 +44,7 @@ var anchor = function (md, opts) {
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
-        var tokens = args[0], idx = args[1], something = args[2], somethingelse = args[3], self = args[4]; // eslint-disable-line no-unused-vars
+        var tokens = args[0], idx = args[1], _something = args[2], _somethingelse = args[3], self = args[4];
         if (tokens[idx].tag.substr(1) >= opts.level) {
             var _tokens$idx = void 0;
             var title = tokens[idx + 1].children.reduce(function (acc, t) {

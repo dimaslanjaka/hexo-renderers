@@ -2,18 +2,18 @@
  * hexo-renderer-nunjucks
  * @param {import('hexo')} hexo
  */
-export function rendererNunjucks(hexo: import('hexo')): {
+export function rendererNunjucks(hexo: import("hexo")): {
     render: {
-        (data: any, locals: any): string;
-        compile: (data: any) => {
-            (context?: object | undefined): string;
-            (context?: object | undefined, callback?: nunjucks.TemplateCallback<string> | undefined): void;
+        (data: import("hexo").PageData, locals: import("hexo").Locals): string;
+        compile: (data: import("./helper/hexoLocalsData").HexoRenderData) => {
+            (context?: object): string;
+            (context?: object, callback?: nunjucks.TemplateCallback<string>): void;
         };
     };
     rendererNunjucks: typeof rendererNunjucks;
-    compile: (data: any) => {
-        (context?: object | undefined): string;
-        (context?: object | undefined, callback?: nunjucks.TemplateCallback<string> | undefined): void;
+    compile: (data: import("./helper/hexoLocalsData").HexoRenderData) => {
+        (context?: object): string;
+        (context?: object, callback?: nunjucks.TemplateCallback<string>): void;
     };
 };
 import nunjucks = require("nunjucks");

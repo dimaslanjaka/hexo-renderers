@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTheAuthor = exports.getAuthor = void 0;
+exports.getAuthor = getAuthor;
+exports.getTheAuthor = getTheAuthor;
 function getAuthor(hexo) {
     /**
      * usage:
@@ -18,7 +19,6 @@ function getAuthor(hexo) {
         return 'default user';
     });
 }
-exports.getAuthor = getAuthor;
 function getTheAuthor(authorObj) {
     if (typeof authorObj === 'string')
         return authorObj;
@@ -29,4 +29,3 @@ function getTheAuthor(authorObj) {
     if (typeof authorObj.nickname === 'string')
         return authorObj.nickname;
 }
-exports.getTheAuthor = getTheAuthor;

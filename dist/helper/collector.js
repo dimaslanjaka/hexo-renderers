@@ -32,8 +32,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -62,14 +62,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.collectorPost = exports.getPostData = exports.loadPostData = exports.postDataFilePath = void 0;
-var ansi_colors_1 = __importDefault(require("ansi-colors"));
+exports.getPostData = void 0;
+exports.postDataFilePath = postDataFilePath;
+exports.loadPostData = loadPostData;
+exports.collectorPost = collectorPost;
 var cheerio = __importStar(require("cheerio"));
 var fs_extra_1 = __importDefault(require("fs-extra"));
 var path_1 = __importDefault(require("path"));
 var sbg_utility_1 = require("sbg-utility");
 var util_1 = require("./util");
-var logname = ansi_colors_1.default.magentaBright('hexo-renderers');
 var postData = [];
 /**
  * get post database path
@@ -77,19 +78,26 @@ var postData = [];
  * @returns
  */
 function postDataFilePath(hexo) {
-    return path_1.default.join(hexo.base_dir, 'tmp/post-data.json');
+    return path_1.default.join(hexo.base_dir, 'tmp/hexo-renderers/post-data.json');
 }
-exports.postDataFilePath = postDataFilePath;
 /**
  * load existing database (initial only)
  */
 function loadPostData(hexo) {
     var file = postDataFilePath(hexo);
     if (fs_extra_1.default.existsSync(file)) {
-        postData.push.apply(postData, JSON.parse(fs_extra_1.default.readFileSync(file, 'utf-8')));
+        // postData.push(...jsonParseWithCircularRefs(fs.readFileSync(file, 'utf-8')));
+        try {
+            postData = (0, sbg_utility_1.jsonParseWithCircularRefs)(fs_extra_1.default.readFileSync(file, 'utf-8'));
+        }
+        catch (e) {
+            (0, sbg_utility_1.copyPath)(file, path_1.default.join(hexo.base_dir, 'tmp/hexo-renderers/errors/loadPostData.json'));
+            var tag = 'fail load post data';
+            hexo.log.error(tag, file);
+            hexo.log.error(tag, e.message);
+        }
     }
 }
-exports.loadPostData = loadPostData;
 /**
  * get loaded post data (getter)
  * @returns
@@ -108,7 +116,7 @@ function collectorPost(post, hexo) {
                     _a = _b.sent();
                     return [3 /*break*/, 3];
                 case 2:
-                    _a = (0, sbg_utility_1.md5)(post.path + post.raw);
+                    _a = (0, sbg_utility_1.md5)(String(post.path + post.raw));
                     _b.label = 3;
                 case 3:
                     integrity = _a;
@@ -197,14 +205,14 @@ function collectorPost(post, hexo) {
                         (0, sbg_utility_1.writefile)(postDataFilePath(hexo), (0, sbg_utility_1.jsonStringifyWithCircularRefs)(map));
                     }
                     catch (e) {
-                        hexo.log.error(logname, 'fail write postdata', String(e));
+                        hexo.log.error(util_1.logname, 'fail write postdata');
+                        console.trace(e);
                     }
                     return [2 /*return*/];
             }
         });
     });
 }
-exports.collectorPost = collectorPost;
 function cleanText(str) {
     return (String(str) // clean the invalid chars for html
         .replace(/[><"']/gm, '')

@@ -1,7 +1,13 @@
 import fs from 'fs-extra';
 import lodash from 'lodash';
 import path from 'path';
-import { array_shuffle, jsonStringifyWithCircularRefs, slugify, writefile } from 'sbg-utility';
+import {
+  array_shuffle,
+  jsonParseWithCircularRefs,
+  jsonStringifyWithCircularRefs,
+  slugify,
+  writefile
+} from 'sbg-utility';
 import { getPostData } from './collector';
 import { tagName } from './util';
 
@@ -43,7 +49,17 @@ function dynamicSort(property: string, isAscending: boolean) {
   };
 }
 
+/**
+ * populate related posts
+ * @param hexo hexo instance
+ */
 export function getRelatedPosts(hexo: import('hexo')) {
+  const options: string[] | undefined = hexo.config.renderers?.generator;
+  if (Array.isArray(options)) {
+    if (!options.includes('related-posts')) return;
+  } else {
+    return;
+  }
   hexo.extend.helper.register(
     'list_related_posts',
     function (options: {
@@ -53,7 +69,12 @@ export function getRelatedPosts(hexo: import('hexo')) {
       isAscending?: any;
     }) {
       /** related post cache file */
-      const relatedDb = path.join(hexo.base_dir, 'tmp/hexo-renderers', slugify(this.page.title), 'related.json');
+      const relatedDb = path.join(
+        hexo.base_dir,
+        'tmp/hexo-renderers/related-posts',
+        slugify(this.page?.title as any),
+        'related.json'
+      );
       options = assign(
         {
           maxCount: 5,
@@ -79,7 +100,7 @@ export function getRelatedPosts(hexo: import('hexo')) {
       let postList = [] as any[];
       if (fs.existsSync(relatedDb)) {
         // load from cache
-        postList = JSON.parse(fs.readFileSync(relatedDb, 'utf-8'));
+        postList = jsonParseWithCircularRefs(fs.readFileSync(relatedDb, 'utf-8'));
       } else {
         // regenerate cache
         const post = this.post || this.page;
@@ -97,7 +118,7 @@ export function getRelatedPosts(hexo: import('hexo')) {
         }
 
         if (postList.length === 0) {
-          const thisPageTags = this.page.tags || [];
+          const thisPageTags = this.page?.tags || [];
           const postData = getPostData().filter((post) => {
             let tags: any[] = [];
             if (post.tags?.toArray) {
@@ -123,7 +144,7 @@ export function getRelatedPosts(hexo: import('hexo')) {
         if (thisPostPosition !== -1) postList.splice(thisPostPosition, 1);
         */
         const currentPostIndex = postList.findIndex(
-          (post) => post._id === this.page._id || post.title === this.page.title
+          (post) => post._id === this.page?._id || post.title === this.page?.title
         );
         if (currentPostIndex !== -1) postList.splice(currentPostIndex, 1);
 

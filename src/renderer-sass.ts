@@ -1,10 +1,11 @@
 import Hexo from 'hexo';
 import sass from 'node-sass';
+import path from 'path';
 // import * as util from 'util';
 const extend = Object.assign; //util['_extend'];
 
 const sassRenderer = (ext: string) =>
-  function (this: Hexo, data: { text?: any; path?: any; }) {
+  function (this: Hexo, data: { text?: any; path?: any }) {
     // support global and theme-specific config
     const userConfig = extend(this.theme.config.node_sass || {}, this.config.node_sass || {});
 
@@ -17,6 +18,21 @@ const sassRenderer = (ext: string) =>
         indentedSyntax: ext === 'sass'
       },
       userConfig
+    );
+
+    // turn includePaths into array
+    if (typeof config.includePaths === 'string') {
+      // string
+      config.includePaths = [config.includePaths];
+    } else if (!config.includePaths) {
+      // undefined
+      config.includePaths = [];
+    }
+
+    // include installed library locations into compiler
+    (config.includePaths as string[]).push(
+      path.join(hexo.base_dir, 'node_modules'),
+      path.join(hexo.theme_dir, 'node_modules')
     );
 
     try {

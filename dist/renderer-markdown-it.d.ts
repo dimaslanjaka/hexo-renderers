@@ -1,4 +1,5 @@
 import Hexo from 'hexo';
+import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import MarkdownIt from 'markdown-it';
 export declare const defaultMarkdownOptions: {
     preset: MarkdownIt.PresetName;
@@ -37,4 +38,4 @@ export declare const defaultMarkdownOptions: {
  * hexo-renderer-markdown-it
  * @param hexo
  */
-export default function rendererMarkdownIt(hexo: Hexo): void;
+export default function rendererMarkdownIt(hexo: Hexo): (data: StoreFunctionData, options?: Record<string, any>) => string;

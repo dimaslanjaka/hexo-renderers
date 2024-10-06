@@ -35,16 +35,24 @@ function toISOString(date) {
     return new Date(date).toISOString();
 }
 function dateHelper(date, format) {
+    if (!date)
+        return 'date is undefined';
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     var config = this.config;
     var moment = getMoment(date, getLanguage(this), config.timezone);
     return moment.format(format || config.date_format);
 }
 function timeHelper(date, format) {
+    if (!date)
+        return 'date is undefined';
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     var config = this.config;
     var moment = getMoment(date, getLanguage(this), config.timezone);
     return moment.format(format || config.time_format);
 }
 function fullDateHelper(date, format) {
+    if (!date)
+        return 'date is undefined';
     if (format) {
         var moment_1 = getMoment(date, getLanguage(this), this.config.timezone);
         return moment_1.format(format);
@@ -52,11 +60,17 @@ function fullDateHelper(date, format) {
     return "".concat(this.date(date), " ").concat(this.time(date));
 }
 function relativeDateHelper(date) {
+    if (!date)
+        return 'date is undefined';
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     var config = this.config;
     var moment = getMoment(date, getLanguage(this), config.timezone);
     return moment.fromNow();
 }
 function timeTagHelper(date, format) {
+    if (!date)
+        return 'date is undefined';
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     var config = this.config;
     return "<time datetime=\"".concat(toISOString(date), "\">").concat(this.date(date, format, getLanguage(this), config.timezone), "</time>");
 }

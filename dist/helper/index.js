@@ -35,7 +35,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.registerCustomHelper = exports.BASE_DIR = void 0;
+exports.BASE_DIR = void 0;
+exports.registerCustomHelper = registerCustomHelper;
+/* eslint-disable @typescript-eslint/no-require-imports */
 var fs_1 = __importDefault(require("fs"));
 var hexoUtil = __importStar(require("hexo-util"));
 var lodash_1 = __importDefault(require("lodash"));
@@ -48,12 +50,15 @@ var partial_1 = require("./partial");
 var related_posts_1 = require("./related-posts");
 var _toArray = lodash_1.default.toArray;
 exports.BASE_DIR = typeof hexo === 'undefined' ? process.cwd() : hexo.base_dir;
-var config;
-if (typeof hexo === 'undefined') {
-    config = yaml_1.default.parse(fs_1.default.readFileSync(path_1.default.join(exports.BASE_DIR, '_config.yml')).toString());
-}
-else {
-    config = yaml_1.default.parse(fs_1.default.readFileSync(path_1.default.join(exports.BASE_DIR, '_config.yml')).toString());
+var configFile = path_1.default.join(exports.BASE_DIR, '_config.yml');
+var config = {};
+if (fs_1.default.existsSync(configFile)) {
+    if (typeof hexo === 'undefined') {
+        config = yaml_1.default.parse(fs_1.default.readFileSync(configFile).toString());
+    }
+    else {
+        config = hexo.config;
+    }
 }
 var THEME_LOCATION = path_1.default.join(process.cwd(), 'themes', config.theme || 'landscape');
 var _THEME_SCRIPTS = path_1.default.join(THEME_LOCATION, 'scripts');
@@ -101,8 +106,9 @@ function registerCustomHelper(hexo) {
      * Export theme config
      */
     hexo.extend.helper.register('json_config', function () {
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         var hexo = this;
-        var config = hexo.config, theme = hexo.theme, url_for = hexo.url_for, __ = hexo.__;
+        var config = hexo.config, theme = hexo.theme, url_for = hexo.url_for;
         var theme_config = {
             hostname: new URL(config.url).hostname || config.url,
             root: config.root
@@ -126,10 +132,12 @@ function registerCustomHelper(hexo) {
     });
     hexo.extend.helper.register('getPosts', function getPosts() {
         var page = this['page'];
-        return page.posts;
+        return page === null || page === void 0 ? void 0 : page.posts;
     });
     hexo.extend.helper.register('partialWithLayout', partial_1.partialWithLayout);
     hexo.extend.helper.register('date', date.date);
+    //hexo.extend.helper.register('format_date', date.date);
+    //hexo.extend.helper.register('date_format', date.date);
     hexo.extend.helper.register('date_xml', date.date_xml);
     hexo.extend.helper.register('time', date.time);
     hexo.extend.helper.register('full_date', date.full_date);
@@ -144,4 +152,3 @@ function registerCustomHelper(hexo) {
         }
     }
 }
-exports.registerCustomHelper = registerCustomHelper;

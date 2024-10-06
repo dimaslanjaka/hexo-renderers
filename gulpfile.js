@@ -28,3 +28,19 @@ gulp.task('commit', async function () {
     cwd: __dirname
   });
 });
+
+gulp.task('test:render', function () {
+  /**
+   * @param {gulp.TaskFunctionCallback} testCb
+   */
+  const run = function (testCb) {
+    spawnAsync('npm', ['run', 'build'])
+      .then(() =>
+        spawnAsync('node', ['-r', 'ts-node/register', 'test/render-sample.ts'], { stdio: 'inherit' }).then(() =>
+          testCb()
+        )
+      )
+      .catch(testCb);
+  };
+  run(() => gulp.watch(['src/**/*.*', 'test/**/*.*', '!**/node_modules/**', '!**/dist/**', '!**/tmp/**'], run));
+});

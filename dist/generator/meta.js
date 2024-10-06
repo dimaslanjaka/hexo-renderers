@@ -1,7 +1,7 @@
 "use strict";
 // forked from https://gist.github.com/mh61503891/544d3c1eefd00b1012463b860222d34f
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.metaJsonCreator = void 0;
+exports.metaJsonCreator = metaJsonCreator;
 var meta = {
     tags: [],
     posts: [],
@@ -32,4 +32,3 @@ function metaJsonCreator(hexo) {
         return { path: 'meta.json', data: JSON.stringify(meta) };
     });
 }
-exports.metaJsonCreator = metaJsonCreator;

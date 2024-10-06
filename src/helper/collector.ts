@@ -1,14 +1,19 @@
-import ansiColors from 'ansi-colors';
 import * as cheerio from 'cheerio';
 import fs from 'fs-extra';
 import Hexo from 'hexo';
 import path from 'path';
-import { file_to_hash, jsonStringifyWithCircularRefs, md5, writefile } from 'sbg-utility';
+import {
+  copyPath,
+  file_to_hash,
+  jsonParseWithCircularRefs,
+  jsonStringifyWithCircularRefs,
+  md5,
+  writefile
+} from 'sbg-utility';
 import { HexoLocalsData } from './hexoLocalsData';
-import { DeepPartial, categorieName, tagName } from './util';
+import { DeepPartial, categorieName, logname, tagName } from './util';
 
-const logname = ansiColors.magentaBright('hexo-renderers');
-const postData: HexoLocalsData[] = [];
+let postData: HexoLocalsData[] = [];
 
 /**
  * get post database path
@@ -16,7 +21,7 @@ const postData: HexoLocalsData[] = [];
  * @returns
  */
 export function postDataFilePath(hexo: Hexo) {
-  return path.join(hexo.base_dir, 'tmp/post-data.json');
+  return path.join(hexo.base_dir, 'tmp/hexo-renderers/post-data.json');
 }
 
 /**
@@ -25,7 +30,15 @@ export function postDataFilePath(hexo: Hexo) {
 export function loadPostData(hexo: Hexo) {
   const file = postDataFilePath(hexo);
   if (fs.existsSync(file)) {
-    postData.push(...JSON.parse(fs.readFileSync(file, 'utf-8')));
+    // postData.push(...jsonParseWithCircularRefs(fs.readFileSync(file, 'utf-8')));
+    try {
+      postData = jsonParseWithCircularRefs(fs.readFileSync(file, 'utf-8'));
+    } catch (e: any) {
+      copyPath(file, path.join(hexo.base_dir, 'tmp/hexo-renderers/errors/loadPostData.json'));
+      const tag = 'fail load post data';
+      hexo.log.error(tag, file);
+      hexo.log.error(tag, e.message);
+    }
   }
 }
 
@@ -36,7 +49,9 @@ export function loadPostData(hexo: Hexo) {
 export const getPostData = () => postData;
 
 export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
-  const integrity = post.full_source ? await file_to_hash('sha1', post.full_source, 'hex') : md5(post.path + post.raw);
+  const integrity = post.full_source
+    ? await file_to_hash('sha1', post.full_source, 'hex')
+    : md5(String(post.path + post.raw));
   /** existing post */
   const exPostIndex = postData.findIndex((exPost) => post.path === exPost.path);
   const exPost = postData.find((exPost) => post.path === exPost.path);
@@ -115,7 +130,8 @@ export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
     });
     writefile(postDataFilePath(hexo), jsonStringifyWithCircularRefs(map));
   } catch (e: any) {
-    hexo.log.error(logname, 'fail write postdata', String(e));
+    hexo.log.error(logname, 'fail write postdata');
+    console.trace(e);
   }
 }
 

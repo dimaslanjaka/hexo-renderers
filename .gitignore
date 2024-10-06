@@ -4,3 +4,7 @@
 **/node_modules
 **/tmp
 **/*.tsbuildinfo
+yarn.lock
+/lib
+/packages
+.env

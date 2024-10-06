@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 import fs from 'fs';
 import Hexo from 'hexo';
 import * as hexoUtil from 'hexo-util';
+import { PageSchema } from 'hexo/dist/types';
 import lodash from 'lodash';
 import path from 'path';
 import yaml from 'yaml';
@@ -13,11 +15,15 @@ import { getRelatedPosts } from './related-posts';
 const _toArray = lodash.toArray;
 
 export const BASE_DIR = typeof hexo === 'undefined' ? process.cwd() : hexo.base_dir;
-let config: import('hexo')['config'];
-if (typeof hexo === 'undefined') {
-  config = yaml.parse(fs.readFileSync(path.join(BASE_DIR, '_config.yml')).toString());
-} else {
-  config = yaml.parse(fs.readFileSync(path.join(BASE_DIR, '_config.yml')).toString());
+
+const configFile = path.join(BASE_DIR, '_config.yml');
+let config: import('hexo')['config'] = {} as any;
+if (fs.existsSync(configFile)) {
+  if (typeof hexo === 'undefined') {
+    config = yaml.parse(fs.readFileSync(configFile).toString());
+  } else {
+    config = hexo.config;
+  }
 }
 
 const THEME_LOCATION = path.join(process.cwd(), 'themes', config.theme || 'landscape');
@@ -70,9 +76,10 @@ export function registerCustomHelper(hexo: Hexo) {
   /**
    * Export theme config
    */
-  hexo.extend.helper.register('json_config', function (this: Hexo & Record<string, any>) {
+  hexo.extend.helper.register('json_config', function () {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const hexo = this;
-    const { config, theme, url_for, __ } = hexo;
+    const { config, theme, url_for } = hexo;
     const theme_config = {
       hostname: new URL(config.url).hostname || config.url,
       root: config.root
@@ -92,13 +99,15 @@ export function registerCustomHelper(hexo: Hexo) {
     return `<script class="json-config" data-name="${name}" type="application/json">${JSON.stringify(json).replace(/</g, '\\u003c')}</script>`;
   });
 
-  hexo.extend.helper.register('getPosts', function getPosts(this: Hexo) {
-    const page = this['page'];
-    return page.posts;
+  hexo.extend.helper.register('getPosts', function getPosts() {
+    const page = this['page'] as (PageSchema & Record<string, any>) | undefined;
+    return page?.posts;
   });
 
   hexo.extend.helper.register('partialWithLayout', partialWithLayout);
   hexo.extend.helper.register('date', date.date);
+  //hexo.extend.helper.register('format_date', date.date);
+  //hexo.extend.helper.register('date_format', date.date);
   hexo.extend.helper.register('date_xml', date.date_xml);
   hexo.extend.helper.register('time', date.time);
   hexo.extend.helper.register('full_date', date.full_date);

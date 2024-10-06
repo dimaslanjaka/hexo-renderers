@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tagName = exports.categorieName = void 0;
+exports.logname = exports.tagName = exports.categorieName = void 0;
+var ansi_colors_1 = __importDefault(require("ansi-colors"));
 /** get category names */
 var categorieName = function (inCategories) {
     if (!inCategories)
@@ -31,3 +35,4 @@ var tagName = function (inTags) {
     return retTags;
 };
 exports.tagName = tagName;
+exports.logname = ansi_colors_1.default.magentaBright('hexo-renderers');

@@ -54,7 +54,7 @@ function rendererNunjucks(hexo) {
 
   /**
    * compile
-   * @param {import('hexo').PageData} data
+   * @param {import('./helper/hexoLocalsData').HexoRenderData} data
    * @returns
    */
   function compile(data) {
