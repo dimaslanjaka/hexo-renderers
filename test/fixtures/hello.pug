@@ -1,0 +1,25 @@
+//- Variables
+- var title = "Simple Complex Pug Example"
+- var user = { name: "John Doe", loggedIn: true }
+- var items = ["Item 1", "Item 2", "Item 3"]
+
+html
+  head
+    title= title
+  body
+    header
+      h1 Welcome, #{user.name}!
+      if user.loggedIn
+        p You are logged in.
+      else
+        p Please log in to continue.
+
+    main
+      h2 Items List:
+      ul
+        each item in items
+          li= item
+      p Hello #{name}
+
+    footer
+      p &copy; 2024 My Company
