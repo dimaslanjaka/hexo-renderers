@@ -6,6 +6,8 @@ import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import MarkdownIt from 'markdown-it';
 import path from 'upath';
 import { defaultMarkdownOptions } from '../renderer-markdown-it';
+import anchorProcess from './anchors';
+import imageProcess from './images';
 
 export type MarkdownItRendererOptions =
   | string
@@ -85,11 +87,11 @@ class Renderer {
     }
 
     if (anchors) {
-      this.parser.use(require('./anchors'), anchors);
+      this.parser.use(anchorProcess, anchors);
     }
 
     if (images) {
-      this.parser.use(require('./images'), {
+      this.parser.use(imageProcess, {
         images,
         hexo: this.hexo
       });
