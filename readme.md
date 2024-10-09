@@ -31,6 +31,9 @@ set config for your desired renderer engine.
 
 ## Changelog
 
+### 2.0.6
+- fix: escape **invalid html tag** curly brackets on hyperlink text to html entities
+
 ### 2.0.5
 - chore: disable `rollup` renderer by default
 

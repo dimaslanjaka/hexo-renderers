@@ -1,13 +1,24 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 'use strict';
 
+import { load } from 'cheerio';
 import Hexo from 'hexo';
 import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import MarkdownIt from 'markdown-it';
 import path from 'upath';
 import { defaultMarkdownOptions } from '../renderer-markdown-it';
 import anchorProcess from './anchors';
+import { validHtmlTags } from './html-tags';
 import imageProcess from './images';
+
+export const escapeHtml = (str: string) => {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+};
 
 export type MarkdownItRendererOptions =
   | string
@@ -101,9 +112,38 @@ class Renderer {
 
   render(data: StoreFunctionData, _options: any) {
     this.hexo.execFilterSync('markdown-it:renderer', this.parser, { context: this });
-    return this.parser.render(data.text as string, {
+    let html = this.parser.render(data.text as string, {
       postPath: data.path
     });
+    const $ = load(html);
+    const regexs: RegExp[] = [];
+    $('*').each((index, element) => {
+      const tagName = (element as any).tagName.toLowerCase();
+      if (!validHtmlTags.includes(tagName)) {
+        const regex = new RegExp('</?' + tagName + '>', 'gm');
+        regexs.push(regex);
+      }
+    });
+    const results = regexs.map((regex) => {
+      const result = html.match(regex);
+      if (typeof hexo != 'undefined') {
+        hexo.log.info('found invalid html tags inside anchor', regex, result);
+      }
+      return { regex, result };
+    });
+    // Flatten the results and filter out null values
+    const matches = results.flat();
+    for (let i = 0; i < matches.length; i++) {
+      const regex_result = matches[i];
+      if (regex_result.result) {
+        for (let i = 0; i < regex_result.result.length; i++) {
+          const replacement = escapeHtml(regex_result.result[i]);
+          // console.log(regex_result.regex, replacement);
+          html = html.replace(regex_result.regex, replacement);
+        }
+      }
+    }
+    return html;
   }
 }
 

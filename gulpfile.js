@@ -2,13 +2,13 @@ const { spawnAsync } = require('git-command-helper');
 const gulp = require('gulp');
 const path = require('path');
 
-gulp.task('default', function () {
+exports.default = function () {
   return gulp
     .src(['**/*.*'], { cwd: path.join(__dirname, 'src'), ignore: ['**/*.js', '**/*.ts'] })
     .pipe(gulp.dest(path.join(__dirname, 'dist')));
-});
+};
 
-gulp.task('commit', async function () {
+exports.commit = async function () {
   // git add dist release
   // to get commits between two commits
   // ex: https://github.com/dimaslanjaka/hexo-renderers/compare/edc31272058871caca481a01d14798ce304368c5...6ec53581e4b5b0d6a61ecdb142ef226cb1651905
@@ -27,9 +27,9 @@ gulp.task('commit', async function () {
   await spawnAsync('git', ['commit', '-m', 'chore: update build', '-m', 'changelog ' + urlBetweenCommits], {
     cwd: __dirname
   });
-});
+};
 
-gulp.task('test:render', function () {
+exports['test-render'] = function () {
   /**
    * @param {gulp.TaskFunctionCallback} testCb
    */
@@ -43,4 +43,4 @@ gulp.task('test:render', function () {
       .catch(testCb);
   };
   run(() => gulp.watch(['src/**/*.*', 'test/**/*.*', '!**/node_modules/**', '!**/dist/**', '!**/tmp/**'], run));
-});
+};
