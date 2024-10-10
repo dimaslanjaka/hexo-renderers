@@ -34,6 +34,12 @@ __export(renderer_exports, {
   escapeHtml: () => escapeHtml
 });
 module.exports = __toCommonJS(renderer_exports);
+
+// node_modules/tsup/assets/cjs_shims.js
+var getImportMetaUrl = () => typeof document === "undefined" ? new URL(`file:${__filename}`).href : document.currentScript && document.currentScript.src || new URL("main.js", document.baseURI).href;
+var importMetaUrl = /* @__PURE__ */ getImportMetaUrl();
+
+// src/markdown-it/renderer.ts
 var import_cheerio = require("cheerio");
 var import_markdown_it = __toESM(require("markdown-it"), 1);
 var import_module = require("module");
@@ -260,10 +266,9 @@ function images(md, opts) {
 var images_default = images;
 
 // src/markdown-it/renderer.ts
-var import_meta = {};
-var __filename = (0, import_url.fileURLToPath)(import_meta.url);
-var __dirname = import_upath.default.dirname(__filename);
-var require2 = (0, import_module.createRequire)(import_meta.url);
+var __filename2 = (0, import_url.fileURLToPath)(importMetaUrl);
+var __dirname = import_upath.default.dirname(__filename2);
+var require2 = (0, import_module.createRequire)(importMetaUrl);
 var escapeHtml = (str) => {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 };

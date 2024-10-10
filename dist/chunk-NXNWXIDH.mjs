@@ -1,10 +1,10 @@
 import { createRequire } from 'module'; const require = createRequire(import.meta.url);
 import {
   getPostData
-} from "./chunk-E4FWP27Z.mjs";
+} from "./chunk-BZLSJ7HP.mjs";
 import {
   tagName
-} from "./chunk-ZZ532TJY.mjs";
+} from "./chunk-TPNPXCJA.mjs";
 
 // src/helper/related-posts.ts
 import fs from "fs-extra";

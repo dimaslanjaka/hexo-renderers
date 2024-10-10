@@ -1,7 +1,7 @@
 import { createRequire } from 'module'; const require = createRequire(import.meta.url);
 import {
   metaJsonCreator
-} from "./chunk-TTMGXF65.mjs";
+} from "./chunk-WGKI5ISN.mjs";
 
 // src/generator/index.ts
 function registerCustomGenerator(hexo, generators) {

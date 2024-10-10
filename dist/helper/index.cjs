@@ -37,11 +37,17 @@ __export(helper_exports, {
   toArray: () => toArray
 });
 module.exports = __toCommonJS(helper_exports);
+
+// node_modules/tsup/assets/cjs_shims.js
+var getImportMetaUrl = () => typeof document === "undefined" ? new URL(`file:${__filename}`).href : document.currentScript && document.currentScript.src || new URL("main.js", document.baseURI).href;
+var importMetaUrl = /* @__PURE__ */ getImportMetaUrl();
+
+// src/helper/index.ts
 var import_fs = __toESM(require("fs"), 1);
 var hexoUtil = __toESM(require("hexo-util"), 1);
 var import_lodash2 = __toESM(require("lodash"), 1);
 var import_module = require("module");
-var import_path3 = __toESM(require("path"), 1);
+var import_path2 = __toESM(require("path"), 1);
 var import_yaml = __toESM(require("yaml"), 1);
 
 // src/helper/date.ts
@@ -189,13 +195,12 @@ function partialWithLayout(ctx) {
 // src/helper/related-posts.ts
 var import_fs_extra2 = __toESM(require("fs-extra"), 1);
 var import_lodash = __toESM(require("lodash"), 1);
-var import_path2 = __toESM(require("path"), 1);
+var import_path = __toESM(require("path"), 1);
 var import_sbg_utility2 = require("sbg-utility");
 
 // src/helper/collector.ts
 var cheerio = __toESM(require("cheerio"), 1);
 var import_fs_extra = __toESM(require("fs-extra"), 1);
-var import_path = __toESM(require("path"), 1);
 var import_sbg_utility = require("sbg-utility");
 
 // src/helper/util.ts
@@ -255,7 +260,7 @@ function getRelatedPosts(hexo2) {
     "list_related_posts",
     function(options2) {
       var _a2, _b;
-      const relatedDb = import_path2.default.join(
+      const relatedDb = import_path.default.join(
         hexo2.base_dir,
         "tmp/hexo-renderers/related-posts",
         (0, import_sbg_utility2.slugify)((_a2 = this.page) == null ? void 0 : _a2.title),
@@ -336,11 +341,10 @@ function getRelatedPosts(hexo2) {
 }
 
 // src/helper/index.ts
-var import_meta = {};
-var require2 = (0, import_module.createRequire)(import_meta.url);
+var require2 = (0, import_module.createRequire)(importMetaUrl);
 var _toArray = import_lodash2.default.toArray;
 var BASE_DIR = typeof hexo === "undefined" ? process.cwd() : hexo.base_dir;
-var configFile = import_path3.default.join(BASE_DIR, "_config.yml");
+var configFile = import_path2.default.join(BASE_DIR, "_config.yml");
 var config = {};
 if (import_fs.default.existsSync(configFile)) {
   if (typeof hexo === "undefined") {
@@ -349,12 +353,12 @@ if (import_fs.default.existsSync(configFile)) {
     config = hexo.config;
   }
 }
-var THEME_LOCATION = import_path3.default.join(process.cwd(), "themes", config.theme || "landscape");
-var _THEME_SCRIPTS = import_path3.default.join(THEME_LOCATION, "scripts");
+var THEME_LOCATION = import_path2.default.join(process.cwd(), "themes", config.theme || "landscape");
+var _THEME_SCRIPTS = import_path2.default.join(THEME_LOCATION, "scripts");
 function loadScripts(base) {
   if (import_fs.default.existsSync(base)) {
     import_fs.default.readdirSync(base).forEach((p) => {
-      const full = import_path3.default.join(base, p);
+      const full = import_path2.default.join(base, p);
       if (import_fs.default.statSync(full).isFile()) {
         require2(full);
       } else if (import_fs.default.statSync(full).isDirectory()) {

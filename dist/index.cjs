@@ -40,6 +40,12 @@ __export(src_exports, {
   rendererStylus: () => rendererStylus
 });
 module.exports = __toCommonJS(src_exports);
+
+// node_modules/tsup/assets/cjs_shims.js
+var getImportMetaUrl = () => typeof document === "undefined" ? new URL(`file:${__filename}`).href : document.currentScript && document.currentScript.src || new URL("main.js", document.baseURI).href;
+var importMetaUrl = /* @__PURE__ */ getImportMetaUrl();
+
+// src/index.ts
 var import_sbg_utility6 = require("sbg-utility");
 var import_upath3 = __toESM(require("upath"), 1);
 
@@ -470,8 +476,7 @@ function getRelatedPosts(hexo2) {
 }
 
 // src/helper/index.ts
-var import_meta2 = {};
-var require2 = (0, import_module.createRequire)(import_meta2.url);
+var require2 = (0, import_module.createRequire)(importMetaUrl);
 var _toArray = import_lodash2.default.toArray;
 var BASE_DIR = typeof hexo === "undefined" ? process.cwd() : hexo.base_dir;
 var configFile = import_path3.default.join(BASE_DIR, "_config.yml");
@@ -799,10 +804,9 @@ function images(md, opts) {
 var images_default = images;
 
 // src/markdown-it/renderer.ts
-var import_meta3 = {};
-var __filename = (0, import_url.fileURLToPath)(import_meta3.url);
-var __dirname = import_upath.default.dirname(__filename);
-var require3 = (0, import_module2.createRequire)(import_meta3.url);
+var __filename2 = (0, import_url.fileURLToPath)(importMetaUrl);
+var __dirname = import_upath.default.dirname(__filename2);
+var require3 = (0, import_module2.createRequire)(importMetaUrl);
 var escapeHtml = (str) => {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 };
@@ -1060,8 +1064,7 @@ function rendererNunjucks(hexo2) {
 var import_module3 = require("module");
 var path8 = __toESM(require("path"), 1);
 var pug = __toESM(require("pug"), 1);
-var import_meta4 = {};
-var require4 = (0, import_module3.createRequire)(import_meta4.url);
+var require4 = (0, import_module3.createRequire)(importMetaUrl);
 function rendererPug(hexo2) {
   const configPath = path8.join(process.cwd(), "pug.config");
   const defaultConfig = { compile: {} };
@@ -1134,8 +1137,7 @@ function rendererSass(hexo2) {
 // src/renderer-stylus.ts
 var import_module4 = require("module");
 var import_stylus = __toESM(require("stylus"), 1);
-var import_meta5 = {};
-var require5 = (0, import_module4.createRequire)(import_meta5.url);
+var require5 = (0, import_module4.createRequire)(importMetaUrl);
 function getProperty(obj, name) {
   name = name.replace(/\[(\w+)\]/g, ".$1").replace(/^\./, "");
   const split = name.split(".");
@@ -1227,8 +1229,7 @@ var objectWithoutKeys = (obj, keys) => {
 
 // src/renderer/rollup/utils/rollupPluginFromName.js
 var import_module5 = require("module");
-var import_meta6 = {};
-var require6 = (0, import_module5.createRequire)(import_meta6.url);
+var require6 = (0, import_module5.createRequire)(importMetaUrl);
 var rollupPluginFromName = (name) => {
   if (typeof name !== "string") {
     throw new TypeError("name most string");

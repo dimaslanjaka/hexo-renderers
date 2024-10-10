@@ -2,7 +2,7 @@ import { createRequire } from 'module'; const require = createRequire(import.met
 import {
   validHtmlTags,
   validHtmlTagsRegex
-} from "../chunk-UTLDQWOC.mjs";
+} from "../chunk-2LIOBH7F.mjs";
 import "../chunk-LPG7NA4D.mjs";
 export {
   validHtmlTags,

@@ -33,13 +33,18 @@ __export(mathjax_exports, {
   rendererMathjax: () => rendererMathjax
 });
 module.exports = __toCommonJS(mathjax_exports);
+
+// node_modules/tsup/assets/cjs_shims.js
+var getImportMetaUrl = () => typeof document === "undefined" ? new URL(`file:${__filename}`).href : document.currentScript && document.currentScript.src || new URL("main.js", document.baseURI).href;
+var importMetaUrl = /* @__PURE__ */ getImportMetaUrl();
+
+// src/mathjax/index.ts
 var import_ejs = __toESM(require("ejs"), 1);
 var import_fs = __toESM(require("fs"), 1);
 var import_path = __toESM(require("path"), 1);
 var import_url = require("url");
-var import_meta = {};
-var __filename = (0, import_url.fileURLToPath)(import_meta.url);
-var __dirname = import_path.default.dirname(__filename);
+var __filename2 = (0, import_url.fileURLToPath)(importMetaUrl);
+var __dirname = import_path.default.dirname(__filename2);
 var layout = "layout.ejs";
 var bodyTag = "</body>";
 var mathjaxScript = import_fs.default.readFileSync(import_path.default.join(__dirname, "mathjax.html"), "utf-8");

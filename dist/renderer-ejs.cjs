@@ -34,6 +34,12 @@ __export(renderer_ejs_exports, {
   rendererEjs: () => rendererEjs
 });
 module.exports = __toCommonJS(renderer_ejs_exports);
+
+// node_modules/tsup/assets/cjs_shims.js
+var getImportMetaUrl = () => typeof document === "undefined" ? new URL(`file:${__filename}`).href : document.currentScript && document.currentScript.src || new URL("main.js", document.baseURI).href;
+var importMetaUrl = /* @__PURE__ */ getImportMetaUrl();
+
+// src/renderer-ejs.ts
 var ejs = __toESM(require("ejs"), 1);
 
 // src/helper/index.ts
@@ -41,7 +47,7 @@ var import_fs = __toESM(require("fs"), 1);
 var hexoUtil = __toESM(require("hexo-util"), 1);
 var import_lodash2 = __toESM(require("lodash"), 1);
 var import_module = require("module");
-var import_path3 = __toESM(require("path"), 1);
+var import_path = __toESM(require("path"), 1);
 var import_yaml = __toESM(require("yaml"), 1);
 
 // src/helper/date.ts
@@ -65,13 +71,11 @@ var path = __toESM(require("upath"), 1);
 // src/helper/related-posts.ts
 var import_fs_extra2 = __toESM(require("fs-extra"), 1);
 var import_lodash = __toESM(require("lodash"), 1);
-var import_path2 = __toESM(require("path"), 1);
 var import_sbg_utility2 = require("sbg-utility");
 
 // src/helper/collector.ts
 var cheerio = __toESM(require("cheerio"), 1);
 var import_fs_extra = __toESM(require("fs-extra"), 1);
-var import_path = __toESM(require("path"), 1);
 var import_sbg_utility = require("sbg-utility");
 
 // src/helper/util.ts
@@ -82,11 +86,10 @@ var logname = import_ansi_colors.default.magentaBright("hexo-renderers");
 var assign = import_lodash.default.assign;
 
 // src/helper/index.ts
-var import_meta = {};
-var require2 = (0, import_module.createRequire)(import_meta.url);
+var require2 = (0, import_module.createRequire)(importMetaUrl);
 var _toArray = import_lodash2.default.toArray;
 var BASE_DIR = typeof hexo === "undefined" ? process.cwd() : hexo.base_dir;
-var configFile = import_path3.default.join(BASE_DIR, "_config.yml");
+var configFile = import_path.default.join(BASE_DIR, "_config.yml");
 var config = {};
 if (import_fs.default.existsSync(configFile)) {
   if (typeof hexo === "undefined") {
@@ -95,8 +98,8 @@ if (import_fs.default.existsSync(configFile)) {
     config = hexo.config;
   }
 }
-var THEME_LOCATION = import_path3.default.join(process.cwd(), "themes", config.theme || "landscape");
-var _THEME_SCRIPTS = import_path3.default.join(THEME_LOCATION, "scripts");
+var THEME_LOCATION = import_path.default.join(process.cwd(), "themes", config.theme || "landscape");
+var _THEME_SCRIPTS = import_path.default.join(THEME_LOCATION, "scripts");
 function isObject(value) {
   return typeof value === "object" && value !== null && value !== void 0;
 }

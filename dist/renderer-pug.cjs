@@ -34,11 +34,16 @@ __export(renderer_pug_exports, {
   rendererPug: () => rendererPug
 });
 module.exports = __toCommonJS(renderer_pug_exports);
+
+// node_modules/tsup/assets/cjs_shims.js
+var getImportMetaUrl = () => typeof document === "undefined" ? new URL(`file:${__filename}`).href : document.currentScript && document.currentScript.src || new URL("main.js", document.baseURI).href;
+var importMetaUrl = /* @__PURE__ */ getImportMetaUrl();
+
+// src/renderer-pug.ts
 var import_module = require("module");
 var path = __toESM(require("path"), 1);
 var pug = __toESM(require("pug"), 1);
-var import_meta = {};
-var require2 = (0, import_module.createRequire)(import_meta.url);
+var require2 = (0, import_module.createRequire)(importMetaUrl);
 function rendererPug(hexo) {
   const configPath = path.join(process.cwd(), "pug.config");
   const defaultConfig = { compile: {} };

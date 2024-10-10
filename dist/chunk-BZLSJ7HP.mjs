@@ -3,7 +3,7 @@ import {
   categorieName,
   logname,
   tagName
-} from "./chunk-ZZ532TJY.mjs";
+} from "./chunk-TPNPXCJA.mjs";
 
 // src/helper/collector.ts
 import * as cheerio from "cheerio";

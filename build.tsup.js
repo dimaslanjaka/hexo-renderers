@@ -9,40 +9,40 @@ const baseOption = {
   exclude: ['**/node_modules', '**/test*', '**/*.spec*.ts', '**/*.test*.ts'],
   target: 'node14',
   dts: true,
-  // shims: true,
+  shims: true,
   // splitting: false,
   tsconfig: 'tsconfig.build.json',
   minify: false,
-  removeNodeProtocol: true,
-  skipNodeModulesBundle: true
+  removeNodeProtocol: true
+  // skipNodeModulesBundle: true
 };
 
 async function buildAll() {
-  const formats = [
-    {
-      format: 'esm',
-      outExtension: { js: '.mjs', dts: '.mts' },
-      banner: () => ({
-        js: `import { createRequire } from 'module'; const require = createRequire(import.meta.url);`
-      })
-    },
-    {
-      format: 'cjs',
-      outExtension: { js: '.cjs', dts: '.cts' }
-    }
-  ];
-
   try {
-    await Promise.all(
-      formats.map(({ format, outExtension, banner }) =>
-        build({
-          ...baseOption,
-          format,
-          outExtension: () => outExtension,
-          banner: banner ? banner : undefined
-        })
-      )
-    );
+    await build({
+      ...baseOption,
+      format: ['cjs', 'esm'],
+      banner(ctx) {
+        if (ctx.format === 'esm') {
+          return {
+            js: `import { createRequire } from 'module'; const require = createRequire(import.meta.url);`
+          };
+        }
+      },
+      outExtension({ format }) {
+        switch (format) {
+          case 'cjs': {
+            return { js: '.cjs', dts: '.d.cts' };
+          }
+          case 'esm': {
+            return { js: '.mjs', dts: '.d.mts' };
+          }
+          default: {
+            return { js: '.js', dts: '.d.ts' };
+          }
+        }
+      }
+    });
   } catch (err) {
     console.error('Build failed:', err);
     process.exit(1);

@@ -36,13 +36,12 @@ __export(related_posts_exports, {
 module.exports = __toCommonJS(related_posts_exports);
 var import_fs_extra2 = __toESM(require("fs-extra"), 1);
 var import_lodash = __toESM(require("lodash"), 1);
-var import_path2 = __toESM(require("path"), 1);
+var import_path = __toESM(require("path"), 1);
 var import_sbg_utility2 = require("sbg-utility");
 
 // src/helper/collector.ts
 var cheerio = __toESM(require("cheerio"), 1);
 var import_fs_extra = __toESM(require("fs-extra"), 1);
-var import_path = __toESM(require("path"), 1);
 var import_sbg_utility = require("sbg-utility");
 
 // src/helper/util.ts
@@ -102,7 +101,7 @@ function getRelatedPosts(hexo) {
     "list_related_posts",
     function(options2) {
       var _a2, _b;
-      const relatedDb = import_path2.default.join(
+      const relatedDb = import_path.default.join(
         hexo.base_dir,
         "tmp/hexo-renderers/related-posts",
         (0, import_sbg_utility2.slugify)((_a2 = this.page) == null ? void 0 : _a2.title),

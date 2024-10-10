@@ -34,10 +34,15 @@ __export(renderer_stylus_exports, {
   stylusFn: () => stylusFn
 });
 module.exports = __toCommonJS(renderer_stylus_exports);
+
+// node_modules/tsup/assets/cjs_shims.js
+var getImportMetaUrl = () => typeof document === "undefined" ? new URL(`file:${__filename}`).href : document.currentScript && document.currentScript.src || new URL("main.js", document.baseURI).href;
+var importMetaUrl = /* @__PURE__ */ getImportMetaUrl();
+
+// src/renderer-stylus.ts
 var import_module = require("module");
 var import_stylus = __toESM(require("stylus"), 1);
-var import_meta = {};
-var require2 = (0, import_module.createRequire)(import_meta.url);
+var require2 = (0, import_module.createRequire)(importMetaUrl);
 function getProperty(obj, name) {
   name = name.replace(/\[(\w+)\]/g, ".$1").replace(/^\./, "");
   const split = name.split(".");
