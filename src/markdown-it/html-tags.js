@@ -37,7 +37,10 @@ export const textContentTags = [
   'h3',
   'h4',
   'h5',
-  'h6'
+  'h6',
+  'dl',
+  'dd',
+  'dt'
 ];
 
 export const formAndInputTags = [
