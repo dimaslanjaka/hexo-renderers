@@ -2,3 +2,7 @@
 	path = packages/markdown-it
 	url = https://github.com/dimaslanjaka/markdown-it.git
 	branch = master
+[submodule "test/test-site"]
+	path = test/test-site
+	url = https://github.com/dimaslanjaka/site.git
+	branch = hexo-renderers
