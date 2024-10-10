@@ -107,7 +107,23 @@ export const validHtmlTags = [
   'ul',
   'var',
   'video',
-  'wbr'
+  'wbr',
+  'acronym',
+  'basefont',
+  'big',
+  'center',
+  'content',
+  'dialog',
+  'dir',
+  'font',
+  'frame',
+  'frameset',
+  'isindex',
+  'keygen',
+  'menu',
+  'noframes',
+  'slot',
+  'tt'
 ];
 
 export const validHtmlTagsRegex = new RegExp('</?(' + validHtmlTags.join('|') + ')(\\s|>)');
