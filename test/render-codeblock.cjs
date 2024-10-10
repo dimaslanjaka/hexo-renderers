@@ -26,7 +26,7 @@ const main = async () => {
 
     await hexo.loadPlugin(resolvedPluginPath);
   } catch (error) {
-    console.error('Error resolving or loading plugin:', error.message);
+    console.error('Error resolving or loading plugin:', error);
     return;
   }
 

@@ -119,7 +119,7 @@ export function registerCustomHelper(hexo: Hexo) {
   for (const key in hexoUtil) {
     if (Object.prototype.hasOwnProperty.call(hexoUtil, key)) {
       const helper = (<Record<string, any>>hexoUtil)[key];
-      hexo.extend.helper.register(key, helper);
+      if (typeof helper === 'function') hexo.extend.helper.register(key, helper);
     }
   }
 }
