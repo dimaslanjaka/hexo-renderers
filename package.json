@@ -59,6 +59,9 @@
   },
   "license": "MIT",
   "description": "All in one hexo renderers",
+  "workspaces": [
+    "test"
+  ],
   "dependencies": {
     "ansi-colors": "^4.1.3",
     "cheerio": "^1.0.0",

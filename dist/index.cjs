@@ -476,7 +476,7 @@ function getRelatedPosts(hexo2) {
 }
 
 // src/helper/index.ts
-var require2 = (0, import_module.createRequire)(importMetaUrl);
+if (typeof require === "undefined") global.require = (0, import_module.createRequire)(importMetaUrl);
 var _toArray = import_lodash2.default.toArray;
 var BASE_DIR = typeof hexo === "undefined" ? process.cwd() : hexo.base_dir;
 var configFile = import_path3.default.join(BASE_DIR, "_config.yml");
@@ -806,7 +806,7 @@ var images_default = images;
 // src/markdown-it/renderer.ts
 var __filename2 = (0, import_url.fileURLToPath)(importMetaUrl);
 var __dirname = import_upath.default.dirname(__filename2);
-var require3 = (0, import_module2.createRequire)(importMetaUrl);
+if (typeof require === "undefined") global.require = (0, import_module2.createRequire)(importMetaUrl);
 var escapeHtml = (str) => {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 };
@@ -843,7 +843,7 @@ See https://github.com/hexojs/hexo-renderer-markdown-it#options`
     if (plugins) {
       this.parser = plugins.reduce((parser, pugs) => {
         if (pugs instanceof Object && pugs.name) {
-          const resolved = require3.resolve(pugs.name, {
+          const resolved = require.resolve(pugs.name, {
             paths: [
               hexo2.base_dir,
               import_upath.default.join(hexo2.base_dir, "node_modules"),
@@ -851,11 +851,11 @@ See https://github.com/hexojs/hexo-renderer-markdown-it#options`
               import_upath.default.join(__dirname, "../../node_modules")
             ]
           });
-          return parser.use(require3(resolved), pugs.options);
+          return parser.use(require(resolved), pugs.options);
         } else if (typeof pugs === "string") {
-          return parser.use(require3(pugs));
+          return parser.use(require(pugs));
         } else {
-          return parser.use(require3(require3.resolve(pugs.name)), pugs.options);
+          return parser.use(require(require.resolve(pugs.name)), pugs.options);
         }
       }, this.parser);
     }
@@ -1064,17 +1064,17 @@ function rendererNunjucks(hexo2) {
 var import_module3 = require("module");
 var path8 = __toESM(require("path"), 1);
 var pug = __toESM(require("pug"), 1);
-var require4 = (0, import_module3.createRequire)(importMetaUrl);
+if (typeof require === "undefined") global.require = (0, import_module3.createRequire)(importMetaUrl);
 function rendererPug(hexo2) {
   const configPath = path8.join(process.cwd(), "pug.config");
   const defaultConfig = { compile: {} };
   let hasConfig = true;
   try {
-    require4.resolve(configPath);
+    require.resolve(configPath);
   } catch {
     hasConfig = false;
   }
-  const config2 = hasConfig ? require4(configPath) : defaultConfig;
+  const config2 = hasConfig ? require(configPath) : defaultConfig;
   const hasProp = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
   const invalidKeys = Object.keys(config2).filter((k) => !hasProp(defaultConfig, k));
   if (invalidKeys.length > 0) {
@@ -1137,7 +1137,7 @@ function rendererSass(hexo2) {
 // src/renderer-stylus.ts
 var import_module4 = require("module");
 var import_stylus = __toESM(require("stylus"), 1);
-var require5 = (0, import_module4.createRequire)(importMetaUrl);
+if (typeof require === "undefined") global.require = (0, import_module4.createRequire)(importMetaUrl);
 function getProperty(obj, name) {
   name = name.replace(/\[(\w+)\]/g, ".$1").replace(/^\./, "");
   const split = name.split(".");
@@ -1161,7 +1161,7 @@ function getProperty(obj, name) {
 }
 function applyPlugins(stylusConfig, plugins) {
   plugins.forEach((plugin) => {
-    const factoryFn = require5(plugin.trim());
+    const factoryFn = require(plugin.trim());
     stylusConfig.use(factoryFn());
   });
 }
@@ -1229,7 +1229,7 @@ var objectWithoutKeys = (obj, keys) => {
 
 // src/renderer/rollup/utils/rollupPluginFromName.js
 var import_module5 = require("module");
-var require6 = (0, import_module5.createRequire)(importMetaUrl);
+if (typeof require === "undefined") global.require = (0, import_module5.createRequire)(importMetaUrl);
 var rollupPluginFromName = (name) => {
   if (typeof name !== "string") {
     throw new TypeError("name most string");
@@ -1238,7 +1238,7 @@ var rollupPluginFromName = (name) => {
   if (!name.startsWith(pluginPrefix)) {
     name = pluginPrefix + name;
   }
-  return require6(name);
+  return require(name);
 };
 var rollupPluginFromName_default = rollupPluginFromName;
 

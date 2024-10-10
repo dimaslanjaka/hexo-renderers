@@ -2,7 +2,7 @@
 
 import { createRequire } from 'module';
 
-const require = createRequire(import.meta.url);
+if (typeof require === 'undefined') global.require = createRequire(import.meta.url);
 
 /**
  * @param {string} name

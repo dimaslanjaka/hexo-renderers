@@ -3,7 +3,7 @@ import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import { createRequire } from 'module';
 import stylus from 'stylus';
 
-const require = createRequire(import.meta.url);
+if (typeof require === 'undefined') global.require = createRequire(import.meta.url);
 
 function getProperty(obj: Record<string, any>, name: string) {
   name = name.replace(/\[(\w+)\]/g, '.$1').replace(/^\./, '');
@@ -35,6 +35,7 @@ function getProperty(obj: Record<string, any>, name: string) {
 
 function applyPlugins(stylusConfig: import('stylus/lib/renderer'), plugins: string[]) {
   plugins.forEach((plugin: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const factoryFn = require(plugin.trim());
     stylusConfig.use(factoryFn());
   });

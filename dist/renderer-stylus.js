@@ -1,6 +1,7 @@
 import { createRequire } from 'module';
 import stylus from 'stylus';
-const require = createRequire(import.meta.url);
+if (typeof require === 'undefined')
+    global.require = createRequire(import.meta.url);
 function getProperty(obj, name) {
     name = name.replace(/\[(\w+)\]/g, '.$1').replace(/^\./, '');
     const split = name.split('.');
@@ -30,6 +31,7 @@ function getProperty(obj, name) {
 }
 function applyPlugins(stylusConfig, plugins) {
     plugins.forEach((plugin) => {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
         const factoryFn = require(plugin.trim());
         stylusConfig.use(factoryFn());
     });

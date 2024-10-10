@@ -15,7 +15,7 @@ import imageProcess from './images.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const require = createRequire(import.meta.url);
+if (typeof require === 'undefined') global.require = createRequire(import.meta.url);
 export const escapeHtml = (str: string) => {
   return str
     .replace(/&/g, '&amp;')
@@ -80,10 +80,13 @@ class Renderer {
               path.join(__dirname, '../../node_modules')
             ]
           });
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
           return parser.use(require(resolved), pugs.options);
         } else if (typeof pugs === 'string') {
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
           return parser.use(require(pugs));
         } else {
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
           return parser.use(require(require.resolve(pugs.name)), pugs.options);
         }
 

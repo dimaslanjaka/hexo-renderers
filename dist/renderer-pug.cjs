@@ -43,17 +43,17 @@ var importMetaUrl = /* @__PURE__ */ getImportMetaUrl();
 var import_module = require("module");
 var path = __toESM(require("path"), 1);
 var pug = __toESM(require("pug"), 1);
-var require2 = (0, import_module.createRequire)(importMetaUrl);
+if (typeof require === "undefined") global.require = (0, import_module.createRequire)(importMetaUrl);
 function rendererPug(hexo) {
   const configPath = path.join(process.cwd(), "pug.config");
   const defaultConfig = { compile: {} };
   let hasConfig = true;
   try {
-    require2.resolve(configPath);
+    require.resolve(configPath);
   } catch {
     hasConfig = false;
   }
-  const config = hasConfig ? require2(configPath) : defaultConfig;
+  const config = hasConfig ? require(configPath) : defaultConfig;
   const hasProp = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
   const invalidKeys = Object.keys(config).filter((k) => !hasProp(defaultConfig, k));
   if (invalidKeys.length > 0) {

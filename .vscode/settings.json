@@ -32,7 +32,7 @@
       }
     }
   },
-  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
   "files.autoSave": "onWindowChange",
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",

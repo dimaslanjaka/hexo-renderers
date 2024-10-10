@@ -9,7 +9,8 @@ import { getAuthor } from './getAuthor.js';
 import { getPostByLabel } from './getPostByLabel.js';
 import { partialWithLayout } from './partial.js';
 import { getRelatedPosts } from './related-posts.js';
-const require = createRequire(import.meta.url);
+if (typeof require === 'undefined')
+    global.require = createRequire(import.meta.url);
 const _toArray = lodash.toArray;
 export const BASE_DIR = typeof hexo === 'undefined' ? process.cwd() : hexo.base_dir;
 const configFile = path.join(BASE_DIR, '_config.yml');
@@ -34,6 +35,7 @@ export function loadScripts(base) {
         fs.readdirSync(base).forEach((p) => {
             const full = path.join(base, p);
             if (fs.statSync(full).isFile()) {
+                // eslint-disable-next-line @typescript-eslint/no-require-imports
                 require(full);
             }
             else if (fs.statSync(full).isDirectory()) {

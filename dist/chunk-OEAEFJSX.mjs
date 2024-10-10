@@ -20,6 +20,9 @@ import {
 import {
   getPostByLabel
 } from "./chunk-6GCRMZR3.mjs";
+import {
+  __require
+} from "./chunk-LPG7NA4D.mjs";
 
 // src/helper/index.ts
 import fs from "fs";
@@ -28,7 +31,7 @@ import lodash from "lodash";
 import { createRequire } from "module";
 import path from "path";
 import yaml from "yaml";
-var require2 = createRequire(import.meta.url);
+if (typeof __require === "undefined") global.require = createRequire(import.meta.url);
 var _toArray = lodash.toArray;
 var BASE_DIR = typeof hexo === "undefined" ? process.cwd() : hexo.base_dir;
 var configFile = path.join(BASE_DIR, "_config.yml");
@@ -47,7 +50,7 @@ function loadScripts(base) {
     fs.readdirSync(base).forEach((p) => {
       const full = path.join(base, p);
       if (fs.statSync(full).isFile()) {
-        require2(full);
+        __require(full);
       } else if (fs.statSync(full).isDirectory()) {
         loadScripts(full);
       }

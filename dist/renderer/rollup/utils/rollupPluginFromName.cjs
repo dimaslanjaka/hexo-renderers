@@ -30,7 +30,7 @@ var importMetaUrl = /* @__PURE__ */ getImportMetaUrl();
 
 // src/renderer/rollup/utils/rollupPluginFromName.js
 var import_module = require("module");
-var require2 = (0, import_module.createRequire)(importMetaUrl);
+if (typeof require === "undefined") global.require = (0, import_module.createRequire)(importMetaUrl);
 var rollupPluginFromName = (name) => {
   if (typeof name !== "string") {
     throw new TypeError("name most string");
@@ -39,6 +39,6 @@ var rollupPluginFromName = (name) => {
   if (!name.startsWith(pluginPrefix)) {
     name = pluginPrefix + name;
   }
-  return require2(name);
+  return require(name);
 };
 var rollupPluginFromName_default = rollupPluginFromName;

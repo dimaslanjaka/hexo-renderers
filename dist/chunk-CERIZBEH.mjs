@@ -1,8 +1,11 @@
 import { createRequire } from 'module'; const require = createRequire(import.meta.url);
+import {
+  __require
+} from "./chunk-LPG7NA4D.mjs";
 
 // src/renderer/rollup/utils/rollupPluginFromName.js
 import { createRequire } from "module";
-var require2 = createRequire(import.meta.url);
+if (typeof __require === "undefined") global.require = createRequire(import.meta.url);
 var rollupPluginFromName = (name) => {
   if (typeof name !== "string") {
     throw new TypeError("name most string");
@@ -11,7 +14,7 @@ var rollupPluginFromName = (name) => {
   if (!name.startsWith(pluginPrefix)) {
     name = pluginPrefix + name;
   }
-  return require2(name);
+  return __require(name);
 };
 var rollupPluginFromName_default = rollupPluginFromName;
 

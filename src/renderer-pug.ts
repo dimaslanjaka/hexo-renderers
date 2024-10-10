@@ -4,7 +4,7 @@ import { createRequire } from 'module';
 import * as path from 'path';
 import * as pug from 'pug';
 
-const require = createRequire(import.meta.url);
+if (typeof require === 'undefined') global.require = createRequire(import.meta.url);
 
 /**
  * hexo-renderer-pug
@@ -21,6 +21,7 @@ export function rendererPug(hexo: Hexo) {
     hasConfig = false;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const config = hasConfig ? require(configPath) : defaultConfig;
 
   // Validate non-standard keys -- e.g. 'compile'.

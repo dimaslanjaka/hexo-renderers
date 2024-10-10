@@ -341,7 +341,7 @@ function getRelatedPosts(hexo2) {
 }
 
 // src/helper/index.ts
-var require2 = (0, import_module.createRequire)(importMetaUrl);
+if (typeof require === "undefined") global.require = (0, import_module.createRequire)(importMetaUrl);
 var _toArray = import_lodash2.default.toArray;
 var BASE_DIR = typeof hexo === "undefined" ? process.cwd() : hexo.base_dir;
 var configFile = import_path2.default.join(BASE_DIR, "_config.yml");
@@ -360,7 +360,7 @@ function loadScripts(base) {
     import_fs.default.readdirSync(base).forEach((p) => {
       const full = import_path2.default.join(base, p);
       if (import_fs.default.statSync(full).isFile()) {
-        require2(full);
+        require(full);
       } else if (import_fs.default.statSync(full).isDirectory()) {
         loadScripts(full);
       }

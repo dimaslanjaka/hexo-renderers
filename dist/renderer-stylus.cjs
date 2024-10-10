@@ -42,7 +42,7 @@ var importMetaUrl = /* @__PURE__ */ getImportMetaUrl();
 // src/renderer-stylus.ts
 var import_module = require("module");
 var import_stylus = __toESM(require("stylus"), 1);
-var require2 = (0, import_module.createRequire)(importMetaUrl);
+if (typeof require === "undefined") global.require = (0, import_module.createRequire)(importMetaUrl);
 function getProperty(obj, name) {
   name = name.replace(/\[(\w+)\]/g, ".$1").replace(/^\./, "");
   const split = name.split(".");
@@ -66,7 +66,7 @@ function getProperty(obj, name) {
 }
 function applyPlugins(stylusConfig, plugins) {
   plugins.forEach((plugin) => {
-    const factoryFn = require2(plugin.trim());
+    const factoryFn = require(plugin.trim());
     stylusConfig.use(factoryFn());
   });
 }

@@ -1,7 +1,7 @@
 import { createRequire } from 'module'; const require = createRequire(import.meta.url);
 import {
   renderer_default
-} from "./chunk-RGIB2SAL.mjs";
+} from "./chunk-TA4O622L.mjs";
 
 // src/renderer-markdown-it.ts
 var defaultMarkdownOptions = {

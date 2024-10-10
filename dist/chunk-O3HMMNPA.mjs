@@ -1,9 +1,12 @@
 import { createRequire } from 'module'; const require = createRequire(import.meta.url);
+import {
+  __require
+} from "./chunk-LPG7NA4D.mjs";
 
 // src/renderer-stylus.ts
 import { createRequire } from "module";
 import stylus from "stylus";
-var require2 = createRequire(import.meta.url);
+if (typeof __require === "undefined") global.require = createRequire(import.meta.url);
 function getProperty(obj, name) {
   name = name.replace(/\[(\w+)\]/g, ".$1").replace(/^\./, "");
   const split = name.split(".");
@@ -27,7 +30,7 @@ function getProperty(obj, name) {
 }
 function applyPlugins(stylusConfig, plugins) {
   plugins.forEach((plugin) => {
-    const factoryFn = require2(plugin.trim());
+    const factoryFn = __require(plugin.trim());
     stylusConfig.use(factoryFn());
   });
 }

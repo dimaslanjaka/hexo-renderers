@@ -8,6 +8,9 @@ import {
 import {
   images_default
 } from "./chunk-663ODQJ6.mjs";
+import {
+  __require
+} from "./chunk-LPG7NA4D.mjs";
 
 // src/markdown-it/renderer.ts
 import { load } from "cheerio";
@@ -18,7 +21,7 @@ import path from "upath";
 import { fileURLToPath } from "url";
 var __filename = fileURLToPath(import.meta.url);
 var __dirname = path.dirname(__filename);
-var require2 = createRequire(import.meta.url);
+if (typeof __require === "undefined") global.require = createRequire(import.meta.url);
 var escapeHtml = (str) => {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 };
@@ -55,7 +58,7 @@ See https://github.com/hexojs/hexo-renderer-markdown-it#options`
     if (plugins) {
       this.parser = plugins.reduce((parser, pugs) => {
         if (pugs instanceof Object && pugs.name) {
-          const resolved = require2.resolve(pugs.name, {
+          const resolved = __require.resolve(pugs.name, {
             paths: [
               hexo2.base_dir,
               path.join(hexo2.base_dir, "node_modules"),
@@ -63,11 +66,11 @@ See https://github.com/hexojs/hexo-renderer-markdown-it#options`
               path.join(__dirname, "../../node_modules")
             ]
           });
-          return parser.use(require2(resolved), pugs.options);
+          return parser.use(__require(resolved), pugs.options);
         } else if (typeof pugs === "string") {
-          return parser.use(require2(pugs));
+          return parser.use(__require(pugs));
         } else {
-          return parser.use(require2(require2.resolve(pugs.name)), pugs.options);
+          return parser.use(__require(__require.resolve(pugs.name)), pugs.options);
         }
       }, this.parser);
     }

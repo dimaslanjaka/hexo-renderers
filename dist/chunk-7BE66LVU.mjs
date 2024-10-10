@@ -4,7 +4,7 @@ import {
 } from "./chunk-SLQCI6BS.mjs";
 import {
   rollupPluginFromName_default
-} from "./chunk-DJE7EJBQ.mjs";
+} from "./chunk-CERIZBEH.mjs";
 
 // src/renderer/rollup/utils/createRollupPlugin.js
 var createRollupPlugin = (config) => {

@@ -86,7 +86,7 @@ var logname = import_ansi_colors.default.magentaBright("hexo-renderers");
 var assign = import_lodash.default.assign;
 
 // src/helper/index.ts
-var require2 = (0, import_module.createRequire)(importMetaUrl);
+if (typeof require === "undefined") global.require = (0, import_module.createRequire)(importMetaUrl);
 var _toArray = import_lodash2.default.toArray;
 var BASE_DIR = typeof hexo === "undefined" ? process.cwd() : hexo.base_dir;
 var configFile = import_path.default.join(BASE_DIR, "_config.yml");
