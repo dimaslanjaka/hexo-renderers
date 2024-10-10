@@ -160,7 +160,7 @@ const coloredScriptName = colors.grey(scriptname);
         }
 
         // add all monorepos and private ssh packages to be updated without checking
-        if (/^((file|github):|(git|ssh)\+|http)/i.test(version)) {
+        if (/^((file|github):|(git|ssh)\+|https?)/i.test(version)) {
           console.log(
             coloredScriptName,
             'updating',
@@ -168,12 +168,12 @@ const coloredScriptName = colors.grey(scriptname);
             isGitPkg
               ? colors.blueBright('git')
               : isLocalTarballpkg
-              ? colors.bold(colors.greenBright('local tarball'))
-              : isLocalPkg
-              ? colors.greenBright('local')
-              : isTarballPkg
-              ? colors.yellowBright('tarball')
-              : ''
+                ? colors.bold(colors.greenBright('local tarball'))
+                : isLocalPkg
+                  ? colors.greenBright('local')
+                  : isTarballPkg
+                    ? colors.yellowBright('tarball')
+                    : ''
           );
           if (isLocalPkg && !isLocalTarballpkg) {
             const arg = [version, isDevPkg ? '-D' : isOptionalPkg ? '-O' : '--save'].filter((str) => str.length > 0);
@@ -492,7 +492,7 @@ function isPackageInstalled(packageName) {
   try {
     const modules = Array.from(process.moduleLoadList).filter((str) => !str.startsWith('NativeModule internal/'));
     return modules.indexOf('NativeModule ' + packageName) >= 0 || fs.existsSync(require.resolve(packageName));
-  } catch (e) {
+  } catch (_e) {
     return false;
   }
 }
