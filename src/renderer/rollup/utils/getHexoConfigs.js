@@ -69,9 +69,12 @@ const getRawAllConfigs = (ctx) => {
   };
 };
 
-module.exports.getRawConfigs = getRawConfigs;
-module.exports.default = getRawConfigs;
-module.exports.getRawAllConfigs = getRawAllConfigs;
-module.exports.getRawSiteConfig = getRawSiteConfig;
-module.exports.getRawThemeConfig = getRawThemeConfig;
-module.exports.getRawOverrideThemeConfig = getRawOverrideThemeConfig;
+// Exporting all functions at once
+export {
+  getRawConfigs as default,
+  getRawAllConfigs,
+  getRawConfigs,
+  getRawOverrideThemeConfig,
+  getRawSiteConfig,
+  getRawThemeConfig
+};

@@ -1,13 +1,11 @@
 import { createRequire } from 'module'; const require = createRequire(import.meta.url);
 import {
   getRelatedPosts,
-  init_related_posts,
   objectArrayIndexOf
-} from "../chunk-TONA6L3N.mjs";
-import "../chunk-ZXPMPPBR.mjs";
-import "../chunk-DX3RKJWE.mjs";
-import "../chunk-QAIXVEL3.mjs";
-init_related_posts();
+} from "../chunk-WZN5GTTE.mjs";
+import "../chunk-E4FWP27Z.mjs";
+import "../chunk-ZZ532TJY.mjs";
+import "../chunk-LPG7NA4D.mjs";
 export {
   getRelatedPosts,
   objectArrayIndexOf

@@ -1,4 +1,4 @@
-export = rollupPluginFromName;
+export default rollupPluginFromName;
 /**
  * @param {string} name
  * @param {*} options

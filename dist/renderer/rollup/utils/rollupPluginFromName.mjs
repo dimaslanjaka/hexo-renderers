@@ -1,6 +1,8 @@
 import { createRequire } from 'module'; const require = createRequire(import.meta.url);
 import {
-  require_rollupPluginFromName
-} from "../../../chunk-PXPCNKTU.mjs";
-import "../../../chunk-QAIXVEL3.mjs";
-export default require_rollupPluginFromName();
+  rollupPluginFromName_default
+} from "../../../chunk-WRTHVTJW.mjs";
+import "../../../chunk-LPG7NA4D.mjs";
+export {
+  rollupPluginFromName_default as default
+};

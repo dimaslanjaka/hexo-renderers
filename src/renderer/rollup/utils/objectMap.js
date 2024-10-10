@@ -37,4 +37,4 @@ const objectMap = (obj, callback, thisArg = undefined) => {
   return Object.values(obj).map(callback, thisArg);
 };
 
-module.exports = objectMap;
+export default objectMap;

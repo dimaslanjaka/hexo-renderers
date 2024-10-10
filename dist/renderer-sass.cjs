@@ -33,8 +33,8 @@ __export(renderer_sass_exports, {
   rendererSass: () => rendererSass
 });
 module.exports = __toCommonJS(renderer_sass_exports);
-var import_node_sass = __toESM(require("node-sass"));
-var import_path = __toESM(require("path"));
+var import_node_sass = __toESM(require("node-sass"), 1);
+var import_path = __toESM(require("path"), 1);
 var extend = Object.assign;
 var sassRenderer = (ext) => function(data) {
   const userConfig = extend(this.theme.config.node_sass || {}, this.config.node_sass || {});

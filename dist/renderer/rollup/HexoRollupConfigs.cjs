@@ -5,12 +5,6 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __esm = (fn, res) => function __init() {
-  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-};
-var __commonJS = (cb, mod) => function __require() {
-  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-};
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
@@ -33,234 +27,166 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/renderer/rollup/utils/createReadFilterProxy.js
-var require_createReadFilterProxy = __commonJS({
-  "src/renderer/rollup/utils/createReadFilterProxy.js"(exports2, module2) {
-    "use strict";
-    var createReadFilterProxy2 = (target, filters = {}) => {
-      if (target == null || typeof target !== "object") {
-        throw new TypeError();
-      }
-      let filterKeys = Object.keys(filters).filter((key) => typeof filters[key] === "function");
-      if (!filterKeys) {
-        return target;
-      }
-      const filtersMap = filterKeys.reduce((result, key) => {
-        result[key] = filters[key];
-        return result;
-      }, /* @__PURE__ */ Object.create(null));
-      filters = null;
-      filterKeys = null;
-      return new Proxy(target, {
-        get(target2, property, receiver) {
-          const original = Reflect.get(target2, property, receiver);
-          return property in filtersMap ? filtersMap[property](original, target2) : original;
-        }
-      });
-    };
-    module2.exports = createReadFilterProxy2;
-  }
-});
-
-// src/renderer/rollup/utils/rollupPluginFromName.js
-var require_rollupPluginFromName = __commonJS({
-  "src/renderer/rollup/utils/rollupPluginFromName.js"(exports2, module2) {
-    "use strict";
-    var rollupPluginFromName = (name) => {
-      if (typeof name !== "string") {
-        throw new TypeError("name most string");
-      }
-      const pluginPrefix = "rollup-plugin-";
-      if (!name.startsWith(pluginPrefix)) {
-        name = pluginPrefix + name;
-      }
-      return require(name);
-    };
-    module2.exports = rollupPluginFromName;
-  }
-});
-
-// src/renderer/rollup/utils/objectWithoutKeys.ts
-var objectWithoutKeys_exports = {};
-__export(objectWithoutKeys_exports, {
-  default: () => objectWithoutKeys_default,
-  objectWithoutKeys: () => objectWithoutKeys
-});
-var objectWithoutKeys, objectWithoutKeys_default;
-var init_objectWithoutKeys = __esm({
-  "src/renderer/rollup/utils/objectWithoutKeys.ts"() {
-    "use strict";
-    objectWithoutKeys = (obj, keys) => {
-      if (!Array.isArray(keys)) {
-        throw new TypeError("keys most string[].");
-      }
-      return Object.keys(obj).reduce(
-        (newObject, key) => {
-          if (!keys.includes(key)) newObject[key] = obj[key];
-          return newObject;
-        },
-        {}
-      );
-    };
-    objectWithoutKeys_default = objectWithoutKeys;
-  }
-});
-
-// src/renderer/rollup/utils/createRollupPlugin.js
-var require_createRollupPlugin = __commonJS({
-  "src/renderer/rollup/utils/createRollupPlugin.js"(exports2, module2) {
-    "use strict";
-    var rollupPluginFromName = require_rollupPluginFromName();
-    var { objectWithoutKeys: objectWithoutKeys2 } = (init_objectWithoutKeys(), __toCommonJS(objectWithoutKeys_exports));
-    var createRollupPlugin2 = (config) => {
-      if (typeof config === "string") {
-        return rollupPluginFromName(config)({});
-      }
-      if (typeof config === "object" && "name" in config) {
-        const plugin = rollupPluginFromName(config.name);
-        const options = objectWithoutKeys2(config, ["name"]);
-        return plugin(options);
-      }
-      throw new TypeError("config most object!");
-    };
-    module2.exports = createRollupPlugin2;
-  }
-});
-
-// src/renderer/rollup/utils/getHexoConfigs.js
-var require_getHexoConfigs = __commonJS({
-  "src/renderer/rollup/utils/getHexoConfigs.js"(exports2, module2) {
-    "use strict";
-    var mostHexoTypeError = () => {
-      throw new TypeError("ctx most Hexo instance!");
-    };
-    var getRawSiteConfig2 = (name, ctx) => {
-      if (!ctx) {
-        mostHexoTypeError();
-      }
-      return ctx.config[name];
-    };
-    var getRawThemeConfig2 = (name, ctx) => {
-      if (!ctx) {
-        mostHexoTypeError();
-      }
-      return ctx.theme.config[name];
-    };
-    var getRawOverrideThemeConfig2 = (name, ctx) => {
-      if (!ctx) {
-        mostHexoTypeError();
-      }
-      if (ctx.config.theme_config == null) {
-        return void 0;
-      }
-      return ctx.config.theme_config[name];
-    };
-    var getRawConfigs = (name, ctx) => {
-      if (!ctx) {
-        mostHexoTypeError();
-      }
-      return {
-        site: getRawSiteConfig2(name, ctx),
-        theme: getRawThemeConfig2(name, ctx),
-        override: getRawOverrideThemeConfig2(name, ctx)
-      };
-    };
-    var getRawAllConfigs = (ctx) => {
-      if (!ctx) {
-        mostHexoTypeError();
-      }
-      return {
-        site: ctx.config,
-        theme: ctx.theme.config,
-        override: ctx.config.theme_config
-      };
-    };
-    module2.exports.getRawConfigs = getRawConfigs;
-    module2.exports.default = getRawConfigs;
-    module2.exports.getRawAllConfigs = getRawAllConfigs;
-    module2.exports.getRawSiteConfig = getRawSiteConfig2;
-    module2.exports.getRawThemeConfig = getRawThemeConfig2;
-    module2.exports.getRawOverrideThemeConfig = getRawOverrideThemeConfig2;
-  }
-});
-
-// src/renderer/rollup/utils/objectMap.js
-var require_objectMap = __commonJS({
-  "src/renderer/rollup/utils/objectMap.js"(exports2, module2) {
-    "use strict";
-    var objectMap = (obj, callback, thisArg = void 0) => {
-      if (obj == null) {
-        throw new TypeError();
-      }
-      if (Array.isArray(obj)) {
-        return obj.map(callback, thisArg);
-      }
-      const type = typeof obj;
-      if (type !== "object" && type !== "string") {
-        throw new TypeError();
-      }
-      if (typeof obj[Symbol.iterator] === "function") {
-        return Array.from(obj, callback, thisArg);
-      }
-      if (typeof obj.length === "number") {
-        return Array.from(obj, callback, thisArg);
-      }
-      return Object.values(obj).map(callback, thisArg);
-    };
-    module2.exports = objectMap;
-  }
-});
-
-// src/renderer/rollup/utils/toAbsolutePaths.js
-var require_toAbsolutePaths = __commonJS({
-  "src/renderer/rollup/utils/toAbsolutePaths.js"(exports2, module2) {
-    "use strict";
-    var { join, isAbsolute } = require("path");
-    var objectMap = require_objectMap();
-    var toAbsolutePath2 = (targets, base) => {
-      if (targets == null) {
-        return [];
-      }
-      if (typeof targets === "string") {
-        if (isAbsolute(targets)) {
-          return targets;
-        }
-        return join(base, targets);
-      }
-      return objectMap(targets, (x) => {
-        return isAbsolute(x) ? x : join(base, x);
-      });
-    };
-    module2.exports = toAbsolutePath2;
-  }
-});
-
 // src/renderer/rollup/HexoRollupConfigs.ts
 var HexoRollupConfigs_exports = {};
 __export(HexoRollupConfigs_exports, {
   HexoRollupConfigs: () => HexoRollupConfigs
 });
 module.exports = __toCommonJS(HexoRollupConfigs_exports);
-var import_createReadFilterProxy = __toESM(require_createReadFilterProxy());
-var import_createRollupPlugin = __toESM(require_createRollupPlugin());
-var import_getHexoConfigs = __toESM(require_getHexoConfigs());
-var import_toAbsolutePaths = __toESM(require_toAbsolutePaths());
+
+// src/renderer/rollup/utils/createReadFilterProxy.js
+var createReadFilterProxy = (target, filters = {}) => {
+  if (target == null || typeof target !== "object") {
+    throw new TypeError();
+  }
+  let filterKeys = Object.keys(filters).filter((key) => typeof filters[key] === "function");
+  if (!filterKeys) {
+    return target;
+  }
+  const filtersMap = filterKeys.reduce((result, key) => {
+    result[key] = filters[key];
+    return result;
+  }, /* @__PURE__ */ Object.create(null));
+  filters = null;
+  filterKeys = null;
+  return new Proxy(target, {
+    get(target2, property, receiver) {
+      const original = Reflect.get(target2, property, receiver);
+      return property in filtersMap ? filtersMap[property](original, target2) : original;
+    }
+  });
+};
+var createReadFilterProxy_default = createReadFilterProxy;
+
+// src/renderer/rollup/utils/objectWithoutKeys.ts
+var objectWithoutKeys = (obj, keys) => {
+  if (!Array.isArray(keys)) {
+    throw new TypeError("keys most string[].");
+  }
+  return Object.keys(obj).reduce(
+    (newObject, key) => {
+      if (!keys.includes(key)) newObject[key] = obj[key];
+      return newObject;
+    },
+    {}
+  );
+};
+
+// src/renderer/rollup/utils/rollupPluginFromName.js
+var import_module = require("module");
+var import_meta = {};
+var require2 = (0, import_module.createRequire)(import_meta.url);
+var rollupPluginFromName = (name) => {
+  if (typeof name !== "string") {
+    throw new TypeError("name most string");
+  }
+  const pluginPrefix = "rollup-plugin-";
+  if (!name.startsWith(pluginPrefix)) {
+    name = pluginPrefix + name;
+  }
+  return require2(name);
+};
+var rollupPluginFromName_default = rollupPluginFromName;
+
+// src/renderer/rollup/utils/createRollupPlugin.js
+var createRollupPlugin = (config) => {
+  if (typeof config === "string") {
+    return rollupPluginFromName_default(config)({});
+  }
+  if (typeof config === "object" && "name" in config) {
+    const plugin = rollupPluginFromName_default(config.name);
+    const options = objectWithoutKeys(config, ["name"]);
+    return plugin(options);
+  }
+  throw new TypeError("config most object!");
+};
+var createRollupPlugin_default = createRollupPlugin;
+
+// src/renderer/rollup/utils/getHexoConfigs.js
+var mostHexoTypeError = () => {
+  throw new TypeError("ctx most Hexo instance!");
+};
+var getRawSiteConfig = (name, ctx) => {
+  if (!ctx) {
+    mostHexoTypeError();
+  }
+  return ctx.config[name];
+};
+var getRawThemeConfig = (name, ctx) => {
+  if (!ctx) {
+    mostHexoTypeError();
+  }
+  return ctx.theme.config[name];
+};
+var getRawOverrideThemeConfig = (name, ctx) => {
+  if (!ctx) {
+    mostHexoTypeError();
+  }
+  if (ctx.config.theme_config == null) {
+    return void 0;
+  }
+  return ctx.config.theme_config[name];
+};
+
+// src/renderer/rollup/utils/toAbsolutePaths.js
+var path = __toESM(require("path"), 1);
+
+// src/renderer/rollup/utils/objectMap.js
+var objectMap = (obj, callback, thisArg = void 0) => {
+  if (obj == null) {
+    throw new TypeError();
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(callback, thisArg);
+  }
+  const type = typeof obj;
+  if (type !== "object" && type !== "string") {
+    throw new TypeError();
+  }
+  if (typeof obj[Symbol.iterator] === "function") {
+    return Array.from(obj, callback, thisArg);
+  }
+  if (typeof obj.length === "number") {
+    return Array.from(obj, callback, thisArg);
+  }
+  return Object.values(obj).map(callback, thisArg);
+};
+var objectMap_default = objectMap;
+
+// src/renderer/rollup/utils/toAbsolutePaths.js
+var toAbsolutePath = (targets, base) => {
+  if (targets == null) {
+    return [];
+  }
+  if (typeof targets === "string") {
+    if (path.isAbsolute(targets)) {
+      return targets;
+    }
+    return path.join(base, targets);
+  }
+  return objectMap_default(targets, (x) => {
+    return path.isAbsolute(x) ? x : path.join(base, x);
+  });
+};
+var toAbsolutePaths_default = toAbsolutePath;
+
+// src/renderer/rollup/HexoRollupConfigs.ts
 var configFilterProxy = (config, baseDir) => {
   if (config == null) {
     return config;
   }
-  return (0, import_createReadFilterProxy.default)(config, {
+  return createReadFilterProxy_default(config, {
     input(original, target) {
-      return "input" in target ? (0, import_toAbsolutePaths.default)(original, baseDir) : original;
+      return "input" in target ? toAbsolutePaths_default(original, baseDir) : original;
     },
     plugins(original, target) {
       if (!("plugins" in target)) {
         return original;
       }
       if (Array.isArray(original)) {
-        return original.map((plugin) => (0, import_createRollupPlugin.default)(plugin));
+        return original.map((plugin) => createRollupPlugin_default(plugin));
       }
-      return (0, import_createRollupPlugin.default)(original);
+      return createRollupPlugin_default(original);
     }
   });
 };
@@ -282,15 +208,15 @@ var HexoRollupConfigs = class {
     this.ctx = ctx;
   }
   site() {
-    const raw = (0, import_getHexoConfigs.getRawSiteConfig)("rollup", this.ctx);
+    const raw = getRawSiteConfig("rollup", this.ctx);
     return configFilterProxy(raw, this.ctx.base_dir);
   }
   theme() {
-    const raw = (0, import_getHexoConfigs.getRawThemeConfig)("rollup", this.ctx);
+    const raw = getRawThemeConfig("rollup", this.ctx);
     return configFilterProxy(raw, this.ctx.theme_dir);
   }
   overrideTheme() {
-    const raw = (0, import_getHexoConfigs.getRawOverrideThemeConfig)("rollup", this.ctx);
+    const raw = getRawOverrideThemeConfig("rollup", this.ctx);
     return configFilterProxy(raw, this.ctx.base_dir);
   }
   merged() {

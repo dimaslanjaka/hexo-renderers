@@ -2,13 +2,11 @@ import { createRequire } from 'module'; const require = createRequire(import.met
 import {
   collectorPost,
   getPostData,
-  init_collector,
   loadPostData,
   postDataFilePath
-} from "../chunk-ZXPMPPBR.mjs";
-import "../chunk-DX3RKJWE.mjs";
-import "../chunk-QAIXVEL3.mjs";
-init_collector();
+} from "../chunk-E4FWP27Z.mjs";
+import "../chunk-ZZ532TJY.mjs";
+import "../chunk-LPG7NA4D.mjs";
 export {
   collectorPost,
   getPostData,

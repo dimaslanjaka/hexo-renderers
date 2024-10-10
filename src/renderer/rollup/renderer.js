@@ -1,9 +1,9 @@
 'use strict';
-const { rollup } = require('rollup');
-const { HexoRollupConfigs } = require('./HexoRollupConfigs');
-const { objectWithoutKeys } = require('./utils/objectWithoutKeys');
-const { writefile, jsonStringifyWithCircularRefs } = require('sbg-utility');
-const { join } = require('path');
+import { join } from 'path';
+import { rollup } from 'rollup';
+import { jsonStringifyWithCircularRefs, writefile } from 'sbg-utility';
+import { HexoRollupConfigs } from './HexoRollupConfigs.js';
+import { objectWithoutKeys } from './utils/objectWithoutKeys.js';
 
 /** @typedef {NodeJS.EventEmitter} Hexo */
 
@@ -24,7 +24,8 @@ const rollupRenderAsync = async (config) => {
   const { code } = await bundle.generate(config.output);
   return code;
 };
-module.exports.rollupRenderAsync = rollupRenderAsync;
+const _rollupRenderAsync = rollupRenderAsync;
+export { _rollupRenderAsync as rollupRenderAsync };
 
 /**
  * rollup renderer callback
@@ -63,4 +64,4 @@ async function renderer(data, _options) {
   }
 }
 
-module.exports = renderer;
+export default renderer;

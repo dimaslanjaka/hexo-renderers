@@ -1,17 +1,19 @@
 'use strict';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 /**
  * @param {string} name
  * @param {*} options
  * @return {(options: { [x: string]: any; }) => rollup.Plugin}
  */
-var rollupPluginFromName = function (name) {
+const rollupPluginFromName = (name) => {
     if (typeof name !== 'string') {
         throw new TypeError('name most string');
     }
-    var pluginPrefix = 'rollup-plugin-';
+    const pluginPrefix = 'rollup-plugin-';
     if (!name.startsWith(pluginPrefix)) {
         name = pluginPrefix + name;
     }
     return require(name);
 };
-module.exports = rollupPluginFromName;
+export default rollupPluginFromName;

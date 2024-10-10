@@ -1,9 +1,11 @@
+import Hexo from 'hexo';
+import * as pug from 'pug';
 /**
  * hexo-renderer-pug
- * @param {import('hexo')} hexo
+ * @param hexo
  */
-export function rendererPug(hexo: import("hexo")): {
-    (data: import("./helper/hexoLocalsData").HexoLocalsData, locals: Record<string, any>): string;
+export declare function rendererPug(hexo: Hexo): {
+    (data: any, locals: any): string;
     compile: (data: any) => pug.compileTemplate;
 };
-import pug = require("pug");
+export default rendererPug;

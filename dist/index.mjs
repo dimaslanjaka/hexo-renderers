@@ -1,16 +1,16 @@
 import { createRequire } from 'module'; const require = createRequire(import.meta.url);
 import {
   rendererRollup
-} from "./chunk-NHGJWEYD.mjs";
-import "./chunk-KGUM232Y.mjs";
-import "./chunk-NM6V2A7Y.mjs";
-import "./chunk-SVMFIJ4L.mjs";
-import "./chunk-BFDENCYN.mjs";
-import "./chunk-JZEFAEOM.mjs";
-import "./chunk-SHR7XKHU.mjs";
-import "./chunk-4HGMZJ35.mjs";
-import "./chunk-PXPCNKTU.mjs";
-import "./chunk-PPMINO4V.mjs";
+} from "./chunk-QSAAWZYS.mjs";
+import "./chunk-LYJDZX2S.mjs";
+import "./chunk-LWSQEWEO.mjs";
+import "./chunk-WE6N5LTG.mjs";
+import "./chunk-Y4EE73PS.mjs";
+import "./chunk-MPBC4RTJ.mjs";
+import "./chunk-7ON3GTJH.mjs";
+import "./chunk-GUSCLJFH.mjs";
+import "./chunk-WRTHVTJW.mjs";
+import "./chunk-OCHHYNFB.mjs";
 import {
   registerCustomGenerator
 } from "./chunk-T43XGBJG.mjs";
@@ -19,59 +19,47 @@ import {
   rendererDartSass
 } from "./chunk-4BKOTEUF.mjs";
 import {
-  require_renderer_ejs
-} from "./chunk-QSV6JKDP.mjs";
+  rendererEjs
+} from "./chunk-JMGDGDSQ.mjs";
 import {
   rendererMarkdownIt
-} from "./chunk-ZFSVBSG3.mjs";
-import "./chunk-NGO3CQW6.mjs";
-import "./chunk-M4SIDFMO.mjs";
-import "./chunk-CMWOOF5X.mjs";
-import "./chunk-U354XDU5.mjs";
+} from "./chunk-ZW2OM5DJ.mjs";
+import "./chunk-GW6AMUUK.mjs";
+import "./chunk-N5EX2ABV.mjs";
+import "./chunk-UTLDQWOC.mjs";
+import "./chunk-SSJ4TSE7.mjs";
 import {
-  require_renderer_nunjucks
-} from "./chunk-MS6YN7YX.mjs";
+  rendererNunjucks
+} from "./chunk-6C4HFVTI.mjs";
 import {
-  init_helper,
   registerCustomHelper
-} from "./chunk-ESUZ4WXB.mjs";
-import "./chunk-DWRQMMIC.mjs";
-import "./chunk-TONA6L3N.mjs";
+} from "./chunk-SEPX2JQX.mjs";
+import "./chunk-JTGTJIQE.mjs";
+import "./chunk-WZN5GTTE.mjs";
 import {
   collectorPost,
-  init_collector,
   loadPostData
-} from "./chunk-ZXPMPPBR.mjs";
+} from "./chunk-E4FWP27Z.mjs";
 import {
-  init_util,
   logname
-} from "./chunk-DX3RKJWE.mjs";
-import "./chunk-AY5VDOOF.mjs";
-import "./chunk-77JXBHLC.mjs";
-import "./chunk-S42X4VKR.mjs";
+} from "./chunk-ZZ532TJY.mjs";
+import "./chunk-G6ILIGWF.mjs";
+import "./chunk-2TTYN3B4.mjs";
+import "./chunk-QAE7XDYI.mjs";
 import {
-  require_renderer_pug
-} from "./chunk-W25RQR6Z.mjs";
+  rendererPug
+} from "./chunk-JV3FF3G4.mjs";
 import {
   rendererSass
 } from "./chunk-A6P2AQLB.mjs";
 import {
-  require_renderer_stylus
-} from "./chunk-A5X5YINU.mjs";
-import {
-  __toESM
-} from "./chunk-QAIXVEL3.mjs";
+  rendererStylus
+} from "./chunk-LPOIEBAT.mjs";
+import "./chunk-LPG7NA4D.mjs";
 
 // src/index.ts
 import { del } from "sbg-utility";
 import path from "upath";
-init_helper();
-init_collector();
-init_util();
-var import_renderer_ejs = __toESM(require_renderer_ejs());
-var import_renderer_nunjucks = __toESM(require_renderer_nunjucks());
-var import_renderer_pug = __toESM(require_renderer_pug());
-var import_renderer_stylus = __toESM(require_renderer_stylus());
 var _a;
 if (typeof hexo !== "undefined") {
   global.hexo = hexo;
@@ -98,10 +86,10 @@ if (typeof hexo !== "undefined") {
       const engine = options.engines[i];
       switch (engine) {
         case "ejs":
-          (0, import_renderer_ejs.rendererEjs)(hexo);
+          rendererEjs(hexo);
           break;
         case "pug":
-          (0, import_renderer_pug.rendererPug)(hexo);
+          rendererPug(hexo);
           break;
         case "dartsass":
           rendererDartSass(hexo);
@@ -113,11 +101,11 @@ if (typeof hexo !== "undefined") {
           rendererSass(hexo);
           break;
         case "stylus":
-          (0, import_renderer_stylus.rendererStylus)(hexo);
+          rendererStylus(hexo);
           break;
         case "nunjucks":
         case "njk":
-          (0, import_renderer_nunjucks.rendererNunjucks)(hexo);
+          rendererNunjucks(hexo);
           break;
         case "markdown-it":
           rendererMarkdownIt(hexo);
@@ -126,25 +114,21 @@ if (typeof hexo !== "undefined") {
     }
   } else {
     hexo.log.info(logname, "activating all engines");
-    (0, import_renderer_nunjucks.rendererNunjucks)(hexo);
-    (0, import_renderer_ejs.rendererEjs)(hexo);
-    (0, import_renderer_pug.rendererPug)(hexo);
-    (0, import_renderer_stylus.rendererStylus)(hexo);
+    rendererNunjucks(hexo);
+    rendererEjs(hexo);
+    rendererPug(hexo);
+    rendererStylus(hexo);
     rendererSass(hexo);
     rendererMarkdownIt(hexo);
   }
 }
-var export_rendererEjs = import_renderer_ejs.rendererEjs;
-var export_rendererNunjucks = import_renderer_nunjucks.rendererNunjucks;
-var export_rendererPug = import_renderer_pug.rendererPug;
-var export_rendererStylus = import_renderer_stylus.rendererStylus;
 export {
   rendererDartSass,
-  export_rendererEjs as rendererEjs,
+  rendererEjs,
   rendererMarkdownIt,
-  export_rendererNunjucks as rendererNunjucks,
-  export_rendererPug as rendererPug,
+  rendererNunjucks,
+  rendererPug,
   rendererRollup,
   rendererSass,
-  export_rendererStylus as rendererStylus
+  rendererStylus
 };

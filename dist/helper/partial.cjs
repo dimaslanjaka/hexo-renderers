@@ -1,7 +1,9 @@
 "use strict";
+var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __export = (target, all) => {
   for (var name in all)
@@ -15,6 +17,14 @@ var __copyProps = (to, from, except, desc) => {
   }
   return to;
 };
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/helper/partial.ts
@@ -23,7 +33,7 @@ __export(partial_exports, {
   partialWithLayout: () => partialWithLayout
 });
 module.exports = __toCommonJS(partial_exports);
-var import_upath = require("upath");
+var path = __toESM(require("upath"), 1);
 function partialWithLayout(ctx) {
   return function partialWithLayout2(name, locals, options = {}) {
     if (typeof name !== "string") throw new TypeError("argument name must be a string!");
@@ -31,8 +41,8 @@ function partialWithLayout(ctx) {
     const self = this;
     const viewDir = self.view_dir;
     const currentView = self.filename.substring(viewDir.length);
-    const path = (0, import_upath.join)((0, import_upath.dirname)(currentView), name);
-    const view = ctx.theme.getView(path) || ctx.theme.getView(name);
+    const thePath = path.join(path.dirname(currentView), name);
+    const view = ctx.theme.getView(thePath) || ctx.theme.getView(name);
     const viewLocals = { layout: false };
     if (!view) {
       throw new Error(`Partial ${name} does not exist. (in ${currentView})`);

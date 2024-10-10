@@ -31,18 +31,22 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var helper_exports = {};
 __export(helper_exports, {
   BASE_DIR: () => BASE_DIR,
-  registerCustomHelper: () => registerCustomHelper
+  isObject: () => isObject,
+  loadScripts: () => loadScripts,
+  registerCustomHelper: () => registerCustomHelper,
+  toArray: () => toArray
 });
 module.exports = __toCommonJS(helper_exports);
-var import_fs = __toESM(require("fs"));
-var hexoUtil = __toESM(require("hexo-util"));
-var import_lodash2 = __toESM(require("lodash"));
-var import_path3 = __toESM(require("path"));
-var import_yaml = __toESM(require("yaml"));
+var import_fs = __toESM(require("fs"), 1);
+var hexoUtil = __toESM(require("hexo-util"), 1);
+var import_lodash2 = __toESM(require("lodash"), 1);
+var import_module = require("module");
+var import_path3 = __toESM(require("path"), 1);
+var import_yaml = __toESM(require("yaml"), 1);
 
 // src/helper/date.ts
-var import_moize = __toESM(require("moize"));
-var import_moment_timezone = __toESM(require("moment-timezone"));
+var import_moize = __toESM(require("moize"), 1);
+var import_moment_timezone = __toESM(require("moment-timezone"), 1);
 var { isMoment } = import_moment_timezone.default;
 var isDate = (value) => typeof value === "object" && value instanceof Date && !isNaN(value.getTime());
 function getMoment(date2, lang, timezone) {
@@ -155,7 +159,7 @@ function getPostByLabel(hexo2) {
 }
 
 // src/helper/partial.ts
-var import_upath = require("upath");
+var path = __toESM(require("upath"), 1);
 function partialWithLayout(ctx) {
   return function partialWithLayout2(name, locals, options = {}) {
     if (typeof name !== "string") throw new TypeError("argument name must be a string!");
@@ -163,8 +167,8 @@ function partialWithLayout(ctx) {
     const self = this;
     const viewDir = self.view_dir;
     const currentView = self.filename.substring(viewDir.length);
-    const path4 = (0, import_upath.join)((0, import_upath.dirname)(currentView), name);
-    const view = ctx.theme.getView(path4) || ctx.theme.getView(name);
+    const thePath = path.join(path.dirname(currentView), name);
+    const view = ctx.theme.getView(thePath) || ctx.theme.getView(name);
     const viewLocals = { layout: false };
     if (!view) {
       throw new Error(`Partial ${name} does not exist. (in ${currentView})`);
@@ -183,19 +187,19 @@ function partialWithLayout(ctx) {
 }
 
 // src/helper/related-posts.ts
-var import_fs_extra2 = __toESM(require("fs-extra"));
-var import_lodash = __toESM(require("lodash"));
-var import_path2 = __toESM(require("path"));
+var import_fs_extra2 = __toESM(require("fs-extra"), 1);
+var import_lodash = __toESM(require("lodash"), 1);
+var import_path2 = __toESM(require("path"), 1);
 var import_sbg_utility2 = require("sbg-utility");
 
 // src/helper/collector.ts
-var cheerio = __toESM(require("cheerio"));
-var import_fs_extra = __toESM(require("fs-extra"));
-var import_path = __toESM(require("path"));
+var cheerio = __toESM(require("cheerio"), 1);
+var import_fs_extra = __toESM(require("fs-extra"), 1);
+var import_path = __toESM(require("path"), 1);
 var import_sbg_utility = require("sbg-utility");
 
 // src/helper/util.ts
-var import_ansi_colors = __toESM(require("ansi-colors"));
+var import_ansi_colors = __toESM(require("ansi-colors"), 1);
 var tagName = (inTags) => {
   if (!inTags || !Array.isArray(inTags.data)) return [];
   if (typeof inTags.data[0] === "string") return inTags;
@@ -332,19 +336,33 @@ function getRelatedPosts(hexo2) {
 }
 
 // src/helper/index.ts
+var import_meta = {};
+var require2 = (0, import_module.createRequire)(import_meta.url);
 var _toArray = import_lodash2.default.toArray;
 var BASE_DIR = typeof hexo === "undefined" ? process.cwd() : hexo.base_dir;
 var configFile = import_path3.default.join(BASE_DIR, "_config.yml");
 var config = {};
 if (import_fs.default.existsSync(configFile)) {
   if (typeof hexo === "undefined") {
-    config = import_yaml.default.parse(import_fs.default.readFileSync(configFile).toString());
+    config = import_yaml.default.parse(import_fs.default.readFileSync(configFile, "utf-8"));
   } else {
     config = hexo.config;
   }
 }
 var THEME_LOCATION = import_path3.default.join(process.cwd(), "themes", config.theme || "landscape");
 var _THEME_SCRIPTS = import_path3.default.join(THEME_LOCATION, "scripts");
+function loadScripts(base) {
+  if (import_fs.default.existsSync(base)) {
+    import_fs.default.readdirSync(base).forEach((p) => {
+      const full = import_path3.default.join(base, p);
+      if (import_fs.default.statSync(full).isFile()) {
+        require2(full);
+      } else if (import_fs.default.statSync(full).isDirectory()) {
+        loadScripts(full);
+      }
+    });
+  }
+}
 function isObject(value) {
   return typeof value === "object" && value !== null && value !== void 0;
 }
@@ -404,5 +422,8 @@ function registerCustomHelper(hexo2) {
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   BASE_DIR,
-  registerCustomHelper
+  isObject,
+  loadScripts,
+  registerCustomHelper,
+  toArray
 });

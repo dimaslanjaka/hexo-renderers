@@ -1,41 +1,17 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 'use strict';
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.escapeHtml = void 0;
-var cheerio_1 = require("cheerio");
-var markdown_it_1 = __importDefault(require("markdown-it"));
-var sbg_utility_1 = require("sbg-utility");
-var path = __importStar(require("upath"));
-var anchors_1 = __importDefault(require("./anchors"));
-var html_tags_1 = require("./html-tags");
-var images_1 = __importDefault(require("./images"));
-var escapeHtml = function (str) {
+import { load } from 'cheerio';
+import MarkdownIt from 'markdown-it';
+import { createRequire } from 'module';
+import { escapeRegex, isValidHttpUrl } from 'sbg-utility';
+import path from 'upath';
+import { fileURLToPath } from 'url';
+import anchorProcess from './anchors.js';
+import { validHtmlTags } from './html-tags.js';
+import imageProcess from './images.js';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const require = createRequire(import.meta.url);
+export const escapeHtml = (str) => {
     return str
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
@@ -43,25 +19,24 @@ var escapeHtml = function (str) {
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
 };
-exports.escapeHtml = escapeHtml;
-var Renderer = /** @class */ (function () {
+class Renderer {
     /**
      * constructor
      *
      * @param hexo context of hexo
      */
-    function Renderer(hexo) {
+    constructor(hexo) {
         this.hexo = hexo;
-        var markdown = hexo.config.markdown;
+        let { markdown } = hexo.config;
         // Temporary backward compatibility
         if (typeof markdown === 'string') {
             markdown = {
                 preset: markdown
             };
-            hexo.log.warn("Deprecated config detected. Please use\n\nmarkdown:\n  preset: ".concat(markdown.preset, "\n\nSee https://github.com/hexojs/hexo-renderer-markdown-it#options"));
+            hexo.log.warn(`Deprecated config detected. Please use\n\nmarkdown:\n  preset: ${markdown.preset}\n\nSee https://github.com/hexojs/hexo-renderer-markdown-it#options`);
         }
-        var preset = markdown.preset, render = markdown.render, enable_rules = markdown.enable_rules, disable_rules = markdown.disable_rules, plugins = markdown.plugins, anchors = markdown.anchors, images = markdown.images;
-        this.parser = new markdown_it_1.default(preset, render);
+        const { preset, render, enable_rules, disable_rules, plugins, anchors, images } = markdown;
+        this.parser = new MarkdownIt(preset, render);
         if (enable_rules) {
             this.parser.enable(enable_rules);
         }
@@ -69,9 +44,9 @@ var Renderer = /** @class */ (function () {
             this.parser.disable(disable_rules);
         }
         if (plugins) {
-            this.parser = plugins.reduce(function (parser, pugs) {
+            this.parser = plugins.reduce((parser, pugs) => {
                 if (pugs instanceof Object && pugs.name) {
-                    var resolved = require.resolve(pugs.name, {
+                    const resolved = require.resolve(pugs.name, {
                         paths: [
                             hexo.base_dir,
                             path.join(hexo.base_dir, 'node_modules'),
@@ -102,62 +77,60 @@ var Renderer = /** @class */ (function () {
             }, this.parser);
         }
         if (anchors) {
-            this.parser.use(anchors_1.default, anchors);
+            this.parser.use(anchorProcess, anchors);
         }
         if (images) {
-            this.parser.use(images_1.default, {
-                images: images,
+            this.parser.use(imageProcess, {
+                images,
                 hexo: this.hexo
             });
         }
         this.disableNunjucks = false;
     }
-    Renderer.prototype.render = function (data, _options) {
-        var _this = this;
+    render(data, _options) {
         this.hexo.execFilterSync('markdown-it:renderer', this.parser, { context: this });
-        var html = this.parser.render(data.text, {
+        let html = this.parser.render(data.text, {
             postPath: data.path
         });
-        var $ = (0, cheerio_1.load)(html);
-        var regexs = [];
-        $('*').each(function (index, element) {
-            var tagName = element.tagName.toLowerCase();
-            if (!html_tags_1.validHtmlTags.includes(tagName)) {
-                var regex = new RegExp('</?' + tagName + '>', 'gm');
+        const $ = load(html);
+        const regexs = [];
+        $('*').each((index, element) => {
+            const tagName = element.tagName.toLowerCase();
+            if (!validHtmlTags.includes(tagName)) {
+                const regex = new RegExp('</?' + tagName + '>', 'gm');
                 regexs.push(regex);
             }
             else if (tagName === 'img' || tagName === 'source' || tagName === 'iframe') {
                 // fix local post asset folder
-                var src = $(element).attr('src');
-                if (src && !(0, sbg_utility_1.isValidHttpUrl)(src) && !src.startsWith(_this.hexo.config.root)) {
-                    var finalSrc = path.join(_this.hexo.config.root, src);
-                    _this.hexo.log.info('fix PAF', src, '->', finalSrc);
-                    html = html.replace(new RegExp((0, sbg_utility_1.escapeRegex)(src)), finalSrc);
+                const src = $(element).attr('src');
+                if (src && !isValidHttpUrl(src) && !src.startsWith(this.hexo.config.root)) {
+                    const finalSrc = path.join(this.hexo.config.root, src);
+                    this.hexo.log.info('fix PAF', src, '->', finalSrc);
+                    html = html.replace(new RegExp(escapeRegex(src)), finalSrc);
                 }
             }
         });
-        var results = regexs.map(function (regex) {
-            var result = html.match(regex);
+        const results = regexs.map((regex) => {
+            const result = html.match(regex);
             if (typeof hexo != 'undefined') {
                 hexo.log.info('found invalid html tags inside anchor', regex, result);
             }
-            return { regex: regex, result: result };
+            return { regex, result };
         });
         // Flatten the results and filter out null values
-        var matches = results.flat();
-        for (var i = 0; i < matches.length; i++) {
-            var regex_result = matches[i];
+        const matches = results.flat();
+        for (let i = 0; i < matches.length; i++) {
+            const regex_result = matches[i];
             if (regex_result.result) {
-                for (var i_1 = 0; i_1 < regex_result.result.length; i_1++) {
-                    var replacement = (0, exports.escapeHtml)(regex_result.result[i_1]);
+                for (let i = 0; i < regex_result.result.length; i++) {
+                    const replacement = escapeHtml(regex_result.result[i]);
                     // console.log(regex_result.regex, replacement);
                     html = html.replace(regex_result.regex, replacement);
                 }
             }
         }
         return html;
-    };
-    return Renderer;
-}());
+    }
+}
 // module.exports = Renderer;
-exports.default = Renderer;
+export default Renderer;

@@ -1,24 +1,24 @@
 'use strict';
-var _a = require('path'), join = _a.join, isAbsolute = _a.isAbsolute;
-var objectMap = require('./objectMap');
+import * as path from 'path';
+import objectMap from './objectMap.js';
 /**
  * @param {string|Iterable<string>|ArrayLike<string>|Object.<string, string>} targets
  * @param {string} base
  * @return {string|string[]}
  */
-var toAbsolutePath = function (targets, base) {
+const toAbsolutePath = (targets, base) => {
     if (targets == null) {
         return [];
     }
     if (typeof targets === 'string') {
-        if (isAbsolute(targets)) {
+        if (path.isAbsolute(targets)) {
             return targets;
         }
-        return join(base, targets);
+        return path.join(base, targets);
     }
     // Convert config of the entry from object.
-    return objectMap(targets, function (x) {
-        return isAbsolute(x) ? x : join(base, x);
+    return objectMap(targets, (x) => {
+        return path.isAbsolute(x) ? x : path.join(base, x);
     });
 };
-module.exports = toAbsolutePath;
+export default toAbsolutePath;

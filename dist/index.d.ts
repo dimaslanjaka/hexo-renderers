@@ -1,9 +1,9 @@
-import { rendererDartSass } from './renderer-dartsass';
-import { rendererEjs } from './renderer-ejs';
-import { default as rendererMarkdownIt } from './renderer-markdown-it';
-import { rendererNunjucks } from './renderer-nunjucks';
-import { rendererPug } from './renderer-pug';
-import { rendererSass } from './renderer-sass';
-import { rendererStylus } from './renderer-stylus';
-import { rendererRollup } from './renderer/rollup';
+import { rendererDartSass } from './renderer-dartsass.js';
+import { rendererEjs } from './renderer-ejs.js';
+import { default as rendererMarkdownIt } from './renderer-markdown-it.js';
+import { rendererNunjucks } from './renderer-nunjucks.js';
+import { rendererPug } from './renderer-pug.js';
+import { rendererSass } from './renderer-sass.js';
+import { rendererStylus } from './renderer-stylus.js';
+import { rendererRollup } from './renderer/rollup/index.js';
 export { rendererDartSass, rendererEjs, rendererMarkdownIt, rendererNunjucks, rendererPug, rendererRollup, rendererSass, rendererStylus };

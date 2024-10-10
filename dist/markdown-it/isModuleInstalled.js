@@ -1,4 +1,4 @@
-"use strict";
+import fs from 'fs-extra';
 /**
  * check package installed
  * @param {string} packageName
@@ -6,11 +6,11 @@
  */
 function isModuleInstalled(packageName) {
     try {
-        var modules = Array.from(process.moduleLoadList).filter(function (str) { return !str.startsWith('NativeModule internal/'); });
-        return modules.indexOf("NativeModule ".concat(packageName)) >= 0 || fs.existsSync(require.resolve(packageName));
+        const modules = Array.from(process.moduleLoadList).filter((str) => !str.startsWith('NativeModule internal/'));
+        return modules.indexOf(`NativeModule ${packageName}`) >= 0 || fs.existsSync(require.resolve(packageName));
     }
-    catch (e) {
+    catch (_e) {
         return false;
     }
 }
-module.exports = isModuleInstalled;
+export default isModuleInstalled;

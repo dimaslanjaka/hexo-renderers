@@ -1,4 +1,4 @@
-const { build } = require('tsup');
+import { build } from 'tsup';
 
 /**
  * @type {import("tsup").Options}
@@ -17,30 +17,36 @@ const baseOption = {
   skipNodeModulesBundle: true
 };
 
-build({
-  ...baseOption,
-  format: ['cjs', 'esm'],
-  banner(ctx) {
-    if (ctx.format === 'esm') {
-      return {
+async function buildAll() {
+  const formats = [
+    {
+      format: 'esm',
+      outExtension: { js: '.mjs', dts: '.mts' },
+      banner: () => ({
         js: `import { createRequire } from 'module'; const require = createRequire(import.meta.url);`
-      };
+      })
+    },
+    {
+      format: 'cjs',
+      outExtension: { js: '.cjs', dts: '.cts' }
     }
-  },
-  outExtension({ format }) {
-    switch (format) {
-      case 'cjs': {
-        return { js: '.cjs', dts: '.d.cts' };
-      }
-      case 'esm': {
-        return { js: '.mjs', dts: '.d.mts' };
-      }
-      default: {
-        return { js: '.js', dts: '.d.ts' };
-      }
-    }
+  ];
+
+  try {
+    await Promise.all(
+      formats.map(({ format, outExtension, banner }) =>
+        build({
+          ...baseOption,
+          format,
+          outExtension: () => outExtension,
+          banner: banner ? banner : undefined
+        })
+      )
+    );
+  } catch (err) {
+    console.error('Build failed:', err);
+    process.exit(1);
   }
-}).catch((err) => {
-  console.error('Build failed:', err);
-  process.exit(1);
-});
+}
+
+buildAll();

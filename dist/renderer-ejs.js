@@ -1,11 +1,10 @@
-"use strict";
-var ejs = require('ejs');
-var toArray = require('./helper').toArray;
+import * as ejs from 'ejs';
+import { toArray } from './helper/index.js';
 /**
  * hexo-renderer-ejs
- * @param {import('hexo')} hexo
+ * @param hexo
  */
-function rendererEjs(hexo) {
+export function rendererEjs(hexo) {
     if (ejs.filters)
         ejs.filters.toArray = toArray;
     function ejsRenderer(data, locals) {
@@ -18,4 +17,4 @@ function rendererEjs(hexo) {
     };
     hexo.extend.renderer.register('ejs', 'html', ejsRenderer, true);
 }
-module.exports = { rendererEjs: rendererEjs };
+export default rendererEjs;

@@ -1,17 +1,21 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 'use strict';
 
 import { load } from 'cheerio';
 import Hexo from 'hexo';
 import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import MarkdownIt from 'markdown-it';
+import { createRequire } from 'module';
 import { escapeRegex, isValidHttpUrl } from 'sbg-utility';
-import * as path from 'upath';
-import { defaultMarkdownOptions } from '../renderer-markdown-it';
-import anchorProcess from './anchors';
-import { validHtmlTags } from './html-tags';
-import imageProcess from './images';
+import path from 'upath';
+import { fileURLToPath } from 'url';
+import { defaultMarkdownOptions } from '../renderer-markdown-it.js';
+import anchorProcess from './anchors.js';
+import { validHtmlTags } from './html-tags.js';
+import imageProcess from './images.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const require = createRequire(import.meta.url);
 export const escapeHtml = (str: string) => {
   return str
     .replace(/&/g, '&amp;')

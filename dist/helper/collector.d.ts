@@ -1,5 +1,5 @@
 import Hexo from 'hexo';
-import { HexoLocalsData } from './hexoLocalsData';
+import type { HexoLocalsData } from './hexoLocalsData.js';
 /**
  * get post database path
  * @param hexo

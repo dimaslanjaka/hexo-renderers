@@ -1,7 +1,12 @@
 import fs from 'fs';
 import Hexo from 'hexo';
 import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
-import { rendererMarkdownIt } from '../src';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { rendererMarkdownIt } from '../src/index.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const hexo = new Hexo(__dirname, { silent: true });
 hexo.config.post_asset_folder = true;

@@ -1,9 +1,42 @@
 "use strict";
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/markdown-it/images.js
-var { join, relative: relativePosix } = require("path").posix;
-var { relative, basename, extname, dirname, isAbsolute } = require("path");
-var { url_for } = require("hexo-util");
+var images_exports = {};
+__export(images_exports, {
+  default: () => images_default
+});
+module.exports = __toCommonJS(images_exports);
+var import_hexo_util = __toESM(require("hexo-util"), 1);
+var path = __toESM(require("path"), 1);
+var { basename, dirname, extname, isAbsolute, posix, relative } = path;
+var { join, relative: relativePosix } = posix;
 function images(md, opts) {
   const { hexo, images: images2 } = opts;
   const { lazyload, prepend_root: prependRoot, post_asset: postAsset } = images2;
@@ -37,9 +70,9 @@ function images(md, opts) {
           src = asset[0].path.replace(/\\/g, "/");
         }
       }
-      token.attrSet("src", url_for.call(hexo, src));
+      token.attrSet("src", import_hexo_util.default.url_for.call(hexo, src));
     }
     return self.renderToken(tokens, idx, options);
   };
 }
-module.exports = images;
+var images_default = images;

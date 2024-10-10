@@ -36,13 +36,13 @@ __export(collector_exports, {
   postDataFilePath: () => postDataFilePath
 });
 module.exports = __toCommonJS(collector_exports);
-var cheerio = __toESM(require("cheerio"));
-var import_fs_extra = __toESM(require("fs-extra"));
-var import_path = __toESM(require("path"));
+var cheerio = __toESM(require("cheerio"), 1);
+var import_fs_extra = __toESM(require("fs-extra"), 1);
+var import_path = __toESM(require("path"), 1);
 var import_sbg_utility = require("sbg-utility");
 
 // src/helper/util.ts
-var import_ansi_colors = __toESM(require("ansi-colors"));
+var import_ansi_colors = __toESM(require("ansi-colors"), 1);
 var categorieName = (inCategories) => {
   if (!inCategories) return [];
   if (typeof inCategories.data[0] === "string") return inCategories;

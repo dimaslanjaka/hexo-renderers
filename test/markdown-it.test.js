@@ -1,6 +1,6 @@
 const Hexo = require('hexo');
 const { describe, it } = require('mocha');
-const { rendererMarkdownIt } = require('../dist');
+const { rendererMarkdownIt } = require('../dist/index');
 
 describe('test render markdown-it', async () => {
   const hexo = new Hexo(__dirname, { silent: true });

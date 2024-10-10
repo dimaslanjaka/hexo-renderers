@@ -1,4 +1,4 @@
-export = createRollupPlugin;
+export default createRollupPlugin;
 /**
  * @param {string|{name:string}} config
  */

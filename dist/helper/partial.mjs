@@ -1,10 +1,8 @@
 import { createRequire } from 'module'; const require = createRequire(import.meta.url);
 import {
-  init_partial,
   partialWithLayout
-} from "../chunk-DWRQMMIC.mjs";
-import "../chunk-QAIXVEL3.mjs";
-init_partial();
+} from "../chunk-JTGTJIQE.mjs";
+import "../chunk-LPG7NA4D.mjs";
 export {
   partialWithLayout
 };

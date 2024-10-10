@@ -33,7 +33,7 @@ __export(renderer_dartsass_exports, {
   rendererDartSass: () => rendererDartSass
 });
 module.exports = __toCommonJS(renderer_dartsass_exports);
-var import_sass = __toESM(require("sass"));
+var import_sass = __toESM(require("sass"), 1);
 function rendererDartSass(hexo) {
   const make = function(data, _options) {
     const config = Object.assign(this.theme.config.sass || {}, this.config.sass || {}, { file: data.path });

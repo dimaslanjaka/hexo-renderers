@@ -1,7 +1,7 @@
 'use strict';
 
-const Token = require('markdown-it/lib/token');
-const { slugize } = require('hexo-util');
+import hutil from 'hexo-util';
+import Token from 'markdown-it/lib/token.mjs';
 
 const renderPermalink = function (slug, opts, tokens, idx) {
   const permalink = [
@@ -44,7 +44,7 @@ const anchor = function (md, opts) {
         return acc + t.content;
       }, '');
 
-      let slug = slugize(title, slugOpts);
+      let slug = hutil.slugize(title, slugOpts);
 
       if (Object.prototype.hasOwnProperty.call(titleStore, slug)) {
         titleStore[slug] = titleStore[slug] + 1;
@@ -71,4 +71,4 @@ const anchor = function (md, opts) {
   });
 };
 
-module.exports = anchor;
+export default anchor;

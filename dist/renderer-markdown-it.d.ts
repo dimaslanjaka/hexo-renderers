@@ -1,5 +1,5 @@
 import Hexo from 'hexo';
-import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
+import type { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import MarkdownIt from 'markdown-it';
 export declare const defaultMarkdownOptions: {
     preset: MarkdownIt.PresetName;

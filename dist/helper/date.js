@@ -1,22 +1,14 @@
 'use strict';
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.toMomentLocale = exports.moment = exports.time_tag = exports.relative_date = exports.full_date = exports.time = exports.date_xml = exports.date = void 0;
-var moize_1 = __importDefault(require("moize"));
-var moment_timezone_1 = __importDefault(require("moment-timezone"));
-exports.moment = moment_timezone_1.default;
-var isMoment = moment_timezone_1.default.isMoment;
-var isDate = function (value) {
-    return typeof value === 'object' && value instanceof Date && !isNaN(value.getTime());
-};
+import { default as moize } from 'moize';
+import moment from 'moment-timezone';
+const { isMoment } = moment;
+const isDate = (value) => typeof value === 'object' && value instanceof Date && !isNaN(value.getTime());
 function getMoment(date, lang, timezone) {
     if (date == null)
-        date = (0, moment_timezone_1.default)();
+        date = moment();
     if (!isMoment(date))
-        date = (0, moment_timezone_1.default)(isDate(date) ? date : new Date(date));
-    var toMomentLang = (0, exports.toMomentLocale)(lang);
+        date = moment(isDate(date) ? date : new Date(date));
+    const toMomentLang = toMomentLocale(lang);
     if (toMomentLang)
         lang = toMomentLang;
     if (lang)
@@ -38,41 +30,41 @@ function dateHelper(date, format) {
     if (!date)
         return 'date is undefined';
     // eslint-disable-next-line @typescript-eslint/no-this-alias
-    var config = this.config;
-    var moment = getMoment(date, getLanguage(this), config.timezone);
+    const { config } = this;
+    const moment = getMoment(date, getLanguage(this), config.timezone);
     return moment.format(format || config.date_format);
 }
 function timeHelper(date, format) {
     if (!date)
         return 'date is undefined';
     // eslint-disable-next-line @typescript-eslint/no-this-alias
-    var config = this.config;
-    var moment = getMoment(date, getLanguage(this), config.timezone);
+    const { config } = this;
+    const moment = getMoment(date, getLanguage(this), config.timezone);
     return moment.format(format || config.time_format);
 }
 function fullDateHelper(date, format) {
     if (!date)
         return 'date is undefined';
     if (format) {
-        var moment_1 = getMoment(date, getLanguage(this), this.config.timezone);
-        return moment_1.format(format);
+        const moment = getMoment(date, getLanguage(this), this.config.timezone);
+        return moment.format(format);
     }
-    return "".concat(this.date(date), " ").concat(this.time(date));
+    return `${this.date(date)} ${this.time(date)}`;
 }
 function relativeDateHelper(date) {
     if (!date)
         return 'date is undefined';
     // eslint-disable-next-line @typescript-eslint/no-this-alias
-    var config = this.config;
-    var moment = getMoment(date, getLanguage(this), config.timezone);
+    const { config } = this;
+    const moment = getMoment(date, getLanguage(this), config.timezone);
     return moment.fromNow();
 }
 function timeTagHelper(date, format) {
     if (!date)
         return 'date is undefined';
     // eslint-disable-next-line @typescript-eslint/no-this-alias
-    var config = this.config;
-    return "<time datetime=\"".concat(toISOString(date), "\">").concat(this.date(date, format, getLanguage(this), config.timezone), "</time>");
+    const { config } = this;
+    return `<time datetime="${toISOString(date)}">${this.date(date, format, getLanguage(this), config.timezone)}</time>`;
 }
 function getLanguage(ctx) {
     return ctx.page.lang || ctx.page.language || ctx.config.language;
@@ -96,10 +88,11 @@ function toMomentLocales(lang) {
     }
     return lang.toLowerCase().replace('_', '-');
 }
-exports.date = dateHelper;
-exports.date_xml = toISOString;
-exports.time = timeHelper;
-exports.full_date = fullDateHelper;
-exports.relative_date = relativeDateHelper;
-exports.time_tag = timeTagHelper;
-exports.toMomentLocale = moize_1.default.shallow(toMomentLocales);
+export const date = dateHelper;
+export const date_xml = toISOString;
+export const time = timeHelper;
+export const full_date = fullDateHelper;
+export const relative_date = relativeDateHelper;
+export const time_tag = timeTagHelper;
+export { moment };
+export const toMomentLocale = moize.shallow(toMomentLocales);

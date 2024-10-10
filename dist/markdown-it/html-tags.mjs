@@ -1,6 +1,10 @@
 import { createRequire } from 'module'; const require = createRequire(import.meta.url);
 import {
-  require_html_tags
-} from "../chunk-CMWOOF5X.mjs";
-import "../chunk-QAIXVEL3.mjs";
-export default require_html_tags();
+  validHtmlTags,
+  validHtmlTagsRegex
+} from "../chunk-UTLDQWOC.mjs";
+import "../chunk-LPG7NA4D.mjs";
+export {
+  validHtmlTags,
+  validHtmlTagsRegex
+};

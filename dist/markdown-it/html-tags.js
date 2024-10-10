@@ -1,5 +1,4 @@
-"use strict";
-var validHtmlTags = [
+export const validHtmlTags = [
     'a',
     'abbr',
     'address',
@@ -110,5 +109,4 @@ var validHtmlTags = [
     'video',
     'wbr'
 ];
-var validHtmlTagsRegex = new RegExp('</?(' + validHtmlTags.join('|') + ')(\\s|>)');
-module.exports = { validHtmlTags: validHtmlTags, validHtmlTagsRegex: validHtmlTagsRegex };
+export const validHtmlTagsRegex = new RegExp('</?(' + validHtmlTags.join('|') + ')(\\s|>)');

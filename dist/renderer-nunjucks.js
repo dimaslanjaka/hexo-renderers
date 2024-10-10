@@ -1,23 +1,23 @@
 'use strict';
-var nunjucks = require('nunjucks');
-var fs = require('fs-extra');
-var path = require('upath');
-var toArray = require('./helper').toArray;
-//const ansiColors = require('ansi-colors');
-var writefile = require('sbg-utility').writefile;
+import fs from 'fs-extra';
+import nunjucks from 'nunjucks';
+import path from 'upath';
+import { toArray } from './helper/index.js';
+import { writefile } from 'sbg-utility';
 //const logname = ansiColors.magentaBright('hexo-renderer-nunjucks');
-var tmpdir = path.join(__dirname, '../tmp');
-var logfile = path.join(tmpdir, 'nunjucks-log.json');
+const base_dir = typeof hexo !== 'undefined' && hexo.base_dir ? hexo.base_dir : process.cwd();
+const tmpdir = path.join(base_dir, 'tmp', 'hexo-renderers');
+const logfile = path.join(tmpdir, 'nunjucks-log.json');
 /**
  * hexo-renderer-nunjucks
- * @param {import('hexo')} hexo
+ * @param hexo
  */
-function rendererNunjucks(hexo) {
+export function rendererNunjucks(hexo) {
     /**
      * theme directory
      */
-    var themeDir = path.join(hexo.base_dir, 'themes', hexo.config.theme);
-    var env = nunjucks.configure([themeDir, path.join(themeDir, 'layout')], {
+    const themeDir = path.join(hexo.base_dir, 'themes', hexo.config.theme);
+    const env = nunjucks.configure([themeDir, path.join(themeDir, 'layout')], {
         noCache: true,
         autoescape: false,
         throwOnUndefined: false,
@@ -25,14 +25,14 @@ function rendererNunjucks(hexo) {
         lstripBlocks: false
     });
     env.addFilter('toArray', toArray);
-    var logs = {
+    const logs = {
         render: [],
         compile: []
     };
     /**
      * render
-     * @param {import('hexo').PageData} data
-     * @param {import('hexo').Locals} locals
+     * @param data
+     * @param locals
      * @returns
      */
     function render(data, locals) {
@@ -46,7 +46,7 @@ function rendererNunjucks(hexo) {
     }
     /**
      * compile
-     * @param {import('./helper/hexoLocalsData').HexoRenderData} data
+     * @param data
      * @returns
      */
     function compile(data) {
@@ -54,7 +54,7 @@ function rendererNunjucks(hexo) {
         logs.compile.push(data.path);
         writefile(logfile, JSON.stringify(logs, null, 2));
         // hexo.log.info(logname, 'text' in data ? data.text : data.path);
-        var compiled = nunjucks.compile('text' in data ? data.text : fs.readFileSync(data.path), env);
+        const compiled = nunjucks.compile('text' in data ? data.text : fs.readFileSync(data.path, 'utf-8'), env);
         return compiled.render.bind(compiled);
     }
     // hexo Renderer API implicitly requires 'compile' to be a value of the rendering function
@@ -62,6 +62,6 @@ function rendererNunjucks(hexo) {
     // hexo.extend.renderer.register('swig', 'html', render, true);
     hexo.extend.renderer.register('njk', 'html', render, false);
     hexo.extend.renderer.register('j2', 'html', render, false);
-    return { render: render, rendererNunjucks: rendererNunjucks, compile: compile };
+    return { render, rendererNunjucks, compile };
 }
-module.exports = { rendererNunjucks: rendererNunjucks };
+export default rendererNunjucks;

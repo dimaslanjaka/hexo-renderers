@@ -1,19 +1,16 @@
 'use strict';
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.objectWithoutKeys = void 0;
 /**
  * @param obj
  * @param keys
  */
-var objectWithoutKeys = function (obj, keys) {
+export const objectWithoutKeys = (obj, keys) => {
     if (!Array.isArray(keys)) {
         throw new TypeError('keys most string[].');
     }
-    return Object.keys(obj).reduce(function (newObject, key) {
+    return Object.keys(obj).reduce((newObject, key) => {
         if (!keys.includes(key))
             newObject[key] = obj[key];
         return newObject;
     }, {});
 };
-exports.objectWithoutKeys = objectWithoutKeys;
-exports.default = exports.objectWithoutKeys;
+export default objectWithoutKeys;

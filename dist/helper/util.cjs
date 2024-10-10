@@ -35,7 +35,7 @@ __export(util_exports, {
   tagName: () => tagName
 });
 module.exports = __toCommonJS(util_exports);
-var import_ansi_colors = __toESM(require("ansi-colors"));
+var import_ansi_colors = __toESM(require("ansi-colors"), 1);
 var categorieName = (inCategories) => {
   if (!inCategories) return [];
   if (typeof inCategories.data[0] === "string") return inCategories;

@@ -1,4 +1,4 @@
-export = toAbsolutePath;
+export default toAbsolutePath;
 /**
  * @param {string|Iterable<string>|ArrayLike<string>|Object.<string, string>} targets
  * @param {string} base

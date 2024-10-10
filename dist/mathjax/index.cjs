@@ -33,12 +33,16 @@ __export(mathjax_exports, {
   rendererMathjax: () => rendererMathjax
 });
 module.exports = __toCommonJS(mathjax_exports);
-var import_ejs = __toESM(require("ejs"));
-var import_fs = __toESM(require("fs"));
-var import_path = __toESM(require("path"));
+var import_ejs = __toESM(require("ejs"), 1);
+var import_fs = __toESM(require("fs"), 1);
+var import_path = __toESM(require("path"), 1);
+var import_url = require("url");
+var import_meta = {};
+var __filename = (0, import_url.fileURLToPath)(import_meta.url);
+var __dirname = import_path.default.dirname(__filename);
 var layout = "layout.ejs";
 var bodyTag = "</body>";
-var mathjaxScript = import_fs.default.readFileSync(import_path.default.join(__dirname, "mathjax.html"));
+var mathjaxScript = import_fs.default.readFileSync(import_path.default.join(__dirname, "mathjax.html"), "utf-8");
 function rendererMathjax(hexo) {
   hexo.extend.renderer.register("ejs", "html", function(data, options) {
     const path2 = options.filename = data.path;

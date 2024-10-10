@@ -1,11 +1,9 @@
 import { createRequire } from 'module'; const require = createRequire(import.meta.url);
 import {
   getAuthor,
-  getTheAuthor,
-  init_getAuthor
-} from "../chunk-77JXBHLC.mjs";
-import "../chunk-QAIXVEL3.mjs";
-init_getAuthor();
+  getTheAuthor
+} from "../chunk-2TTYN3B4.mjs";
+import "../chunk-LPG7NA4D.mjs";
 export {
   getAuthor,
   getTheAuthor

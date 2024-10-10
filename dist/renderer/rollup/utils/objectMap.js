@@ -8,15 +8,14 @@
  * @param {U} thisArg
  * @return {R[]}
  */
-var objectMap = function (obj, callback, thisArg) {
-    if (thisArg === void 0) { thisArg = undefined; }
+const objectMap = (obj, callback, thisArg = undefined) => {
     if (obj == null) {
         throw new TypeError();
     }
     if (Array.isArray(obj)) {
         return obj.map(callback, thisArg);
     }
-    var type = typeof obj;
+    const type = typeof obj;
     if (type !== 'object' && type !== 'string') {
         throw new TypeError();
     }
@@ -30,4 +29,4 @@ var objectMap = function (obj, callback, thisArg) {
     }
     return Object.values(obj).map(callback, thisArg);
 };
-module.exports = objectMap;
+export default objectMap;

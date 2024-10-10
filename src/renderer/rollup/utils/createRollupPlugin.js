@@ -1,7 +1,7 @@
 'use strict';
 
-const rollupPluginFromName = require('./rollupPluginFromName');
-const { objectWithoutKeys } = require('./objectWithoutKeys');
+import { objectWithoutKeys } from './objectWithoutKeys.js';
+import rollupPluginFromName from './rollupPluginFromName.js';
 
 /**
  * @param {string|{name:string}} config
@@ -18,4 +18,4 @@ const createRollupPlugin = (config) => {
   throw new TypeError('config most object!');
 };
 
-module.exports = createRollupPlugin;
+export default createRollupPlugin;

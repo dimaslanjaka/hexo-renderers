@@ -1,8 +1,5 @@
-"use strict";
 // forked from https://gist.github.com/mh61503891/544d3c1eefd00b1012463b860222d34f
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.metaJsonCreator = metaJsonCreator;
-var meta = {
+const meta = {
     tags: [],
     posts: [],
     categories: []
@@ -11,7 +8,7 @@ var meta = {
  * create `meta.json` can be accessed at `http://example.com/meta.json`
  * @param hexo
  */
-function metaJsonCreator(hexo) {
+export function metaJsonCreator(hexo) {
     hexo.extend.generator.register('meta', function (locals) {
         locals.tags.sort('name').each(function (tag) {
             if (!meta.tags.includes(tag.name))

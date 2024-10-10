@@ -32,6 +32,9 @@ set config for your desired renderer engine.
 
 ## Changelog
 
+### 3.0.0
+- migrate to ESM with shim for CommonJS
+
 ### 2.0.6
 - fix: escape **invalid html tag** curly brackets on hyperlink text to html entities
 - feat: auto fix post assets folder

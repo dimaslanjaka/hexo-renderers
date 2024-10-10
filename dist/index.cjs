@@ -5,12 +5,6 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __esm = (fn, res) => function __init() {
-  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-};
-var __commonJS = (cb, mod) => function __require() {
-  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-};
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
@@ -33,200 +27,84 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/helper/date.ts
-function getMoment(date2, lang, timezone) {
-  if (date2 == null) date2 = (0, import_moment_timezone.default)();
-  if (!isMoment(date2)) date2 = (0, import_moment_timezone.default)(isDate(date2) ? date2 : new Date(date2));
-  const toMomentLang = toMomentLocale(lang);
-  if (toMomentLang) lang = toMomentLang;
-  if (lang) date2 = date2.locale(lang);
-  if (timezone) date2 = date2.tz(timezone);
-  return date2;
-}
-function toISOString(date2) {
-  if (date2 == null) {
-    return (/* @__PURE__ */ new Date()).toISOString();
-  }
-  if (date2 instanceof Date || isMoment(date2)) {
-    return date2.toISOString();
-  }
-  return new Date(date2).toISOString();
-}
-function dateHelper(date2, format) {
-  if (!date2) return "date is undefined";
-  const { config: config2 } = this;
-  const moment2 = getMoment(date2, getLanguage(this), config2.timezone);
-  return moment2.format(format || config2.date_format);
-}
-function timeHelper(date2, format) {
-  if (!date2) return "date is undefined";
-  const { config: config2 } = this;
-  const moment2 = getMoment(date2, getLanguage(this), config2.timezone);
-  return moment2.format(format || config2.time_format);
-}
-function fullDateHelper(date2, format) {
-  if (!date2) return "date is undefined";
-  if (format) {
-    const moment2 = getMoment(date2, getLanguage(this), this.config.timezone);
-    return moment2.format(format);
-  }
-  return `${this.date(date2)} ${this.time(date2)}`;
-}
-function relativeDateHelper(date2) {
-  if (!date2) return "date is undefined";
-  const { config: config2 } = this;
-  const moment2 = getMoment(date2, getLanguage(this), config2.timezone);
-  return moment2.fromNow();
-}
-function timeTagHelper(date2, format) {
-  if (!date2) return "date is undefined";
-  const { config: config2 } = this;
-  return `<time datetime="${toISOString(date2)}">${this.date(date2, format, getLanguage(this), config2.timezone)}</time>`;
-}
-function getLanguage(ctx) {
-  return ctx.page.lang || ctx.page.language || ctx.config.language;
-}
-function toMomentLocales(lang) {
-  if (lang === void 0) {
-    return void 0;
-  }
-  if (!lang || lang === "en" || lang === "default") {
-    return "en";
-  }
-  return lang.toLowerCase().replace("_", "-");
-}
-var import_moize, import_moment_timezone, isMoment, isDate, date, date_xml, time, full_date, relative_date, time_tag, toMomentLocale;
-var init_date = __esm({
-  "src/helper/date.ts"() {
-    "use strict";
-    import_moize = __toESM(require("moize"));
-    import_moment_timezone = __toESM(require("moment-timezone"));
-    ({ isMoment } = import_moment_timezone.default);
-    isDate = (value) => typeof value === "object" && value instanceof Date && !isNaN(value.getTime());
-    date = dateHelper;
-    date_xml = toISOString;
-    time = timeHelper;
-    full_date = fullDateHelper;
-    relative_date = relativeDateHelper;
-    time_tag = timeTagHelper;
-    toMomentLocale = import_moize.default.shallow(toMomentLocales);
-  }
+// src/index.ts
+var src_exports = {};
+__export(src_exports, {
+  rendererDartSass: () => rendererDartSass,
+  rendererEjs: () => rendererEjs,
+  rendererMarkdownIt: () => rendererMarkdownIt,
+  rendererNunjucks: () => rendererNunjucks,
+  rendererPug: () => rendererPug,
+  rendererRollup: () => rendererRollup,
+  rendererSass: () => rendererSass,
+  rendererStylus: () => rendererStylus
 });
+module.exports = __toCommonJS(src_exports);
+var import_sbg_utility6 = require("sbg-utility");
+var import_upath3 = __toESM(require("upath"), 1);
 
-// src/helper/getAuthor.ts
-function getAuthor(hexo2) {
-  hexo2.extend.helper.register("getAuthor", function getAuthor2(author, fallback) {
-    if (!author) return fallback;
-    const test1 = getTheAuthor(author);
-    if (typeof test1 === "string") return test1;
-    const test2 = getTheAuthor(this.config.author);
-    if (typeof test2 === "string") return test2;
-    return "default user";
+// src/generator/meta.ts
+var meta = {
+  tags: [],
+  posts: [],
+  categories: []
+};
+function metaJsonCreator(hexo2) {
+  hexo2.extend.generator.register("meta", function(locals) {
+    locals.tags.sort("name").each(function(tag) {
+      if (!meta.tags.includes(tag.name)) meta.tags.push(tag.name);
+    });
+    locals.categories.sort("name").each(function(category) {
+      if (!meta.categories.includes(category.name)) meta.categories.push(category.name);
+    });
+    locals.posts.sort("name").each(function(post) {
+      meta.posts.push({
+        title: post.title,
+        url: encodeURI(post.permalink),
+        // get modified date first
+        date: post.updated.toDate().toISOString() || post.date.toDate().toISOString()
+      });
+    });
+    return { path: "meta.json", data: JSON.stringify(meta) };
   });
 }
-function getTheAuthor(authorObj) {
-  if (typeof authorObj === "string") return authorObj;
-  if (typeof authorObj.name === "string") return authorObj.name;
-  if (typeof authorObj.nick === "string") return authorObj.nick;
-  if (typeof authorObj.nickname === "string") return authorObj.nickname;
-}
-var init_getAuthor = __esm({
-  "src/helper/getAuthor.ts"() {
-    "use strict";
-  }
-});
 
-// src/helper/getPostByLabel.ts
-function getPostByLabelInternal(by, filternames) {
-  const hexo2 = this;
-  const data = hexo2.site[by].data;
-  if (Array.isArray(data)) {
-    console.log(typeof data.filter);
-    const map = filternames.map((filtername) => {
-      const filter = data.filter(({ name }) => String(name).toLowerCase() == filtername.toLowerCase());
-      return filter.map((group) => {
-        return group.posts.map(function({ title, permalink, thumbnail, photos }) {
-          return { title, permalink, thumbnail, photos };
-        });
-      });
-    }).flat(2);
-    return map;
-  }
-  return [];
+// src/generator/index.ts
+function registerCustomGenerator(hexo2, generators) {
+  if ("meta" in generators) metaJsonCreator(hexo2);
 }
-function getPostByLabel(hexo2) {
-  hexo2.extend.helper.register("getPostByLabel", getPostByLabelInternal);
-}
-var init_getPostByLabel = __esm({
-  "src/helper/getPostByLabel.ts"() {
-    "use strict";
-  }
-});
-
-// src/helper/partial.ts
-function partialWithLayout(ctx) {
-  return function partialWithLayout2(name, locals, options = {}) {
-    if (typeof name !== "string") throw new TypeError("argument name must be a string!");
-    const { cache } = options;
-    const self = this;
-    const viewDir = self.view_dir;
-    const currentView = self.filename.substring(viewDir.length);
-    const path7 = (0, import_upath.join)((0, import_upath.dirname)(currentView), name);
-    const view = ctx.theme.getView(path7) || ctx.theme.getView(name);
-    const viewLocals = { layout: false };
-    if (!view) {
-      throw new Error(`Partial ${name} does not exist. (in ${currentView})`);
-    }
-    if (options.only) {
-      Object.assign(viewLocals, locals);
-    } else {
-      Object.assign(viewLocals, this, locals);
-    }
-    if (cache) {
-      const cacheId = typeof cache === "string" ? cache : view.path;
-      return this.fragment_cache(cacheId, () => view.renderSync(viewLocals));
-    }
-    return view.renderSync(viewLocals);
-  };
-}
-var import_upath;
-var init_partial = __esm({
-  "src/helper/partial.ts"() {
-    "use strict";
-    import_upath = require("upath");
-  }
-});
-
-// src/helper/util.ts
-var import_ansi_colors, categorieName, tagName, logname;
-var init_util = __esm({
-  "src/helper/util.ts"() {
-    "use strict";
-    import_ansi_colors = __toESM(require("ansi-colors"));
-    categorieName = (inCategories) => {
-      if (!inCategories) return [];
-      if (typeof inCategories.data[0] === "string") return inCategories;
-      let catName = "";
-      for (let r = 0; r < inCategories.data.length; r++) {
-        if (catName != "") catName += " > ";
-        catName += inCategories.data[r].name;
-      }
-      return catName;
-    };
-    tagName = (inTags) => {
-      if (!inTags || !Array.isArray(inTags.data)) return [];
-      if (typeof inTags.data[0] === "string") return inTags;
-      const retTags = [];
-      inTags.data.forEach((item) => {
-        retTags.push(item.name);
-      });
-      return retTags;
-    };
-    logname = import_ansi_colors.default.magentaBright("hexo-renderers");
-  }
-});
 
 // src/helper/collector.ts
+var cheerio = __toESM(require("cheerio"), 1);
+var import_fs_extra = __toESM(require("fs-extra"), 1);
+var import_path = __toESM(require("path"), 1);
+var import_sbg_utility = require("sbg-utility");
+
+// src/helper/util.ts
+var import_ansi_colors = __toESM(require("ansi-colors"), 1);
+var categorieName = (inCategories) => {
+  if (!inCategories) return [];
+  if (typeof inCategories.data[0] === "string") return inCategories;
+  let catName = "";
+  for (let r = 0; r < inCategories.data.length; r++) {
+    if (catName != "") catName += " > ";
+    catName += inCategories.data[r].name;
+  }
+  return catName;
+};
+var tagName = (inTags) => {
+  if (!inTags || !Array.isArray(inTags.data)) return [];
+  if (typeof inTags.data[0] === "string") return inTags;
+  const retTags = [];
+  inTags.data.forEach((item) => {
+    retTags.push(item.name);
+  });
+  return retTags;
+};
+var logname = import_ansi_colors.default.magentaBright("hexo-renderers");
+
+// src/helper/collector.ts
+var postData = [];
 function postDataFilePath(hexo2) {
   return import_path.default.join(hexo2.base_dir, "tmp/hexo-renderers/post-data.json");
 }
@@ -243,6 +121,7 @@ function loadPostData(hexo2) {
     }
   }
 }
+var getPostData = () => postData;
 async function collectorPost(post, hexo2) {
   const integrity = post.full_source ? await (0, import_sbg_utility.file_to_hash)("sha1", post.full_source, "hex") : (0, import_sbg_utility.md5)(String(post.path + post.raw));
   const exPostIndex = postData.findIndex((exPost2) => post.path === exPost2.path);
@@ -315,21 +194,163 @@ async function collectorPost(post, hexo2) {
 function cleanText(str) {
   return String(str).replace(/[><"']/gm, "").replace(/\s+/g, " ").substring(0, 200);
 }
-var cheerio, import_fs_extra, import_path, import_sbg_utility, postData, getPostData;
-var init_collector = __esm({
-  "src/helper/collector.ts"() {
-    "use strict";
-    cheerio = __toESM(require("cheerio"));
-    import_fs_extra = __toESM(require("fs-extra"));
-    import_path = __toESM(require("path"));
-    import_sbg_utility = require("sbg-utility");
-    init_util();
-    postData = [];
-    getPostData = () => postData;
+
+// src/helper/index.ts
+var import_fs = __toESM(require("fs"), 1);
+var hexoUtil = __toESM(require("hexo-util"), 1);
+var import_lodash2 = __toESM(require("lodash"), 1);
+var import_module = require("module");
+var import_path3 = __toESM(require("path"), 1);
+var import_yaml = __toESM(require("yaml"), 1);
+
+// src/helper/date.ts
+var import_moize = __toESM(require("moize"), 1);
+var import_moment_timezone = __toESM(require("moment-timezone"), 1);
+var { isMoment } = import_moment_timezone.default;
+var isDate = (value) => typeof value === "object" && value instanceof Date && !isNaN(value.getTime());
+function getMoment(date2, lang, timezone) {
+  if (date2 == null) date2 = (0, import_moment_timezone.default)();
+  if (!isMoment(date2)) date2 = (0, import_moment_timezone.default)(isDate(date2) ? date2 : new Date(date2));
+  const toMomentLang = toMomentLocale(lang);
+  if (toMomentLang) lang = toMomentLang;
+  if (lang) date2 = date2.locale(lang);
+  if (timezone) date2 = date2.tz(timezone);
+  return date2;
+}
+function toISOString(date2) {
+  if (date2 == null) {
+    return (/* @__PURE__ */ new Date()).toISOString();
   }
-});
+  if (date2 instanceof Date || isMoment(date2)) {
+    return date2.toISOString();
+  }
+  return new Date(date2).toISOString();
+}
+function dateHelper(date2, format) {
+  if (!date2) return "date is undefined";
+  const { config: config2 } = this;
+  const moment2 = getMoment(date2, getLanguage(this), config2.timezone);
+  return moment2.format(format || config2.date_format);
+}
+function timeHelper(date2, format) {
+  if (!date2) return "date is undefined";
+  const { config: config2 } = this;
+  const moment2 = getMoment(date2, getLanguage(this), config2.timezone);
+  return moment2.format(format || config2.time_format);
+}
+function fullDateHelper(date2, format) {
+  if (!date2) return "date is undefined";
+  if (format) {
+    const moment2 = getMoment(date2, getLanguage(this), this.config.timezone);
+    return moment2.format(format);
+  }
+  return `${this.date(date2)} ${this.time(date2)}`;
+}
+function relativeDateHelper(date2) {
+  if (!date2) return "date is undefined";
+  const { config: config2 } = this;
+  const moment2 = getMoment(date2, getLanguage(this), config2.timezone);
+  return moment2.fromNow();
+}
+function timeTagHelper(date2, format) {
+  if (!date2) return "date is undefined";
+  const { config: config2 } = this;
+  return `<time datetime="${toISOString(date2)}">${this.date(date2, format, getLanguage(this), config2.timezone)}</time>`;
+}
+function getLanguage(ctx) {
+  return ctx.page.lang || ctx.page.language || ctx.config.language;
+}
+function toMomentLocales(lang) {
+  if (lang === void 0) {
+    return void 0;
+  }
+  if (!lang || lang === "en" || lang === "default") {
+    return "en";
+  }
+  return lang.toLowerCase().replace("_", "-");
+}
+var date = dateHelper;
+var date_xml = toISOString;
+var time = timeHelper;
+var full_date = fullDateHelper;
+var relative_date = relativeDateHelper;
+var time_tag = timeTagHelper;
+var toMomentLocale = import_moize.default.shallow(toMomentLocales);
+
+// src/helper/getAuthor.ts
+function getAuthor(hexo2) {
+  hexo2.extend.helper.register("getAuthor", function getAuthor2(author, fallback) {
+    if (!author) return fallback;
+    const test1 = getTheAuthor(author);
+    if (typeof test1 === "string") return test1;
+    const test2 = getTheAuthor(this.config.author);
+    if (typeof test2 === "string") return test2;
+    return "default user";
+  });
+}
+function getTheAuthor(authorObj) {
+  if (typeof authorObj === "string") return authorObj;
+  if (typeof authorObj.name === "string") return authorObj.name;
+  if (typeof authorObj.nick === "string") return authorObj.nick;
+  if (typeof authorObj.nickname === "string") return authorObj.nickname;
+}
+
+// src/helper/getPostByLabel.ts
+function getPostByLabelInternal(by, filternames) {
+  const hexo2 = this;
+  const data = hexo2.site[by].data;
+  if (Array.isArray(data)) {
+    console.log(typeof data.filter);
+    const map = filternames.map((filtername) => {
+      const filter = data.filter(({ name }) => String(name).toLowerCase() == filtername.toLowerCase());
+      return filter.map((group) => {
+        return group.posts.map(function({ title, permalink, thumbnail, photos }) {
+          return { title, permalink, thumbnail, photos };
+        });
+      });
+    }).flat(2);
+    return map;
+  }
+  return [];
+}
+function getPostByLabel(hexo2) {
+  hexo2.extend.helper.register("getPostByLabel", getPostByLabelInternal);
+}
+
+// src/helper/partial.ts
+var path2 = __toESM(require("upath"), 1);
+function partialWithLayout(ctx) {
+  return function partialWithLayout2(name, locals, options = {}) {
+    if (typeof name !== "string") throw new TypeError("argument name must be a string!");
+    const { cache } = options;
+    const self = this;
+    const viewDir = self.view_dir;
+    const currentView = self.filename.substring(viewDir.length);
+    const thePath = path2.join(path2.dirname(currentView), name);
+    const view = ctx.theme.getView(thePath) || ctx.theme.getView(name);
+    const viewLocals = { layout: false };
+    if (!view) {
+      throw new Error(`Partial ${name} does not exist. (in ${currentView})`);
+    }
+    if (options.only) {
+      Object.assign(viewLocals, locals);
+    } else {
+      Object.assign(viewLocals, this, locals);
+    }
+    if (cache) {
+      const cacheId = typeof cache === "string" ? cache : view.path;
+      return this.fragment_cache(cacheId, () => view.renderSync(viewLocals));
+    }
+    return view.renderSync(viewLocals);
+  };
+}
 
 // src/helper/related-posts.ts
+var import_fs_extra2 = __toESM(require("fs-extra"), 1);
+var import_lodash = __toESM(require("lodash"), 1);
+var import_path2 = __toESM(require("path"), 1);
+var import_sbg_utility2 = require("sbg-utility");
+var assign = import_lodash.default.assign;
 function addCount(array, searchProperty, newProperty) {
   return array.reduce(function(newArray, item) {
     const i = objectArrayIndexOf(newArray, item[searchProperty], searchProperty);
@@ -447,26 +468,23 @@ function getRelatedPosts(hexo2) {
     }
   );
 }
-var import_fs_extra2, import_lodash, import_path2, import_sbg_utility2, assign;
-var init_related_posts = __esm({
-  "src/helper/related-posts.ts"() {
-    "use strict";
-    import_fs_extra2 = __toESM(require("fs-extra"));
-    import_lodash = __toESM(require("lodash"));
-    import_path2 = __toESM(require("path"));
-    import_sbg_utility2 = require("sbg-utility");
-    init_collector();
-    init_util();
-    assign = import_lodash.default.assign;
-  }
-});
 
 // src/helper/index.ts
-var helper_exports = {};
-__export(helper_exports, {
-  BASE_DIR: () => BASE_DIR,
-  registerCustomHelper: () => registerCustomHelper
-});
+var import_meta2 = {};
+var require2 = (0, import_module.createRequire)(import_meta2.url);
+var _toArray = import_lodash2.default.toArray;
+var BASE_DIR = typeof hexo === "undefined" ? process.cwd() : hexo.base_dir;
+var configFile = import_path3.default.join(BASE_DIR, "_config.yml");
+var config = {};
+if (import_fs.default.existsSync(configFile)) {
+  if (typeof hexo === "undefined") {
+    config = import_yaml.default.parse(import_fs.default.readFileSync(configFile, "utf-8"));
+  } else {
+    config = hexo.config;
+  }
+}
+var THEME_LOCATION = import_path3.default.join(process.cwd(), "themes", config.theme || "landscape");
+var _THEME_SCRIPTS = import_path3.default.join(THEME_LOCATION, "scripts");
 function isObject(value) {
   return typeof value === "object" && value !== null && value !== void 0;
 }
@@ -523,818 +541,9 @@ function registerCustomHelper(hexo2) {
     }
   }
 }
-var import_fs, hexoUtil, import_lodash2, import_path3, import_yaml, _toArray, BASE_DIR, configFile, config, THEME_LOCATION, _THEME_SCRIPTS;
-var init_helper = __esm({
-  "src/helper/index.ts"() {
-    "use strict";
-    import_fs = __toESM(require("fs"));
-    hexoUtil = __toESM(require("hexo-util"));
-    import_lodash2 = __toESM(require("lodash"));
-    import_path3 = __toESM(require("path"));
-    import_yaml = __toESM(require("yaml"));
-    init_date();
-    init_getAuthor();
-    init_getPostByLabel();
-    init_partial();
-    init_related_posts();
-    _toArray = import_lodash2.default.toArray;
-    BASE_DIR = typeof hexo === "undefined" ? process.cwd() : hexo.base_dir;
-    configFile = import_path3.default.join(BASE_DIR, "_config.yml");
-    config = {};
-    if (import_fs.default.existsSync(configFile)) {
-      if (typeof hexo === "undefined") {
-        config = import_yaml.default.parse(import_fs.default.readFileSync(configFile).toString());
-      } else {
-        config = hexo.config;
-      }
-    }
-    THEME_LOCATION = import_path3.default.join(process.cwd(), "themes", config.theme || "landscape");
-    _THEME_SCRIPTS = import_path3.default.join(THEME_LOCATION, "scripts");
-  }
-});
-
-// src/renderer-ejs.js
-var require_renderer_ejs = __commonJS({
-  "src/renderer-ejs.js"(exports2, module2) {
-    "use strict";
-    var ejs = require("ejs");
-    var { toArray: toArray2 } = (init_helper(), __toCommonJS(helper_exports));
-    function rendererEjs2(hexo2) {
-      if (ejs.filters) ejs.filters.toArray = toArray2;
-      function ejsRenderer(data, locals) {
-        return ejs.render(
-          data.text,
-          Object.assign({ filename: data.path }, locals)
-        );
-      }
-      ejsRenderer.compile = function(data) {
-        return ejs.compile(data.text, {
-          filename: data.path
-        });
-      };
-      hexo2.extend.renderer.register("ejs", "html", ejsRenderer, true);
-    }
-    module2.exports = { rendererEjs: rendererEjs2 };
-  }
-});
-
-// src/markdown-it/anchors.js
-var require_anchors = __commonJS({
-  "src/markdown-it/anchors.js"(exports2, module2) {
-    "use strict";
-    var Token = require("markdown-it/lib/token");
-    var { slugize } = require("hexo-util");
-    var renderPermalink = function(slug, opts, tokens, idx) {
-      const permalink = [
-        Object.assign(new Token("link_open", "a", 1), {
-          attrs: [
-            ["class", opts.permalinkClass],
-            ["href", "#" + slug]
-          ]
-        }),
-        Object.assign(new Token("text", "", 0), {
-          content: opts.permalinkSymbol
-        }),
-        new Token("link_close", "a", -1),
-        Object.assign(new Token("text", "", 0), {
-          content: ""
-        })
-      ];
-      if (opts.permalinkSide === "right") {
-        return tokens[idx + 1].children.push(...permalink);
-      }
-      return tokens[idx + 1].children.unshift(...permalink);
-    };
-    var anchor = function(md, opts) {
-      Object.assign(opts, { renderPermalink });
-      let titleStore = {};
-      const originalHeadingOpen = md.renderer.rules.heading_open;
-      const slugOpts = { transform: opts.case, ...opts };
-      md.renderer.rules.heading_open = function(...args) {
-        const [tokens, idx, _something, _somethingelse, self] = args;
-        if (tokens[idx].tag.substr(1) >= opts.level) {
-          let _tokens$idx;
-          const title = tokens[idx + 1].children.reduce((acc, t) => {
-            return acc + t.content;
-          }, "");
-          let slug = slugize(title, slugOpts);
-          if (Object.prototype.hasOwnProperty.call(titleStore, slug)) {
-            titleStore[slug] = titleStore[slug] + 1;
-            slug = slug + "-" + opts.collisionSuffix + titleStore[slug].toString();
-          } else {
-            titleStore[slug] = 1;
-          }
-          (_tokens$idx = tokens[idx], !_tokens$idx.attrs && (_tokens$idx.attrs = []), _tokens$idx.attrs).push([
-            "id",
-            slug
-          ]);
-          if (opts.permalink) {
-            opts.renderPermalink.apply(opts, [slug, opts].concat(args));
-          }
-        }
-        return originalHeadingOpen ? originalHeadingOpen.apply(this, args) : self.renderToken.apply(self, args);
-      };
-      md.core.ruler.push("clear_anchor_title_store", () => {
-        titleStore = {};
-      });
-    };
-    module2.exports = anchor;
-  }
-});
-
-// src/markdown-it/html-tags.js
-var require_html_tags = __commonJS({
-  "src/markdown-it/html-tags.js"(exports2, module2) {
-    "use strict";
-    var validHtmlTags2 = [
-      "a",
-      "abbr",
-      "address",
-      "area",
-      "article",
-      "aside",
-      "audio",
-      "b",
-      "base",
-      "bdi",
-      "bdo",
-      "blockquote",
-      "br",
-      "button",
-      "canvas",
-      "caption",
-      "cite",
-      "code",
-      "col",
-      "colgroup",
-      "data",
-      "datalist",
-      "dd",
-      "del",
-      "details",
-      "dfn",
-      "dialog",
-      "div",
-      "dl",
-      "dt",
-      "em",
-      "embed",
-      "fieldset",
-      "figcaption",
-      "figure",
-      "footer",
-      "form",
-      "h1",
-      "h2",
-      "h3",
-      "h4",
-      "h5",
-      "h6",
-      "head",
-      "header",
-      "hr",
-      "html",
-      "i",
-      "iframe",
-      "img",
-      "input",
-      "ins",
-      "kbd",
-      "label",
-      "legend",
-      "li",
-      "link",
-      "main",
-      "map",
-      "mark",
-      "meta",
-      "meter",
-      "nav",
-      "noscript",
-      "object",
-      "ol",
-      "optgroup",
-      "option",
-      "output",
-      "p",
-      "param",
-      "picture",
-      "pre",
-      "progress",
-      "q",
-      "rp",
-      "rt",
-      "ruby",
-      "s",
-      "samp",
-      "script",
-      "section",
-      "select",
-      "small",
-      "source",
-      "span",
-      "strong",
-      "style",
-      "sub",
-      "summary",
-      "sup",
-      "table",
-      "tbody",
-      "body",
-      "td",
-      "template",
-      "textarea",
-      "tfoot",
-      "th",
-      "thead",
-      "time",
-      "title",
-      "tr",
-      "track",
-      "u",
-      "ul",
-      "var",
-      "video",
-      "wbr"
-    ];
-    var validHtmlTagsRegex = new RegExp("</?(" + validHtmlTags2.join("|") + ")(\\s|>)");
-    module2.exports = { validHtmlTags: validHtmlTags2, validHtmlTagsRegex };
-  }
-});
-
-// src/markdown-it/images.js
-var require_images = __commonJS({
-  "src/markdown-it/images.js"(exports2, module2) {
-    "use strict";
-    var { join: join3, relative: relativePosix } = require("path").posix;
-    var { relative, basename, extname, dirname: dirname2, isAbsolute } = require("path");
-    var { url_for: url_for2 } = require("hexo-util");
-    function images(md, opts) {
-      const { hexo: hexo2, images: images2 } = opts;
-      const { lazyload, prepend_root: prependRoot, post_asset: postAsset } = images2;
-      const { relative_link, model, base_dir, source_dir } = hexo2;
-      md.renderer.rules.image = function(tokens, idx, options, env, self) {
-        const token = tokens[idx];
-        const { postPath } = env;
-        if (lazyload) {
-          token.attrSet("loading", "lazy");
-        }
-        if (!prependRoot && !postAsset) {
-          return self.renderToken(tokens, idx, options);
-        }
-        const srcIdx = token.attrs.findIndex((attr) => attr[0] === "src");
-        let src = token.attrs[srcIdx][1];
-        if (!/^(#|\/\/|http(s)?:)/.test(src) && !relative_link) {
-          if (!(src.startsWith("/") || src.startsWith("\\")) && postAsset) {
-            const PostAsset = model.call(hexo2, "PostAsset");
-            let assetDirBasePath = join3(
-              basename(source_dir),
-              dirname2(relativePosix(source_dir, postPath)),
-              basename(postPath, extname(postPath))
-            );
-            if (isAbsolute(assetDirBasePath)) assetDirBasePath = relative(base_dir, assetDirBasePath);
-            assetDirBasePath = assetDirBasePath.replace(/\\/g, "/");
-            const asset = [
-              join3(assetDirBasePath, src),
-              join3(assetDirBasePath, src.replace(new RegExp("^" + basename(postPath, extname(postPath)) + "/"), ""))
-            ].map((id) => PostAsset.findById(id)).filter(Boolean);
-            if (asset.length) {
-              src = asset[0].path.replace(/\\/g, "/");
-            }
-          }
-          token.attrSet("src", url_for2.call(hexo2, src));
-        }
-        return self.renderToken(tokens, idx, options);
-      };
-    }
-    module2.exports = images;
-  }
-});
-
-// src/renderer-nunjucks.js
-var require_renderer_nunjucks = __commonJS({
-  "src/renderer-nunjucks.js"(exports2, module2) {
-    "use strict";
-    var nunjucks = require("nunjucks");
-    var fs4 = require("fs-extra");
-    var path7 = require("upath");
-    var { toArray: toArray2 } = (init_helper(), __toCommonJS(helper_exports));
-    var { writefile: writefile3 } = require("sbg-utility");
-    var tmpdir = path7.join(__dirname, "../tmp");
-    var logfile = path7.join(tmpdir, "nunjucks-log.json");
-    function rendererNunjucks2(hexo2) {
-      const themeDir = path7.join(hexo2.base_dir, "themes", hexo2.config.theme);
-      const env = nunjucks.configure([themeDir, path7.join(themeDir, "layout")], {
-        noCache: true,
-        autoescape: false,
-        throwOnUndefined: false,
-        trimBlocks: false,
-        lstripBlocks: false
-      });
-      env.addFilter("toArray", toArray2);
-      const logs = {
-        render: [],
-        compile: []
-      };
-      function render(data, locals) {
-        if ("text" in data) {
-          return nunjucks.renderString(data.text, locals);
-        }
-        logs.render.push(data.path);
-        writefile3(logfile, JSON.stringify(logs, null, 2));
-        return nunjucks.render(data.path, locals);
-      }
-      function compile(data) {
-        logs.compile.push(data.path);
-        writefile3(logfile, JSON.stringify(logs, null, 2));
-        const compiled = nunjucks.compile("text" in data ? data.text : fs4.readFileSync(data.path), env);
-        return compiled.render.bind(compiled);
-      }
-      render.compile = compile;
-      hexo2.extend.renderer.register("njk", "html", render, false);
-      hexo2.extend.renderer.register("j2", "html", render, false);
-      return { render, rendererNunjucks: rendererNunjucks2, compile };
-    }
-    module2.exports = { rendererNunjucks: rendererNunjucks2 };
-  }
-});
-
-// src/renderer-pug.js
-var require_renderer_pug = __commonJS({
-  "src/renderer-pug.js"(exports2, module2) {
-    "use strict";
-    var path7 = require("path");
-    var pug = require("pug");
-    function rendererPug2(hexo2) {
-      const configPath = path7.join(process.cwd(), "pug.config");
-      const defaultConfig = { compile: {} };
-      let hasConfig = true;
-      try {
-        require.resolve(configPath);
-      } catch {
-        hasConfig = false;
-      }
-      const config2 = hasConfig ? require(configPath) : defaultConfig;
-      const hasProp = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
-      const invalidKeys = Object.keys(config2).filter((k) => !hasProp(defaultConfig, k));
-      if (invalidKeys.length > 0) {
-        throw Error(`Unsupported PUG config keys: ${invalidKeys.join(", ")}`);
-      }
-      function pugCompile(data) {
-        const opts = {
-          ...config2.compile,
-          filename: data.path
-          // always used
-        };
-        return pug.compile(data.text, opts);
-      }
-      function pugRenderer(data, locals) {
-        return pugCompile(data)(locals);
-      }
-      pugRenderer.compile = pugCompile;
-      hexo2.extend.renderer.register("pug", "html", pugRenderer, true);
-      return pugRenderer;
-    }
-    module2.exports = { rendererPug: rendererPug2 };
-  }
-});
-
-// src/renderer-stylus.js
-var require_renderer_stylus = __commonJS({
-  "src/renderer-stylus.js"(exports2, module2) {
-    "use strict";
-    var stylus = require("stylus");
-    function getProperty(obj, name) {
-      name = name.replace(/\[(\w+)\]/g, ".$1").replace(/^\./, "");
-      const split = name.split(".");
-      let key = split.shift();
-      if (!Object.prototype.hasOwnProperty.call(obj, key)) return "";
-      let result = obj[key];
-      const len = split.length;
-      if (!len) {
-        if (result === 0) return result;
-        return result || "";
-      }
-      if (typeof result !== "object") return "";
-      for (let i = 0; i < len; i++) {
-        key = split[i];
-        if (!Object.prototype.hasOwnProperty.call(result, key)) return "";
-        result = result[split[i]];
-        if (typeof result !== "object") return result;
-      }
-      return result;
-    }
-    function applyPlugins(stylusConfig, plugins) {
-      plugins.forEach((plugin) => {
-        const factoryFn = require(plugin.trim());
-        stylusConfig.use(factoryFn());
-      });
-    }
-    function stylusFn(data, options, callback) {
-      let self = this;
-      const config2 = self.config.stylus || {};
-      const plugins = ["nib"].concat(config2.plugins || []);
-      function defineConfig(style) {
-        style.define("hexo-config", (data2) => {
-          return getProperty(self.theme.config, data2.val);
-        });
-      }
-      const stylusConfig = stylus(data.text);
-      applyPlugins(stylusConfig, plugins);
-      stylusConfig.use(defineConfig).use((style) => self.execFilterSync("stylus:renderer", style, { context: this })).set("filename", data.path).set("sourcemap", config2.sourcemaps).set("compress", config2.compress).set("include css", true).render(callback);
-    }
-    stylusFn.disableNunjucks = true;
-    function rendererStylus2(hexo2) {
-      hexo2.extend.renderer.register("styl", "css", stylusFn);
-      hexo2.extend.renderer.register("stylus", "css", stylusFn);
-    }
-    module2.exports = { rendererStylus: rendererStylus2, stylusFn };
-  }
-});
-
-// src/renderer/rollup/utils/createReadFilterProxy.js
-var require_createReadFilterProxy = __commonJS({
-  "src/renderer/rollup/utils/createReadFilterProxy.js"(exports2, module2) {
-    "use strict";
-    var createReadFilterProxy2 = (target, filters = {}) => {
-      if (target == null || typeof target !== "object") {
-        throw new TypeError();
-      }
-      let filterKeys = Object.keys(filters).filter((key) => typeof filters[key] === "function");
-      if (!filterKeys) {
-        return target;
-      }
-      const filtersMap = filterKeys.reduce((result, key) => {
-        result[key] = filters[key];
-        return result;
-      }, /* @__PURE__ */ Object.create(null));
-      filters = null;
-      filterKeys = null;
-      return new Proxy(target, {
-        get(target2, property, receiver) {
-          const original = Reflect.get(target2, property, receiver);
-          return property in filtersMap ? filtersMap[property](original, target2) : original;
-        }
-      });
-    };
-    module2.exports = createReadFilterProxy2;
-  }
-});
-
-// src/renderer/rollup/utils/rollupPluginFromName.js
-var require_rollupPluginFromName = __commonJS({
-  "src/renderer/rollup/utils/rollupPluginFromName.js"(exports2, module2) {
-    "use strict";
-    var rollupPluginFromName = (name) => {
-      if (typeof name !== "string") {
-        throw new TypeError("name most string");
-      }
-      const pluginPrefix = "rollup-plugin-";
-      if (!name.startsWith(pluginPrefix)) {
-        name = pluginPrefix + name;
-      }
-      return require(name);
-    };
-    module2.exports = rollupPluginFromName;
-  }
-});
-
-// src/renderer/rollup/utils/objectWithoutKeys.ts
-var objectWithoutKeys_exports = {};
-__export(objectWithoutKeys_exports, {
-  default: () => objectWithoutKeys_default,
-  objectWithoutKeys: () => objectWithoutKeys
-});
-var objectWithoutKeys, objectWithoutKeys_default;
-var init_objectWithoutKeys = __esm({
-  "src/renderer/rollup/utils/objectWithoutKeys.ts"() {
-    "use strict";
-    objectWithoutKeys = (obj, keys) => {
-      if (!Array.isArray(keys)) {
-        throw new TypeError("keys most string[].");
-      }
-      return Object.keys(obj).reduce(
-        (newObject, key) => {
-          if (!keys.includes(key)) newObject[key] = obj[key];
-          return newObject;
-        },
-        {}
-      );
-    };
-    objectWithoutKeys_default = objectWithoutKeys;
-  }
-});
-
-// src/renderer/rollup/utils/createRollupPlugin.js
-var require_createRollupPlugin = __commonJS({
-  "src/renderer/rollup/utils/createRollupPlugin.js"(exports2, module2) {
-    "use strict";
-    var rollupPluginFromName = require_rollupPluginFromName();
-    var { objectWithoutKeys: objectWithoutKeys2 } = (init_objectWithoutKeys(), __toCommonJS(objectWithoutKeys_exports));
-    var createRollupPlugin2 = (config2) => {
-      if (typeof config2 === "string") {
-        return rollupPluginFromName(config2)({});
-      }
-      if (typeof config2 === "object" && "name" in config2) {
-        const plugin = rollupPluginFromName(config2.name);
-        const options = objectWithoutKeys2(config2, ["name"]);
-        return plugin(options);
-      }
-      throw new TypeError("config most object!");
-    };
-    module2.exports = createRollupPlugin2;
-  }
-});
-
-// src/renderer/rollup/utils/getHexoConfigs.js
-var require_getHexoConfigs = __commonJS({
-  "src/renderer/rollup/utils/getHexoConfigs.js"(exports2, module2) {
-    "use strict";
-    var mostHexoTypeError = () => {
-      throw new TypeError("ctx most Hexo instance!");
-    };
-    var getRawSiteConfig2 = (name, ctx) => {
-      if (!ctx) {
-        mostHexoTypeError();
-      }
-      return ctx.config[name];
-    };
-    var getRawThemeConfig2 = (name, ctx) => {
-      if (!ctx) {
-        mostHexoTypeError();
-      }
-      return ctx.theme.config[name];
-    };
-    var getRawOverrideThemeConfig2 = (name, ctx) => {
-      if (!ctx) {
-        mostHexoTypeError();
-      }
-      if (ctx.config.theme_config == null) {
-        return void 0;
-      }
-      return ctx.config.theme_config[name];
-    };
-    var getRawConfigs = (name, ctx) => {
-      if (!ctx) {
-        mostHexoTypeError();
-      }
-      return {
-        site: getRawSiteConfig2(name, ctx),
-        theme: getRawThemeConfig2(name, ctx),
-        override: getRawOverrideThemeConfig2(name, ctx)
-      };
-    };
-    var getRawAllConfigs = (ctx) => {
-      if (!ctx) {
-        mostHexoTypeError();
-      }
-      return {
-        site: ctx.config,
-        theme: ctx.theme.config,
-        override: ctx.config.theme_config
-      };
-    };
-    module2.exports.getRawConfigs = getRawConfigs;
-    module2.exports.default = getRawConfigs;
-    module2.exports.getRawAllConfigs = getRawAllConfigs;
-    module2.exports.getRawSiteConfig = getRawSiteConfig2;
-    module2.exports.getRawThemeConfig = getRawThemeConfig2;
-    module2.exports.getRawOverrideThemeConfig = getRawOverrideThemeConfig2;
-  }
-});
-
-// src/renderer/rollup/utils/objectMap.js
-var require_objectMap = __commonJS({
-  "src/renderer/rollup/utils/objectMap.js"(exports2, module2) {
-    "use strict";
-    var objectMap = (obj, callback, thisArg = void 0) => {
-      if (obj == null) {
-        throw new TypeError();
-      }
-      if (Array.isArray(obj)) {
-        return obj.map(callback, thisArg);
-      }
-      const type = typeof obj;
-      if (type !== "object" && type !== "string") {
-        throw new TypeError();
-      }
-      if (typeof obj[Symbol.iterator] === "function") {
-        return Array.from(obj, callback, thisArg);
-      }
-      if (typeof obj.length === "number") {
-        return Array.from(obj, callback, thisArg);
-      }
-      return Object.values(obj).map(callback, thisArg);
-    };
-    module2.exports = objectMap;
-  }
-});
-
-// src/renderer/rollup/utils/toAbsolutePaths.js
-var require_toAbsolutePaths = __commonJS({
-  "src/renderer/rollup/utils/toAbsolutePaths.js"(exports2, module2) {
-    "use strict";
-    var { join: join3, isAbsolute } = require("path");
-    var objectMap = require_objectMap();
-    var toAbsolutePath2 = (targets, base) => {
-      if (targets == null) {
-        return [];
-      }
-      if (typeof targets === "string") {
-        if (isAbsolute(targets)) {
-          return targets;
-        }
-        return join3(base, targets);
-      }
-      return objectMap(targets, (x) => {
-        return isAbsolute(x) ? x : join3(base, x);
-      });
-    };
-    module2.exports = toAbsolutePath2;
-  }
-});
-
-// src/renderer/rollup/HexoRollupConfigs.ts
-var HexoRollupConfigs_exports = {};
-__export(HexoRollupConfigs_exports, {
-  HexoRollupConfigs: () => HexoRollupConfigs
-});
-var import_createReadFilterProxy, import_createRollupPlugin, import_getHexoConfigs, import_toAbsolutePaths, configFilterProxy, reduceStrings, HexoRollupConfigs;
-var init_HexoRollupConfigs = __esm({
-  "src/renderer/rollup/HexoRollupConfigs.ts"() {
-    "use strict";
-    import_createReadFilterProxy = __toESM(require_createReadFilterProxy());
-    import_createRollupPlugin = __toESM(require_createRollupPlugin());
-    import_getHexoConfigs = __toESM(require_getHexoConfigs());
-    import_toAbsolutePaths = __toESM(require_toAbsolutePaths());
-    configFilterProxy = (config2, baseDir) => {
-      if (config2 == null) {
-        return config2;
-      }
-      return (0, import_createReadFilterProxy.default)(config2, {
-        input(original, target) {
-          return "input" in target ? (0, import_toAbsolutePaths.default)(original, baseDir) : original;
-        },
-        plugins(original, target) {
-          if (!("plugins" in target)) {
-            return original;
-          }
-          if (Array.isArray(original)) {
-            return original.map((plugin) => (0, import_createRollupPlugin.default)(plugin));
-          }
-          return (0, import_createRollupPlugin.default)(original);
-        }
-      });
-    };
-    reduceStrings = (array) => {
-      const initial = [];
-      return array.reduce((array2, item) => {
-        if (typeof item === "string") {
-          array2.push(item);
-        } else if (Array.isArray(item)) {
-          array2 = array2.concat(item);
-        } else if (typeof item === "object") {
-          array2 = array2.concat(Array.from(Object.values(item)));
-        }
-        return array2;
-      }, initial);
-    };
-    HexoRollupConfigs = class {
-      constructor(ctx) {
-        this.ctx = ctx;
-      }
-      site() {
-        const raw = (0, import_getHexoConfigs.getRawSiteConfig)("rollup", this.ctx);
-        return configFilterProxy(raw, this.ctx.base_dir);
-      }
-      theme() {
-        const raw = (0, import_getHexoConfigs.getRawThemeConfig)("rollup", this.ctx);
-        return configFilterProxy(raw, this.ctx.theme_dir);
-      }
-      overrideTheme() {
-        const raw = (0, import_getHexoConfigs.getRawOverrideThemeConfig)("rollup", this.ctx);
-        return configFilterProxy(raw, this.ctx.base_dir);
-      }
-      merged() {
-        const site = this.site();
-        const theme = this.theme();
-        const override = this.overrideTheme();
-        const hexo2 = this.ctx;
-        const _default = {
-          output: {
-            format: "esm"
-          },
-          onwarn(warning) {
-            hexo2.log.warn(warning);
-          }
-        };
-        const input = reduceStrings(
-          [site, theme, override].filter((config2) => config2 != null && "input" in config2).map((config2) => config2.input)
-        );
-        return Object.assign(_default, site, theme, override, { input });
-      }
-    };
-  }
-});
-
-// src/renderer/rollup/renderer.js
-var require_renderer = __commonJS({
-  "src/renderer/rollup/renderer.js"(exports2, module2) {
-    "use strict";
-    var { rollup } = require("rollup");
-    var { HexoRollupConfigs: HexoRollupConfigs2 } = (init_HexoRollupConfigs(), __toCommonJS(HexoRollupConfigs_exports));
-    var { objectWithoutKeys: objectWithoutKeys2 } = (init_objectWithoutKeys(), __toCommonJS(objectWithoutKeys_exports));
-    var { writefile: writefile3, jsonStringifyWithCircularRefs: jsonStringifyWithCircularRefs3 } = require("sbg-utility");
-    var { join: join3 } = require("path");
-    var rollupCache = [];
-    var rollupRenderAsync = async (config2) => {
-      config2.input.cache = rollupCache;
-      const bundle = await rollup(config2.input);
-      rollupCache = bundle.cache;
-      const { code } = await bundle.generate(config2.output);
-      return code;
-    };
-    module2.exports.rollupRenderAsync = rollupRenderAsync;
-    async function renderer2(data, _options) {
-      const { path: path7, text } = data;
-      const hexo2 = this;
-      const rollupConfigs = new HexoRollupConfigs2(hexo2);
-      const config2 = rollupConfigs.merged();
-      if (config2.experimentalCodeSplitting) {
-        throw new Error('hexo-renderer-rollup not Support "experimentalCodeSplitting".');
-      }
-      if (!config2.input.includes(path7)) {
-        return text;
-      }
-      config2.input = path7;
-      const input = objectWithoutKeys2(config2, ["output"]);
-      const { output } = config2;
-      writefile3(join3(hexo2.base_dir, "tmp/config/rollup.json"), jsonStringifyWithCircularRefs3({ input, output, path: path7 }));
-      try {
-        return await rollupRenderAsync({ input, output });
-      } catch (err) {
-        this.log.error(err);
-        throw err;
-      }
-    }
-    module2.exports = renderer2;
-  }
-});
-
-// src/index.ts
-var src_exports = {};
-__export(src_exports, {
-  rendererDartSass: () => rendererDartSass,
-  rendererEjs: () => import_renderer_ejs.rendererEjs,
-  rendererMarkdownIt: () => rendererMarkdownIt,
-  rendererNunjucks: () => import_renderer_nunjucks.rendererNunjucks,
-  rendererPug: () => import_renderer_pug.rendererPug,
-  rendererRollup: () => rendererRollup,
-  rendererSass: () => rendererSass,
-  rendererStylus: () => import_renderer_stylus.rendererStylus
-});
-module.exports = __toCommonJS(src_exports);
-var import_sbg_utility4 = require("sbg-utility");
-var import_upath2 = __toESM(require("upath"));
-
-// src/generator/meta.ts
-var meta = {
-  tags: [],
-  posts: [],
-  categories: []
-};
-function metaJsonCreator(hexo2) {
-  hexo2.extend.generator.register("meta", function(locals) {
-    locals.tags.sort("name").each(function(tag) {
-      if (!meta.tags.includes(tag.name)) meta.tags.push(tag.name);
-    });
-    locals.categories.sort("name").each(function(category) {
-      if (!meta.categories.includes(category.name)) meta.categories.push(category.name);
-    });
-    locals.posts.sort("name").each(function(post) {
-      meta.posts.push({
-        title: post.title,
-        url: encodeURI(post.permalink),
-        // get modified date first
-        date: post.updated.toDate().toISOString() || post.date.toDate().toISOString()
-      });
-    });
-    return { path: "meta.json", data: JSON.stringify(meta) };
-  });
-}
-
-// src/generator/index.ts
-function registerCustomGenerator(hexo2, generators) {
-  if ("meta" in generators) metaJsonCreator(hexo2);
-}
-
-// src/index.ts
-init_helper();
-init_collector();
-init_util();
 
 // src/renderer-dartsass.ts
-var import_sass = __toESM(require("sass"));
+var import_sass = __toESM(require("sass"), 1);
 function rendererDartSass(hexo2) {
   const make = function(data, _options) {
     const config2 = Object.assign(this.theme.config.sass || {}, this.config.sass || {}, { file: data.path });
@@ -1348,17 +557,252 @@ function rendererDartSass(hexo2) {
   hexo2.extend.renderer.register("sass", "css", make);
 }
 
-// src/index.ts
-var import_renderer_ejs = __toESM(require_renderer_ejs());
+// src/renderer-ejs.ts
+var ejs = __toESM(require("ejs"), 1);
+function rendererEjs(hexo2) {
+  if (ejs.filters) ejs.filters.toArray = toArray;
+  function ejsRenderer(data, locals) {
+    return ejs.render(data.text, Object.assign({ filename: data.path }, locals));
+  }
+  ejsRenderer.compile = function(data) {
+    return ejs.compile(data.text, {
+      filename: data.path
+    });
+  };
+  hexo2.extend.renderer.register("ejs", "html", ejsRenderer, true);
+}
 
 // src/markdown-it/renderer.ts
 var import_cheerio = require("cheerio");
-var import_markdown_it = __toESM(require("markdown-it"));
+var import_markdown_it = __toESM(require("markdown-it"), 1);
+var import_module2 = require("module");
 var import_sbg_utility3 = require("sbg-utility");
-var path4 = __toESM(require("upath"));
-var import_anchors = __toESM(require_anchors());
-var import_html_tags = __toESM(require_html_tags());
-var import_images = __toESM(require_images());
+var import_upath = __toESM(require("upath"), 1);
+var import_url = require("url");
+
+// src/markdown-it/anchors.js
+var import_hexo_util = __toESM(require("hexo-util"), 1);
+var import_token = __toESM(require("markdown-it/lib/token.mjs"), 1);
+var renderPermalink = function(slug, opts, tokens, idx) {
+  const permalink = [
+    Object.assign(new import_token.default("link_open", "a", 1), {
+      attrs: [
+        ["class", opts.permalinkClass],
+        ["href", "#" + slug]
+      ]
+    }),
+    Object.assign(new import_token.default("text", "", 0), {
+      content: opts.permalinkSymbol
+    }),
+    new import_token.default("link_close", "a", -1),
+    Object.assign(new import_token.default("text", "", 0), {
+      content: ""
+    })
+  ];
+  if (opts.permalinkSide === "right") {
+    return tokens[idx + 1].children.push(...permalink);
+  }
+  return tokens[idx + 1].children.unshift(...permalink);
+};
+var anchor = function(md, opts) {
+  Object.assign(opts, { renderPermalink });
+  let titleStore = {};
+  const originalHeadingOpen = md.renderer.rules.heading_open;
+  const slugOpts = { transform: opts.case, ...opts };
+  md.renderer.rules.heading_open = function(...args) {
+    const [tokens, idx, _something, _somethingelse, self] = args;
+    if (tokens[idx].tag.substr(1) >= opts.level) {
+      let _tokens$idx;
+      const title = tokens[idx + 1].children.reduce((acc, t) => {
+        return acc + t.content;
+      }, "");
+      let slug = import_hexo_util.default.slugize(title, slugOpts);
+      if (Object.prototype.hasOwnProperty.call(titleStore, slug)) {
+        titleStore[slug] = titleStore[slug] + 1;
+        slug = slug + "-" + opts.collisionSuffix + titleStore[slug].toString();
+      } else {
+        titleStore[slug] = 1;
+      }
+      (_tokens$idx = tokens[idx], !_tokens$idx.attrs && (_tokens$idx.attrs = []), _tokens$idx.attrs).push([
+        "id",
+        slug
+      ]);
+      if (opts.permalink) {
+        opts.renderPermalink.apply(opts, [slug, opts].concat(args));
+      }
+    }
+    return originalHeadingOpen ? originalHeadingOpen.apply(this, args) : self.renderToken.apply(self, args);
+  };
+  md.core.ruler.push("clear_anchor_title_store", () => {
+    titleStore = {};
+  });
+};
+var anchors_default = anchor;
+
+// src/markdown-it/html-tags.js
+var validHtmlTags = [
+  "a",
+  "abbr",
+  "address",
+  "area",
+  "article",
+  "aside",
+  "audio",
+  "b",
+  "base",
+  "bdi",
+  "bdo",
+  "blockquote",
+  "br",
+  "button",
+  "canvas",
+  "caption",
+  "cite",
+  "code",
+  "col",
+  "colgroup",
+  "data",
+  "datalist",
+  "dd",
+  "del",
+  "details",
+  "dfn",
+  "dialog",
+  "div",
+  "dl",
+  "dt",
+  "em",
+  "embed",
+  "fieldset",
+  "figcaption",
+  "figure",
+  "footer",
+  "form",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "head",
+  "header",
+  "hr",
+  "html",
+  "i",
+  "iframe",
+  "img",
+  "input",
+  "ins",
+  "kbd",
+  "label",
+  "legend",
+  "li",
+  "link",
+  "main",
+  "map",
+  "mark",
+  "meta",
+  "meter",
+  "nav",
+  "noscript",
+  "object",
+  "ol",
+  "optgroup",
+  "option",
+  "output",
+  "p",
+  "param",
+  "picture",
+  "pre",
+  "progress",
+  "q",
+  "rp",
+  "rt",
+  "ruby",
+  "s",
+  "samp",
+  "script",
+  "section",
+  "select",
+  "small",
+  "source",
+  "span",
+  "strong",
+  "style",
+  "sub",
+  "summary",
+  "sup",
+  "table",
+  "tbody",
+  "body",
+  "td",
+  "template",
+  "textarea",
+  "tfoot",
+  "th",
+  "thead",
+  "time",
+  "title",
+  "tr",
+  "track",
+  "u",
+  "ul",
+  "var",
+  "video",
+  "wbr"
+];
+var validHtmlTagsRegex = new RegExp("</?(" + validHtmlTags.join("|") + ")(\\s|>)");
+
+// src/markdown-it/images.js
+var import_hexo_util2 = __toESM(require("hexo-util"), 1);
+var path5 = __toESM(require("path"), 1);
+var { basename, dirname: dirname2, extname, isAbsolute, posix, relative } = path5;
+var { join: join2, relative: relativePosix } = posix;
+function images(md, opts) {
+  const { hexo: hexo2, images: images2 } = opts;
+  const { lazyload, prepend_root: prependRoot, post_asset: postAsset } = images2;
+  const { relative_link, model, base_dir: base_dir2, source_dir } = hexo2;
+  md.renderer.rules.image = function(tokens, idx, options, env, self) {
+    const token = tokens[idx];
+    const { postPath } = env;
+    if (lazyload) {
+      token.attrSet("loading", "lazy");
+    }
+    if (!prependRoot && !postAsset) {
+      return self.renderToken(tokens, idx, options);
+    }
+    const srcIdx = token.attrs.findIndex((attr) => attr[0] === "src");
+    let src = token.attrs[srcIdx][1];
+    if (!/^(#|\/\/|http(s)?:)/.test(src) && !relative_link) {
+      if (!(src.startsWith("/") || src.startsWith("\\")) && postAsset) {
+        const PostAsset = model.call(hexo2, "PostAsset");
+        let assetDirBasePath = join2(
+          basename(source_dir),
+          dirname2(relativePosix(source_dir, postPath)),
+          basename(postPath, extname(postPath))
+        );
+        if (isAbsolute(assetDirBasePath)) assetDirBasePath = relative(base_dir2, assetDirBasePath);
+        assetDirBasePath = assetDirBasePath.replace(/\\/g, "/");
+        const asset = [
+          join2(assetDirBasePath, src),
+          join2(assetDirBasePath, src.replace(new RegExp("^" + basename(postPath, extname(postPath)) + "/"), ""))
+        ].map((id) => PostAsset.findById(id)).filter(Boolean);
+        if (asset.length) {
+          src = asset[0].path.replace(/\\/g, "/");
+        }
+      }
+      token.attrSet("src", import_hexo_util2.default.url_for.call(hexo2, src));
+    }
+    return self.renderToken(tokens, idx, options);
+  };
+}
+var images_default = images;
+
+// src/markdown-it/renderer.ts
+var import_meta3 = {};
+var __filename = (0, import_url.fileURLToPath)(import_meta3.url);
+var __dirname = import_upath.default.dirname(__filename);
+var require3 = (0, import_module2.createRequire)(import_meta3.url);
 var escapeHtml = (str) => {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 };
@@ -1384,8 +828,8 @@ markdown:
 See https://github.com/hexojs/hexo-renderer-markdown-it#options`
       );
     }
-    const { preset, render, enable_rules, disable_rules, plugins, anchors, images } = markdown;
-    this.parser = new import_markdown_it.default(preset, render);
+    const { preset, render: render2, enable_rules, disable_rules, plugins, anchors, images: images2 } = markdown;
+    this.parser = new import_markdown_it.default(preset, render2);
     if (enable_rules) {
       this.parser.enable(enable_rules);
     }
@@ -1395,28 +839,28 @@ See https://github.com/hexojs/hexo-renderer-markdown-it#options`
     if (plugins) {
       this.parser = plugins.reduce((parser, pugs) => {
         if (pugs instanceof Object && pugs.name) {
-          const resolved = require.resolve(pugs.name, {
+          const resolved = require3.resolve(pugs.name, {
             paths: [
               hexo2.base_dir,
-              path4.join(hexo2.base_dir, "node_modules"),
-              path4.join(__dirname, "../../"),
-              path4.join(__dirname, "../../node_modules")
+              import_upath.default.join(hexo2.base_dir, "node_modules"),
+              import_upath.default.join(__dirname, "../../"),
+              import_upath.default.join(__dirname, "../../node_modules")
             ]
           });
-          return parser.use(require(resolved), pugs.options);
+          return parser.use(require3(resolved), pugs.options);
         } else if (typeof pugs === "string") {
-          return parser.use(require(pugs));
+          return parser.use(require3(pugs));
         } else {
-          return parser.use(require(require.resolve(pugs.name)), pugs.options);
+          return parser.use(require3(require3.resolve(pugs.name)), pugs.options);
         }
       }, this.parser);
     }
     if (anchors) {
-      this.parser.use(import_anchors.default, anchors);
+      this.parser.use(anchors_default, anchors);
     }
-    if (images) {
-      this.parser.use(import_images.default, {
-        images,
+    if (images2) {
+      this.parser.use(images_default, {
+        images: images2,
         hexo: this.hexo
       });
     }
@@ -1431,13 +875,13 @@ See https://github.com/hexojs/hexo-renderer-markdown-it#options`
     const regexs = [];
     $("*").each((index, element) => {
       const tagName2 = element.tagName.toLowerCase();
-      if (!import_html_tags.validHtmlTags.includes(tagName2)) {
+      if (!validHtmlTags.includes(tagName2)) {
         const regex = new RegExp("</?" + tagName2 + ">", "gm");
         regexs.push(regex);
       } else if (tagName2 === "img" || tagName2 === "source" || tagName2 === "iframe") {
         const src = $(element).attr("src");
         if (src && !(0, import_sbg_utility3.isValidHttpUrl)(src) && !src.startsWith(this.hexo.config.root)) {
-          const finalSrc = path4.join(this.hexo.config.root, src);
+          const finalSrc = import_upath.default.join(this.hexo.config.root, src);
           this.hexo.log.info("fix PAF", src, "->", finalSrc);
           html = html.replace(new RegExp((0, import_sbg_utility3.escapeRegex)(src)), finalSrc);
         }
@@ -1554,26 +998,104 @@ function rendererMarkdownIt(hexo2) {
   if (typeof hexo2.config.markdown.disableNunjucks !== "boolean") {
     renderer2.disableNunjucks = hexo2.config.markdown.disableNunjucks === "true";
   }
-  function render(data, options = {}) {
+  function render2(data, options = {}) {
     return renderer2.render(data, options);
   }
-  hexo2.extend.renderer.register("md", "html", render, true);
-  hexo2.extend.renderer.register("markdown", "html", render, true);
-  hexo2.extend.renderer.register("mkd", "html", render, true);
-  hexo2.extend.renderer.register("mkdn", "html", render, true);
-  hexo2.extend.renderer.register("mdwn", "html", render, true);
-  hexo2.extend.renderer.register("mdtxt", "html", render, true);
-  hexo2.extend.renderer.register("mdtext", "html", render, true);
-  return render;
+  hexo2.extend.renderer.register("md", "html", render2, true);
+  hexo2.extend.renderer.register("markdown", "html", render2, true);
+  hexo2.extend.renderer.register("mkd", "html", render2, true);
+  hexo2.extend.renderer.register("mkdn", "html", render2, true);
+  hexo2.extend.renderer.register("mdwn", "html", render2, true);
+  hexo2.extend.renderer.register("mdtxt", "html", render2, true);
+  hexo2.extend.renderer.register("mdtext", "html", render2, true);
+  return render2;
 }
 
-// src/index.ts
-var import_renderer_nunjucks = __toESM(require_renderer_nunjucks());
-var import_renderer_pug = __toESM(require_renderer_pug());
+// src/renderer-nunjucks.ts
+var import_fs_extra3 = __toESM(require("fs-extra"), 1);
+var import_nunjucks = __toESM(require("nunjucks"), 1);
+var import_upath2 = __toESM(require("upath"), 1);
+var import_sbg_utility4 = require("sbg-utility");
+var base_dir = typeof hexo !== "undefined" && hexo.base_dir ? hexo.base_dir : process.cwd();
+var tmpdir = import_upath2.default.join(base_dir, "tmp", "hexo-renderers");
+var logfile = import_upath2.default.join(tmpdir, "nunjucks-log.json");
+function rendererNunjucks(hexo2) {
+  const themeDir = import_upath2.default.join(hexo2.base_dir, "themes", hexo2.config.theme);
+  const env = import_nunjucks.default.configure([themeDir, import_upath2.default.join(themeDir, "layout")], {
+    noCache: true,
+    autoescape: false,
+    throwOnUndefined: false,
+    trimBlocks: false,
+    lstripBlocks: false
+  });
+  env.addFilter("toArray", toArray);
+  const logs = {
+    render: [],
+    compile: []
+  };
+  function render2(data, locals) {
+    if ("text" in data) {
+      return import_nunjucks.default.renderString(data.text, locals);
+    }
+    logs.render.push(data.path);
+    (0, import_sbg_utility4.writefile)(logfile, JSON.stringify(logs, null, 2));
+    return import_nunjucks.default.render(data.path, locals);
+  }
+  function compile3(data) {
+    logs.compile.push(data.path);
+    (0, import_sbg_utility4.writefile)(logfile, JSON.stringify(logs, null, 2));
+    const compiled = import_nunjucks.default.compile(
+      "text" in data ? data.text : import_fs_extra3.default.readFileSync(data.path, "utf-8"),
+      env
+    );
+    return compiled.render.bind(compiled);
+  }
+  render2.compile = compile3;
+  hexo2.extend.renderer.register("njk", "html", render2, false);
+  hexo2.extend.renderer.register("j2", "html", render2, false);
+  return { render: render2, rendererNunjucks, compile: compile3 };
+}
+
+// src/renderer-pug.ts
+var import_module3 = require("module");
+var path8 = __toESM(require("path"), 1);
+var pug = __toESM(require("pug"), 1);
+var import_meta4 = {};
+var require4 = (0, import_module3.createRequire)(import_meta4.url);
+function rendererPug(hexo2) {
+  const configPath = path8.join(process.cwd(), "pug.config");
+  const defaultConfig = { compile: {} };
+  let hasConfig = true;
+  try {
+    require4.resolve(configPath);
+  } catch {
+    hasConfig = false;
+  }
+  const config2 = hasConfig ? require4(configPath) : defaultConfig;
+  const hasProp = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
+  const invalidKeys = Object.keys(config2).filter((k) => !hasProp(defaultConfig, k));
+  if (invalidKeys.length > 0) {
+    throw Error(`Unsupported PUG config keys: ${invalidKeys.join(", ")}`);
+  }
+  function pugCompile(data) {
+    const opts = {
+      ...config2.compile,
+      filename: data.path
+      // always used
+    };
+    return pug.compile(data.text, opts);
+  }
+  function pugRenderer(data, locals) {
+    return pugCompile(data)(locals);
+  }
+  pugRenderer.compile = pugCompile;
+  hexo2.extend.renderer.register("pug", "html", pugRenderer, true);
+  return pugRenderer;
+}
 
 // src/renderer-sass.ts
-var import_node_sass = __toESM(require("node-sass"));
-var import_path4 = __toESM(require("path"));
+var import_node_sass = __toESM(require("node-sass"), 1);
+var import_path4 = __toESM(require("path"), 1);
 var extend = Object.assign;
 var sassRenderer = (ext) => function(data) {
   const userConfig = extend(this.theme.config.node_sass || {}, this.config.node_sass || {});
@@ -1609,14 +1131,304 @@ function rendererSass(hexo2) {
   hexo2.extend.renderer.register("sass", "css", sassRenderer("sass"));
 }
 
-// src/index.ts
-var import_renderer_stylus = __toESM(require_renderer_stylus());
+// src/renderer-stylus.ts
+var import_module4 = require("module");
+var import_stylus = __toESM(require("stylus"), 1);
+var import_meta5 = {};
+var require5 = (0, import_module4.createRequire)(import_meta5.url);
+function getProperty(obj, name) {
+  name = name.replace(/\[(\w+)\]/g, ".$1").replace(/^\./, "");
+  const split = name.split(".");
+  let key = split.shift();
+  if (!key) return "";
+  if (!Object.prototype.hasOwnProperty.call(obj, key)) return "";
+  let result = obj[key];
+  const len = split.length;
+  if (!len) {
+    if (result === 0) return result;
+    return result || "";
+  }
+  if (typeof result !== "object") return "";
+  for (let i = 0; i < len; i++) {
+    key = split[i];
+    if (!Object.prototype.hasOwnProperty.call(result, key)) return "";
+    result = result[split[i]];
+    if (typeof result !== "object") return result;
+  }
+  return result;
+}
+function applyPlugins(stylusConfig, plugins) {
+  plugins.forEach((plugin) => {
+    const factoryFn = require5(plugin.trim());
+    stylusConfig.use(factoryFn());
+  });
+}
+function stylusFn(data, options, callback) {
+  const self = this;
+  const config2 = self.config.stylus || {};
+  const plugins = ["nib"].concat(config2.plugins || []);
+  function defineConfig(style) {
+    style.define("hexo-config", (data2) => {
+      return getProperty(self.theme.config, data2.val);
+    });
+  }
+  const stylusConfig = (0, import_stylus.default)(data.text);
+  applyPlugins(stylusConfig, plugins);
+  stylusConfig.use(defineConfig).use((style) => self.execFilterSync("stylus:renderer", style, { context: this })).set("filename", data.path).set("sourcemap", config2.sourcemaps).set("compress", config2.compress).set("include css", true).render(callback);
+}
+stylusFn.disableNunjucks = true;
+function rendererStylus(hexo2) {
+  hexo2.extend.renderer.register("styl", "css", stylusFn);
+  hexo2.extend.renderer.register("stylus", "css", stylusFn);
+}
+
+// src/renderer/rollup/renderer.js
+var import_path5 = require("path");
+var import_rollup = require("rollup");
+var import_sbg_utility5 = require("sbg-utility");
+
+// src/renderer/rollup/utils/createReadFilterProxy.js
+var createReadFilterProxy = (target, filters2 = {}) => {
+  if (target == null || typeof target !== "object") {
+    throw new TypeError();
+  }
+  let filterKeys = Object.keys(filters2).filter((key) => typeof filters2[key] === "function");
+  if (!filterKeys) {
+    return target;
+  }
+  const filtersMap = filterKeys.reduce((result, key) => {
+    result[key] = filters2[key];
+    return result;
+  }, /* @__PURE__ */ Object.create(null));
+  filters2 = null;
+  filterKeys = null;
+  return new Proxy(target, {
+    get(target2, property, receiver) {
+      const original = Reflect.get(target2, property, receiver);
+      return property in filtersMap ? filtersMap[property](original, target2) : original;
+    }
+  });
+};
+var createReadFilterProxy_default = createReadFilterProxy;
+
+// src/renderer/rollup/utils/objectWithoutKeys.ts
+var objectWithoutKeys = (obj, keys) => {
+  if (!Array.isArray(keys)) {
+    throw new TypeError("keys most string[].");
+  }
+  return Object.keys(obj).reduce(
+    (newObject, key) => {
+      if (!keys.includes(key)) newObject[key] = obj[key];
+      return newObject;
+    },
+    {}
+  );
+};
+
+// src/renderer/rollup/utils/rollupPluginFromName.js
+var import_module5 = require("module");
+var import_meta6 = {};
+var require6 = (0, import_module5.createRequire)(import_meta6.url);
+var rollupPluginFromName = (name) => {
+  if (typeof name !== "string") {
+    throw new TypeError("name most string");
+  }
+  const pluginPrefix = "rollup-plugin-";
+  if (!name.startsWith(pluginPrefix)) {
+    name = pluginPrefix + name;
+  }
+  return require6(name);
+};
+var rollupPluginFromName_default = rollupPluginFromName;
+
+// src/renderer/rollup/utils/createRollupPlugin.js
+var createRollupPlugin = (config2) => {
+  if (typeof config2 === "string") {
+    return rollupPluginFromName_default(config2)({});
+  }
+  if (typeof config2 === "object" && "name" in config2) {
+    const plugin = rollupPluginFromName_default(config2.name);
+    const options = objectWithoutKeys(config2, ["name"]);
+    return plugin(options);
+  }
+  throw new TypeError("config most object!");
+};
+var createRollupPlugin_default = createRollupPlugin;
+
+// src/renderer/rollup/utils/getHexoConfigs.js
+var mostHexoTypeError = () => {
+  throw new TypeError("ctx most Hexo instance!");
+};
+var getRawSiteConfig = (name, ctx) => {
+  if (!ctx) {
+    mostHexoTypeError();
+  }
+  return ctx.config[name];
+};
+var getRawThemeConfig = (name, ctx) => {
+  if (!ctx) {
+    mostHexoTypeError();
+  }
+  return ctx.theme.config[name];
+};
+var getRawOverrideThemeConfig = (name, ctx) => {
+  if (!ctx) {
+    mostHexoTypeError();
+  }
+  if (ctx.config.theme_config == null) {
+    return void 0;
+  }
+  return ctx.config.theme_config[name];
+};
+
+// src/renderer/rollup/utils/toAbsolutePaths.js
+var path10 = __toESM(require("path"), 1);
+
+// src/renderer/rollup/utils/objectMap.js
+var objectMap = (obj, callback, thisArg = void 0) => {
+  if (obj == null) {
+    throw new TypeError();
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(callback, thisArg);
+  }
+  const type = typeof obj;
+  if (type !== "object" && type !== "string") {
+    throw new TypeError();
+  }
+  if (typeof obj[Symbol.iterator] === "function") {
+    return Array.from(obj, callback, thisArg);
+  }
+  if (typeof obj.length === "number") {
+    return Array.from(obj, callback, thisArg);
+  }
+  return Object.values(obj).map(callback, thisArg);
+};
+var objectMap_default = objectMap;
+
+// src/renderer/rollup/utils/toAbsolutePaths.js
+var toAbsolutePath = (targets, base) => {
+  if (targets == null) {
+    return [];
+  }
+  if (typeof targets === "string") {
+    if (path10.isAbsolute(targets)) {
+      return targets;
+    }
+    return path10.join(base, targets);
+  }
+  return objectMap_default(targets, (x) => {
+    return path10.isAbsolute(x) ? x : path10.join(base, x);
+  });
+};
+var toAbsolutePaths_default = toAbsolutePath;
+
+// src/renderer/rollup/HexoRollupConfigs.ts
+var configFilterProxy = (config2, baseDir) => {
+  if (config2 == null) {
+    return config2;
+  }
+  return createReadFilterProxy_default(config2, {
+    input(original, target) {
+      return "input" in target ? toAbsolutePaths_default(original, baseDir) : original;
+    },
+    plugins(original, target) {
+      if (!("plugins" in target)) {
+        return original;
+      }
+      if (Array.isArray(original)) {
+        return original.map((plugin) => createRollupPlugin_default(plugin));
+      }
+      return createRollupPlugin_default(original);
+    }
+  });
+};
+var reduceStrings = (array) => {
+  const initial = [];
+  return array.reduce((array2, item) => {
+    if (typeof item === "string") {
+      array2.push(item);
+    } else if (Array.isArray(item)) {
+      array2 = array2.concat(item);
+    } else if (typeof item === "object") {
+      array2 = array2.concat(Array.from(Object.values(item)));
+    }
+    return array2;
+  }, initial);
+};
+var HexoRollupConfigs = class {
+  constructor(ctx) {
+    this.ctx = ctx;
+  }
+  site() {
+    const raw = getRawSiteConfig("rollup", this.ctx);
+    return configFilterProxy(raw, this.ctx.base_dir);
+  }
+  theme() {
+    const raw = getRawThemeConfig("rollup", this.ctx);
+    return configFilterProxy(raw, this.ctx.theme_dir);
+  }
+  overrideTheme() {
+    const raw = getRawOverrideThemeConfig("rollup", this.ctx);
+    return configFilterProxy(raw, this.ctx.base_dir);
+  }
+  merged() {
+    const site = this.site();
+    const theme = this.theme();
+    const override = this.overrideTheme();
+    const hexo2 = this.ctx;
+    const _default = {
+      output: {
+        format: "esm"
+      },
+      onwarn(warning) {
+        hexo2.log.warn(warning);
+      }
+    };
+    const input = reduceStrings(
+      [site, theme, override].filter((config2) => config2 != null && "input" in config2).map((config2) => config2.input)
+    );
+    return Object.assign(_default, site, theme, override, { input });
+  }
+};
+
+// src/renderer/rollup/renderer.js
+var rollupCache = [];
+var rollupRenderAsync = async (config2) => {
+  config2.input.cache = rollupCache;
+  const bundle = await (0, import_rollup.rollup)(config2.input);
+  rollupCache = bundle.cache;
+  const { code } = await bundle.generate(config2.output);
+  return code;
+};
+async function renderer(data, _options) {
+  const { path: path12, text } = data;
+  const hexo2 = this;
+  const rollupConfigs = new HexoRollupConfigs(hexo2);
+  const config2 = rollupConfigs.merged();
+  if (config2.experimentalCodeSplitting) {
+    throw new Error('hexo-renderer-rollup not Support "experimentalCodeSplitting".');
+  }
+  if (!config2.input.includes(path12)) {
+    return text;
+  }
+  config2.input = path12;
+  const input = objectWithoutKeys(config2, ["output"]);
+  const { output } = config2;
+  (0, import_sbg_utility5.writefile)((0, import_path5.join)(hexo2.base_dir, "tmp/config/rollup.json"), (0, import_sbg_utility5.jsonStringifyWithCircularRefs)({ input, output, path: path12 }));
+  try {
+    return await rollupRenderAsync({ input, output });
+  } catch (err) {
+    this.log.error(err);
+    throw err;
+  }
+}
+var renderer_default2 = renderer;
 
 // src/renderer/rollup/index.ts
-var import_renderer2 = __toESM(require_renderer());
 function rendererRollup(hexo2) {
-  hexo2.extend.renderer.register("js", "js", import_renderer2.default);
-  hexo2.extend.renderer.register("mjs", "js", import_renderer2.default);
+  hexo2.extend.renderer.register("js", "js", renderer_default2);
+  hexo2.extend.renderer.register("mjs", "js", renderer_default2);
 }
 
 // src/index.ts
@@ -1634,7 +1446,7 @@ if (typeof hexo !== "undefined") {
     loadPostData(this);
   });
   hexo.extend.filter.register("after_clean", function() {
-    return (0, import_sbg_utility4.del)(import_upath2.default.join(hexo.base_dir, "tmp/hexo-renderers"));
+    return (0, import_sbg_utility6.del)(import_upath3.default.join(hexo.base_dir, "tmp/hexo-renderers"));
   });
   registerCustomHelper(hexo);
   registerCustomGenerator(hexo, options.generator);
@@ -1646,10 +1458,10 @@ if (typeof hexo !== "undefined") {
       const engine = options.engines[i];
       switch (engine) {
         case "ejs":
-          (0, import_renderer_ejs.rendererEjs)(hexo);
+          rendererEjs(hexo);
           break;
         case "pug":
-          (0, import_renderer_pug.rendererPug)(hexo);
+          rendererPug(hexo);
           break;
         case "dartsass":
           rendererDartSass(hexo);
@@ -1661,11 +1473,11 @@ if (typeof hexo !== "undefined") {
           rendererSass(hexo);
           break;
         case "stylus":
-          (0, import_renderer_stylus.rendererStylus)(hexo);
+          rendererStylus(hexo);
           break;
         case "nunjucks":
         case "njk":
-          (0, import_renderer_nunjucks.rendererNunjucks)(hexo);
+          rendererNunjucks(hexo);
           break;
         case "markdown-it":
           rendererMarkdownIt(hexo);
@@ -1674,10 +1486,10 @@ if (typeof hexo !== "undefined") {
     }
   } else {
     hexo.log.info(logname, "activating all engines");
-    (0, import_renderer_nunjucks.rendererNunjucks)(hexo);
-    (0, import_renderer_ejs.rendererEjs)(hexo);
-    (0, import_renderer_pug.rendererPug)(hexo);
-    (0, import_renderer_stylus.rendererStylus)(hexo);
+    rendererNunjucks(hexo);
+    rendererEjs(hexo);
+    rendererPug(hexo);
+    rendererStylus(hexo);
     rendererSass(hexo);
     rendererMarkdownIt(hexo);
   }

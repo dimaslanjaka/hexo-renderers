@@ -1,4 +1,4 @@
-export = objectMap;
+export default objectMap;
 /**
  * @template T
  * @template R

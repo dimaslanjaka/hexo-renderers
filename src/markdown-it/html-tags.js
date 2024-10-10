@@ -1,4 +1,4 @@
-const validHtmlTags = [
+export const validHtmlTags = [
   'a',
   'abbr',
   'address',
@@ -110,6 +110,4 @@ const validHtmlTags = [
   'wbr'
 ];
 
-const validHtmlTagsRegex = new RegExp('</?(' + validHtmlTags.join('|') + ')(\\s|>)');
-
-module.exports = { validHtmlTags, validHtmlTagsRegex };
+export const validHtmlTagsRegex = new RegExp('</?(' + validHtmlTags.join('|') + ')(\\s|>)');

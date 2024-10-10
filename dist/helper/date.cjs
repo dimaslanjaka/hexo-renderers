@@ -40,8 +40,8 @@ __export(date_exports, {
   toMomentLocale: () => toMomentLocale
 });
 module.exports = __toCommonJS(date_exports);
-var import_moize = __toESM(require("moize"));
-var import_moment_timezone = __toESM(require("moment-timezone"));
+var import_moize = __toESM(require("moize"), 1);
+var import_moment_timezone = __toESM(require("moment-timezone"), 1);
 var { isMoment } = import_moment_timezone.default;
 var isDate = (value) => typeof value === "object" && value instanceof Date && !isNaN(value.getTime());
 function getMoment(date2, lang, timezone) {

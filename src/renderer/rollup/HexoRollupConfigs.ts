@@ -3,12 +3,10 @@
 import Hexo from 'hexo';
 
 import { RollupOptions } from 'rollup';
-import createReadFilterProxy from './utils/createReadFilterProxy';
-import createRollupPlugin from './utils/createRollupPlugin';
-import { getRawOverrideThemeConfig, getRawSiteConfig, getRawThemeConfig } from './utils/getHexoConfigs';
-import toAbsolutePath from './utils/toAbsolutePaths';
-
-/** @typedef {NodeJS.EventEmitter} Hexo */
+import createReadFilterProxy from './utils/createReadFilterProxy.js';
+import createRollupPlugin from './utils/createRollupPlugin.js';
+import { getRawOverrideThemeConfig, getRawSiteConfig, getRawThemeConfig } from './utils/getHexoConfigs.js';
+import toAbsolutePath from './utils/toAbsolutePaths.js';
 
 /**
  * @param config

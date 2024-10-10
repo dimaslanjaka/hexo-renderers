@@ -1,18 +1,18 @@
 'use strict';
-var rollupPluginFromName = require('./rollupPluginFromName');
-var objectWithoutKeys = require('./objectWithoutKeys').objectWithoutKeys;
+import { objectWithoutKeys } from './objectWithoutKeys.js';
+import rollupPluginFromName from './rollupPluginFromName.js';
 /**
  * @param {string|{name:string}} config
  */
-var createRollupPlugin = function (config) {
+const createRollupPlugin = (config) => {
     if (typeof config === 'string') {
         return rollupPluginFromName(config)({});
     }
     if (typeof config === 'object' && 'name' in config) {
-        var plugin = rollupPluginFromName(config.name);
-        var options = objectWithoutKeys(config, ['name']);
+        const plugin = rollupPluginFromName(config.name);
+        const options = objectWithoutKeys(config, ['name']);
         return plugin(options);
     }
     throw new TypeError('config most object!');
 };
-module.exports = createRollupPlugin;
+export default createRollupPlugin;

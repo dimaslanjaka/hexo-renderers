@@ -1,10 +1,13 @@
 import ejs from 'ejs';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const layout = 'layout.ejs';
 const bodyTag = '</body>';
-const mathjaxScript = fs.readFileSync(path.join(__dirname, 'mathjax.html'));
+const mathjaxScript = fs.readFileSync(path.join(__dirname, 'mathjax.html'), 'utf-8');
 
 /**
  * hexo-renderer-mathjax

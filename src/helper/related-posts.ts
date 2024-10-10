@@ -8,8 +8,8 @@ import {
   slugify,
   writefile
 } from 'sbg-utility';
-import { getPostData } from './collector';
-import { tagName } from './util';
+import { getPostData } from './collector.js';
+import { tagName } from './util.js';
 
 const assign = lodash.assign;
 

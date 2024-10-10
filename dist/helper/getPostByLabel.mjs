@@ -1,11 +1,9 @@
 import { createRequire } from 'module'; const require = createRequire(import.meta.url);
 import {
   getPostByLabel,
-  getPostByLabelInternal,
-  init_getPostByLabel
-} from "../chunk-S42X4VKR.mjs";
-import "../chunk-QAIXVEL3.mjs";
-init_getPostByLabel();
+  getPostByLabelInternal
+} from "../chunk-QAE7XDYI.mjs";
+import "../chunk-LPG7NA4D.mjs";
 export {
   getPostByLabel,
   getPostByLabelInternal

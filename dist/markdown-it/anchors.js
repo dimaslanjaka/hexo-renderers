@@ -1,20 +1,8 @@
 'use strict';
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-var Token = require('markdown-it/lib/token');
-var slugize = require('hexo-util').slugize;
-var renderPermalink = function (slug, opts, tokens, idx) {
-    var _a, _b;
-    var permalink = [
+import hutil from 'hexo-util';
+import Token from 'markdown-it/lib/token.mjs';
+const renderPermalink = function (slug, opts, tokens, idx) {
+    const permalink = [
         Object.assign(new Token('link_open', 'a', 1), {
             attrs: [
                 ['class', opts.permalinkClass],
@@ -30,27 +18,23 @@ var renderPermalink = function (slug, opts, tokens, idx) {
         })
     ];
     if (opts.permalinkSide === 'right') {
-        return (_a = tokens[idx + 1].children).push.apply(_a, permalink);
+        return tokens[idx + 1].children.push(...permalink);
     }
-    return (_b = tokens[idx + 1].children).unshift.apply(_b, permalink);
+    return tokens[idx + 1].children.unshift(...permalink);
 };
-var anchor = function (md, opts) {
-    Object.assign(opts, { renderPermalink: renderPermalink });
-    var titleStore = {};
-    var originalHeadingOpen = md.renderer.rules.heading_open;
-    var slugOpts = __assign({ transform: opts.case }, opts);
-    md.renderer.rules.heading_open = function () {
-        var args = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            args[_i] = arguments[_i];
-        }
-        var tokens = args[0], idx = args[1], _something = args[2], _somethingelse = args[3], self = args[4];
+const anchor = function (md, opts) {
+    Object.assign(opts, { renderPermalink });
+    let titleStore = {};
+    const originalHeadingOpen = md.renderer.rules.heading_open;
+    const slugOpts = Object.assign({ transform: opts.case }, opts);
+    md.renderer.rules.heading_open = function (...args) {
+        const [tokens, idx, _something, _somethingelse, self] = args;
         if (tokens[idx].tag.substr(1) >= opts.level) {
-            var _tokens$idx = void 0;
-            var title = tokens[idx + 1].children.reduce(function (acc, t) {
+            let _tokens$idx;
+            const title = tokens[idx + 1].children.reduce((acc, t) => {
                 return acc + t.content;
             }, '');
-            var slug = slugize(title, slugOpts);
+            let slug = hutil.slugize(title, slugOpts);
             if (Object.prototype.hasOwnProperty.call(titleStore, slug)) {
                 titleStore[slug] = titleStore[slug] + 1;
                 slug = slug + '-' + opts.collisionSuffix + titleStore[slug].toString();
@@ -68,8 +52,8 @@ var anchor = function (md, opts) {
         }
         return originalHeadingOpen ? originalHeadingOpen.apply(this, args) : self.renderToken.apply(self, args);
     };
-    md.core.ruler.push('clear_anchor_title_store', function () {
+    md.core.ruler.push('clear_anchor_title_store', () => {
         titleStore = {};
     });
 };
-module.exports = anchor;
+export default anchor;

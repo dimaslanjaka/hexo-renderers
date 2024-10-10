@@ -3,15 +3,13 @@ import {
   date,
   date_xml,
   full_date,
-  init_date,
   moment,
   relative_date,
   time,
   time_tag,
   toMomentLocale
-} from "../chunk-AY5VDOOF.mjs";
-import "../chunk-QAIXVEL3.mjs";
-init_date();
+} from "../chunk-G6ILIGWF.mjs";
+import "../chunk-LPG7NA4D.mjs";
 export {
   date,
   date_xml,

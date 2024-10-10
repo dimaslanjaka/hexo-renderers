@@ -1,21 +1,53 @@
 "use strict";
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/markdown-it/anchors.js
-var Token = require("markdown-it/lib/token");
-var { slugize } = require("hexo-util");
+var anchors_exports = {};
+__export(anchors_exports, {
+  default: () => anchors_default
+});
+module.exports = __toCommonJS(anchors_exports);
+var import_hexo_util = __toESM(require("hexo-util"), 1);
+var import_token = __toESM(require("markdown-it/lib/token.mjs"), 1);
 var renderPermalink = function(slug, opts, tokens, idx) {
   const permalink = [
-    Object.assign(new Token("link_open", "a", 1), {
+    Object.assign(new import_token.default("link_open", "a", 1), {
       attrs: [
         ["class", opts.permalinkClass],
         ["href", "#" + slug]
       ]
     }),
-    Object.assign(new Token("text", "", 0), {
+    Object.assign(new import_token.default("text", "", 0), {
       content: opts.permalinkSymbol
     }),
-    new Token("link_close", "a", -1),
-    Object.assign(new Token("text", "", 0), {
+    new import_token.default("link_close", "a", -1),
+    Object.assign(new import_token.default("text", "", 0), {
       content: ""
     })
   ];
@@ -36,7 +68,7 @@ var anchor = function(md, opts) {
       const title = tokens[idx + 1].children.reduce((acc, t) => {
         return acc + t.content;
       }, "");
-      let slug = slugize(title, slugOpts);
+      let slug = import_hexo_util.default.slugize(title, slugOpts);
       if (Object.prototype.hasOwnProperty.call(titleStore, slug)) {
         titleStore[slug] = titleStore[slug] + 1;
         slug = slug + "-" + opts.collisionSuffix + titleStore[slug].toString();
@@ -57,4 +89,4 @@ var anchor = function(md, opts) {
     titleStore = {};
   });
 };
-module.exports = anchor;
+var anchors_default = anchor;

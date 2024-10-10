@@ -3,7 +3,7 @@ import {
   registerCustomGenerator
 } from "../chunk-T43XGBJG.mjs";
 import "../chunk-TTMGXF65.mjs";
-import "../chunk-QAIXVEL3.mjs";
+import "../chunk-LPG7NA4D.mjs";
 export {
   registerCustomGenerator
 };

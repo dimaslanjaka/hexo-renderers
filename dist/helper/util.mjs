@@ -1,12 +1,10 @@
 import { createRequire } from 'module'; const require = createRequire(import.meta.url);
 import {
   categorieName,
-  init_util,
   logname,
   tagName
-} from "../chunk-DX3RKJWE.mjs";
-import "../chunk-QAIXVEL3.mjs";
-init_util();
+} from "../chunk-ZZ532TJY.mjs";
+import "../chunk-LPG7NA4D.mjs";
 export {
   categorieName,
   logname,

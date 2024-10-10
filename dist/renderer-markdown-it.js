@@ -1,12 +1,6 @@
 'use strict';
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.defaultMarkdownOptions = void 0;
-exports.default = rendererMarkdownIt;
-var renderer_1 = __importDefault(require("./markdown-it/renderer"));
-exports.defaultMarkdownOptions = {
+import Renderer from './markdown-it/renderer.js';
+export const defaultMarkdownOptions = {
     preset: 'default',
     render: {
         html: true,
@@ -59,12 +53,12 @@ exports.defaultMarkdownOptions = {
  * hexo-renderer-markdown-it
  * @param hexo
  */
-function rendererMarkdownIt(hexo) {
+export default function rendererMarkdownIt(hexo) {
     hexo.config.markdown = Object.assign({
         preset: 'default',
         render: {},
         anchors: {}
-    }, exports.defaultMarkdownOptions, 
+    }, defaultMarkdownOptions, 
     // fallback to empty object when `markdown` options is undefined
     hexo.config.markdown || {});
     hexo.config.markdown.render = Object.assign({
@@ -85,12 +79,11 @@ function rendererMarkdownIt(hexo) {
         case: 0,
         separator: '-'
     }, hexo.config.markdown.anchors || {});
-    var renderer = new renderer_1.default(hexo);
+    const renderer = new Renderer(hexo);
     if (typeof hexo.config.markdown.disableNunjucks !== 'boolean') {
         renderer.disableNunjucks = hexo.config.markdown.disableNunjucks === 'true';
     }
-    function render(data, options) {
-        if (options === void 0) { options = {}; }
+    function render(data, options = {}) {
         return renderer.render(data, options);
     }
     hexo.extend.renderer.register('md', 'html', render, true);

@@ -1,12 +1,12 @@
 'use strict';
-var mostHexoTypeError = function () {
+const mostHexoTypeError = () => {
     throw new TypeError('ctx most Hexo instance!');
 };
 /**
  * @param {string|symbol} name
  * @param {Hexo} ctx
  */
-var getRawSiteConfig = function (name, ctx) {
+const getRawSiteConfig = (name, ctx) => {
     if (!ctx) {
         mostHexoTypeError();
     }
@@ -16,7 +16,7 @@ var getRawSiteConfig = function (name, ctx) {
  * @param {string|symbol} name
  * @param {Hexo} ctx
  */
-var getRawThemeConfig = function (name, ctx) {
+const getRawThemeConfig = (name, ctx) => {
     if (!ctx) {
         mostHexoTypeError();
     }
@@ -26,7 +26,7 @@ var getRawThemeConfig = function (name, ctx) {
  * @param {string|symbol} name
  * @param {Hexo} ctx
  */
-var getRawOverrideThemeConfig = function (name, ctx) {
+const getRawOverrideThemeConfig = (name, ctx) => {
     if (!ctx) {
         mostHexoTypeError();
     }
@@ -39,7 +39,7 @@ var getRawOverrideThemeConfig = function (name, ctx) {
  * @param {string|symbol} name
  * @param {Hexo} ctx
  */
-var getRawConfigs = function (name, ctx) {
+const getRawConfigs = (name, ctx) => {
     if (!ctx) {
         mostHexoTypeError();
     }
@@ -52,7 +52,7 @@ var getRawConfigs = function (name, ctx) {
 /**
  * @param {Hexo} ctx
  */
-var getRawAllConfigs = function (ctx) {
+const getRawAllConfigs = (ctx) => {
     if (!ctx) {
         mostHexoTypeError();
     }
@@ -62,9 +62,5 @@ var getRawAllConfigs = function (ctx) {
         override: ctx.config.theme_config
     };
 };
-module.exports.getRawConfigs = getRawConfigs;
-module.exports.default = getRawConfigs;
-module.exports.getRawAllConfigs = getRawAllConfigs;
-module.exports.getRawSiteConfig = getRawSiteConfig;
-module.exports.getRawThemeConfig = getRawThemeConfig;
-module.exports.getRawOverrideThemeConfig = getRawOverrideThemeConfig;
+// Exporting all functions at once
+export { getRawConfigs as default, getRawAllConfigs, getRawConfigs, getRawOverrideThemeConfig, getRawSiteConfig, getRawThemeConfig };

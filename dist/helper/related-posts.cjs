@@ -34,19 +34,19 @@ __export(related_posts_exports, {
   objectArrayIndexOf: () => objectArrayIndexOf
 });
 module.exports = __toCommonJS(related_posts_exports);
-var import_fs_extra2 = __toESM(require("fs-extra"));
-var import_lodash = __toESM(require("lodash"));
-var import_path2 = __toESM(require("path"));
+var import_fs_extra2 = __toESM(require("fs-extra"), 1);
+var import_lodash = __toESM(require("lodash"), 1);
+var import_path2 = __toESM(require("path"), 1);
 var import_sbg_utility2 = require("sbg-utility");
 
 // src/helper/collector.ts
-var cheerio = __toESM(require("cheerio"));
-var import_fs_extra = __toESM(require("fs-extra"));
-var import_path = __toESM(require("path"));
+var cheerio = __toESM(require("cheerio"), 1);
+var import_fs_extra = __toESM(require("fs-extra"), 1);
+var import_path = __toESM(require("path"), 1);
 var import_sbg_utility = require("sbg-utility");
 
 // src/helper/util.ts
-var import_ansi_colors = __toESM(require("ansi-colors"));
+var import_ansi_colors = __toESM(require("ansi-colors"), 1);
 var tagName = (inTags) => {
   if (!inTags || !Array.isArray(inTags.data)) return [];
   if (typeof inTags.data[0] === "string") return inTags;

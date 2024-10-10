@@ -1,5 +1,7 @@
+import Hexo from 'hexo';
 /**
  * hexo-renderer-ejs
- * @param {import('hexo')} hexo
+ * @param hexo
  */
-export function rendererEjs(hexo: import("hexo")): void;
+export declare function rendererEjs(hexo: Hexo): void;
+export default rendererEjs;

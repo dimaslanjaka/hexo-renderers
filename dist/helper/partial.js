@@ -1,22 +1,18 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.partialWithLayout = partialWithLayout;
-var upath_1 = require("upath");
+import * as path from 'upath';
 // original https://github.com/hexojs/hexo/blob/cb19b2938d1f7882a4cb41a98974a3d673a63b45/lib/plugins/helper/partial.js#L5
-function partialWithLayout(ctx) {
-    return function partialWithLayout(name, locals, options) {
-        if (options === void 0) { options = {}; }
+export function partialWithLayout(ctx) {
+    return function partialWithLayout(name, locals, options = {}) {
         if (typeof name !== 'string')
             throw new TypeError('argument name must be a string!');
-        var cache = options.cache;
-        var self = this;
-        var viewDir = self.view_dir;
-        var currentView = self.filename.substring(viewDir.length);
-        var path = (0, upath_1.join)((0, upath_1.dirname)(currentView), name);
-        var view = ctx.theme.getView(path) || ctx.theme.getView(name);
-        var viewLocals = { layout: false };
+        const { cache } = options;
+        const self = this;
+        const viewDir = self.view_dir;
+        const currentView = self.filename.substring(viewDir.length);
+        const thePath = path.join(path.dirname(currentView), name);
+        const view = ctx.theme.getView(thePath) || ctx.theme.getView(name);
+        const viewLocals = { layout: false };
         if (!view) {
-            throw new Error("Partial ".concat(name, " does not exist. (in ").concat(currentView, ")"));
+            throw new Error(`Partial ${name} does not exist. (in ${currentView})`);
         }
         if (options.only) {
             Object.assign(viewLocals, locals);
@@ -27,8 +23,8 @@ function partialWithLayout(ctx) {
         // Partial don't need layout
         // viewLocals.layout = false;
         if (cache) {
-            var cacheId = typeof cache === 'string' ? cache : view.path;
-            return this.fragment_cache(cacheId, function () { return view.renderSync(viewLocals); });
+            const cacheId = typeof cache === 'string' ? cache : view.path;
+            return this.fragment_cache(cacheId, () => view.renderSync(viewLocals));
         }
         return view.renderSync(viewLocals);
     };

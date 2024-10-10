@@ -1,17 +1,18 @@
 {
   "name": "hexo-renderers",
-  "version": "2.0.7",
+  "version": "3.0.0",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "require": {
         "default": "./dist/index.cjs",
-        "types": "./dist/index.d.ts"
+        "types": "./dist/index.d.cts"
       },
       "import": {
         "default": "./dist/index.mjs",
-        "types": "./dist/index.d.mts"
+        "types": "./dist/index.d.ts"
       }
     }
   },
@@ -47,7 +48,7 @@
     "update:prettier": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/.prettierrc.json > .prettierrc.json",
     "update:postinstall": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/postinstall.js > postinstall.js",
     "update:packer": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/packer.js > packer.js",
-    "build": "rimraf dist && node build.tsup.js && tsc --build tsconfig.build.json && gulp",
+    "build": "rimraf dist && node build.tsup.js && tsc -b tsconfig.build.json && gulp",
     "pack": "node packer.js --yarn",
     "clean": "npm run build",
     "pretest": "npm run build",
