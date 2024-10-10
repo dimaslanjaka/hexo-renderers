@@ -30,7 +30,8 @@ export const textContentTags = [
   'sup',
   'time',
   'u',
-  'var'
+  'var',
+  'p'
 ];
 
 export const formAndInputTags = [
@@ -147,7 +148,7 @@ export const validHtmlTags = [
   ...obsoleteTags,
   ...uncategorizedTags,
   ...katexHtmlTags
-].filter((value, index, _array) => {
+].filter((value, index, self) => {
   return self.indexOf(value) === index;
 });
 
