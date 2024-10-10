@@ -16,4 +16,4 @@ var objectWithoutKeys = function (obj, keys) {
     }, {});
 };
 exports.objectWithoutKeys = objectWithoutKeys;
-module.exports = exports.objectWithoutKeys;
+exports.default = exports.objectWithoutKeys;

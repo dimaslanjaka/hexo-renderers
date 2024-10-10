@@ -1,8 +1,20 @@
 {
   "name": "hexo-renderers",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": {
+        "default": "./dist/index.cjs",
+        "types": "./dist/index.d.ts"
+      },
+      "import": {
+        "default": "./dist/index.mjs",
+        "types": "./dist/index.d.mts"
+      }
+    }
+  },
   "files": [
     "dist"
   ],
@@ -13,7 +25,9 @@
     "hexo-renderer-pug",
     "hexo-renderer-stylus",
     "hexo-renderer-sass",
-    "hexo-renderer-swig"
+    "hexo-renderer-swig",
+    "hexo-renderer-markdown",
+    "markdown-it"
   ],
   "author": {
     "email": "dimaslanjaka@gmail.com",
@@ -33,9 +47,9 @@
     "update:prettier": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/.prettierrc.json > .prettierrc.json",
     "update:postinstall": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/postinstall.js > postinstall.js",
     "update:packer": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/packer.js > packer.js",
-    "build": "tsc --build tsconfig.build.json && gulp",
+    "build": "rimraf dist && node build.tsup.js && tsc --build tsconfig.build.json && gulp",
     "pack": "node packer.js --yarn",
-    "clean": "rm -rf dist && npm run build",
+    "clean": "npm run build",
     "pretest": "npm run build",
     "test": "mocha --timeout 10000 -r ts-node/register",
     "test:ts": "mocha --timeout 10000 -r ts-node/register test/**/*.test.ts --exit",
@@ -54,7 +68,7 @@
     "hexo-util": "^3.3.0",
     "jsdom": "21",
     "lodash": "^4.17.21",
-    "markdown-it": "^13.0.2",
+    "markdown-it": "^14.1.0",
     "markdown-it-abbr": "^1.0.4",
     "markdown-it-attrs": "^4.1.6",
     "markdown-it-bracketed-spans": "^1.0.1",
@@ -116,9 +130,11 @@
     "minimist": "^1.2.8",
     "mocha": "^10.7.3",
     "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
     "sinon": "^19.0.2",
     "ts-node": "^10.9.2",
     "tslib": "^2.7.0",
+    "tsup": "^8.3.0",
     "typescript": "^5.6.2"
   },
   "resolutions": {
