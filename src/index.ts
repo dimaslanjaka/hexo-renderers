@@ -93,14 +93,3 @@ if (typeof hexo !== 'undefined') {
     rendererMarkdownIt(hexo);
   }
 }
-
-export {
-  rendererDartSass,
-  rendererEjs,
-  rendererMarkdownIt,
-  rendererNunjucks,
-  rendererPug,
-  rendererRollup,
-  rendererSass,
-  rendererStylus
-};

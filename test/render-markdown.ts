@@ -3,7 +3,7 @@ import Hexo from 'hexo';
 import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { rendererMarkdownIt } from '../src/index.js';
+import rendererMarkdownIt from '../src/renderer-markdown-it.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
