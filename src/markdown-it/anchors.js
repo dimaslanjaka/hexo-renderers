@@ -1,7 +1,8 @@
 'use strict';
 
 import hutil from 'hexo-util';
-import Token from 'markdown-it/lib/token.mjs';
+// import Token from 'markdown-it/lib/token';
+import Token from 'markdown-it/token';
 
 const renderPermalink = function (slug, opts, tokens, idx) {
   const permalink = [

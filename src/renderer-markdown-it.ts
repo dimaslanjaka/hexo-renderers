@@ -2,11 +2,10 @@
 
 import Hexo from 'hexo';
 import type { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
-import MarkdownIt from 'markdown-it';
 import Renderer from './markdown-it/renderer.js';
 
 export const defaultMarkdownOptions = {
-  preset: 'default' as MarkdownIt.PresetName,
+  preset: 'default',
   render: {
     html: true,
     xhtmlOut: false,

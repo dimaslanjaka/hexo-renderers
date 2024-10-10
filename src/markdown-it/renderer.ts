@@ -62,11 +62,11 @@ class Renderer {
     this.parser = new MarkdownIt(preset, render);
 
     if (enable_rules) {
-      this.parser.enable(enable_rules);
+      this.parser.enable(enable_rules, false);
     }
 
     if (disable_rules) {
-      this.parser.disable(disable_rules);
+      this.parser.disable(disable_rules, false);
     }
 
     if (plugins) {

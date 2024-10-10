@@ -1,7 +1,14 @@
 {
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+    "compilerOptions": {
+      "esModuleInterop": true
+    }
+  },
   "compilerOptions": {
     /* Basic Options */
-    "target": "ES6",
+    "target": "ES2020",
     "module": "ESNext",
     "lib": ["ES2019", "ES2020", "DOM", "ES6"],
     "outDir": "./dist",

@@ -49,7 +49,7 @@
     "*.py": "python -u",
     "*.electron.js": "cross-env-shell NODE_ENV=development electron -r ts-node/register",
     "*.test.ts": "mocha --parallel -r ts-node/register",
-    "*.ts": "node --loader ts-node/esm --no-warnings=ExperimentalWarning"
+    "*.ts": "node --no-warnings --experimental-specifier-resolution=node --loader ts-node/esm -r dotenv/config"
   },
   "code-runner.respectShebang": true,
   "debug.terminal.clearBeforeReusing": true,
@@ -167,7 +167,8 @@
     "data/engine": true,
     "data/fingerprints": true,
     "data/profiles": true,
-    "data/run": true
+    "data/run": true,
+    "dist": true
   },
   "files.readonlyInclude": {
     "**/*.sqlite*": true

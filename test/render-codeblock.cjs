@@ -1,20 +1,19 @@
 'use strict';
-import Hexo from 'hexo';
-import { createRequire } from 'module';
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
 
-const require = createRequire(import.meta.url);
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const fs = require('fs-extra');
+const Hexo = require('hexo');
+const path = require('path');
 
-const hexo = new Hexo(__dirname, { silent: false, debug: true });
+const rootDir = path.join(__dirname, 'hexo-site');
+fs.ensureDirSync(path.join(rootDir, 'tmp'));
+
+const hexo = new Hexo(rootDir, { silent: false, debug: true });
 
 const main = async () => {
   await hexo.init();
 
   // Debugging: log resolved plugin path
-  const pluginPath = path.join(__dirname, '../dist/index.js');
+  const pluginPath = path.join(__dirname, '../dist/index.cjs');
   console.log('Resolved plugin path:', pluginPath);
 
   try {
@@ -26,7 +25,7 @@ const main = async () => {
     }
 
     await hexo.loadPlugin(resolvedPluginPath);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error resolving or loading plugin:', error.message);
     return;
   }
@@ -66,12 +65,12 @@ const var = \`build-\${{ hashFiles('package-lock.json') }}\`
   `;
 
   try {
-    const data = await hexo.post.render(null as any, {
+    const data = await hexo.post.render(null, {
       content,
       engine: 'markdown'
     });
     console.log(data.content.trim());
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error rendering post:', error.message);
   }
 };
