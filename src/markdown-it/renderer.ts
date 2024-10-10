@@ -70,9 +70,9 @@ class Renderer {
     }
 
     if (plugins) {
-      this.parser = plugins.reduce((parser: typeof this.parser, pugs: MarkdownItRendererOptions) => {
-        if (pugs instanceof Object && pugs.name) {
-          const resolved = require.resolve(pugs.name, {
+      this.parser = plugins.reduce((parser: typeof this.parser, mdOpt: MarkdownItRendererOptions) => {
+        if (mdOpt instanceof Object && mdOpt.name) {
+          const resolved = require.resolve(mdOpt.name, {
             paths: [
               hexo.base_dir,
               path.join(hexo.base_dir, 'node_modules'),
@@ -81,13 +81,14 @@ class Renderer {
             ]
           });
           // eslint-disable-next-line @typescript-eslint/no-require-imports
-          return parser.use(require(resolved), pugs.options);
-        } else if (typeof pugs === 'string') {
+          const r = require(resolved);
+          if (typeof r === 'function') return parser.use(r, mdOpt.options || {});
+          hexo.log.error(`markdown-it plugin ${mdOpt.name} is not a function`);
+        } else if (typeof mdOpt === 'string') {
           // eslint-disable-next-line @typescript-eslint/no-require-imports
-          return parser.use(require(pugs));
-        } else {
-          // eslint-disable-next-line @typescript-eslint/no-require-imports
-          return parser.use(require(require.resolve(pugs.name)), pugs.options);
+          const r = require(mdOpt);
+          if (typeof r === 'function') return parser.use(r);
+          hexo.log.error(`markdown-it plugin ${mdOpt} is not a function`);
         }
 
         /*else {
@@ -102,6 +103,9 @@ class Renderer {
             }
           }
         }*/
+
+        // return default parser
+        return parser;
       }, this.parser);
     }
 
