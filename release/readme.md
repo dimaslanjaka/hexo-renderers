@@ -17,8 +17,9 @@
 | 2.0.4 | https://github.com/dimaslanjaka/hexo-renderers/raw/b9c6a23/release/hexo-renderers-2.0.4.tgz |
 | 2.0.5 | https://github.com/dimaslanjaka/hexo-renderers/raw/193b3b3/release/hexo-renderers-2.0.5.tgz |
 | 2.0.6 | https://github.com/dimaslanjaka/hexo-renderers/raw/de1927b/release/hexo-renderers-2.0.6.tgz |
-| latest | https://github.com/dimaslanjaka/hexo-renderers/raw/de1927b/release/hexo-renderers.tgz |
-| latest | https://github.com/dimaslanjaka/hexo-renderers/raw/pre-release/release/hexo-renderers.tgz |
+| 2.0.7 | https://github.com/dimaslanjaka/hexo-renderers/raw/74617a3/release/hexo-renderers-2.0.7.tgz |
+| latest | https://github.com/dimaslanjaka/hexo-renderers/raw/74617a3/release/hexo-renderers.tgz |
+| latest | https://github.com/dimaslanjaka/hexo-renderers/raw/esm/release/hexo-renderers.tgz |
 
 use this tarball with `resolutions`:
 ```json
