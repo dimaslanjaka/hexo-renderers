@@ -6,6 +6,7 @@ All in one theme renderers and helpers for hexo. Load all hexo renderer engines 
 - use any type layout inside source
 - more custom helpers
 - related post helpers [examples](https://github.com/dimaslanjaka/site/tree/hexo-renderers/views)
+- auto fix post assets folder
 
 ## Specify renderers
 You can specify some renderers by `_config.yml`
@@ -33,6 +34,7 @@ set config for your desired renderer engine.
 
 ### 2.0.6
 - fix: escape **invalid html tag** curly brackets on hyperlink text to html entities
+- feat: auto fix post assets folder
 
 ### 2.0.5
 - chore: disable `rollup` renderer by default

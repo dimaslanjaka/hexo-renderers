@@ -1,5 +1,28 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 'use strict';
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -7,7 +30,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.escapeHtml = void 0;
 var cheerio_1 = require("cheerio");
 var markdown_it_1 = __importDefault(require("markdown-it"));
-var upath_1 = __importDefault(require("upath"));
+var sbg_utility_1 = require("sbg-utility");
+var path = __importStar(require("upath"));
 var anchors_1 = __importDefault(require("./anchors"));
 var html_tags_1 = require("./html-tags");
 var images_1 = __importDefault(require("./images"));
@@ -50,9 +74,9 @@ var Renderer = /** @class */ (function () {
                     var resolved = require.resolve(pugs.name, {
                         paths: [
                             hexo.base_dir,
-                            upath_1.default.join(hexo.base_dir, 'node_modules'),
-                            upath_1.default.join(__dirname, '../../'),
-                            upath_1.default.join(__dirname, '../../node_modules')
+                            path.join(hexo.base_dir, 'node_modules'),
+                            path.join(__dirname, '../../'),
+                            path.join(__dirname, '../../node_modules')
                         ]
                     });
                     return parser.use(require(resolved), pugs.options);
@@ -89,6 +113,7 @@ var Renderer = /** @class */ (function () {
         this.disableNunjucks = false;
     }
     Renderer.prototype.render = function (data, _options) {
+        var _this = this;
         this.hexo.execFilterSync('markdown-it:renderer', this.parser, { context: this });
         var html = this.parser.render(data.text, {
             postPath: data.path
@@ -100,6 +125,15 @@ var Renderer = /** @class */ (function () {
             if (!html_tags_1.validHtmlTags.includes(tagName)) {
                 var regex = new RegExp('</?' + tagName + '>', 'gm');
                 regexs.push(regex);
+            }
+            else if (tagName === 'img' || tagName === 'source' || tagName === 'iframe') {
+                // fix local post asset folder
+                var src = $(element).attr('src');
+                if (src && !(0, sbg_utility_1.isValidHttpUrl)(src) && !src.startsWith(_this.hexo.config.root)) {
+                    var finalSrc = path.join(_this.hexo.config.root, src);
+                    _this.hexo.log.info('fix PAF', src, '->', finalSrc);
+                    html = html.replace(new RegExp((0, sbg_utility_1.escapeRegex)(src)), finalSrc);
+                }
             }
         });
         var results = regexs.map(function (regex) {

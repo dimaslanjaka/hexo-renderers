@@ -31,3 +31,14 @@ const var = `build-${{ hashFiles('package-lock.json') }}`
 - [This should <b>valid</b>](https://stackoverflow.com/questions/43900035/ts4023-exported-variable-x-has-or-is-using-name-y-from-external-module-but)
 
 - [This should **valid**](https://stackoverflow.com/questions/43900035/ts4023-exported-variable-x-has-or-is-using-name-y-from-external-module-but)
+
+## Assets
+
+![logo](/logo.png)
+
+<video width="320" height="240" controls>
+  <source src="/videos/eula party.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+![wallpaper](/images/wallpaper-878514.jpg)

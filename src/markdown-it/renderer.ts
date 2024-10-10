@@ -5,7 +5,8 @@ import { load } from 'cheerio';
 import Hexo from 'hexo';
 import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import MarkdownIt from 'markdown-it';
-import path from 'upath';
+import { escapeRegex, isValidHttpUrl } from 'sbg-utility';
+import * as path from 'upath';
 import { defaultMarkdownOptions } from '../renderer-markdown-it';
 import anchorProcess from './anchors';
 import { validHtmlTags } from './html-tags';
@@ -122,6 +123,14 @@ class Renderer {
       if (!validHtmlTags.includes(tagName)) {
         const regex = new RegExp('</?' + tagName + '>', 'gm');
         regexs.push(regex);
+      } else if (tagName === 'img' || tagName === 'source' || tagName === 'iframe') {
+        // fix local post asset folder
+        const src = $(element).attr('src');
+        if (src && !isValidHttpUrl(src) && !src.startsWith(this.hexo.config.root)) {
+          const finalSrc = path.join(this.hexo.config.root, src);
+          this.hexo.log.info('fix PAF', src, '->', finalSrc);
+          html = html.replace(new RegExp(escapeRegex(src)), finalSrc);
+        }
       }
     });
     const results = regexs.map((regex) => {
