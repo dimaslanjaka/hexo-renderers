@@ -14,13 +14,13 @@ hexo.config.root = '/hexo-themes/hexo-theme-flowbite/';
 const r = rendererMarkdownIt(hexo);
 
 async function main() {
-  let result = r({ text: fs.readFileSync(__dirname + '/fixtures/sample.md', 'utf-8') } as StoreFunctionData);
-  fs.writeFileSync(__dirname + '/fixtures/sample-result.html', result);
-  console.log(__dirname + '/fixtures/sample-result.html');
+  let result = r({ text: fs.readFileSync(__dirname + '/source/_posts/sample.md', 'utf-8') } as StoreFunctionData);
+  fs.writeFileSync(__dirname + '/tmp/sample-result.html', result);
+  console.log(__dirname + '/tmp/sample-result.html');
 
-  result = r({ text: fs.readFileSync(__dirname + '/fixtures/complete.md', 'utf-8') } as StoreFunctionData);
-  fs.writeFileSync(__dirname + '/fixtures/complete-result.html', result);
-  console.log(__dirname + '/fixtures/complete-result.html');
+  result = r({ text: fs.readFileSync(__dirname + '/source/_posts/complete.md', 'utf-8') } as StoreFunctionData);
+  fs.writeFileSync(__dirname + '/tmp/complete-result.html', result);
+  console.log(__dirname + '/tmp/complete-result.html');
 }
 
 main();
