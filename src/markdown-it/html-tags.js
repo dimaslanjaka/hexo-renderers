@@ -37,11 +37,12 @@ export const textContentTags = [
   'h3',
   'h4',
   'h5',
-  'h6',
-  'dl',
-  'dd',
-  'dt'
+  'h6'
 ];
+
+export const listTags = ['ul', 'ol', 'li'];
+
+export const descriptionListTags = ['dl', 'dt', 'dd'];
 
 export const formAndInputTags = [
   'button',
@@ -156,7 +157,9 @@ export const validHtmlTags = [
   ...scriptAndInteractiveTags,
   ...obsoleteTags,
   ...uncategorizedTags,
-  ...katexHtmlTags
+  ...katexHtmlTags,
+  ...descriptionListTags,
+  ...listTags
 ].filter((value, index, self) => {
   return self.indexOf(value) === index;
 });
