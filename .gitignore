@@ -7,4 +7,3 @@
 yarn.lock
 /lib
 .env
-/dist

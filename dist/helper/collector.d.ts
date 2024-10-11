@@ -1,0 +1,18 @@
+import Hexo from 'hexo';
+import type { HexoLocalsData } from './hexoLocalsData.js';
+/**
+ * get post database path
+ * @param hexo
+ * @returns
+ */
+export declare function postDataFilePath(hexo: Hexo): string;
+/**
+ * load existing database (initial only)
+ */
+export declare function loadPostData(hexo: Hexo): void;
+/**
+ * get loaded post data (getter)
+ * @returns
+ */
+export declare const getPostData: () => HexoLocalsData[];
+export declare function collectorPost(post: HexoLocalsData, hexo: Hexo): Promise<void>;
