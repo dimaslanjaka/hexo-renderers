@@ -20,6 +20,11 @@ renderers:
     - meta
     # enable generate related posts
     - related-posts
+  # by default, this plugin transforming unknown tags into html entities
+  # add custom html tag names to avoid from transformation
+  # see src\markdown-it\renderer.ts
+  # see src\markdown-it\html-tags.js
+  html_tags: ['customtag']
 ```
 
 ## Configurations

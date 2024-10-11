@@ -63,7 +63,21 @@ export const formAndInputTags = [
 
 export const tableTags = ['caption', 'col', 'colgroup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr'];
 
-export const mediaTags = ['area', 'audio', 'img', 'map', 'track', 'video', 'source', 'picture', 'iframe'];
+export const mediaTags = [
+  'area',
+  'audio',
+  'img',
+  'map',
+  'track',
+  'video',
+  'source',
+  'picture',
+  'iframe',
+  'svg',
+  'embed',
+  'object',
+  'param'
+];
 
 export const scriptAndInteractiveTags = ['canvas', 'noscript', 'script', 'dialog', 'template', 'slot'];
 
@@ -165,7 +179,16 @@ export const latexTags = [
   'munderover' // Combination of underscript and overscript (for summations, integrals)
 ];
 
+const fromConfig = [];
+if (typeof hexo !== 'undefined') {
+  if (hexo.config.renderers) {
+    const { html_tags = [] } = hexo.config.renderers;
+    if (Array.isArray(html_tags)) fromConfig.push(...html_tags);
+  }
+}
+
 export const validHtmlTags = [
+  ...fromConfig,
   ...headAndMetadataTags,
   ...sectioningTags,
   ...textContentTags,
