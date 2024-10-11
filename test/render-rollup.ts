@@ -19,6 +19,6 @@ renderer
     config
   )
   .then((result) => {
-    if (result) fs.writeFileSync(__dirname + '/fixtures/sample-result.js', result);
+    if (result) fs.writeFileSync(__dirname + '/tmp/sample-result.js', result);
     console.log(result);
   });

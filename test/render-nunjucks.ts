@@ -1,10 +1,17 @@
-import fs from 'fs';
+import fs from 'fs-extra';
 import Hexo from 'hexo';
 import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
-import renderer from '../src/renderer-nunjucks';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { rendererNunjucks } from '../src/renderer-nunjucks.js';
 
-const hexo = new Hexo(__dirname, { silent: true });
-const r = renderer.rendererNunjucks(hexo);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const rootDir = path.join(__dirname, 'test-site');
+fs.ensureDirSync(path.join(rootDir, 'tmp'));
+
+const hexo = new Hexo(rootDir, { silent: true });
+const r = rendererNunjucks(hexo);
 
 const context = {
   name: 'world'

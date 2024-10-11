@@ -6,9 +6,26 @@ All in one theme renderers and helpers for hexo. Load all hexo renderer engines 
 - use any type layout inside source
 - more custom helpers
 - related post helpers [examples](https://github.com/dimaslanjaka/site/tree/hexo-renderers/views)
+- auto fix post assets folder
+
+## Requirements
+
+Custom `markdown-it` from [https://github.com/dimaslanjaka/markdown-it](https://github.com/dimaslanjaka/markdown-it/tree/master/release)
+
+```bash
+yarn add markdown-it@https://github.com/dimaslanjaka/markdown-it/raw/2000d25dec653f6e62a545b30f6d58fad20e6d1f/release/markdown-it.tgz
+```
+
+> Change **hash** with latest commit hash
+>
+> Why must change?
+>
+> Original `markdown-it` now only support for ESM, we need shim `markdown-it` into CommonJS
 
 ## Specify renderers
+
 You can specify some renderers by `_config.yml`
+
 ```yaml
 renderers:
   engines: ['ejs', 'stylus', 'nunjucks', 'dartsass', 'pug', 'sass', 'markdown-it', 'rollup']
@@ -17,6 +34,42 @@ renderers:
     - meta
     # enable generate related posts
     - related-posts
+  # by default, this plugin transforming unknown tags into html entities
+  # add custom html tag names to avoid from transformation
+  # see src\markdown-it\renderer.ts
+  # see src\markdown-it\html-tags.js
+  html_tags: ['customtag']
+```
+
+## Configurations
+
+### Markdown
+
+```yaml
+markdown:
+  render:
+    html: true
+    xhtmlOut: false
+    breaks: false
+    linkify: true
+    typographer: true
+    quotes: '“”‘’'
+  plugins:
+    - markdown-it-abbr
+    - markdown-it-footnote
+    - markdown-it-ins
+    - markdown-it-sub
+    - markdown-it-sup
+    - markdown-it-deflist
+    - markdown-it-emoji
+    - markdown-it-katex
+  anchors:
+    level: 2
+    collisionSuffix: 'v'
+    permalink: false
+    permalinkClass: header-anchor
+    permalinkSymbol: ' '
+    permalinkBefore: false
 ```
 
 > - dartsass improved from `hexo-renderer-dartsass`
@@ -30,6 +83,13 @@ set config for your desired renderer engine.
 - [hexo-renderer-markdown-it](https://github.com/hexojs/hexo-renderer-markdown-it/blob/master/README.md)
 
 ## Changelog
+
+### 3.0.0
+- migrate to ESM with shim for CommonJS
+
+### 2.0.6
+- fix: escape **invalid html tag** curly brackets on hyperlink text to html entities
+- feat: auto fix post assets folder
 
 ### 2.0.5
 - chore: disable `rollup` renderer by default

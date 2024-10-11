@@ -1,8 +1,6 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "CommonJS",
-    "target": "ES5",
     "outDir": "./dist",
     "allowJs": true,
     "checkJs": false,
@@ -11,5 +9,5 @@
     "rootDir": "src"
   },
   "include": ["./src/**/*", "./src/*"],
-  "exclude": ["**/dist/**"]
+  "exclude": ["**/dist/**", "**/*.spec.ts", "**/*.test.ts"]
 }

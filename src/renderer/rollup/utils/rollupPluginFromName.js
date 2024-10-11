@@ -1,5 +1,9 @@
 'use strict';
 
+import { createRequire } from 'module';
+
+if (typeof require === 'undefined') global.require = createRequire(import.meta.url);
+
 /**
  * @param {string} name
  * @param {*} options
@@ -18,4 +22,4 @@ const rollupPluginFromName = (name) => {
   return require(name);
 };
 
-module.exports = rollupPluginFromName;
+export default rollupPluginFromName;

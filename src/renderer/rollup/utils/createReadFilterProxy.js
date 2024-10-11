@@ -5,7 +5,7 @@ const createReadFilterProxy = (target, filters = {}) => {
     throw new TypeError();
   }
 
-  let filterKeys = Object.keys(filters).filter(key => typeof filters[key] === 'function');
+  let filterKeys = Object.keys(filters).filter((key) => typeof filters[key] === 'function');
 
   if (!filterKeys) {
     return target;
@@ -19,6 +19,7 @@ const createReadFilterProxy = (target, filters = {}) => {
   filters = null;
   filterKeys = null;
 
+  // eslint-disable-next-line no-undef
   return new Proxy(target, {
     get(target, property, receiver) {
       const original = Reflect.get(target, property, receiver);
@@ -27,4 +28,4 @@ const createReadFilterProxy = (target, filters = {}) => {
   });
 };
 
-module.exports = createReadFilterProxy;
+export default createReadFilterProxy;

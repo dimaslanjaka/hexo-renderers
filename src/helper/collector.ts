@@ -10,8 +10,8 @@ import {
   md5,
   writefile
 } from 'sbg-utility';
-import { HexoLocalsData } from './hexoLocalsData';
-import { DeepPartial, categorieName, logname, tagName } from './util';
+import type { HexoLocalsData } from './hexoLocalsData.js';
+import { DeepPartial, categorieName, logname, tagName } from './util.js';
 
 let postData: HexoLocalsData[] = [];
 

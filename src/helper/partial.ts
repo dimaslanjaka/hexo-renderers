@@ -1,5 +1,5 @@
 import Hexo from 'hexo';
-import { dirname, join } from 'upath';
+import * as path from 'upath';
 
 // original https://github.com/hexojs/hexo/blob/cb19b2938d1f7882a4cb41a98974a3d673a63b45/lib/plugins/helper/partial.js#L5
 
@@ -16,8 +16,8 @@ export function partialWithLayout(ctx: Hexo) {
     const self = this;
     const viewDir = self.view_dir;
     const currentView = self.filename.substring(viewDir.length);
-    const path = join(dirname(currentView), name);
-    const view = ctx.theme.getView(path) || ctx.theme.getView(name);
+    const thePath = path.join(path.dirname(currentView), name);
+    const view = ctx.theme.getView(thePath) || ctx.theme.getView(name);
     const viewLocals = { layout: false };
 
     if (!view) {

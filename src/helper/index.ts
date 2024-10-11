@@ -1,17 +1,18 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 import fs from 'fs';
 import Hexo from 'hexo';
 import * as hexoUtil from 'hexo-util';
-import { PageSchema } from 'hexo/dist/types';
+import type { PageSchema } from 'hexo/dist/types';
 import lodash from 'lodash';
+import { createRequire } from 'module';
 import path from 'path';
 import yaml from 'yaml';
-import * as date from './date';
-import { getAuthor } from './getAuthor';
-import { getPostByLabel } from './getPostByLabel';
-import { partialWithLayout } from './partial';
-import { getRelatedPosts } from './related-posts';
+import * as date from './date.js';
+import { getAuthor } from './getAuthor.js';
+import { getPostByLabel } from './getPostByLabel.js';
+import { partialWithLayout } from './partial.js';
+import { getRelatedPosts } from './related-posts.js';
 
+if (typeof require === 'undefined') global.require = createRequire(import.meta.url);
 const _toArray = lodash.toArray;
 
 export const BASE_DIR = typeof hexo === 'undefined' ? process.cwd() : hexo.base_dir;
@@ -20,7 +21,7 @@ const configFile = path.join(BASE_DIR, '_config.yml');
 let config: import('hexo')['config'] = {} as any;
 if (fs.existsSync(configFile)) {
   if (typeof hexo === 'undefined') {
-    config = yaml.parse(fs.readFileSync(configFile).toString());
+    config = yaml.parse(fs.readFileSync(configFile, 'utf-8'));
   } else {
     config = hexo.config;
   }
@@ -35,24 +36,25 @@ const _THEME_SCRIPTS = path.join(THEME_LOCATION, 'scripts');
  * load all scripts
  * @param base
  */
-function _loadScripts(base: string) {
+export function loadScripts(base: string) {
   if (fs.existsSync(base)) {
     fs.readdirSync(base).forEach((p) => {
       const full = path.join(base, p);
       if (fs.statSync(full).isFile()) {
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
         require(full);
       } else if (fs.statSync(full).isDirectory()) {
-        _loadScripts(full);
+        loadScripts(full);
       }
     });
   }
 }
 
-function isObject(value: any) {
+export function isObject(value: any) {
   return typeof value === 'object' && value !== null && value !== undefined;
 }
 
-function toArray(value: any) {
+export function toArray(value: any) {
   if (isObject(value) && typeof value.toArray === 'function') {
     return value.toArray();
   } else if (Array.isArray(value)) {
@@ -77,7 +79,6 @@ export function registerCustomHelper(hexo: Hexo) {
    * Export theme config
    */
   hexo.extend.helper.register('json_config', function () {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const hexo = this;
     const { config, theme, url_for } = hexo;
     const theme_config = {
@@ -118,7 +119,7 @@ export function registerCustomHelper(hexo: Hexo) {
   for (const key in hexoUtil) {
     if (Object.prototype.hasOwnProperty.call(hexoUtil, key)) {
       const helper = (<Record<string, any>>hexoUtil)[key];
-      hexo.extend.helper.register(key, helper);
+      if (typeof helper === 'function') hexo.extend.helper.register(key, helper);
     }
   }
 }

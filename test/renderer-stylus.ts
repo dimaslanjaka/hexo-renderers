@@ -1,7 +1,7 @@
 import fs from 'fs';
 import Hexo from 'hexo';
 import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
-import renderer from '../src/renderer-stylus';
+import { stylusFn } from '../src/renderer-stylus.js';
 
 const hexo = new Hexo(__dirname, { silent: true });
 
@@ -32,7 +32,7 @@ hexo.config = JSON.parse(JSON.stringify(defaultCfg));
 hexo.theme.config = JSON.parse(JSON.stringify(themeCfg));
 const data = { text: fs.readFileSync(__dirname + '/fixtures/style.styl', 'utf-8') } as StoreFunctionData;
 
-const r = renderer.stylusFn.bind(hexo);
+const r = stylusFn.bind(hexo);
 r(data, {}, (err, result) => {
   console.log(result);
 });

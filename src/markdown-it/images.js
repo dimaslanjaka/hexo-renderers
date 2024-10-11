@@ -1,8 +1,10 @@
 'use strict';
 
-const { join, relative: relativePosix } = require('path').posix;
-const { relative, basename, extname, dirname, isAbsolute } = require('path');
-const { url_for } = require('hexo-util');
+import hutil from 'hexo-util';
+import * as path from 'path';
+
+const { basename, dirname, extname, isAbsolute, posix, relative } = path;
+const { join, relative: relativePosix } = posix;
 
 function images(md, opts) {
   const { hexo, images } = opts;
@@ -46,11 +48,11 @@ function images(md, opts) {
         }
       }
 
-      token.attrSet('src', url_for.call(hexo, src));
+      token.attrSet('src', hutil.url_for.call(hexo, src));
     }
 
     return self.renderToken(tokens, idx, options);
   };
 }
 
-module.exports = images;
+export default images;
