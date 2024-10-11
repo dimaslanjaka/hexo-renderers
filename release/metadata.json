@@ -10,12 +10,12 @@
   },
   "/release/hexo-renderers.tgz": {
     "integrity": {
-      "sha1": "042eb52b81d6c308e6e63e0bd9900f910629f71d",
-      "sha256": "ukhumrzS+cEiZnE+EZx0WEjJ0DT/7O4sJS8h25jl+gE=",
-      "md5": "08894dfd081849e910fcd4a371d22774",
-      "sha512": "Vz8VvFq+dxpjvTU2+TU7xVc+4gJi7fXhF3VDVBKnPqrthpulMLHbmnflfvmezJkDui7hUmBu2313lZkaDj3VZQ=="
+      "sha1": "7a694c52c55df99525df56f52478fdb09a0c7105",
+      "sha256": "ecbbBFX99Zu3ysytZEJxLhCxd0j8cG5JiZ4ccNrg2p4=",
+      "md5": "3595aef118168cd0f36b10dfacab53dd",
+      "sha512": "wavZCZM+JXQ81nYKItk2YiyKzcCWWtBwnaYpidh1EuByw+tv0eamTdmhgfJG8a65syeLps7j2nhNi8HNgRaW5Q=="
     },
-    "size": "87.12 KB"
+    "size": "87.34 KB"
   },
   "/release/hexo-renderers-1.0.1.tgz": {
     "integrity": {
@@ -190,11 +190,11 @@
   },
   "/release/hexo-renderers-3.0.0.tgz": {
     "integrity": {
-      "sha1": "042eb52b81d6c308e6e63e0bd9900f910629f71d",
-      "sha256": "ukhumrzS+cEiZnE+EZx0WEjJ0DT/7O4sJS8h25jl+gE=",
-      "md5": "08894dfd081849e910fcd4a371d22774",
-      "sha512": "Vz8VvFq+dxpjvTU2+TU7xVc+4gJi7fXhF3VDVBKnPqrthpulMLHbmnflfvmezJkDui7hUmBu2313lZkaDj3VZQ=="
+      "sha1": "7a694c52c55df99525df56f52478fdb09a0c7105",
+      "sha256": "ecbbBFX99Zu3ysytZEJxLhCxd0j8cG5JiZ4ccNrg2p4=",
+      "md5": "3595aef118168cd0f36b10dfacab53dd",
+      "sha512": "wavZCZM+JXQ81nYKItk2YiyKzcCWWtBwnaYpidh1EuByw+tv0eamTdmhgfJG8a65syeLps7j2nhNi8HNgRaW5Q=="
     },
-    "size": "87.12 KB"
+    "size": "87.34 KB"
   }
 }

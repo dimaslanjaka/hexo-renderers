@@ -11,7 +11,7 @@ import path from 'upath';
 import { fileURLToPath } from 'url';
 import { defaultMarkdownOptions } from '../renderer-markdown-it.js';
 import anchorProcess from './anchors.js';
-import { validHtmlTags } from './html-tags.js';
+import { resolveValidHtmlTags } from './html-tags.js';
 import imageProcess from './images.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -141,7 +141,7 @@ class Renderer {
     const regexs: RegExp[] = [];
     $('*').each((index, element) => {
       const tagName = (element as any).tagName.toLowerCase();
-      if (!validHtmlTags.includes(tagName)) {
+      if (!resolveValidHtmlTags().includes(tagName)) {
         const regex = new RegExp('</?' + tagName + '>', 'gm');
         regexs.push(regex);
       } else if (tagName === 'img' || tagName === 'source' || tagName === 'iframe') {

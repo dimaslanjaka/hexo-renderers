@@ -1,3 +1,5 @@
+import { array_unique } from 'sbg-utility';
+
 export const headAndMetadataTags = ['base', 'link', 'meta', 'style', 'title', 'head'];
 
 export const sectioningTags = ['article', 'aside', 'footer', 'header', 'main', 'nav', 'section', 'body'];
@@ -76,7 +78,18 @@ export const mediaTags = [
   'svg',
   'embed',
   'object',
-  'param'
+  'param',
+  'path',
+  'circle',
+  'rect',
+  'line',
+  'polygon',
+  'polyline',
+  'g',
+  'defs',
+  'symbol',
+  'use',
+  'svg'
 ];
 
 export const scriptAndInteractiveTags = ['canvas', 'noscript', 'script', 'dialog', 'template', 'slot'];
@@ -179,16 +192,7 @@ export const latexTags = [
   'munderover' // Combination of underscript and overscript (for summations, integrals)
 ];
 
-const fromConfig = [];
-if (typeof hexo !== 'undefined') {
-  if (hexo.config.renderers) {
-    const { html_tags = [] } = hexo.config.renderers;
-    if (Array.isArray(html_tags)) fromConfig.push(...html_tags);
-  }
-}
-
-export const validHtmlTags = [
-  ...fromConfig,
+export const validHtmlTags = array_unique([
   ...headAndMetadataTags,
   ...sectioningTags,
   ...textContentTags,
@@ -203,8 +207,17 @@ export const validHtmlTags = [
   ...latexTags,
   ...descriptionListTags,
   ...listTags
-].filter((value, index, self) => {
-  return self.indexOf(value) === index;
-});
+]);
 
 export const validHtmlTagsRegex = new RegExp('</?(' + validHtmlTags.join('|') + ')(\\s|>)');
+
+export function resolveValidHtmlTags() {
+  const fromConfig = [];
+  if (typeof hexo !== 'undefined') {
+    if (hexo.config.renderers) {
+      const { html_tags = [] } = hexo.config.renderers;
+      if (Array.isArray(html_tags)) fromConfig.push(...html_tags);
+    }
+  }
+  return array_unique(validHtmlTags.concat(fromConfig));
+}
