@@ -9,7 +9,9 @@ All in one theme renderers and helpers for hexo. Load all hexo renderer engines 
 - auto fix post assets folder
 
 ## Specify renderers
+
 You can specify some renderers by `_config.yml`
+
 ```yaml
 renderers:
   engines: ['ejs', 'stylus', 'nunjucks', 'dartsass', 'pug', 'sass', 'markdown-it', 'rollup']
@@ -18,6 +20,37 @@ renderers:
     - meta
     # enable generate related posts
     - related-posts
+```
+
+## Configurations
+
+### Markdown
+
+```yaml
+markdown:
+  render:
+    html: true
+    xhtmlOut: false
+    breaks: false
+    linkify: true
+    typographer: true
+    quotes: '“”‘’'
+  plugins:
+    - markdown-it-abbr
+    - markdown-it-footnote
+    - markdown-it-ins
+    - markdown-it-sub
+    - markdown-it-sup
+    - markdown-it-deflist
+    - markdown-it-emoji
+    - markdown-it-katex
+  anchors:
+    level: 2
+    collisionSuffix: 'v'
+    permalink: false
+    permalinkClass: header-anchor
+    permalinkSymbol: ' '
+    permalinkBefore: false
 ```
 
 > - dartsass improved from `hexo-renderer-dartsass`

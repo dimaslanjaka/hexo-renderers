@@ -18,7 +18,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "_config.yml"
   ],
   "keywords": [
     "hexo",
@@ -43,14 +44,16 @@
   "homepage": "https://www.webmanajemen.com/docs/hexo-renderers",
   "scripts": {
     "prepare": "husky",
+    "site:clean": "yarn workspace hexo-renderers-test run clean",
+    "start": "yarn workspace hexo-renderers-test run start",
     "update": "run-s \"update:**\"",
     "update:ci": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/.github/workflows/build-release.yml > .github/workflows/build-release.yml",
     "update:ncu": "npx npm-check-updates -u -x jsdom",
     "update:prettier": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/.prettierrc.json > .prettierrc.json",
-    "update:postinstall": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/postinstall.js > postinstall.js",
+    "update:postinstall": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/postinstall.js > postinstall.cjs",
     "update:packer": "curl -L https://github.com/dimaslanjaka/nodejs-package-types/raw/main/packer.js > packer.cjs",
-    "build:prepare": "node postinstall-yarn.cjs",
-    "build": "rimraf dist && npm run build:prepare && node build.tsup.js && tsc -b tsconfig.build.json && gulp",
+    "update:resolutions": "node postinstall-yarn.cjs",
+    "build": "rimraf dist && node build.tsup.js && tsc -b tsconfig.build.json && gulp",
     "pack": "node packer.cjs --yarn",
     "clean": "npm run build",
     "pretest": "npm run build",
@@ -62,10 +65,12 @@
   "license": "MIT",
   "description": "All in one hexo renderers",
   "workspaces": [
-    "test/hexo-site",
+    "test/test-site",
+    "test/test-site/themes/*",
     "packages/*"
   ],
   "dependencies": {
+    "@renbaoshuo/markdown-it-katex": "^2.0.2",
     "ansi-colors": "^4.1.3",
     "cheerio": "^1.0.0",
     "core-js": "^3.38.1",
@@ -85,6 +90,7 @@
     "markdown-it-emoji": "^3.0.0",
     "markdown-it-footnote": "^4.0.0",
     "markdown-it-ins": "^4.0.0",
+    "markdown-it-katex": "^2.0.3",
     "markdown-it-mark": "^4.0.0",
     "markdown-it-sub": "^2.0.0",
     "markdown-it-sup": "^2.0.0",

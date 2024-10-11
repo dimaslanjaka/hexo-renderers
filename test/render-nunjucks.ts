@@ -7,7 +7,7 @@ import { rendererNunjucks } from '../src/renderer-nunjucks.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const rootDir = path.join(__dirname, 'hexo-site');
+const rootDir = path.join(__dirname, 'test-site');
 fs.ensureDirSync(path.join(rootDir, 'tmp'));
 
 const hexo = new Hexo(rootDir, { silent: true });

@@ -1,6 +1,7 @@
 'use strict';
 
 import { load } from 'cheerio';
+import fs from 'fs-extra';
 import Hexo from 'hexo';
 import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import MarkdownIt from 'markdown-it';
@@ -70,25 +71,34 @@ class Renderer {
     }
 
     if (plugins) {
+      const node_modules_paths = [
+        hexo.base_dir,
+        path.join(hexo.base_dir, 'node_modules'),
+        path.join(process.cwd(), 'node_modules'),
+        // when installed inside node_modules
+        path.join(__dirname, '../../'),
+        path.join(__dirname, '../../node_modules'),
+        path.join(__dirname, '../../../node_modules')
+      ].filter(fs.existsSync);
       this.parser = plugins.reduce((parser: typeof this.parser, mdOpt: MarkdownItRendererOptions) => {
         if (mdOpt instanceof Object && mdOpt.name) {
           const resolved = require.resolve(mdOpt.name, {
-            paths: [
-              hexo.base_dir,
-              path.join(hexo.base_dir, 'node_modules'),
-              path.join(__dirname, '../../'),
-              path.join(__dirname, '../../node_modules')
-            ]
+            paths: node_modules_paths
           });
           // eslint-disable-next-line @typescript-eslint/no-require-imports
           const r = require(resolved);
           if (typeof r === 'function') return parser.use(r, mdOpt.options || {});
           hexo.log.error(`markdown-it plugin ${mdOpt.name} is not a function`);
         } else if (typeof mdOpt === 'string') {
+          const resolved = require.resolve(mdOpt, {
+            paths: node_modules_paths
+          });
           // eslint-disable-next-line @typescript-eslint/no-require-imports
-          const r = require(mdOpt);
+          const r = require(resolved);
           if (typeof r === 'function') return parser.use(r);
           hexo.log.error(`markdown-it plugin ${mdOpt} is not a function`);
+        } else {
+          hexo.log.error(`markdown-it plugin failed load ${mdOpt}`);
         }
 
         /*else {
@@ -137,7 +147,7 @@ class Renderer {
       } else if (tagName === 'img' || tagName === 'source' || tagName === 'iframe') {
         // fix local post asset folder
         const src = $(element).attr('src');
-        if (src && !isValidHttpUrl(src) && !src.startsWith(this.hexo.config.root)) {
+        if (src && !isValidHttpUrl(src) && !src.startsWith(this.hexo.config.root) && !src.startsWith('//')) {
           const finalSrc = path.join(this.hexo.config.root, src);
           this.hexo.log.info('fix PAF', src, '->', finalSrc);
           html = html.replace(new RegExp(escapeRegex(src)), finalSrc);
@@ -147,7 +157,7 @@ class Renderer {
     const results = regexs.map((regex) => {
       const result = html.match(regex);
       if (typeof hexo != 'undefined') {
-        hexo.log.info('found invalid html tags inside anchor', regex, result);
+        hexo.log.warn('found invalid html tags inside anchor', regex, result);
       }
       return { regex, result };
     });
