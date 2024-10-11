@@ -13,10 +13,14 @@ All in one theme renderers and helpers for hexo. Load all hexo renderer engines 
 Custom `markdown-it` from [https://github.com/dimaslanjaka/markdown-it](https://github.com/dimaslanjaka/markdown-it/tree/master/release)
 
 ```bash
-yarn add markdown-it@https://github.com/dimaslanjaka/markdown-it/raw/09febdb16007a517880c256c0d8c21e9379b69f6/release/markdown-it.tgz
+yarn add markdown-it@https://github.com/dimaslanjaka/markdown-it/raw/2000d25dec653f6e62a545b30f6d58fad20e6d1f/release/markdown-it.tgz
 ```
 
 > Change **hash** with latest commit hash
+>
+> Why must change?
+>
+> Original `markdown-it` now only support for ESM, we need shim `markdown-it` into CommonJS
 
 ## Specify renderers
 

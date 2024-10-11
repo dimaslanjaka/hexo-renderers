@@ -80,7 +80,7 @@
     "hexo-util": "^3.3.0",
     "jsdom": "21",
     "lodash": "^4.17.21",
-    "markdown-it": "https://github.com/dimaslanjaka/markdown-it/raw/09febdb16007a517880c256c0d8c21e9379b69f6/release/markdown-it.tgz",
+    "markdown-it": "https://github.com/dimaslanjaka/markdown-it/raw/2000d25dec653f6e62a545b30f6d58fad20e6d1f/release/markdown-it.tgz",
     "markdown-it-abbr": "^2.0.0",
     "markdown-it-attrs": "^4.2.0",
     "markdown-it-bracketed-spans": "^1.0.1",
