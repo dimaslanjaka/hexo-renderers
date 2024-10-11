@@ -1,6 +1,6 @@
 export const headAndMetadataTags = ['base', 'link', 'meta', 'style', 'title', 'head'];
 
-export const sectioningTags = ['article', 'aside', 'footer', 'header', 'main', 'nav', 'section'];
+export const sectioningTags = ['article', 'aside', 'footer', 'header', 'main', 'nav', 'section', 'body'];
 
 export const textContentTags = [
   'a',
@@ -118,33 +118,51 @@ export const uncategorizedTags = [
   'wbr'
 ];
 
-export const katexHtmlTags = [
-  'semantics',
-  'mrow',
-  'mspace',
-  'mi',
-  'mi',
-  'mi',
-  'mi',
-  'mrow',
-  'mn',
-  'mi',
-  'mo',
-  'mn',
-  'mrow',
-  'mo',
-  'mo',
-  'mn',
-  'mo',
-  'mi',
-  'msup',
-  'mo',
-  'mn',
-  'msup',
-  'mrow',
-  'annotation',
-  'semantics',
-  'math'
+// MathJax-specific tags (MathML elements used by MathJax for rendering)
+export const mathjaxTags = [
+  'math', // Root element for MathML equations
+  'mrow', // Grouping element for sub-expressions
+  'mi', // Mathematical identifier (e.g., variables)
+  'mn', // Mathematical number
+  'mo', // Mathematical operator (e.g., +, -, =)
+  'msup', // Superscript element (e.g., exponents like x^2)
+  'msub', // Subscript element (e.g., x₁)
+  'msubsup', // Subscript and superscript together (e.g., x₁²)
+  'mfrac', // Fraction (e.g., \(\frac{a}{b}\))
+  'mroot', // nth root (e.g., \(\sqrt[n]{x}\))
+  'msqrt', // Square root (e.g., \(\sqrt{x}\))
+  'munder', // Underscript (e.g., for limits below sum or integral)
+  'mover', // Overscript (e.g., \(\overline{x}\))
+  'munderover', // Both underscript and overscript (e.g., summation with limits)
+  'mspace', // Spacer for adding extra space
+  'mfenced', // Parentheses or brackets around an expression (e.g., \( (x+y) \))
+  'mtable', // Table for matrices or arrays
+  'mtr', // Table row (for matrices or arrays)
+  'mtd', // Table cell (for matrices or arrays)
+  'mlabeledtr', // Table row with labels
+  'semantics', // Provides semantic meaning or alternative representations
+  'annotation' // Adds metadata or alternative forms (like LaTeX annotations)
+];
+
+// Tex-related tags (for adding or formatting plain text in a math environment)
+export const texTags = [
+  'mtext', // Plain text in a mathematical expression
+  'mpadded', // Adds padding around elements for spacing
+  'mstyle' // Applies styling to MathML elements (font size, color, etc.)
+];
+
+// LaTeX-related tags (used for LaTeX-style annotations or styling)
+export const latexTags = [
+  'annotation', // Adds LaTeX annotations inside MathML
+  'msup', // Superscript element (e.g., for exponents in LaTeX)
+  'msub', // Subscript element (e.g., LaTeX-style subscript)
+  'msubsup', // Combined subscript and superscript (used in LaTeX expressions)
+  'mfrac', // LaTeX fraction (e.g., \(\frac{a}{b}\))
+  'msqrt', // LaTeX square root (e.g., \(\sqrt{x}\))
+  'mroot', // nth root in LaTeX (e.g., \(\sqrt[n]{x}\))
+  'munder', // Underscript (used for limits or accents in LaTeX)
+  'mover', // Overscript (e.g., \(\overline{x}\) in LaTeX)
+  'munderover' // Combination of underscript and overscript (for summations, integrals)
 ];
 
 export const validHtmlTags = [
@@ -157,7 +175,9 @@ export const validHtmlTags = [
   ...scriptAndInteractiveTags,
   ...obsoleteTags,
   ...uncategorizedTags,
-  ...katexHtmlTags,
+  ...texTags,
+  ...mathjaxTags,
+  ...latexTags,
   ...descriptionListTags,
   ...listTags
 ].filter((value, index, self) => {
