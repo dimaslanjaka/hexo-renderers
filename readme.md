@@ -8,6 +8,16 @@ All in one theme renderers and helpers for hexo. Load all hexo renderer engines 
 - related post helpers [examples](https://github.com/dimaslanjaka/site/tree/hexo-renderers/views)
 - auto fix post assets folder
 
+## Requirements
+
+Custom `markdown-it` from [https://github.com/dimaslanjaka/markdown-it](https://github.com/dimaslanjaka/markdown-it/tree/master/release)
+
+```bash
+yarn add markdown-it@https://github.com/dimaslanjaka/markdown-it/raw/09febdb16007a517880c256c0d8c21e9379b69f6/release/markdown-it.tgz
+```
+
+> Change **hash** with latest commit hash
+
 ## Specify renderers
 
 You can specify some renderers by `_config.yml`
