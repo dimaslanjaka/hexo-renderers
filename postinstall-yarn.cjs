@@ -1,16 +1,16 @@
-const ansiColors = require('ansi-colors');
-const axios = require('axios');
-const { spawn } = require('cross-spawn');
-const fs = require('fs');
-const path = require('path');
-require('dotenv').config({ override: true });
+const ansiColors = require("ansi-colors");
+const axios = require("axios");
+const { spawn } = require("cross-spawn");
+const fs = require("fs");
+const path = require("path");
+require("dotenv").config({ override: true });
 
 const githubToken = process.env.ACCESS_TOKEN || process.env.GH_TOKEN;
 
 /**
  * @type {import('./package.json')}
  */
-const pkg = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json'), 'utf-8'));
+const pkg = JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json"), "utf-8"));
 if (!pkg.dependencies) pkg.dependencies = {};
 if (!pkg.devDependencies) pkg.devDependencies = {};
 if (!pkg.resolutions) pkg.resolutions = {};
@@ -40,9 +40,9 @@ const extractRepositoryUrl = (input) => {
  * @param {string|null|undefined} [branch='pre-release'] - The branch to fetch the latest commit from (default is 'pre-release').
  * @returns {Promise<Record<string, any>|null>} - The latest commit object or null if an error occurs.
  */
-async function getLatestCommit(repoOwner, repoName, branch = 'pre-release') {
+async function getLatestCommit(repoOwner, repoName, branch = "pre-release") {
   let url;
-  if (typeof branch === 'string' && branch.length > 0) {
+  if (typeof branch === "string" && branch.length > 0) {
     url = `https://api.github.com/repos/${repoOwner}/${repoName}/commits/${branch}`;
   } else {
     url = `https://api.github.com/repos/${repoOwner}/${repoName}/commits`;
@@ -57,18 +57,22 @@ async function getLatestCommit(repoOwner, repoName, branch = 'pre-release') {
       response = await axios.get(url, {
         headers: {
           Authorization: `token ${githubToken}`,
-          Accept: 'application/vnd.github.v3+json'
+          Accept: "application/vnd.github.v3+json"
         }
       });
     } else {
       response = await axios.get(url);
     }
     const latestCommit = response.data; // The latest commit for the specified branch
-    return latestCommit;
+    if (!Array.isArray(latestCommit)) {
+      return latestCommit;
+    } else {
+      return latestCommit[0];
+    }
   } catch (error) {
     // retry fetch default branch
-    if (branch === 'pre-release') return getLatestCommit(repoOwner, repoName, null);
-    console.error('Error fetching the latest commit:', repoOwner, repoName, branch, error.message);
+    if (branch === "pre-release") return getLatestCommit(repoOwner, repoName, null);
+    console.error("Error fetching the latest commit:", repoOwner, repoName, branch, error.message);
     return null;
   }
 }
@@ -82,15 +86,15 @@ async function getLatestCommit(repoOwner, repoName, branch = 'pre-release') {
  */
 async function processPkg(packageName, version) {
   if (/^((file|github):|(git|ssh)\+|https?)/i.test(version)) {
-    if (/^https?:\/\/github.com/.test(version) && version.includes('/release/') && version.includes('.tgz')) {
+    if (/^https?:\/\/github.com/.test(version) && version.includes("/release/") && version.includes(".tgz")) {
       const { repo, user, url: _url } = extractRepositoryUrl(version);
       if (repo && user) {
         let updateVersion = null;
         const latestCommit = await getLatestCommit(user, repo);
         if (latestCommit) {
-          const coloredVersion = version.replace(/\/raw\/(\w+)\//, `/raw/${ansiColors.redBright('$1')}/`);
+          const coloredVersion = version.replace(/\/raw\/(\w+)\//, `/raw/${ansiColors.redBright("$1")}/`);
           const { sha = null } = latestCommit;
-          let needUpdate = typeof sha === 'string';
+          let needUpdate = typeof sha === "string";
           if (sha) {
             updateVersion = version.replace(/\/raw\/(\w+)\//, `/raw/${sha}/`);
             /**
@@ -102,15 +106,15 @@ async function processPkg(packageName, version) {
                 .get(updateVersion, {
                   headers: {
                     Authorization: `token ${githubToken}`,
-                    Accept: 'application/vnd.github.v3+json'
+                    Accept: "application/vnd.github.v3+json"
                   }
                 })
                 .catch(() => {
                   return { status: 404 };
                 });
             } else {
-              response = await axios.get(updateVersion).catch(() => {
-                return { status: 404 };
+              response = await axios.get(updateVersion).catch((e) => {
+                return { status: 404, message: e.message };
               });
             }
             const isSame = version.trim() == updateVersion.trim();
@@ -119,18 +123,18 @@ async function processPkg(packageName, version) {
               console.log(
                 ansiColors.magentaBright(packageName),
                 coloredVersion,
-                '->',
+                "->",
                 updateVersion.replace(sha, ansiColors.green(sha)),
-                needUpdate ? ansiColors.greenBright('updating...') : ansiColors.yellowBright('keep')
+                needUpdate ? ansiColors.greenBright("updating...") : ansiColors.yellowBright("keep")
               );
             } else {
-              console.log(ansiColors.magentaBright(packageName), coloredVersion, ansiColors.yellowBright('keep'));
+              console.log(ansiColors.magentaBright(packageName), coloredVersion, ansiColors.yellowBright("keep"));
             }
           } else {
             console.log(
               ansiColors.magentaBright(packageName),
               coloredVersion,
-              ansiColors.redBright('fail fetch update')
+              ansiColors.redBright("fail fetch update")
             );
           }
           return {
@@ -158,11 +162,11 @@ async function deps() {
       const { needUpdate = false, updateVersion = null } = (await processPkg(packageName, version)) || {};
       if (needUpdate && updateVersion) {
         await new Promise((resolve, reject) => {
-          const child = spawn('yarn', ['up', `${packageName}@${updateVersion}`], {
+          const child = spawn("yarn", ["up", `${packageName}@${updateVersion}`], {
             cwd: process.cwd(),
-            stdio: 'inherit'
+            stdio: "inherit"
           });
-          child.on('close', (code) => (code === 0 ? resolve() : reject(new Error(`Exited with code ${code}`))));
+          child.on("close", (code) => (code === 0 ? resolve() : reject(new Error(`Exited with code ${code}`))));
         });
       }
     }
@@ -185,9 +189,9 @@ async function resolutions() {
       }
     }
   }
-  fs.writeFileSync(path.join(__dirname, 'package.json'), JSON.stringify(pkg, null, 2) + '\n');
+  fs.writeFileSync(path.join(__dirname, "package.json"), JSON.stringify(pkg, null, 2) + "\n");
 }
 
 deps()
   .then(resolutions)
-  .catch((error) => console.error('Error in main:', error));
+  .catch((error) => console.error("Error in main:", error));
