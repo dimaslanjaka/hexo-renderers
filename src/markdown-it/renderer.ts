@@ -81,38 +81,29 @@ class Renderer {
         path.join(__dirname, '../../../node_modules')
       ].filter(fs.existsSync);
       this.parser = plugins.reduce((parser: typeof this.parser, mdOpt: MarkdownItRendererOptions) => {
+        let pluginName = '';
+        const pluginOptions = mdOpt && typeof mdOpt === 'object' && 'options' in mdOpt ? mdOpt.options : {};
+        // @renbaoshuo/markdown-it-katex
         if (mdOpt instanceof Object && mdOpt.name) {
-          const resolved = require.resolve(mdOpt.name, {
-            paths: node_modules_paths
-          });
-          // eslint-disable-next-line @typescript-eslint/no-require-imports
-          const r = require(resolved);
-          if (typeof r === 'function') return parser.use(r, mdOpt.options || {});
+          pluginName = mdOpt.name;
           hexo.log.error(`markdown-it plugin ${mdOpt.name} is not a function`);
         } else if (typeof mdOpt === 'string') {
-          const resolved = require.resolve(mdOpt, {
+          pluginName = mdOpt;
+        } else if (pluginName === '') {
+          hexo.log.error(`markdown-it plugin failed load ${mdOpt}`);
+          return parser;
+        }
+
+        try {
+          const resolved = require.resolve(pluginName, {
             paths: node_modules_paths
           });
           // eslint-disable-next-line @typescript-eslint/no-require-imports
           const r = require(resolved);
-          if (typeof r === 'function') return parser.use(r);
-          hexo.log.error(`markdown-it plugin ${mdOpt} is not a function`);
-        } else {
-          hexo.log.error(`markdown-it plugin failed load ${mdOpt}`);
+          if (typeof r === 'function') return parser.use(r, pluginOptions);
+        } catch (error) {
+          hexo.log.error(`markdown-it plugin failed load ${mdOpt}`, error);
         }
-
-        /*else {
-          if (isModuleInstalled(pugs.name)) {
-            return parser.use(require(pugs.name), pugs.options);
-          } else {
-            try {
-              hexo.log.e(pugs.name, 'not installed', { resolve: require.resolve(pugs.name) });
-              return parser.use(require(require.resolve(pugs.name)), pugs.options);
-            } catch (e) {
-              console.log(require.resolve(pugs.name));
-            }
-          }
-        }*/
 
         // return default parser
         return parser;

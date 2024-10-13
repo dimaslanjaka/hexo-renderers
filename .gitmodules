@@ -6,3 +6,7 @@
 	path = test/test-site
 	url = https://github.com/dimaslanjaka/site.git
 	branch = hexo-renderers
+[submodule "packages/markdown-it-math"]
+	path = packages/markdown-it-math
+	url = https://github.com/dimaslanjaka/markdown-it-math.git
+	branch = master
