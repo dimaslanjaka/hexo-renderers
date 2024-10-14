@@ -134,7 +134,7 @@ class Renderer {
     const regexs: RegExp[] = [];
     $('*').each((index, element) => {
       const tagName = (element as any).tagName.toLowerCase();
-      if (!resolveValidHtmlTags().includes(tagName)) {
+      if (!resolveValidHtmlTags.bind(hexo)().includes(tagName)) {
         const regex = new RegExp('</?' + tagName + '>', 'gm');
         regexs.push(regex);
       } else if (tagName === 'img' || tagName === 'source' || tagName === 'iframe') {

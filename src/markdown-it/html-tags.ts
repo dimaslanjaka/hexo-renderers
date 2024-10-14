@@ -1,4 +1,6 @@
+import Hexo from 'hexo';
 import { array_unique } from 'sbg-utility';
+import getRendererConfig from '../config.js';
 
 export const headAndMetadataTags = ['base', 'link', 'meta', 'style', 'title', 'head'];
 
@@ -212,11 +214,13 @@ export const validHtmlTags = array_unique([
 
 export const validHtmlTagsRegex = new RegExp('</?(' + validHtmlTags.join('|') + ')(\\s|>)');
 
-export function resolveValidHtmlTags() {
+export function resolveValidHtmlTags(this: Hexo) {
   const fromConfig = [] as string[];
-  if (typeof hexo !== 'undefined') {
-    if (hexo.config.renderers && 'html_tags' in hexo.config.renderers) {
-      const html_tags: string[] = hexo.config.renderers.html_tags || ([] as string[]);
+  const instance = this instanceof Hexo ? this : hexo;
+  if (typeof instance !== 'undefined') {
+    const config = getRendererConfig(instance);
+    if ('html_tags' in config) {
+      const html_tags: string[] = config.html_tags;
       if (Array.isArray(html_tags)) fromConfig.push(...html_tags);
     }
   }

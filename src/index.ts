@@ -1,6 +1,7 @@
 import Hexo from 'hexo';
 import { del } from 'sbg-utility';
 import path from 'upath';
+import getRendererConfig from './config.js';
 import { registerCustomGenerator } from './generator/index.js';
 import { collectorPost, loadPostData } from './helper/collector.js';
 import { registerCustomHelper } from './helper/index.js';
@@ -16,18 +17,10 @@ import { rendererRollup } from './rollup/index.js';
 
 if (typeof hexo !== 'undefined') {
   // assign hexo to global variable
-  (global as any).hexo = hexo;
+  if (!(global as any).hexo) (global as any).hexo = hexo;
 
   // define options
-  const options: { generator: string[]; engines: string[] } = Object.assign(
-    { generator: ['meta'], engines: [] as string[] },
-    hexo.config.renderers?.generator || {}
-  );
-
-  // shim v1 options
-  if (Array.isArray(hexo.config.renderers)) {
-    options.engines = hexo.config.renderers;
-  }
+  const options = getRendererConfig(hexo);
 
   // initial process - restoration
   hexo.extend.filter.register('after_init', function (this: Hexo) {

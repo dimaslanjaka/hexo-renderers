@@ -5,7 +5,7 @@ const fs = require('fs-extra');
 
 async function markdownItTgz() {
   const markdownItGh = new gch.gitCommandHelper(path.join(__dirname, 'packages/markdown-it'), 'master');
-  const hash = await markdownItGh.latestCommit('release/markdown-it.tgz');
+  const hash = await markdownItGh.latestCommit('release/markdown-it.tgz', { short: false });
   const tarball = `https://github.com/dimaslanjaka/markdown-it/raw/${hash}/release/markdown-it.tgz`;
   return tarball;
 }
