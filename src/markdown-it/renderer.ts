@@ -83,7 +83,6 @@ class Renderer {
       this.parser = plugins.reduce((parser: typeof this.parser, mdOpt: MarkdownItRendererOptions) => {
         let pluginName = '';
         const pluginOptions = mdOpt && typeof mdOpt === 'object' && 'options' in mdOpt ? mdOpt.options : {};
-        // @renbaoshuo/markdown-it-katex
         if (mdOpt instanceof Object && mdOpt.name) {
           pluginName = mdOpt.name;
           hexo.log.error(`markdown-it plugin ${mdOpt.name} is not a function`);
@@ -93,6 +92,9 @@ class Renderer {
           hexo.log.error(`markdown-it plugin failed load ${mdOpt}`);
           return parser;
         }
+
+        if (pluginName === '@renbaoshuo/markdown-it-katex') pluginName = 'markdown-it-mathematics';
+        else if (pluginName === 'markdown-it-katex') pluginName = 'markdown-it-mathematics';
 
         try {
           const resolved = require.resolve(pluginName, {
