@@ -1,16 +1,27 @@
 'use strict';
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
+import terser from '@rollup/plugin-terser';
 import virtual from '@rollup/plugin-virtual';
 import Hexo from 'hexo';
 import { join } from 'path';
 import * as rollup from 'rollup';
 import { jsonStringifyWithCircularRefs, md5, writefile } from 'sbg-utility';
-import { HexoLocalsData } from '../../helper/hexoLocalsData.js';
+import { HexoLocalsData } from '../helper/hexoLocalsData.js';
 import { HexoRollupConfigs } from './HexoRollupConfigs.js';
 import { objectWithoutKeys } from './utils/objectWithoutKeys.js';
 
 let rollupCache: rollup.RollupCache | undefined = {
   modules: []
 };
+
+const plugins: rollup.InputPluginOption[] = [
+  resolve({ preferBuiltins: true }),
+  commonjs(),
+  terser({
+    format: { ascii_only: true }
+  })
+];
 
 /**
  * @param {{ input: rollup.RollupFileOptions; output: rollup.OutputOptions; }} config
@@ -51,6 +62,9 @@ async function renderer(this: Hexo, data: Partial<HexoLocalsData>, _options: rol
   const instance = this instanceof Hexo ? this : hexo;
   const rollupConfigs = new HexoRollupConfigs(instance);
   const config = rollupConfigs.merged();
+  if (!config.plugins) config.plugins = plugins;
+  // fix when config.plugins is direct class plugin
+  if (!Array.isArray(config.plugins)) config.plugins = [config.plugins];
 
   if ((config as Record<string, any>).experimentalCodeSplitting) {
     throw new Error('hexo-renderers[rollup] not Support "experimentalCodeSplitting".');
@@ -61,14 +75,12 @@ async function renderer(this: Hexo, data: Partial<HexoLocalsData>, _options: rol
   } else if (typeof text === 'string') {
     const id = 'virtual:' + md5(text);
     config.input = id;
-    if (!config.plugins) config.plugins = [];
-    // fix when config.plugins is direct class plugin
-    if (!Array.isArray(config.plugins)) config.plugins = [config.plugins];
-    (config.plugins as rollup.InputPluginOption[]).push(
+    (config.plugins as rollup.InputPluginOption[]) = [
       virtual({
         [id]: text // Define the virtual module
-      })
-    );
+      }),
+      ...config.plugins
+    ];
   }
 
   if (!config.input || (Array.isArray(config.input) && config.input.length === 0)) {

@@ -58,6 +58,7 @@ export class HexoRollupConfigs {
   constructor(ctx: Hexo) {
     this.ctx = ctx;
   }
+
   site() {
     const raw = getRawSiteConfig('rollup', this.ctx);
     return configFilterProxy(raw, this.ctx.base_dir);

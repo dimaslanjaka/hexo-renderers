@@ -12,7 +12,7 @@ import { rendererNunjucks } from './renderer-nunjucks.js';
 import { rendererPug } from './renderer-pug.js';
 import { rendererSass } from './renderer-sass.js';
 import { rendererStylus } from './renderer-stylus.js';
-import { rendererRollup } from './renderer/rollup/index.js';
+import { rendererRollup } from './rollup/index.js';
 
 if (typeof hexo !== 'undefined') {
   // assign hexo to global variable
