@@ -213,10 +213,10 @@ export const validHtmlTags = array_unique([
 export const validHtmlTagsRegex = new RegExp('</?(' + validHtmlTags.join('|') + ')(\\s|>)');
 
 export function resolveValidHtmlTags() {
-  const fromConfig = [];
+  const fromConfig = [] as string[];
   if (typeof hexo !== 'undefined') {
-    if (hexo.config.renderers) {
-      const { html_tags = [] } = hexo.config.renderers;
+    if (hexo.config.renderers && 'html_tags' in hexo.config.renderers) {
+      const html_tags: string[] = hexo.config.renderers.html_tags || ([] as string[]);
       if (Array.isArray(html_tags)) fromConfig.push(...html_tags);
     }
   }
