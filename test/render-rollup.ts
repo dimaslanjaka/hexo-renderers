@@ -2,8 +2,9 @@ import fs from 'fs-extra';
 import Hexo from 'hexo';
 import path from 'path';
 import { RollupOptions } from 'rollup';
+import sbgutil from 'sbg-utility';
 import { fileURLToPath } from 'url';
-import renderer from '../src/renderer/rollup/renderer.js';
+import renderer from '../src/rollup/renderer.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,11 +15,13 @@ const hexo = new Hexo(__dirname, { silent: true });
 
 const config: RollupOptions = {
   output: {
-    file: 'bundle.js',
-    format: 'iife',
-    name: 'hexoRollup'
+    file: 'dist/bundle.js', // Output file for the bundled code
+    format: 'iife', // Immediately Invoked Function Expression for browser compatibility
+    name: 'MyBundle' // Name of the global variable
   }
-} as any;
+};
+// bind rollup config
+hexo.config.rollup = config;
 
 renderer
   .bind(hexo)(
@@ -28,7 +31,7 @@ renderer
     config
   )
   .then((result) => {
-    if (result) fs.writeFileSync(__dirname + '/tmp/sample-result.js', result);
+    if (result) fs.writeFileSync(__dirname + '/tmp/rollup-result.json', sbgutil.jsonStringifyWithCircularRefs(result));
     console.log(result);
   });
 

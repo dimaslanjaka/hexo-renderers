@@ -79,7 +79,8 @@ export class HexoRollupConfigs {
 
     const _default: RollupOptions = {
       output: {
-        format: 'esm'
+        format: 'esm',
+        file: 'tmp/dist/bundle.js'
       },
       onwarn(warning: any) {
         hexo.log.warn(warning);

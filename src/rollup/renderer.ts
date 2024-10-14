@@ -1,23 +1,26 @@
 'use strict';
+import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 import virtual from '@rollup/plugin-virtual';
 import Hexo from 'hexo';
-import { join } from 'path';
 import * as rollup from 'rollup';
-import { jsonStringifyWithCircularRefs, md5, writefile } from 'sbg-utility';
+import { md5 } from 'sbg-utility';
 import { HexoLocalsData } from '../helper/hexoLocalsData.js';
 import { HexoRollupConfigs } from './HexoRollupConfigs.js';
-import { objectWithoutKeys } from './utils/objectWithoutKeys.js';
 
 let rollupCache: rollup.RollupCache | undefined = {
   modules: []
 };
 
 const plugins: rollup.InputPluginOption[] = [
-  resolve({ preferBuiltins: true }),
+  resolve({ preferBuiltins: true, browser: true }),
   commonjs(),
+  babel({
+    babelHelpers: 'bundled',
+    presets: [['@babel/preset-env', { modules: false }]] // Ensure compatibility with older browsers
+  }),
   terser({
     format: { ascii_only: true }
   })
@@ -41,8 +44,8 @@ const rollupRenderAsync = async (config: rollup.RollupOptions): Promise<string> 
     if (chunkOrAsset.type === 'asset') {
       console.log('Asset', chunkOrAsset);
     } else {
-      // console.log('Chunk:', chunkOrAsset.fileName);
-      // console.log('Generated Code:', chunkOrAsset.code);
+      console.log('Chunk:', chunkOrAsset.fileName);
+      console.log('Generated Code:', chunkOrAsset.code);
       codes.push(chunkOrAsset.code);
     }
   }
@@ -89,21 +92,49 @@ async function renderer(this: Hexo, data: Partial<HexoLocalsData>, _options: rol
 
   // console.log(config);
 
-  const input = objectWithoutKeys(config, ['output']);
-  const { output } = config;
+  // const input = objectWithoutKeys(config, ['output']);
+  // const { output } = config;
 
-  //hexo.log.info('rollup', { input, output, path });
-  writefile(
-    join(instance.base_dir, 'tmp/config/rollup.json'),
-    jsonStringifyWithCircularRefs({ input, output, path: inputPath })
-  );
+  // //hexo.log.info('rollup', { input, output, path });
+  // writefile(
+  //   join(instance.base_dir, 'tmp/config/rollup.json'),
+  //   jsonStringifyWithCircularRefs({ input, output, path: inputPath })
+  // );
 
-  try {
-    return await rollupRenderAsync(config);
-  } catch (err) {
-    this.log.error(err);
-    throw err;
-  }
+  // try {
+  //   return await rollupRenderAsync(config);
+  // } catch (err) {
+  //   this.log.error(err);
+  //   throw err;
+  // }
+
+  // Log config to ensure it's correctly set
+  // console.log('Rollup Config:', config);
+
+  const { output } = config; // Destructure output from config
+  const bundle = await rollup.rollup(config); // Build bundle
+
+  const result = await bundle.generate({
+    ...output,
+    format: 'iife' // Ensure output format is iife
+  });
+
+  // Log output
+  // result.output.forEach((chunk) => {
+  //   if (chunk.type === 'chunk') {
+  //     console.log('Generated Code:', chunk.code);
+  //   }
+  // });
+
+  await bundle.write({
+    file:
+      !Array.isArray(config.output) && config.output && 'file' in config.output
+        ? config.output?.file
+        : 'tmp/dist/bundle.js', // Output to the correct file
+    format: 'iife',
+    name: 'MyBundle'
+  });
+  return result.output.map((chunk) => (chunk as Record<string, any>).code || '').join('\n');
 }
 
 export default renderer;
