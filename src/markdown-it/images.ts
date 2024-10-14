@@ -1,12 +1,13 @@
 'use strict';
 
 import hutil from 'hexo-util';
+import MarkdownIt from 'markdown-it';
 import * as path from 'path';
 
 const { basename, dirname, extname, isAbsolute, posix, relative } = path;
 const { join, relative: relativePosix } = posix;
 
-function images(md, opts) {
+function images(md: MarkdownIt, opts) {
   const { hexo, images } = opts;
   const { lazyload, prepend_root: prependRoot, post_asset: postAsset } = images;
   const { relative_link, model, base_dir, source_dir } = hexo;

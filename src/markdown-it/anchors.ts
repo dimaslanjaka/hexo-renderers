@@ -1,10 +1,26 @@
 'use strict';
 
 import hutil from 'hexo-util';
-// import Token from 'markdown-it/lib/token';
+import MarkdownIt from 'markdown-it';
 import Token from 'markdown-it/token';
 
-const renderPermalink = function (slug, opts, tokens, idx) {
+interface renderPermalinkOptions {
+  [key: string]: any;
+  permalinkClass: any;
+  permalinkSymbol: any;
+  permalinkSide: string;
+  case: any;
+  level: number;
+  collisionSuffix: string;
+  permalink: any;
+}
+
+const renderPermalink = function (
+  slug: string,
+  opts: renderPermalinkOptions,
+  tokens: { [x: string]: { children: Token[] } },
+  idx: number
+) {
   const permalink = [
     Object.assign(new Token('link_open', 'a', 1), {
       attrs: [
@@ -28,8 +44,8 @@ const renderPermalink = function (slug, opts, tokens, idx) {
   return tokens[idx + 1].children.unshift(...permalink);
 };
 
-const anchor = function (md, opts) {
-  Object.assign(opts, { renderPermalink });
+const anchor = function (md: MarkdownIt, opts: { renderPermalink: typeof renderPermalink } & renderPermalinkOptions) {
+  opts = Object.assign(opts, { renderPermalink });
 
   let titleStore = {};
   const originalHeadingOpen = md.renderer.rules.heading_open;
@@ -60,11 +76,13 @@ const anchor = function (md, opts) {
       ]);
 
       if (opts.permalink) {
-        opts.renderPermalink.apply(opts, [slug, opts].concat(args));
+        // opts.renderPermalink.apply(opts, [slug, opts].concat(args));
+        opts.renderPermalink(slug, opts, tokens, idx);
       }
     }
 
-    return originalHeadingOpen ? originalHeadingOpen.apply(this, args) : self.renderToken.apply(self, args);
+    // return originalHeadingOpen ? originalHeadingOpen.apply(this, args) : self.renderToken.apply(self, args);
+    return originalHeadingOpen ? originalHeadingOpen(...args) : self.renderToken(...args);
   };
 
   md.core.ruler.push('clear_anchor_title_store', () => {
