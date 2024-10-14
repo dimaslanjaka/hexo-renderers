@@ -1,5 +1,3 @@
 #!/bin/sh
 
-node prepack.cjs
-git add package.json
 npx lint-staged

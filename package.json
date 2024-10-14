@@ -86,7 +86,7 @@
     "hexo-util": "^3.3.0",
     "jsdom": "21",
     "lodash": "^4.17.21",
-    "markdown-it": "https://github.com/dimaslanjaka/markdown-it/raw/95599a5/release/markdown-it.tgz",
+    "markdown-it": "workspace:^",
     "markdown-it-abbr": "^2.0.0",
     "markdown-it-attrs": "^4.2.0",
     "markdown-it-bracketed-spans": "^1.0.1",

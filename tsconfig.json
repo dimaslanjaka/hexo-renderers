@@ -20,7 +20,7 @@
     /* Strict Type-Checking Options */
     "strict": true,
     /* Module Resolution Options */
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "esModuleInterop": true,
     /* Advanced Options */
     "forceConsistentCasingInFileNames": true,

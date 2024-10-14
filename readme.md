@@ -13,7 +13,7 @@ All in one theme renderers and helpers for hexo. Load all hexo renderer engines 
 Custom `markdown-it` from [https://github.com/dimaslanjaka/markdown-it](https://github.com/dimaslanjaka/markdown-it/tree/master/release)
 
 ```bash
-yarn add markdown-it@https://github.com/dimaslanjaka/markdown-it/raw/afcc286/release/markdown-it.tgz
+yarn add markdown-it@https://github.com/dimaslanjaka/markdown-it/raw/95599a5/release/markdown-it.tgz
 ```
 
 > Change **hash** with latest commit hash
