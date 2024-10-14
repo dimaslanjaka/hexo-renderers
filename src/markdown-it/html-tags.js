@@ -28,6 +28,7 @@ export const textContentTags = [
   'small',
   'span',
   'strong',
+  'strike',
   'sub',
   'sup',
   'time',
