@@ -19,7 +19,8 @@
 | 2.0.6 | https://github.com/dimaslanjaka/hexo-renderers/raw/de1927b/release/hexo-renderers-2.0.6.tgz |
 | 2.0.7 | https://github.com/dimaslanjaka/hexo-renderers/raw/74617a3/release/hexo-renderers-2.0.7.tgz |
 | 3.0.0 | https://github.com/dimaslanjaka/hexo-renderers/raw/98564cc/release/hexo-renderers-3.0.0.tgz |
-| latest | https://github.com/dimaslanjaka/hexo-renderers/raw/98564cc/release/hexo-renderers.tgz |
+| 3.0.1 | https://github.com/dimaslanjaka/hexo-renderers/raw/f543cb0/release/hexo-renderers-3.0.1.tgz |
+| latest | https://github.com/dimaslanjaka/hexo-renderers/raw/f543cb0/release/hexo-renderers.tgz |
 | latest | https://github.com/dimaslanjaka/hexo-renderers/raw/pre-release/release/hexo-renderers.tgz |
 
 use this tarball with `resolutions`:

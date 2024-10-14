@@ -167,13 +167,15 @@
     "hexo": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo.tgz",
     "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo.tgz",
     "@types/hexo-log": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo-log.tgz",
-    "hexo-util": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo-util.tgz"
+    "hexo-util": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo-util.tgz",
+    "markdown-it": "workspace:^"
   },
   "overrides": {
     "hexo": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo.tgz",
     "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo.tgz",
     "@types/hexo-log": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo-log.tgz",
-    "hexo-util": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo-util.tgz"
+    "hexo-util": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo-util.tgz",
+    "markdown-it": "workspace:^"
   },
   "packageManager": "yarn@4.5.0",
   "directories": {

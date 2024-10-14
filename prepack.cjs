@@ -2,6 +2,7 @@ const gch = require('git-command-helper');
 const path = require('path');
 const nunjucks = require('nunjucks');
 const fs = require('fs-extra');
+const pkg = require('./package.json');
 
 async function markdownItTgz() {
   const markdownItGh = new gch.gitCommandHelper(path.join(__dirname, 'packages/markdown-it'), 'master');
@@ -21,7 +22,10 @@ async function main() {
   const result = nunjucks.render('readme.md', { markdown_it_tarball });
   await fs.writeFile(path.join(__dirname, 'readme.md'), result);
   // update dependencies to latest tarball
-  await gch.spawnAsync('yarn', ['up', `markdown-it@${markdown_it_tarball}`], { stdio: 'inherit', cwd: __dirname });
+  pkg.dependencies['markdown-it'] = markdown_it_tarball;
+  pkg.resolutions['markdown-it'] = markdown_it_tarball;
+  pkg.overrides['markdown-it'] = markdown_it_tarball;
+  fs.writeFileSync(path.resolve(__dirname, 'package.json'), JSON.stringify(pkg, null, 2) + '\n');
 }
 
 main();

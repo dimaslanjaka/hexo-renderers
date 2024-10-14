@@ -1,3 +1,9 @@
-const gch = require('git-command-helper');
+const path = require('path');
+const fs = require('fs-extra');
+const pkg = require('./package.json');
 
-gch.spawn('yarn', ['up', 'markdown-it@workspace:^'], { cwd: __dirname, stdio: 'inherit' });
+// update dependencies to workspace
+pkg.dependencies['markdown-it'] = 'workspace:^';
+pkg.resolutions['markdown-it'] = 'workspace:^';
+pkg.overrides['markdown-it'] = 'workspace:^';
+fs.writeFileSync(path.resolve(__dirname, 'package.json'), JSON.stringify(pkg, null, 2) + '\n');
