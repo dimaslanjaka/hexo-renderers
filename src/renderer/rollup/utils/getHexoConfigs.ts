@@ -1,36 +1,26 @@
 'use strict';
 
-const mostHexoTypeError = () => {
-  throw new TypeError('ctx most Hexo instance!');
+import Hexo from 'hexo';
+
+const mostHexoTypeError = (): never => {
+  throw new TypeError('ctx must be a Hexo instance!');
 };
 
-/**
- * @param {string|symbol} name
- * @param {Hexo} ctx
- */
-const getRawSiteConfig = (name, ctx) => {
+function getRawSiteConfig(name: string | symbol, ctx: Hexo): any {
   if (!ctx) {
     mostHexoTypeError();
   }
-  return ctx.config[name];
-};
+  return (ctx.config as any)[name];
+}
 
-/**
- * @param {string|symbol} name
- * @param {Hexo} ctx
- */
-const getRawThemeConfig = (name, ctx) => {
+function getRawThemeConfig(name: string | symbol, ctx: Hexo): any {
   if (!ctx) {
     mostHexoTypeError();
   }
-  return ctx.theme.config[name];
-};
+  return (ctx.theme.config as any)[name];
+}
 
-/**
- * @param {string|symbol} name
- * @param {Hexo} ctx
- */
-const getRawOverrideThemeConfig = (name, ctx) => {
+function getRawOverrideThemeConfig(name: string | symbol, ctx: Hexo): any | undefined {
   if (!ctx) {
     mostHexoTypeError();
   }
@@ -38,13 +28,9 @@ const getRawOverrideThemeConfig = (name, ctx) => {
     return undefined;
   }
   return ctx.config.theme_config[name];
-};
+}
 
-/**
- * @param {string|symbol} name
- * @param {Hexo} ctx
- */
-const getRawConfigs = (name, ctx) => {
+function getRawConfigs(name: string | symbol, ctx: Hexo): { site: any; theme: any; override: any | undefined } {
   if (!ctx) {
     mostHexoTypeError();
   }
@@ -53,12 +39,13 @@ const getRawConfigs = (name, ctx) => {
     theme: getRawThemeConfig(name, ctx),
     override: getRawOverrideThemeConfig(name, ctx)
   };
-};
+}
 
-/**
- * @param {Hexo} ctx
- */
-const getRawAllConfigs = (ctx) => {
+function getRawAllConfigs(ctx: Hexo): {
+  site: Record<string, any>;
+  theme: Record<string, any>;
+  override: any | undefined;
+} {
   if (!ctx) {
     mostHexoTypeError();
   }
@@ -67,7 +54,7 @@ const getRawAllConfigs = (ctx) => {
     theme: ctx.theme.config,
     override: ctx.config.theme_config
   };
-};
+}
 
 // Exporting all functions at once
 export {

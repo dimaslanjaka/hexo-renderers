@@ -1,13 +1,16 @@
 'use strict';
 
-const createReadFilterProxy = (target, filters = {}) => {
+function createReadFilterProxy<T extends Record<string, any>>(
+  target: T,
+  filters: Record<string, (value: any, target: T) => any> = {}
+): T {
   if (target == null || typeof target !== 'object') {
     throw new TypeError();
   }
 
-  let filterKeys = Object.keys(filters).filter((key) => typeof filters[key] === 'function');
+  const filterKeys = Object.keys(filters).filter((key) => typeof filters[key] === 'function');
 
-  if (!filterKeys) {
+  if (filterKeys.length === 0) {
     return target;
   }
 
@@ -16,16 +19,12 @@ const createReadFilterProxy = (target, filters = {}) => {
     return result;
   }, Object.create(null));
 
-  filters = null;
-  filterKeys = null;
-
-  // eslint-disable-next-line no-undef
   return new Proxy(target, {
-    get(target, property, receiver) {
+    get(target, property: PropertyKey, receiver) {
       const original = Reflect.get(target, property, receiver);
       return property in filtersMap ? filtersMap[property](original, target) : original;
     }
   });
-};
+}
 
 export default createReadFilterProxy;

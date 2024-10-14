@@ -4,9 +4,9 @@ import { objectWithoutKeys } from './objectWithoutKeys.js';
 import rollupPluginFromName from './rollupPluginFromName.js';
 
 /**
- * @param {string|{name:string}} config
+ * @param config
  */
-const createRollupPlugin = (config) => {
+const createRollupPlugin = (config: string | { name: string; [key: string]: any }) => {
   if (typeof config === 'string') {
     return rollupPluginFromName(config)({});
   }

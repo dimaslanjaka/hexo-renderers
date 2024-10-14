@@ -83,6 +83,9 @@ export class HexoRollupConfigs {
       onwarn(warning: any) {
         hexo.log.warn(warning);
       }
+      // onLog(_level, log, _handler) {
+      //   hexo.log.log(log.message);
+      // }
     };
 
     const input = reduceStrings(
