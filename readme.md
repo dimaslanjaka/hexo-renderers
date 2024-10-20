@@ -7,13 +7,14 @@ All in one theme renderers and helpers for hexo. Load all hexo renderer engines 
 - more custom helpers
 - related post helpers [examples](https://github.com/dimaslanjaka/site/tree/hexo-renderers/views)
 - auto fix post assets folder
+- renderer cache strategy
 
 ## Requirements
 
 ~~Custom `markdown-it` from [https://github.com/dimaslanjaka/markdown-it](https://github.com/dimaslanjaka/markdown-it/tree/master/release)~~
 
 <strike>
-<pre><code>yarn add markdown-it@https://github.com/dimaslanjaka/markdown-it/raw/undefined/release/markdown-it.tgz</code></pre> 
+<pre><code>yarn add markdown-it@https://github.com/dimaslanjaka/markdown-it/raw/undefined/release/markdown-it.tgz</code></pre>
 </strike>
 
 > ~~Change **hash** with latest commit hash~~
