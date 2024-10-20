@@ -10,17 +10,19 @@ All in one theme renderers and helpers for hexo. Load all hexo renderer engines 
 
 ## Requirements
 
-Custom `markdown-it` from [https://github.com/dimaslanjaka/markdown-it](https://github.com/dimaslanjaka/markdown-it/tree/master/release)
+~~Custom `markdown-it` from [https://github.com/dimaslanjaka/markdown-it](https://github.com/dimaslanjaka/markdown-it/tree/master/release)~~
 
-```bash
-yarn add markdown-it@https://github.com/dimaslanjaka/markdown-it/raw/95599a5a20b2f162a776abaa3a0b7f8aaac2f6e1/release/markdown-it.tgz
-```
+<strike>
+<pre><code>yarn add markdown-it@https://github.com/dimaslanjaka/markdown-it/raw/undefined/release/markdown-it.tgz</code></pre> 
+</strike>
 
-> Change **hash** with latest commit hash
+> ~~Change **hash** with latest commit hash~~
 >
-> Why must change?
+> ~~Why must change?~~
 >
-> Original `markdown-it` now only support for ESM, we need shim `markdown-it` into CommonJS
+> ~~Original `markdown-it` now only support for ESM, we need shim `markdown-it` into CommonJS~~
+
+> Now **markdown-it** already built-in of this library.
 
 ## Specify renderers
 
@@ -47,58 +49,29 @@ renderers:
 
 ```yaml
 markdown:
-  preset: default
   render:
     html: true
     xhtmlOut: false
-    langPrefix: language-
-    breaks: true
-    linkify: false
+    breaks: false
+    linkify: true
     typographer: true
-    quotes: “”‘’
-  enable_rules: null
-  disable_rules: null
+    quotes: '“”‘’'
   plugins:
     - markdown-it-abbr
-    - markdown-it-attrs
-    - markdown-it-bracketed-spans
-    - markdown-it-sup
-    - markdown-it-cjk-breaks
-    - markdown-it-sub
-    - markdown-it-deflist
     - markdown-it-footnote
     - markdown-it-ins
-    - markdown-it-mark
-    - name: "@renbaoshuo/markdown-it-katex"
-      options:
-        skipDelimitersCheck: true
-    - name: markdown-it-emoji
-      options:
-        shortcuts:
-          laughing: :D
-          smile: [":)", ":-)"]
-    # - name: markdown-it-table-of-contents
-    #   options:
-    #     includeLevel:
-    #       - 1
-    #       - 2
-    #       - 3
-    #       - 4
-    #       - 5
-    #       - 6
+    - markdown-it-sub
+    - markdown-it-sup
+    - markdown-it-deflist
+    - markdown-it-emoji
+    - markdown-it-katex
   anchors:
     level: 2
-    collisionSuffix: ""
+    collisionSuffix: 'v'
     permalink: false
     permalinkClass: header-anchor
-    permalinkSide: left
-    permalinkSymbol: ¶
-    case: 0
-    separator: "-"
-  images:
-    lazyload: false
-    prepend_root: false
-    post_asset: true
+    permalinkSymbol: ' '
+    permalinkBefore: false
 ```
 
 > - dartsass improved from `hexo-renderer-dartsass`
@@ -156,3 +129,4 @@ set config for your desired renderer engine.
 - add `hexo-renderer-markdown-it`
 - hotfix nunjucks renderer
 - update dependencies
+

@@ -52,17 +52,17 @@
     "build:packages": "yarn workspaces foreach --worktree --exclude hexo-renderers run build",
     "build:tsup": "rimraf dist && node build.tsup.js && tsc -b tsconfig.build.json && gulp",
     "build": "rimraf dist && rollup -c && tsc -b tsconfig.build.json && gulp",
-    "prepack": "node prepack.cjs --yarn",
-    "pack": "node packer.cjs --yarn",
-    "postpack": "node postpack.cjs --yarn",
     "clean": "npm run build",
     "pretest": "npm run build",
     "test": "mocha --timeout 10000 -r ts-node/register",
     "test:ts": "mocha --timeout 10000 -r ts-node/register test/**/*.test.ts --exit",
     "test:stylus": "mocha test/stylus.test.js",
     "test-cov:stylus": "c8 --reporter=lcovonly --reporter=text npm run test",
-    "prepublish": "node prepack.cjs --yarn",
-    "postpublish": "node postpack.cjs --yarn"
+    "prepack": "node package-switch.cjs production && node prepack.cjs --yarn",
+    "pack": "node packer.cjs --yarn",
+    "postpack": "node package-switch.cjs local",
+    "prepublish": "node package-switch.cjs production && node prepack.cjs --yarn",
+    "postpublish": "node package-switch.cjs local"
   },
   "license": "MIT",
   "description": "All in one hexo renderers",
@@ -90,7 +90,7 @@
     "hexo-util": "^3.3.0",
     "jsdom": "21",
     "lodash": "^4.17.21",
-    "markdown-it": "workspace:^",
+    "markdown-it": "https://github.com/dimaslanjaka/markdown-it/raw/undefined/release/markdown-it.tgz",
     "markdown-it-abbr": "^2.0.0",
     "markdown-it-attrs": "^4.2.0",
     "markdown-it-bracketed-spans": "^1.0.1",
@@ -164,18 +164,24 @@
     "typescript": "^5.6.3"
   },
   "resolutions": {
-    "hexo": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo.tgz",
     "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo.tgz",
     "@types/hexo-log": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo-log.tgz",
+    "hexo": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo.tgz",
     "hexo-util": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo-util.tgz",
-    "markdown-it": "workspace:^"
+    "markdown-it": "https://github.com/dimaslanjaka/markdown-it/raw/undefined/release/markdown-it.tgz",
+    "sbg-api": "https://github.com/dimaslanjaka/static-blog-generator/raw/8c920c106962c82a3f24bac60fef0665579f757e/packages/sbg-api/release/sbg-api.tgz",
+    "sbg-cli": "https://github.com/dimaslanjaka/static-blog-generator/raw/0164b0d2e4ba5453890af8ec4863b2a09e043815/packages/sbg-cli/release/sbg-cli.tgz",
+    "sbg-utility": "https://github.com/dimaslanjaka/static-blog-generator/raw/9fb59fa60381aca3ee912c6605eb46a89a4f1136/packages/sbg-utility/release/sbg-utility.tgz"
   },
   "overrides": {
-    "hexo": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo.tgz",
     "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo.tgz",
     "@types/hexo-log": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo-log.tgz",
+    "hexo": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo.tgz",
     "hexo-util": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo-util.tgz",
-    "markdown-it": "workspace:^"
+    "markdown-it": "https://github.com/dimaslanjaka/markdown-it/raw/undefined/release/markdown-it.tgz",
+    "sbg-api": "https://github.com/dimaslanjaka/static-blog-generator/raw/8c920c106962c82a3f24bac60fef0665579f757e/packages/sbg-api/release/sbg-api.tgz",
+    "sbg-cli": "https://github.com/dimaslanjaka/static-blog-generator/raw/0164b0d2e4ba5453890af8ec4863b2a09e043815/packages/sbg-cli/release/sbg-cli.tgz",
+    "sbg-utility": "https://github.com/dimaslanjaka/static-blog-generator/raw/9fb59fa60381aca3ee912c6605eb46a89a4f1136/packages/sbg-utility/release/sbg-utility.tgz"
   },
   "packageManager": "yarn@4.5.0",
   "directories": {
