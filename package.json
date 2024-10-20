@@ -183,7 +183,7 @@
     "sbg-cli": "https://github.com/dimaslanjaka/static-blog-generator/raw/0164b0d2e4ba5453890af8ec4863b2a09e043815/packages/sbg-cli/release/sbg-cli.tgz",
     "sbg-utility": "https://github.com/dimaslanjaka/static-blog-generator/raw/9fb59fa60381aca3ee912c6605eb46a89a4f1136/packages/sbg-utility/release/sbg-utility.tgz"
   },
-  "packageManager": "yarn@4.5.0",
+  "packageManager": "yarn@4.5.1",
   "directories": {
     "test": "test",
     "lib": "dist"
