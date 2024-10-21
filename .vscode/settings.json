@@ -173,5 +173,7 @@
   },
   "typescript.tsdk": "./node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": false,
-  "editor.formatOnType": false
+  "editor.formatOnType": false,
+  "git.autoStash": true,
+  "git.useCommitInputAsStashMessage": true
 }

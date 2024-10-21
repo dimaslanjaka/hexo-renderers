@@ -7,13 +7,14 @@ All in one theme renderers and helpers for hexo. Load all hexo renderer engines 
 - more custom helpers
 - related post helpers [examples](https://github.com/dimaslanjaka/site/tree/hexo-renderers/views)
 - auto fix post assets folder
+- renderer cache strategy
 
 ## Requirements
 
 ~~Custom `markdown-it` from [https://github.com/dimaslanjaka/markdown-it](https://github.com/dimaslanjaka/markdown-it/tree/master/release)~~
 
 <strike>
-<pre><code>yarn add markdown-it@{{ markdown_it_tarball }}</code></pre> 
+<pre><code>yarn add markdown-it@{{ markdown_it_tarball }}</code></pre>
 </strike>
 
 > ~~Change **hash** with latest commit hash~~
@@ -40,7 +41,7 @@ renderers:
   # add custom html tag names to avoid from transformation
   # see src\markdown-it\renderer.ts
   # see src\markdown-it\html-tags.js
-  html_tags: ['customtag']
+  html_tags: ['customtag', 'custom-html-tag']
 ```
 
 ## Configurations

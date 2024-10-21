@@ -54,13 +54,16 @@ export const defaultMarkdownOptions = {
   }
 };
 
+export type rendererMarkdownItReturn = (
+  data: StoreFunctionData & Record<string, any>,
+  options?: Record<string, any>
+) => string | Promise<string>;
+
 /**
  * hexo-renderer-markdown-it
  * @param hexo
  */
-export default function rendererMarkdownIt(
-  hexo: Hexo
-): (data: StoreFunctionData, options?: Record<string, any>) => string {
+export function rendererMarkdownIt(hexo: Hexo): rendererMarkdownItReturn {
   hexo.config.markdown = Object.assign(
     {
       preset: 'default',

@@ -8,7 +8,7 @@ import { registerCustomHelper } from './helper/index.js';
 import { logname } from './helper/util.js';
 import { rendererDartSass } from './renderer-dartsass.js';
 import { rendererEjs } from './renderer-ejs.js';
-import { default as rendererMarkdownIt } from './renderer-markdown-it.js';
+import { rendererMarkdownIt } from './renderer-markdown-it.js';
 import { rendererNunjucks } from './renderer-nunjucks.js';
 import { rendererPug } from './renderer-pug.js';
 import { rendererSass } from './renderer-sass.js';

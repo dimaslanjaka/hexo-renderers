@@ -8,19 +8,22 @@ import { toArray } from './helper/index.js';
 import Hexo from 'hexo';
 import { StoreFunction } from 'hexo/dist/extend/renderer-d';
 import { PageSchema } from 'hexo/dist/types';
-import { writefile } from 'sbg-utility';
+import { md5, md5FileSync, persistentCache } from 'sbg-utility';
 import { HexoLocalsData, HexoRenderData } from './helper/hexoLocalsData.js';
 //const logname = ansiColors.magentaBright('hexo-renderer-nunjucks');
-
-const base_dir = typeof hexo !== 'undefined' && hexo.base_dir ? hexo.base_dir : process.cwd();
-const tmpdir = path.join(base_dir, 'tmp', 'hexo-renderers');
-const logfile = path.join(tmpdir, 'nunjucks-log.json');
 
 /**
  * hexo-renderer-nunjucks
  * @param hexo
  */
 export function rendererNunjucks(hexo: Hexo) {
+  const cacheUnit = new persistentCache({
+    base: path.join(hexo.base_dir, 'tmp/hexo-renderers'),
+    name: 'nunjucks-renderer',
+    persist: true,
+    memory: false
+  });
+
   /**
    * theme directory
    */
@@ -35,11 +38,6 @@ export function rendererNunjucks(hexo: Hexo) {
 
   env.addFilter('toArray', toArray);
 
-  const logs = {
-    render: [] as any[],
-    compile: [] as any[]
-  };
-
   /**
    * render
    * @param data
@@ -47,15 +45,17 @@ export function rendererNunjucks(hexo: Hexo) {
    * @returns
    */
   function render(data: PageSchema & Record<string, any>, locals: Partial<HexoLocalsData> & Record<string, any>) {
+    const cacheKey = 'render-' + (md5FileSync(data.path as string) || md5(data.text as string));
+    const cacheValue = cacheUnit.getSync(cacheKey, '');
+    if (cacheValue.length > 0) return cacheValue;
+
     if ('text' in data) {
       return nunjucks.renderString(data.text as string, locals);
     }
 
-    // hexo.log.info(logname, 'render', data.path);
-    logs.render.push(data.path);
-    writefile(logfile, JSON.stringify(logs, null, 2));
-
-    return nunjucks.render(data.path as string, locals);
+    const result = nunjucks.render(data.path as string, locals);
+    cacheUnit.setSync(cacheKey, result);
+    return result;
   }
 
   /**
@@ -64,15 +64,33 @@ export function rendererNunjucks(hexo: Hexo) {
    * @returns
    */
   function compile(data: HexoRenderData & Record<string, any>) {
-    // hexo.log.info(logname, 'compile', data.path);
-    logs.compile.push(data.path);
-    writefile(logfile, JSON.stringify(logs, null, 2));
+    // const cacheKey = 'compile-' + (md5FileSync(data.path as string) || md5(data.text as string));
 
     // hexo.log.info(logname, 'text' in data ? data.text : data.path);
     const compiled = nunjucks.compile(
       'text' in data ? (data.text as string) : fs.readFileSync(data.path as string, 'utf-8'),
       env
     );
+    // const originalRender = compiled.render;
+    // compiled.render = function (context?: Record<string, any>, callback?: nunjucks.TemplateCallback<string>) {
+    //   if (typeof callback === 'function') {
+    //     const cacheValue = cacheUnit.getSync(cacheKey, '');
+    //     if (cacheValue.length > 0) {
+    //       callback(null, cacheValue);
+    //     } else {
+    //       originalRender(context, function (err, result) {
+    //         cacheUnit.setSync(cacheKey, result);
+    //         callback(err, result);
+    //       });
+    //     }
+    //   } else {
+    //     const cacheValue = cacheUnit.getSync(cacheKey, '');
+    //     if (cacheValue.length > 0) return cacheValue;
+    //     const result = originalRender(context);
+    //     cacheUnit.setSync(cacheKey, result);
+    //     return result;
+    //   }
+    // } as any;
 
     return compiled.render.bind(compiled);
   }

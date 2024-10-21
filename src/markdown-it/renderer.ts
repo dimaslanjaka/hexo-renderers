@@ -6,7 +6,7 @@ import Hexo from 'hexo';
 import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import MarkdownIt from 'markdown-it';
 import { createRequire } from 'module';
-import { escapeRegex, isValidHttpUrl } from 'sbg-utility';
+import { escapeRegex, isValidHttpUrl, md5, md5FileSync, persistentCache } from 'sbg-utility';
 import path from 'upath';
 import { fileURLToPath } from 'url';
 import { defaultMarkdownOptions } from '../renderer-markdown-it.js';
@@ -37,6 +37,7 @@ class Renderer {
   parser: MarkdownIt;
   hexo: Hexo;
   disableNunjucks: boolean;
+  cacheUnit: persistentCache;
 
   /**
    * constructor
@@ -45,6 +46,12 @@ class Renderer {
    */
   constructor(hexo: Hexo) {
     this.hexo = hexo;
+    this.cacheUnit = new persistentCache({
+      base: path.join(this.hexo.base_dir, 'tmp/hexo-renderers'),
+      name: 'markdown-it-renderer',
+      persist: true,
+      memory: false
+    });
 
     let { markdown } = hexo.config;
 
@@ -125,7 +132,11 @@ class Renderer {
     this.disableNunjucks = false;
   }
 
-  render(data: StoreFunctionData, _options: any) {
+  async render(data: StoreFunctionData, _options: Record<string, any>) {
+    const cacheKey = md5FileSync(data.path as string) || md5(data.text as string);
+    const cacheValue = await this.cacheUnit.get(cacheKey, '');
+    if (cacheValue !== '') return cacheValue;
+
     this.hexo.execFilterSync('markdown-it:renderer', this.parser, { context: this });
     let html = this.parser.render(data.text as string, {
       postPath: data.path
@@ -143,7 +154,8 @@ class Renderer {
         if (src && !isValidHttpUrl(src) && !src.startsWith(this.hexo.config.root) && !src.startsWith('//')) {
           const finalSrc = path.join(this.hexo.config.root, src);
           this.hexo.log.info('fix PAF', src, '->', finalSrc);
-          html = html.replace(new RegExp(escapeRegex(src)), finalSrc);
+          const escaped = escapeRegex(src) as string;
+          html = html.replace(new RegExp(escaped), finalSrc);
         }
       }
     });
@@ -166,6 +178,7 @@ class Renderer {
         }
       }
     }
+    this.cacheUnit.set(cacheKey, html);
     return html;
   }
 }

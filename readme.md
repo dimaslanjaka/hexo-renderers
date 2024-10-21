@@ -41,7 +41,7 @@ renderers:
   # add custom html tag names to avoid from transformation
   # see src\markdown-it\renderer.ts
   # see src\markdown-it\html-tags.js
-  html_tags: ['customtag']
+  html_tags: ['customtag', 'custom-html-tag']
 ```
 
 ## Configurations
@@ -50,29 +50,58 @@ renderers:
 
 ```yaml
 markdown:
+  preset: default
   render:
     html: true
     xhtmlOut: false
-    breaks: false
-    linkify: true
+    langPrefix: language-
+    breaks: true
+    linkify: false
     typographer: true
-    quotes: '“”‘’'
+    quotes: “”‘’
+  enable_rules: null
+  disable_rules: null
   plugins:
     - markdown-it-abbr
+    - markdown-it-attrs
+    - markdown-it-bracketed-spans
+    - markdown-it-sup
+    - markdown-it-cjk-breaks
+    - markdown-it-sub
+    - markdown-it-deflist
     - markdown-it-footnote
     - markdown-it-ins
-    - markdown-it-sub
-    - markdown-it-sup
-    - markdown-it-deflist
-    - markdown-it-emoji
-    - markdown-it-katex
+    - markdown-it-mark
+    - name: "@renbaoshuo/markdown-it-katex"
+      options:
+        skipDelimitersCheck: true
+    - name: markdown-it-emoji
+      options:
+        shortcuts:
+          laughing: :D
+          smile: [":)", ":-)"]
+    # - name: markdown-it-table-of-contents
+    #   options:
+    #     includeLevel:
+    #       - 1
+    #       - 2
+    #       - 3
+    #       - 4
+    #       - 5
+    #       - 6
   anchors:
     level: 2
-    collisionSuffix: 'v'
+    collisionSuffix: ""
     permalink: false
     permalinkClass: header-anchor
-    permalinkSymbol: ' '
-    permalinkBefore: false
+    permalinkSide: left
+    permalinkSymbol: ¶
+    case: 0
+    separator: "-"
+  images:
+    lazyload: false
+    prepend_root: false
+    post_asset: true
 ```
 
 > - dartsass improved from `hexo-renderer-dartsass`
