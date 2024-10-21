@@ -49,6 +49,12 @@ export function loadPostData(hexo: Hexo) {
 export const getPostData = () => postData;
 
 export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
+  // const cacheUnit = new persistentCache({
+  //   base: path.join(hexo.base_dir, 'tmp/hexo-renderers'),
+  //   name: 'collector',
+  //   persist: true,
+  //   memory: false
+  // });
   const integrity = post.full_source
     ? await file_to_hash('sha1', post.full_source, 'hex')
     : md5(String(post.path + post.raw));

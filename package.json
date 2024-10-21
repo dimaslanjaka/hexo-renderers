@@ -52,7 +52,7 @@
     "build:packages": "yarn workspaces foreach --worktree --exclude hexo-renderers run build",
     "build:tsup": "rimraf dist && node build.tsup.js && tsc -b tsconfig.build.json && gulp",
     "build": "rollup -c && tsc -b tsconfig.build.json && gulp",
-    "clean": "npm run build",
+    "clean": "rimraf dist tmp && npm run build",
     "pretest": "npm run build",
     "test": "mocha --timeout 10000 -r ts-node/register",
     "test:ts": "mocha --timeout 10000 -r ts-node/register test/**/*.test.ts --exit",

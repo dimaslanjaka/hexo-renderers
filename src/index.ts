@@ -1,9 +1,7 @@
-import Hexo from 'hexo';
 import { del } from 'sbg-utility';
 import path from 'upath';
 import getRendererConfig from './config.js';
 import { registerCustomGenerator } from './generator/index.js';
-import { collectorPost, loadPostData } from './helper/collector.js';
 import { registerCustomHelper } from './helper/index.js';
 import { logname } from './helper/util.js';
 import { rendererDartSass } from './renderer-dartsass.js';
@@ -23,9 +21,9 @@ if (typeof hexo !== 'undefined') {
   const options = getRendererConfig(hexo);
 
   // initial process - restoration
-  hexo.extend.filter.register('after_init', function (this: Hexo) {
-    loadPostData(this);
-  });
+  // hexo.extend.filter.register('after_init', function (this: Hexo) {
+  //   loadPostData(this);
+  // });
 
   // clean temp files after clean
   hexo.extend.filter.register('after_clean', function () {
@@ -37,9 +35,9 @@ if (typeof hexo !== 'undefined') {
   // register custom generator
   registerCustomGenerator(hexo, options.generator);
   // collect post information
-  hexo.extend.filter.register('after_post_render', function (this: Hexo, post: any) {
-    return collectorPost(post, this);
-  });
+  // hexo.extend.filter.register('after_post_render', function (this: Hexo, post: any) {
+  //   return collectorPost(post, this);
+  // });
 
   if (options.engines.length > 0) {
     // activate specific engine
