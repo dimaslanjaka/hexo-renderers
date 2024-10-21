@@ -192,7 +192,7 @@ async function main() {
 
   // Sort by keys
   if (pkg.dependencies) pkg.dependencies = Object.fromEntries(Object.entries(pkg.dependencies).sort());
-  if (pkg.devDependencies) pkg.devDependencies = Object.fromEntries(Object.entries(pkg.dependencies).sort());
+  if (pkg.devDependencies) pkg.devDependencies = Object.fromEntries(Object.entries(pkg.devDependencies).sort());
   if (pkg.resolutions) pkg.resolutions = Object.fromEntries(Object.entries(pkg.resolutions).sort());
   if (pkg.overrides) pkg.overrides = Object.fromEntries(Object.entries(pkg.overrides).sort());
 
