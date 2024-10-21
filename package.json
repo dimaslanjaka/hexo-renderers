@@ -203,5 +203,7 @@
     "static-blog-generator": "https://github.com/dimaslanjaka/static-blog-generator/raw/master/packages/static-blog-generator/release/static-blog-generator.tgz",
     "warehouse": "https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/warehouse.tgz"
   },
-  "overrides": {}
+  "overrides": {
+    "markdown-it": "https://github.com/dimaslanjaka/markdown-it/raw/491f3cc12340705b94b5b015e08cbd8554a435cb/release/markdown-it.tgz"
+  }
 }
