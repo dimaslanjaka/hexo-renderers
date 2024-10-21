@@ -3,50 +3,74 @@ import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import path from 'path';
+import { dts } from 'rollup-plugin-dts';
 import { fileURLToPath } from 'url';
-import { external, tsconfig } from './rollup.utils.js';
+import { external } from './rollup.utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+/**
+ * @type {import('rollup').RollupOptions}
+ */
+const declarations = {
+  input: './tmp/dist/index.d.ts',
+  output: [
+    { file: 'dist/index.d.ts', format: 'es' },
+    { file: 'dist/index.d.cts', format: 'es' },
+    { file: 'dist/index.d.mts', format: 'es' }
+  ],
+  plugins: [dts()]
+};
+
+const input = 'src/index.ts';
+
+const plugins = [
+  json(), // Support for JSON files
+  resolve({ preferBuiltins: true }), // Resolve node_modules packages
+  typescript({
+    tsconfig: 'tsconfig.build.json',
+    compilerOptions: {
+      outDir: './dist',
+      declaration: false
+    }
+  }), // Compile TypeScript files
+  commonjs() // Convert CommonJS modules to ES6
+];
+
+/**
+ * @type {import('rollup').RollupOptions}
+ */
 const cjs = {
-  input: 'src/index.ts',
+  input,
   output: {
     file: 'dist/index.cjs',
     format: 'cjs',
-    sourcemap: false // optional
+    sourcemap: false
   },
-  plugins: [
-    resolve({ preferBuiltins: true }), // Resolve node_modules packages
-    commonjs(), // Convert CommonJS modules to ES6
-    typescript({
-      tsconfig: false,
-      compilerOptions: tsconfig.compilerOptions,
-      include: ['./src/**/*']
-    }), // Compile TypeScript files
-    json() // Support for JSON files
-  ],
-  external // external dependencies package name to exclude from bundle
+  plugins,
+  external // external dependencies to exclude from the bundle
 };
 
+/**
+ * @type {import('rollup').RollupOptions}
+ */
 const esm = {
-  input: 'src/index.ts',
-  output: {
-    file: 'dist/index.mjs',
-    format: 'esm',
-    sourcemap: false // optional
-  },
-  plugins: [
-    resolve({ preferBuiltins: true }), // Resolve node_modules packages
-    commonjs(), // Convert CommonJS modules to ES6
-    typescript({
-      tsconfig: false,
-      compilerOptions: tsconfig.compilerOptions,
-      include: ['./src/**/*']
-    }), // Compile TypeScript files
-    json() // Support for JSON files
+  input,
+  output: [
+    {
+      file: 'dist/index.js',
+      format: 'esm',
+      sourcemap: false
+    },
+    {
+      file: 'dist/index.mjs',
+      format: 'esm',
+      sourcemap: false
+    }
   ],
-  external // external dependencies package name to exclude from bundle
+  plugins,
+  external // external dependencies to exclude from the bundle
 };
 
-export default [cjs, esm];
+export default [cjs, esm, declarations];

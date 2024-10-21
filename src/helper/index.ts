@@ -1,6 +1,7 @@
 import fs from 'fs';
 import Hexo from 'hexo';
 import * as hexoUtil from 'hexo-util';
+import { StoreFunction } from 'hexo/dist/extend/renderer-d.js';
 import type { PageSchema } from 'hexo/dist/types';
 import lodash from 'lodash';
 import { createRequire } from 'module';
@@ -64,13 +65,29 @@ export function toArray(value: any) {
   return _toArray(value);
 }
 
+function json_config() {
+  const hexo = this;
+  const { config, theme, url_for } = hexo;
+  const theme_config = {
+    hostname: new URL(config.url).hostname || config.url,
+    root: config.root
+  };
+  const hexo_config = {
+    homepage: url_for('/')
+  };
+  return {
+    theme: Object.assign(theme, theme_config),
+    project: Object.assign(config, hexo_config)
+  };
+}
+
 /**
  * register custom helpers
  * @param hexo
  */
 export function registerCustomHelper(hexo: Hexo) {
-  hexo.extend.helper.register('toArray', toArray);
-  hexo.extend.helper.register('isObject', isObject);
+  hexo.extend.helper.register('toArray', toArray as StoreFunction);
+  hexo.extend.helper.register('isObject', isObject as StoreFunction);
   getRelatedPosts(hexo);
   getAuthor(hexo);
   getPostByLabel(hexo);
@@ -78,21 +95,7 @@ export function registerCustomHelper(hexo: Hexo) {
   /**
    * Export theme config
    */
-  hexo.extend.helper.register('json_config', function () {
-    const hexo = this;
-    const { config, theme, url_for } = hexo;
-    const theme_config = {
-      hostname: new URL(config.url).hostname || config.url,
-      root: config.root
-    };
-    const hexo_config = {
-      homepage: url_for('/')
-    };
-    return {
-      theme: Object.assign(theme, theme_config),
-      project: Object.assign(config, hexo_config)
-    };
-  });
+  hexo.extend.helper.register('json_config', json_config as StoreFunction);
 
   // json_data('main', json_config())
   hexo.extend.helper.register('json_data', function (name, ...data) {
@@ -105,7 +108,7 @@ export function registerCustomHelper(hexo: Hexo) {
     return page?.posts;
   });
 
-  hexo.extend.helper.register('partialWithLayout', partialWithLayout);
+  hexo.extend.helper.register('partialWithLayout', partialWithLayout as StoreFunction);
   hexo.extend.helper.register('date', date.date);
   //hexo.extend.helper.register('format_date', date.date);
   //hexo.extend.helper.register('date_format', date.date);
@@ -114,7 +117,7 @@ export function registerCustomHelper(hexo: Hexo) {
   hexo.extend.helper.register('full_date', date.full_date);
   hexo.extend.helper.register('relative_date', date.relative_date);
   hexo.extend.helper.register('time_tag', date.time_tag);
-  hexo.extend.helper.register('moment', date.moment);
+  hexo.extend.helper.register('moment', date.moment as unknown as StoreFunction);
   hexo.extend.helper.register('url_for', hexoUtil.url_for);
   for (const key in hexoUtil) {
     if (Object.prototype.hasOwnProperty.call(hexoUtil, key)) {

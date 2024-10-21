@@ -4,7 +4,7 @@ const path = require('path');
 
 exports.default = function () {
   return gulp
-    .src(['**/*.*'], { cwd: path.join(__dirname, 'src'), ignore: ['**/*.js', '**/*.ts'] })
+    .src(['**/*.*'], { cwd: path.join(__dirname, 'src'), ignore: ['**/*.{ts,ts,cjs,mjs}'] })
     .pipe(gulp.dest(path.join(__dirname, 'dist')));
 };
 

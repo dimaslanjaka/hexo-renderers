@@ -2,7 +2,7 @@
 
 import hutil from 'hexo-util';
 import MarkdownIt from 'markdown-it';
-import * as path from 'path';
+import path from 'path';
 
 const { basename, dirname, extname, isAbsolute, posix, relative } = path;
 const { join, relative: relativePosix } = posix;

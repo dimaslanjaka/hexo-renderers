@@ -14,7 +14,7 @@ const mathjaxScript = fs.readFileSync(path.join(__dirname, 'mathjax.html'), 'utf
  * @param hexo
  */
 export function rendererMathjax(hexo: import('hexo')) {
-  hexo.extend.renderer.register('ejs', 'html', function (data, options) {
+  hexo.extend.renderer.register('md', 'html', function (data, options) {
     const path = (options.filename = data.path) as string;
     let content = data.text;
     if (layout === path.substring(path.length - layout.length)) {

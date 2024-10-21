@@ -48,9 +48,9 @@ async function main() {
   await fs.writeFile(path.join(__dirname, 'readme.md'), result);
 
   // Update dependencies to latest tarball
-  pkg.dependencies['markdown-it'] = markdown_it_tarball;
-  pkg.resolutions['markdown-it'] = markdown_it_tarball;
-  pkg.overrides['markdown-it'] = markdown_it_tarball;
+  if (pkg.dependencies['markdown-it']) pkg.dependencies['markdown-it'] = markdown_it_tarball;
+  if (pkg.resolutions && pkg.resolutions['markdown-it']) pkg.resolutions['markdown-it'] = markdown_it_tarball;
+  if (pkg.overrides && pkg.overrides['markdown-it']) pkg.overrides['markdown-it'] = markdown_it_tarball;
 
   // Sort by keys
   if (pkg.dependencies) pkg.dependencies = Object.fromEntries(Object.entries(pkg.dependencies).sort());

@@ -1,7 +1,7 @@
 import Hexo from 'hexo';
 import { StoreFunction } from 'hexo/dist/extend/renderer-d';
 import { createRequire } from 'module';
-import * as path from 'path';
+import path from 'path';
 import * as pug from 'pug';
 
 if (typeof require === 'undefined') global.require = createRequire(import.meta.url);
