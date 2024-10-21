@@ -190,9 +190,11 @@ async function main() {
     pkg.resolutions = production;
   }
 
-  pkg.resolutions = Object.fromEntries(
-    Object.entries(pkg.resolutions).sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
-  );
+  // Sort by keys
+  if (pkg.dependencies) pkg.dependencies = Object.fromEntries(Object.entries(pkg.dependencies).sort());
+  if (pkg.devDependencies) pkg.devDependencies = Object.fromEntries(Object.entries(pkg.dependencies).sort());
+  if (pkg.resolutions) pkg.resolutions = Object.fromEntries(Object.entries(pkg.resolutions).sort());
+  if (pkg.overrides) pkg.overrides = Object.fromEntries(Object.entries(pkg.overrides).sort());
 
   fs.writeFileSync(path.join(__dirname, 'package.json'), JSON.stringify(pkg, null, 2) + '\n');
 }
