@@ -133,7 +133,7 @@ class Renderer {
   }
 
   async render(data: StoreFunctionData, _options: Record<string, any>) {
-    const cacheKey = md5FileSync(data.path as string) || md5(data.text as string);
+    const cacheKey = (md5FileSync(data.path as string) || md5(data.text as string))!;
     const cacheValue = await this.cacheUnit.get(cacheKey, '');
     if (cacheValue !== '') return cacheValue;
 

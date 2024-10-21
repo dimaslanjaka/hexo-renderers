@@ -1,28 +1,34 @@
 import ansiColors from 'ansi-colors';
 
-/** get category names */
-export const categorieName = (inCategories: any) => {
-  if (!inCategories) return [] as string[];
-  // return when first array is string
-  if (typeof inCategories.data[0] === 'string') return inCategories as string[];
-  let catName = '';
-  for (let r = 0; r < inCategories.data.length; r++) {
-    if (catName != '') catName += ' > ';
-    catName += inCategories.data[r].name;
+/**
+ * Retrieves category names from input data.
+ *
+ * @param inCategories - The input category data, can be an array or an object with a `data` property.
+ * @returns An array of category names or a formatted string of names if nested.
+ */
+export function categoriesName(inCategories: any) {
+  if (!inCategories) return [];
+  if (Array.isArray(inCategories)) return inCategories;
+  if (inCategories?.data) {
+    if (typeof inCategories.data[0] === 'string') return inCategories;
+    return inCategories.data.map((item: any) => item.name).join(' > ');
   }
-  return catName;
-};
-/** get tag names */
-export const tagName = (inTags: any) => {
-  if (!inTags || !Array.isArray(inTags.data)) return [] as string[];
-  // return when first array is string
-  if (typeof inTags.data[0] === 'string') return inTags as string[];
-  const retTags = [] as string[];
-  inTags.data.forEach((item: any) => {
-    retTags.push(item.name);
-  });
-  return retTags;
-};
+  return [];
+}
+
+/**
+ * Retrieves tag names from input data.
+ *
+ * @param inTags - The input tag data, can be an array or an object with a `data` property.
+ * @returns An array of tag names.
+ */
+export function tagName(inTags: any) {
+  if (Array.isArray(inTags)) return inTags;
+  if (inTags?.data) {
+    return inTags.data.map((item: any) => item.name);
+  }
+  return [];
+}
 
 /** turn all type as partial recursively */
 export type DeepPartial<T> = {

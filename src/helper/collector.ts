@@ -11,7 +11,7 @@ import {
   writefile
 } from 'sbg-utility';
 import type { HexoLocalsData } from './hexoLocalsData.js';
-import { DeepPartial, categorieName, logname, tagName } from './util.js';
+import { DeepPartial, categoriesName, logname, tagName } from './util.js';
 
 let postData: HexoLocalsData[] = [];
 
@@ -110,7 +110,7 @@ export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
     post.tags = names;
   }
   if ('categories' in post) {
-    const names = categorieName(post.categories);
+    const names = categoriesName(post.categories);
     delete (post as DeepPartial<typeof post>).categories;
     post.categories = names;
   }
