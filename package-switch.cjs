@@ -22,27 +22,33 @@ const local = {
   'hexo-cli': 'file:../hexo/releases/hexo-cli.tgz',
   'hexo-front-matter': 'file:../hexo/releases/hexo-front-matter.tgz',
   'hexo-log': 'file:../hexo/releases/hexo-log.tgz',
+  'hexo-server': 'file:../hexo/releases/hexo-server.tgz',
   'hexo-util': 'file:../hexo/releases/hexo-util.tgz',
   warehouse: 'file:../hexo/releases/warehouse.tgz',
   'hexo-post-parser': 'file:../hexo-post-parser/release/hexo-post-parser.tgz',
   'git-command-helper': 'file:../git-command-helper/release/git-command-helper.tgz',
   'markdown-it': 'file:../markdown-it/release/markdown-it.tgz',
   'hexo-shortcodes': 'file:../hexo-shortcodes/release/hexo-shortcodes.tgz',
+  'hexo-renderers': 'file:../hexo-renderers/release/hexo-renderers.tgz',
   'hexo-seo': 'file:../hexo-seo/release/hexo-seo.tgz'
 };
 
+if (local[pkg.name]) delete local[pkg.name];
+if (local[`@types/${pkg.name}`]) delete local[`@types/${pkg.name}`];
+
 const production = {
   'binary-collections': 'https://github.com/dimaslanjaka/bin/raw/fcd1121/releases/bin.tgz',
-  '@types/hexo': 'https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo.tgz',
-  hexo: 'https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo.tgz',
-  'hexo-asset-link': 'https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo-asset-link.tgz',
-  'hexo-cli': 'https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo-cli.tgz',
-  'hexo-front-matter': 'https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo-front-matter.tgz',
-  'hexo-log': 'https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo-log.tgz',
-  'hexo-util': 'https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/hexo-util.tgz',
-  warehouse: 'https://github.com/dimaslanjaka/hexo/raw/fc1f9b7/releases/warehouse.tgz',
-  'hexo-seo': 'https://github.com/dimaslanjaka/hexo-seo/raw/8c814eb/release/hexo-seo.tgz',
-  'markdown-it': 'https://github.com/dimaslanjaka/markdown-it/raw/95599a5/release/markdown-it.tgz',
+  '@types/hexo': 'https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/hexo.tgz',
+  hexo: 'https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/hexo.tgz',
+  'hexo-asset-link': 'https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/hexo-asset-link.tgz',
+  'hexo-cli': 'https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/hexo-cli.tgz',
+  'hexo-front-matter': 'https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/hexo-front-matter.tgz',
+  'hexo-log': 'https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/hexo-log.tgz',
+  'hexo-util': 'https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/hexo-util.tgz',
+  'hexo-server': 'https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/hexo-server.tgz',
+  warehouse: 'https://github.com/dimaslanjaka/hexo/raw/monorepo-v7/releases/warehouse.tgz',
+  'hexo-seo': 'https://github.com/dimaslanjaka/hexo-seo/raw/pre-release/release/hexo-seo.tgz',
+  'markdown-it': 'https://github.com/dimaslanjaka/markdown-it/raw/master/release/markdown-it.tgz',
   'hexo-shortcodes': 'https://github.com/dimaslanjaka/hexo-shortcodes/raw/f70a1c0/release/hexo-shortcodes.tgz',
   'static-blog-generator':
     'https://github.com/dimaslanjaka/static-blog-generator/raw/master/packages/static-blog-generator/release/static-blog-generator.tgz',
@@ -63,8 +69,12 @@ const production = {
   '@types/git-command-helper':
     'https://github.com/dimaslanjaka/git-command-helper/raw/pre-release/release/git-command-helper.tgz',
   'hexo-generator-redirect':
-    'https://github.com/dimaslanjaka/hexo-generator-redirect/raw/0885394/release/hexo-generator-redirect.tgz'
+    'https://github.com/dimaslanjaka/hexo-generator-redirect/raw/0885394/release/hexo-generator-redirect.tgz',
+  'hexo-renderers': 'https://github.com/dimaslanjaka/hexo-renderers/raw/pre-release/release/hexo-renderers.tgz'
 };
+
+if (production[pkg.name]) delete production[pkg.name];
+if (production[`@types/${pkg.name}`]) delete production[`@types/${pkg.name}`];
 
 /**
  * Fetches the latest commit from a specified GitHub repository and branch.
