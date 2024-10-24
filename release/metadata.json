@@ -154,29 +154,29 @@
   },
   "/release/hexo-renderers-3.0.1.tgz": {
     "integrity": {
-      "sha1": "84a05777bc57700f490f455b2957b44f46ba2842",
-      "sha256": "VW3XUf9uYEB3odhY+pIlLvKgRD1iSNSm3MV2xjkdQlU=",
-      "md5": "e20c9190a5ab1bf0d4382d6992e72259",
-      "sha512": "kmMPk1p/aoBDXalTm1DAbpb1YCJm46dPsBLx+6pt6WtKabeGERE6pnFqJeSZotVhey4ZApjKnMqtMkUwfAikGw=="
+      "sha1": "d01dbdfa111f5c1f24cc22b4c09f824435cc6d8e",
+      "sha256": "tkAMQODvVEq3C4gMm+NPhXpl3KldBs4SKyJKNW3iyPA=",
+      "md5": "fa6bb59b77867fd16940ce1a6fa1f925",
+      "sha512": "QrXmquruTS4nz75NvF2xxWdTgqVLnPJZFDG7KgRFwEBNqT1vpzMF8R7BUQnzDD+Y2+gXtvdCAmihMlN/4+ARfA=="
     },
-    "size": "805.50 KB"
+    "size": "297.83 KB"
   },
   "/release/hexo-renderers.tgz": {
     "integrity": {
-      "sha1": "84a05777bc57700f490f455b2957b44f46ba2842",
-      "sha256": "VW3XUf9uYEB3odhY+pIlLvKgRD1iSNSm3MV2xjkdQlU=",
-      "md5": "e20c9190a5ab1bf0d4382d6992e72259",
-      "sha512": "kmMPk1p/aoBDXalTm1DAbpb1YCJm46dPsBLx+6pt6WtKabeGERE6pnFqJeSZotVhey4ZApjKnMqtMkUwfAikGw=="
+      "sha1": "d01dbdfa111f5c1f24cc22b4c09f824435cc6d8e",
+      "sha256": "tkAMQODvVEq3C4gMm+NPhXpl3KldBs4SKyJKNW3iyPA=",
+      "md5": "fa6bb59b77867fd16940ce1a6fa1f925",
+      "sha512": "QrXmquruTS4nz75NvF2xxWdTgqVLnPJZFDG7KgRFwEBNqT1vpzMF8R7BUQnzDD+Y2+gXtvdCAmihMlN/4+ARfA=="
     },
-    "size": "805.50 KB"
+    "size": "297.83 KB"
   },
   "/yarn.lock": {
     "integrity": {
-      "sha1": "5208bfedc9d514b4c1f74229f0fb3f4ea75919cf",
-      "sha256": "YOVqhTrqovb6J0PxCgV+REexb9S4DIm2dLX8yXMzpGI=",
-      "md5": "e72ada16a5bed20e02db7d6cb73c0961",
-      "sha512": "ggO5/9UH7uerEf+of3NrqWpXFhPQ+Dh57DS9a90rqaBBM0wGBJByahwYfaBXeDPkxR3SQ5wktsWOlbxM0pfabg=="
+      "sha1": "78a7a96e5971fb79f342d4a5c50474aaa0bd81ce",
+      "sha256": "iiZVGonK8pUsscCgYTq5Q5AVmf6pQNMz2f378hKh7tk=",
+      "md5": "4ed11541692d4c9271eb53384599b252",
+      "sha512": "7LFkbelIsJAyjE6Ueha84cOZl2qUAsu4Sv9mOoAtYRnmc305aBvH1xMaqJP4g28+rGwMjJS6vZLTzzXdYddA8w=="
     },
-    "size": "687.68 KB"
+    "size": "644.82 KB"
   }
 }
