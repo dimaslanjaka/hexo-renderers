@@ -135,9 +135,9 @@ class Renderer {
     this.disableNunjucks = false;
   }
 
-  async render(data: StoreFunctionData, _options: Record<string, any>) {
+  render(data: StoreFunctionData, _options: Record<string, any>) {
     const cacheKey = (md5FileSync(data.path as string) || md5(data.text as string))!;
-    const cacheValue = await this.cacheUnit.get(cacheKey, '');
+    const cacheValue = this.cacheUnit.getSync(cacheKey, '');
     if (cacheValue !== '') return cacheValue;
 
     this.hexo.execFilterSync('markdown-it:renderer', this.parser, { context: this });
