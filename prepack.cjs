@@ -1,7 +1,6 @@
 const path = require('path');
 const nunjucks = require('nunjucks');
 const fs = require('fs-extra');
-const pkg = require('./package.json');
 const axios = require('axios');
 const githubToken = process.env.ACCESS_TOKEN || process.env.GH_TOKEN;
 
@@ -46,19 +45,6 @@ async function main() {
   const markdown_it_tarball = await markdownItTgz();
   const result = nunjucks.render('readme.md', { markdown_it_tarball });
   await fs.writeFile(path.join(__dirname, 'readme.md'), result);
-
-  // Update dependencies to latest tarball
-  if (pkg.dependencies) pkg.dependencies['markdown-it'] = markdown_it_tarball;
-  if (pkg.resolutions) pkg.resolutions['markdown-it'] = markdown_it_tarball;
-  if (pkg.overrides) pkg.overrides['markdown-it'] = markdown_it_tarball;
-
-  // Sort by keys
-  if (pkg.dependencies) pkg.dependencies = Object.fromEntries(Object.entries(pkg.dependencies).sort());
-  if (pkg.devDependencies) pkg.devDependencies = Object.fromEntries(Object.entries(pkg.devDependencies).sort());
-  if (pkg.resolutions) pkg.resolutions = Object.fromEntries(Object.entries(pkg.resolutions).sort());
-  if (pkg.overrides) pkg.overrides = Object.fromEntries(Object.entries(pkg.overrides).sort());
-
-  fs.writeFileSync(path.resolve(__dirname, 'package.json'), JSON.stringify(pkg, null, 2) + '\n');
 }
 
 main();
