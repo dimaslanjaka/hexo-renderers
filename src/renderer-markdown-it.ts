@@ -57,7 +57,7 @@ export const defaultMarkdownOptions = {
 export type rendererMarkdownItReturn = (
   data: StoreFunctionData & Record<string, any>,
   options?: Record<string, any>
-) => string | Promise<string>;
+) => string;
 
 /**
  * hexo-renderer-markdown-it

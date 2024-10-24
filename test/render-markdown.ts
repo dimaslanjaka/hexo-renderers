@@ -30,15 +30,15 @@ hexo.config.markdown.plugins = [
 ];
 const r = rendererMarkdownIt(hexo);
 
-async function main() {
-  let result = await r({ text: fs.readFileSync(rootDir + '/source/_posts/sample.md', 'utf-8') } as StoreFunctionData);
+function main() {
+  let result = r({ text: fs.readFileSync(rootDir + '/source/_posts/sample.md', 'utf-8') } as StoreFunctionData);
   console.log({ result });
   fs.writeFileSync(rootDir + '/tmp/sample.html', result);
   console.log(rootDir + '/tmp/sample.html');
 
-  result = await r({ text: fs.readFileSync(rootDir + '/source/_posts/complete.md', 'utf-8') } as StoreFunctionData);
+  result = r({ text: fs.readFileSync(rootDir + '/source/_posts/complete.md', 'utf-8') } as StoreFunctionData);
   fs.writeFileSync(rootDir + '/tmp/complete.html', result);
   console.log(rootDir + '/tmp/complete.html');
 }
 
-main().catch(console.error);
+main();

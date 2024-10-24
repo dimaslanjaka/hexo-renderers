@@ -18,7 +18,7 @@
     }
   },
   "files": [
-    "dist",
+    "dist/",
     "_config.yml"
   ],
   "keywords": [

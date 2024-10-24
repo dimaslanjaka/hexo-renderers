@@ -2,13 +2,22 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
+import fs from 'fs';
+import jsonc from 'jsonc-parser';
 import path from 'path';
 import { dts } from 'rollup-plugin-dts';
 import { fileURLToPath } from 'url';
-import { external } from './rollup.utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+/**
+ * @type {typeof import('./package.json')}
+ */
+const pkg = jsonc.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf-8'));
+export const external = Object.keys(pkg.dependencies)
+  .concat(Object.keys(pkg.devDependencies))
+  .filter((pkgName) => !['markdown-it', 'p-limit', 'deepmerge-ts'].includes(pkgName));
 
 /**
  * @type {import('rollup').RollupOptions}
