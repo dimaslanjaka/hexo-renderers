@@ -103,9 +103,8 @@ export function rendererMarkdownIt(hexo: Hexo): rendererMarkdownItReturn {
 
   const renderer = new Renderer(hexo);
 
-  if (typeof hexo.config.markdown.disableNunjucks !== 'boolean') {
-    renderer.disableNunjucks = hexo.config.markdown.disableNunjucks === 'true';
-  }
+  renderer.disableNunjucks =
+    hexo.config.markdown.disableNunjucks === 'true' || hexo.config.markdown.disableNunjucks === true;
 
   function render(data: StoreFunctionData, options: Record<string, any> = {}) {
     return renderer.render(data, options);

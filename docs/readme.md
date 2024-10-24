@@ -51,6 +51,8 @@ renderers:
 ```yaml
 markdown:
   preset: default
+  # Toggle render nunjucks in markdown
+  disableNunjucks: true
   render:
     html: true
     xhtmlOut: false
