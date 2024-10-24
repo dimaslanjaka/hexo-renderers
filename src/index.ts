@@ -41,6 +41,7 @@ if (typeof hexo !== 'undefined') {
 
   if (options.engines.length > 0) {
     // activate specific engine
+    hexo.log.info('activating renderer engine', options.engines);
     for (let i = 0; i < options.engines.length; i++) {
       const engine = options.engines[i];
       switch (engine) {

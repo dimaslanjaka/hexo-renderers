@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-node package-switch.cjs local
