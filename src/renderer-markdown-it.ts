@@ -13,7 +13,8 @@ export const defaultMarkdownOptions = {
     breaks: true,
     linkify: true,
     typographer: true,
-    quotes: '“”‘’'
+    quotes: '“”‘’',
+    cache: false
   },
   enable_rules: null,
   disable_rules: null,

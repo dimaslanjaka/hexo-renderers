@@ -56,11 +56,15 @@ markdown:
   render:
     html: true
     xhtmlOut: false
+    # prefix class of <pre><code class="language-">
     langPrefix: language-
     breaks: true
+    # auto convert url plaintext into anchor
     linkify: false
     typographer: true
     quotes: “”‘’
+    # Toggle cache
+    cache: true
   enable_rules: null
   disable_rules: null
   plugins:
@@ -104,6 +108,7 @@ markdown:
     lazyload: false
     prepend_root: false
     post_asset: true
+  inline: false  # https://markdown-it.github.io/markdown-it/#MarkdownIt.renderInline
 ```
 
 > - dartsass improved from `hexo-renderer-dartsass`

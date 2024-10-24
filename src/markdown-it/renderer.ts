@@ -6,7 +6,7 @@ import Hexo from 'hexo';
 import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import MarkdownIt from 'markdown-it';
 import { createRequire } from 'module';
-import { escapeRegex, isValidHttpUrl, md5, md5FileSync, persistentCache } from 'sbg-utility';
+import { escapeRegex, isValidHttpUrl, md5, normalizePath, persistentCache } from 'sbg-utility';
 import path from 'upath';
 import { fileURLToPath } from 'url';
 import { defaultMarkdownOptions } from '../renderer-markdown-it.js';
@@ -38,6 +38,7 @@ class Renderer {
   hexo: Hexo;
   disableNunjucks: boolean;
   cacheUnit: persistentCache;
+  markdownConfig: typeof defaultMarkdownOptions;
 
   /**
    * constructor
@@ -67,6 +68,7 @@ class Renderer {
 
     const { preset, render, enable_rules, disable_rules, plugins, anchors, images }: typeof defaultMarkdownOptions =
       markdown;
+    this.markdownConfig = markdown;
     this.parser = new MarkdownIt(preset, render);
 
     if (enable_rules) {
@@ -135,9 +137,14 @@ class Renderer {
     this.disableNunjucks = false;
   }
 
-  render(data: StoreFunctionData, options: Record<string, any>) {
-    const { cache = false } = options || {};
-    const cacheKey = (md5FileSync(data.path as string) || md5(data.text as string))!;
+  render(data: StoreFunctionData, _options: Record<string, any>) {
+    const cache = this.markdownConfig.render.cache || false;
+    let cacheKey: string;
+    if (data.path) {
+      cacheKey = normalizePath(data.path).replace(normalizePath(this.hexo.base_dir), '');
+    } else {
+      cacheKey = md5(data.text);
+    }
     if (cache) {
       const cacheValue = this.cacheUnit.getSync(cacheKey, '');
       if (cacheValue !== '') return cacheValue;
@@ -184,7 +191,7 @@ class Renderer {
         }
       }
     }
-    this.cacheUnit.set(cacheKey, html);
+    if (cache) this.cacheUnit.set(cacheKey, html);
     return html;
   }
 }

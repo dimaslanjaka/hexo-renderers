@@ -32,7 +32,6 @@ const r = rendererMarkdownIt(hexo);
 
 function main() {
   let result = r({ text: fs.readFileSync(rootDir + '/source/_posts/sample.md', 'utf-8') } as StoreFunctionData);
-  console.log({ result });
   fs.writeFileSync(rootDir + '/tmp/sample.html', result);
   console.log(rootDir + '/tmp/sample.html');
 
