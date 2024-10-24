@@ -47,7 +47,7 @@ class Renderer {
   constructor(hexo: Hexo) {
     this.hexo = hexo;
     this.cacheUnit = new persistentCache({
-      base: path.join(this.hexo.base_dir, 'tmp/hexo-renderers'),
+      base: path.join(hexo.base_dir, 'tmp/hexo-renderers'),
       name: 'markdown-it-renderer',
       persist: true,
       memory: false
@@ -135,10 +135,13 @@ class Renderer {
     this.disableNunjucks = false;
   }
 
-  render(data: StoreFunctionData, _options: Record<string, any>) {
+  render(data: StoreFunctionData, options: Record<string, any>) {
+    const { cache = false } = options || {};
     const cacheKey = (md5FileSync(data.path as string) || md5(data.text as string))!;
-    const cacheValue = this.cacheUnit.getSync(cacheKey, '');
-    if (cacheValue !== '') return cacheValue;
+    if (cache) {
+      const cacheValue = this.cacheUnit.getSync(cacheKey, '');
+      if (cacheValue !== '') return cacheValue;
+    }
 
     this.hexo.execFilterSync('markdown-it:renderer', this.parser, { context: this });
     let html = this.parser.render(data.text as string, {
@@ -148,7 +151,7 @@ class Renderer {
     const regexs: RegExp[] = [];
     $('*').each((index, element) => {
       const tagName = (element as any).tagName.toLowerCase();
-      if (!resolveValidHtmlTags.bind(hexo)().includes(tagName)) {
+      if (!resolveValidHtmlTags.bind(this.hexo)().includes(tagName)) {
         const regex = new RegExp('</?' + tagName + '>', 'gm');
         regexs.push(regex);
       } else if (tagName === 'img' || tagName === 'source' || tagName === 'iframe') {
@@ -165,7 +168,7 @@ class Renderer {
     const results = regexs.map((regex) => {
       const result = html.match(regex);
       if (typeof hexo != 'undefined') {
-        hexo.log.warn('found invalid html tags inside anchor', regex, result);
+        this.hexo.log.warn('found invalid html tags inside anchor', regex, result);
       }
       return { regex, result };
     });

@@ -1,10 +1,10 @@
 import fs from 'fs-extra';
 import Hexo from 'hexo';
 import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
-import MarkdownIt from 'markdown-it/dist/lib/index.mjs';
+import MarkdownIt from 'markdown-it';
 import path from 'upath';
 import { fileURLToPath } from 'url';
-import rendererMarkdownIt from '../src/renderer-markdown-it.js';
+import { rendererMarkdownIt } from '../src/renderer-markdown-it';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
