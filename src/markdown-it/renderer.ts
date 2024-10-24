@@ -92,7 +92,6 @@ class Renderer {
         const pluginOptions = mdOpt && typeof mdOpt === 'object' && 'options' in mdOpt ? mdOpt.options : {};
         if (mdOpt instanceof Object && mdOpt.name) {
           pluginName = mdOpt.name;
-          hexo.log.error(`markdown-it plugin ${mdOpt.name} is not a function`);
         } else if (typeof mdOpt === 'string') {
           pluginName = mdOpt;
         } else if (pluginName === '') {
@@ -109,7 +108,11 @@ class Renderer {
           });
           // eslint-disable-next-line @typescript-eslint/no-require-imports
           const r = require(resolved);
-          if (typeof r === 'function') return parser.use(r, pluginOptions);
+          if (typeof r !== 'function') {
+            hexo.log.error(`markdown-it plugin ${pluginName} is not a function`);
+          } else {
+            return parser.use(r, pluginOptions);
+          }
         } catch (error) {
           hexo.log.error(`markdown-it plugin failed load ${mdOpt}`, error);
         }
