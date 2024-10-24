@@ -108,6 +108,7 @@ markdown:
     lazyload: false
     prepend_root: false
     post_asset: true
+  inline: false  # https://markdown-it.github.io/markdown-it/#MarkdownIt.renderInline
 ```
 
 > - dartsass improved from `hexo-renderer-dartsass`

@@ -137,7 +137,7 @@ class Renderer {
     this.disableNunjucks = false;
   }
 
-  render(data: StoreFunctionData, _options: Record<string, any>) {
+  render(data: StoreFunctionData, options: Partial<typeof defaultMarkdownOptions>) {
     const cache = this.markdownConfig.render.cache || false;
     let cacheKey: string;
     if (data.path) {
@@ -151,9 +151,20 @@ class Renderer {
     }
 
     this.hexo.execFilterSync('markdown-it:renderer', this.parser, { context: this });
-    let html = this.parser.render(data.text as string, {
-      postPath: data.path
-    });
+
+    let html: string;
+    if (options != null && options.inline === true) {
+      html = this.parser.renderInline(data.text, {
+        postPath: data.path
+      });
+    } else {
+      html = this.parser.render(data.text as string, {
+        postPath: data.path
+      });
+    }
+
+    // Fix generated html
+
     const $ = load(html);
     const regexs: RegExp[] = [];
     $('*').each((index, element) => {
@@ -162,7 +173,7 @@ class Renderer {
         const regex = new RegExp('</?' + tagName + '>', 'gm');
         regexs.push(regex);
       } else if (tagName === 'img' || tagName === 'source' || tagName === 'iframe') {
-        // fix local post asset folder
+        // Fix local post asset folder
         const src = $(element).attr('src');
         if (src && !isValidHttpUrl(src) && !src.startsWith(this.hexo.config.root) && !src.startsWith('//')) {
           const finalSrc = path.join(this.hexo.config.root, src);
@@ -172,6 +183,9 @@ class Renderer {
         }
       }
     });
+
+    // Escape invalid html tags inside anchor
+
     const results = regexs.map((regex) => {
       const result = html.match(regex);
       if (typeof hexo != 'undefined') {

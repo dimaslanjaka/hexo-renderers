@@ -52,7 +52,8 @@ export const defaultMarkdownOptions = {
     lazyload: false,
     prepend_root: false,
     post_asset: false
-  }
+  },
+  inline: false
 };
 
 export type rendererMarkdownItReturn = (
@@ -107,7 +108,7 @@ export function rendererMarkdownIt(hexo: Hexo): rendererMarkdownItReturn {
   renderer.disableNunjucks =
     hexo.config.markdown.disableNunjucks === 'true' || hexo.config.markdown.disableNunjucks === true;
 
-  function render(data: StoreFunctionData, options: Record<string, any> = {}) {
+  function render(data: StoreFunctionData, options: Partial<typeof defaultMarkdownOptions> = {}) {
     return renderer.render(data, options);
   }
 
