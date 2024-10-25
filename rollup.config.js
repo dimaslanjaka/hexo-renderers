@@ -23,7 +23,7 @@ export const external = Object.keys(pkg.dependencies)
  * @type {import('rollup').RollupOptions}
  */
 const declarations = {
-  input: './tmp/dist/index.d.ts',
+  input: './tmp/dist/index-exports.d.ts',
   output: [
     { file: 'dist/index.d.ts', format: 'es' },
     { file: 'dist/index.d.cts', format: 'es' },
