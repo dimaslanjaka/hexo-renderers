@@ -129,12 +129,11 @@ class Renderer {
 
   render(data: StoreFunctionData, options: Partial<typeof defaultMarkdownOptions>) {
     const cache = this.markdownConfig.render.cache || false;
-    let cacheKey: string;
+    let cacheKey = '';
     if (data.path) {
       cacheKey = normalizePath(data.path).replace(normalizePath(this.hexo.base_dir), '');
-    } else {
-      cacheKey = md5(data.text);
     }
+    if (data.text) cacheKey += '-' + md5(data.text);
     if (cache) {
       const cacheValue = this.cacheUnit.getSync(cacheKey, '');
       if (cacheValue !== '') return cacheValue;

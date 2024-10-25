@@ -11,19 +11,17 @@ All in one theme renderers and helpers for hexo. Load all hexo renderer engines 
 
 ## Requirements
 
-~~Custom `markdown-it` from [https://github.com/dimaslanjaka/markdown-it](https://github.com/dimaslanjaka/markdown-it/tree/master/release)~~
+Custom `markdown-it` from [https://github.com/dimaslanjaka/markdown-it](https://github.com/dimaslanjaka/markdown-it/tree/master/release)
 
-<strike>
+> This only required when you add `markdown-it` on `_config_yml.renderers.engine`
+
 <pre><code>yarn add markdown-it@https://github.com/dimaslanjaka/markdown-it/raw/17ccc825cbb3e4c6d59edada5f6d93f27075d752/release/markdown-it.tgz</code></pre>
-</strike>
 
-> ~~Change **hash** with latest commit hash~~
+> Change **hash** with latest commit hash
 >
-> ~~Why must change?~~
+> Why must change?
 >
-> ~~Original `markdown-it` now only support for ESM, we need shim `markdown-it` into CommonJS~~
-
-> Now **markdown-it** already built-in of this library.
+> Original `markdown-it` now only support for ESM, we need shim `markdown-it` into CommonJS
 
 ## Specify renderers
 

@@ -44,7 +44,7 @@ if (typeof hexo !== 'undefined') {
   //   return collectorPost(post, this);
   // });
 
-  hexo.log.info('activating renderer engine', options.engines);
+  hexo.log.info('activating renderer engine', options.engines.join(', '));
   for (let i = 0; i < options.engines.length; i++) {
     const engine = options.engines[i];
     switch (engine) {

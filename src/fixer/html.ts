@@ -1,6 +1,6 @@
 import { load } from 'cheerio';
 import Hexo from 'hexo';
-import { escapeRegex, isValidHttpUrl, md5, persistentCache } from 'sbg-utility';
+import { escapeRegex, isValidHttpUrl, md5, normalizePath, persistentCache } from 'sbg-utility';
 import path from 'upath';
 import { HexoLocalsData } from '../helper/hexoLocalsData';
 import { resolveValidHtmlTags } from '../markdown-it/html-tags';
@@ -19,15 +19,21 @@ export const escapeHtml = (str: string) => {
  * @param html
  * @returns
  */
-export function htmlFixer(this: Hexo, html: string, _data: HexoLocalsData) {
+export function htmlFixer(this: Hexo, html: string, data: HexoLocalsData) {
   const hexo = this;
-  const cacheKey = md5(html);
+  let cacheKey = '';
+  if (data.path) {
+    cacheKey = normalizePath(data.path).replace(normalizePath(hexo.base_dir), '');
+  }
+  if (data.text) cacheKey += '-' + md5(data.text);
   const cacheUnit = new persistentCache({
     base: path.join(hexo.base_dir, 'tmp/hexo-renderers'),
-    name: 'markdown-it-renderer',
+    name: 'html-fixer',
     persist: true,
     memory: false
   });
+  const cacheValue = cacheUnit.getSync(cacheKey, '');
+  if (cacheValue !== '') return cacheValue;
 
   const $ = load(html);
 
