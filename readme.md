@@ -40,6 +40,8 @@ renderers:
     # - fix invalid post asset folder path
     # - escape invalid html tags into html entities
     html: false
+    # Toggle cache
+    cache: false
   # when _config_yml.renderers.fix.html is true
   # this plugin transforming unknown tags into html entities
   # add custom html tag names to avoid from transformation

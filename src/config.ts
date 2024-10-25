@@ -11,7 +11,8 @@ export default function getRendererConfig(hexo: Hexo) {
     engines: [] as string[],
     html_tags: [] as string[],
     fix: {
-      html: false
+      html: false,
+      cache: false
     }
   };
   const options = Object.assign(defaultOptions, hexo.config.renderers?.generator || {}, hexo.config.renderers || {});

@@ -19,8 +19,9 @@ export const escapeHtml = (str: string) => {
  * @param html
  * @returns
  */
-export function htmlFixer(this: Hexo, html: string, data: HexoLocalsData) {
+export function htmlFixer(this: Hexo, html: string, data: Partial<HexoLocalsData>) {
   const hexo = this;
+  const useCache = this.config.renderers.fix.cache || false;
   let cacheKey = '';
   if (data.path) {
     cacheKey = normalizePath(data.path).replace(normalizePath(hexo.base_dir), '');
@@ -32,8 +33,10 @@ export function htmlFixer(this: Hexo, html: string, data: HexoLocalsData) {
     persist: true,
     memory: false
   });
-  const cacheValue = cacheUnit.getSync(cacheKey, '');
-  if (cacheValue !== '') return cacheValue;
+  if (useCache) {
+    const cacheValue = cacheUnit.getSync(cacheKey, '');
+    if (cacheValue !== '') return cacheValue;
+  }
 
   const $ = load(html);
 
