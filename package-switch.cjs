@@ -200,7 +200,8 @@ async function main() {
     );
 
     pkg.resolutions = production;
-    pkg.overrides = production;
+    // npm overrides sometimes give you error installation
+    // pkg.overrides = production;
   }
 
   // Sort by keys
