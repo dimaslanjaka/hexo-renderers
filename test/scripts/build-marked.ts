@@ -16,14 +16,32 @@ fs.ensureDirSync(path.join(rootDir, 'tmp'));
 async function name() {
   reloadHexoConfigYml(rootDir, {
     renderers: {
-      engines: ['markdown-it', 'nunjucks', 'ejs', 'pug'],
+      engines: ['marked', 'nunjucks', 'ejs', 'pug'],
       generator: ['related-posts', 'meta'],
       html_tags: ['summary', 'details', 'detail']
     },
-    markdown: {
-      render: {
-        cache: true
-      }
+    marked: {
+      gfm: true,
+      pedantic: false,
+      breaks: true,
+      smartLists: true,
+      smartypants: true,
+      modifyAnchors: 0,
+      autolink: true,
+      mangle: true,
+      sanitizeUrl: false,
+      dompurify: false,
+      headerIds: true,
+      anchorAlias: false,
+      lazyload: false,
+      prependRoot: true,
+      postAsset: false,
+      external_link: {
+        enable: false,
+        exclude: [],
+        nofollow: false
+      },
+      descriptionLists: true
     }
   });
   await spawnAsync('hexo', ['generate'], { cwd: rootDir, stdio: 'inherit' });

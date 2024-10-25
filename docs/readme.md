@@ -29,7 +29,7 @@ You can specify some renderers by `_config.yml`
 
 ```yaml
 renderers:
-  engines: ['ejs', 'stylus', 'nunjucks', 'dartsass', 'pug', 'sass', 'markdown-it', 'rollup']
+  engines: ['ejs', 'stylus', 'nunjucks', 'dartsass', 'pug', 'sass', 'markdown-it', 'rollup', 'marked']
   generator:
     # enable generate <domain>/meta.json
     - meta
@@ -51,6 +51,10 @@ renderers:
 ## Configurations
 
 ### Markdown
+
+#### markdown-it
+
+Configuration for `markdown-it` engine
 
 ```yaml
 markdown:
@@ -115,15 +119,29 @@ markdown:
   inline: false  # https://markdown-it.github.io/markdown-it/#MarkdownIt.renderInline
 ```
 
-> - dartsass improved from `hexo-renderer-dartsass`
-> - sass improved from `hexo-renderer-sass`
-> when `renderers` is not configured, `hexo-renderer-sass` are being used by default.
+#### marked
 
-## Config each renderer
+This marked renderer is improved from [hexo-renderer-marked](https://github.com/hexojs/hexo-renderer-marked/tree/master#options).
+
+Configuration for `marked` engine [same as hexo-renderer-marked - read here](https://github.com/hexojs/hexo-renderer-marked/tree/master#options)
+
+> **NOTE**: this plugin add `cache` options
+
+```yaml
+marked:
+  cache: true # default false
+  # rest of marked options
+```
+
+### SASS
+
+> - `dartsass` improved from [hexo-renderer-dartsass](https://github.com/KentarouTakeda/hexo-renderer-dartsass/blob/master/README.md)
+> - `sass` improved from [hexo-renderer-sass](https://github.com/knksmith57/hexo-renderer-sass#_configyml)
+
 set config for your desired renderer engine.
+
 - [hexo-renderer-dartsass](https://github.com/KentarouTakeda/hexo-renderer-dartsass/blob/master/README.md)
 - [hexo-renderer-sass](https://github.com/knksmith57/hexo-renderer-sass#_configyml)
-- [hexo-renderer-markdown-it](https://github.com/hexojs/hexo-renderer-markdown-it/blob/master/README.md)
 
 ## Changelog
 

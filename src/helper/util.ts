@@ -1,4 +1,5 @@
 import ansiColors from 'ansi-colors';
+import fs from 'fs-extra';
 
 /**
  * Retrieves category names from input data.
@@ -36,3 +37,19 @@ export type DeepPartial<T> = {
 };
 
 export const logname = ansiColors.magentaBright('hexo-renderers');
+
+/**
+ * check package installed
+ * @param packageName
+ * @returns
+ */
+export function isPackageInstalled(packageName: string) {
+  try {
+    const modules = Array.from((process as any).moduleLoadList).filter(
+      (str: any) => !str.startsWith('NativeModule internal/')
+    );
+    return modules.indexOf(`NativeModule ${packageName}`) >= 0 || fs.existsSync(require.resolve(packageName));
+  } catch (_e) {
+    return false;
+  }
+}

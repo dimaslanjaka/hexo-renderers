@@ -6,9 +6,11 @@ import getRendererConfig from './config.js';
 import { htmlFixer } from './fixer/html.js';
 import { registerCustomGenerator } from './generator/index.js';
 import { registerCustomHelper } from './helper/index.js';
+import { isPackageInstalled } from './helper/util.js';
 import { rendererDartSass } from './renderer-dartsass.js';
 import { rendererEjs } from './renderer-ejs.js';
 import { rendererMarkdownIt } from './renderer-markdown-it.js';
+import { rendererMarked } from './renderer-marked.js';
 import { rendererNunjucks } from './renderer-nunjucks.js';
 import { rendererPug } from './renderer-pug.js';
 import { rendererSass } from './renderer-sass.js';
@@ -73,7 +75,20 @@ if (typeof hexo !== 'undefined') {
       case 'markdown-it':
         rendererMarkdownIt(hexo);
         break;
+      case 'marked':
+        rendererMarked(hexo);
+        break;
     }
+  }
+
+  // enable marked renderer when markdown-it not enabled
+  if (
+    !isPackageInstalled('hexo-renderer-marked') &&
+    !options.engines.includes('marked') &&
+    !options.engines.includes('markdown-it')
+  ) {
+    hexo.log.info('Enabling renderer marked');
+    rendererMarked(hexo);
   }
 
   if (options.fix.html) {

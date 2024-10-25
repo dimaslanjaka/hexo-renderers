@@ -16,7 +16,7 @@ fs.ensureDirSync(path.join(rootDir, 'tmp'));
 async function name() {
   reloadHexoConfigYml(rootDir, {
     renderers: {
-      engines: ['markdown-it', 'nunjucks', 'ejs', 'pug'],
+      engines: ['ejs', 'stylus', 'nunjucks', 'dartsass', 'pug', 'sass', 'markdown-it', 'rollup'],
       generator: ['related-posts', 'meta'],
       html_tags: ['summary', 'details', 'detail']
     },
