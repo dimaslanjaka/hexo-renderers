@@ -1,5 +1,6 @@
 import { del } from 'sbg-utility';
 import path from 'upath';
+import { initCli } from './cli.js';
 import getRendererConfig from './config.js';
 import { registerCustomGenerator } from './generator/index.js';
 import { registerCustomHelper } from './helper/index.js';
@@ -24,6 +25,9 @@ if (typeof hexo !== 'undefined') {
   // hexo.extend.filter.register('after_init', function (this: Hexo) {
   //   loadPostData(this);
   // });
+
+  // Initialize CLI
+  initCli(hexo);
 
   // clean temp files after clean
   hexo.extend.filter.register('after_clean', function () {
