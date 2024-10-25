@@ -17,7 +17,7 @@ async function name() {
   reloadHexoConfigYml(rootDir, {
     renderers: {
       // engines: ['ejs', 'stylus', 'nunjucks', 'dartsass', 'pug', 'sass', 'markdown-it', 'rollup'],
-      // engines: ['markdown-it'],
+      engines: ['markdown-it'],
       generator: ['related-posts', 'meta'],
       html_tags: ['summary', 'details', 'detail']
     },
@@ -27,7 +27,7 @@ async function name() {
       }
     }
   });
-  await spawnAsync('npm', ['run', 'build'], { cwd: rootDir, stdio: 'inherit' });
+  await spawnAsync('hexo', ['generate'], { cwd: rootDir, stdio: 'inherit' });
 }
 
 name();

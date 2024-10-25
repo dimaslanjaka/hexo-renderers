@@ -1,20 +1,23 @@
 import Hexo from 'hexo';
 
-export interface RendererOptions {
-  generator: string[];
-  engines: string[];
-  html_tags: string[];
-}
-
+/**
+ * get hexo renderers config (_config_yml.renderers)
+ * @param hexo
+ * @returns
+ */
 export default function getRendererConfig(hexo: Hexo) {
-  const options: RendererOptions = Object.assign(
-    { generator: ['meta'], engines: [], html_tags: [] },
-    hexo.config.renderers?.generator || {},
-    hexo.config.renderers || {}
-  );
+  const defaultOptions = {
+    generator: ['meta'] as string[],
+    engines: [] as string[],
+    html_tags: [] as string[],
+    fix: {
+      html: false
+    }
+  };
+  const options = Object.assign(defaultOptions, hexo.config.renderers?.generator || {}, hexo.config.renderers || {});
   // shim v1 options
   if (Array.isArray(hexo.config.renderers)) {
     options.engines = hexo.config.renderers;
   }
-  return options;
+  return options as typeof defaultOptions;
 }

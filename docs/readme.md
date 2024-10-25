@@ -42,6 +42,11 @@ renderers:
   # see src\markdown-it\renderer.ts
   # see src\markdown-it\html-tags.js
   html_tags: ['customtag', 'custom-html-tag']
+  fix:
+    # Fix html
+    # - fix invalid post asset folder path
+    # - escape invalid html tags into html entities
+    html: false
 ```
 
 ## Configurations
