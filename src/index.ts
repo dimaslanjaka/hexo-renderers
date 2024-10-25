@@ -4,7 +4,6 @@ import { initCli } from './cli.js';
 import getRendererConfig from './config.js';
 import { registerCustomGenerator } from './generator/index.js';
 import { registerCustomHelper } from './helper/index.js';
-import { logname } from './helper/util.js';
 import { rendererDartSass } from './renderer-dartsass.js';
 import { rendererEjs } from './renderer-ejs.js';
 import { rendererMarkdownIt } from './renderer-markdown-it.js';
@@ -43,49 +42,35 @@ if (typeof hexo !== 'undefined') {
   //   return collectorPost(post, this);
   // });
 
-  if (options.engines.length > 0) {
-    // activate specific engine
-    hexo.log.info('activating renderer engine', options.engines);
-    for (let i = 0; i < options.engines.length; i++) {
-      const engine = options.engines[i];
-      switch (engine) {
-        case 'ejs':
-          rendererEjs(hexo);
-          break;
-        case 'pug':
-          rendererPug(hexo);
-          break;
-        case 'dartsass':
-          rendererDartSass(hexo);
-          break;
-        case 'rollup':
-          rendererRollup(hexo);
-          break;
-        case 'sass':
-          rendererSass(hexo);
-          break;
-        case 'stylus':
-          rendererStylus(hexo);
-          break;
-        case 'nunjucks':
-        case 'njk':
-          rendererNunjucks(hexo);
-          break;
-        case 'markdown-it':
-          rendererMarkdownIt(hexo);
-          break;
-      }
+  hexo.log.info('activating renderer engine', options.engines);
+  for (let i = 0; i < options.engines.length; i++) {
+    const engine = options.engines[i];
+    switch (engine) {
+      case 'ejs':
+        rendererEjs(hexo);
+        break;
+      case 'pug':
+        rendererPug(hexo);
+        break;
+      case 'dartsass':
+        rendererDartSass(hexo);
+        break;
+      case 'rollup':
+        rendererRollup(hexo);
+        break;
+      case 'sass':
+        rendererSass(hexo);
+        break;
+      case 'stylus':
+        rendererStylus(hexo);
+        break;
+      case 'nunjucks':
+      case 'njk':
+        rendererNunjucks(hexo);
+        break;
+      case 'markdown-it':
+        rendererMarkdownIt(hexo);
+        break;
     }
-  } else {
-    hexo.log.info(logname, 'activating all engines');
-    // activate all available engines
-    rendererNunjucks(hexo);
-    rendererEjs(hexo);
-    rendererPug(hexo);
-    rendererStylus(hexo);
-    // rendererRollup(hexo);
-    // rendererDartSass(hexo);
-    rendererSass(hexo);
-    rendererMarkdownIt(hexo);
   }
 }

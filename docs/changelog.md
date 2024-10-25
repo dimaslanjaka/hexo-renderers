@@ -1,3 +1,7 @@
+### 3.0.1
+
+- Drop activating all engines by default. All engine follows `_config_yml.renderers.engine`
+
 ### 3.0.0
 - migrate to ESM with shim for CommonJS
 
