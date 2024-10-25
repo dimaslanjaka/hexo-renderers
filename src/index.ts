@@ -1,9 +1,8 @@
-import { StoreFunction } from 'hexo/dist/extend/renderer-d.js';
 import { del } from 'sbg-utility';
 import path from 'upath';
 import { initCli } from './cli.js';
 import getRendererConfig from './config.js';
-import { htmlFixer } from './fixer/html.js';
+import { initHtmlFixer } from './fixer/index.js';
 import { registerCustomGenerator } from './generator/index.js';
 import { registerCustomHelper } from './helper/index.js';
 import { isPackageInstalled } from './helper/util.js';
@@ -92,7 +91,6 @@ if (typeof hexo !== 'undefined') {
   }
 
   if (options.fix.html) {
-    // all in one html fixer
-    hexo.extend.filter.register('after_render:html', htmlFixer as StoreFunction);
+    initHtmlFixer(hexo);
   }
 }
