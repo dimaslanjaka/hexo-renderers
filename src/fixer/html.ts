@@ -30,27 +30,52 @@ export function htmlFixer(this: Hexo, html: string, _data: HexoLocalsData) {
   });
 
   const $ = load(html);
-  const regexs: RegExp[] = [];
-  $('*').each((index, element) => {
+
+  // Fix local post asset folder
+  const tagsHasSelector = [
+    'img[src]',
+    'script[src]',
+    'iframe[src]',
+    'audio[src]',
+    'video[src]',
+    'source[src]',
+    'track[src]',
+    'embed[src]'
+  ];
+  // Iterate over each selector and find matching elements
+  tagsHasSelector.forEach((selector) => {
+    $(selector).each((index, element) => {
+      let src = $(element).attr('src');
+      if (src) {
+        // prefix with http
+        if (src.startsWith('//')) {
+          src = 'http://' + src;
+        }
+        // skip /node_modules transformation
+        if (src.startsWith('/node_modules')) return;
+        if (!isValidHttpUrl(src) && !src.startsWith(hexo.config.root)) {
+          hexo.log.info(`${selector} found with invalid http src: ${src}`);
+          const finalSrc = path.join(hexo.config.root, src);
+          hexo.log.info(`fix PAF for selector (${selector})`, src, '->', finalSrc);
+          const escaped = escapeRegex(src) as string;
+          html = html.replace(new RegExp(escaped), finalSrc);
+        }
+      }
+    });
+  });
+
+  const anchorInvalidHtmlTags: { regex: RegExp; tagName: string }[] = [];
+  $('a').each((_index, element) => {
     const tagName = (element as any).tagName.toLowerCase();
     if (!resolveValidHtmlTags.bind(hexo)().includes(tagName)) {
-      const regex = new RegExp('</?' + tagName + '>', 'gm');
-      regexs.push(regex);
-    } else if (tagName === 'img' || tagName === 'source' || tagName === 'iframe') {
-      // Fix local post asset folder
-      const src = $(element).attr('src');
-      if (src && !isValidHttpUrl(src) && !src.startsWith(hexo.config.root) && !src.startsWith('//')) {
-        const finalSrc = path.join(hexo.config.root, src);
-        hexo.log.info('fix PAF', src, '->', finalSrc);
-        const escaped = escapeRegex(src) as string;
-        html = html.replace(new RegExp(escaped), finalSrc);
-      }
+      const regex = new RegExp('</?' + escapeRegex(tagName) + '>', 'gm');
+      anchorInvalidHtmlTags.push({ regex, tagName });
     }
   });
 
   // Escape invalid html tags inside anchor
 
-  const results = regexs.map((regex) => {
+  const results = anchorInvalidHtmlTags.map(({ regex }) => {
     const result = html.match(regex);
     if (typeof hexo != 'undefined') {
       hexo.log.warn('found invalid html tags inside anchor', regex, result);

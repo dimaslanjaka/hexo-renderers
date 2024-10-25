@@ -37,16 +37,17 @@ renderers:
     - meta
     # enable generate related posts
     - related-posts
-  # by default, this plugin transforming unknown tags into html entities
-  # add custom html tag names to avoid from transformation
-  # see src\markdown-it\renderer.ts
-  # see src\markdown-it\html-tags.js
-  html_tags: ['customtag', 'custom-html-tag']
   fix:
     # Fix html
     # - fix invalid post asset folder path
     # - escape invalid html tags into html entities
     html: false
+  # when _config_yml.renderers.fix.html is true
+  # this plugin transforming unknown tags into html entities
+  # add custom html tag names to avoid from transformation
+  # reference src\markdown-it\renderer.ts
+  # reference src\markdown-it\html-tags.js
+  html_tags: ['customtag', 'custom-html-tag']
 ```
 
 ## Configurations
@@ -131,6 +132,8 @@ set config for your desired renderer engine.
 ### 3.0.1
 
 - Drop activating all engines by default. All engine follows `_config_yml.renderers.engine`
+- Separate html fixer
+- Fix post asset folder fixer
 
 ### 3.0.0
 - migrate to ESM with shim for CommonJS

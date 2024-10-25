@@ -1,6 +1,8 @@
 ### 3.0.1
 
 - Drop activating all engines by default. All engine follows `_config_yml.renderers.engine`
+- Separate html fixer
+- Fix post asset folder fixer
 
 ### 3.0.0
 - migrate to ESM with shim for CommonJS
