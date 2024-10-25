@@ -1,30 +1,20 @@
 'use strict';
 
-import { load } from 'cheerio';
 import fs from 'fs-extra';
 import Hexo from 'hexo';
 import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import MarkdownIt from 'markdown-it';
 import { createRequire } from 'module';
-import { escapeRegex, isValidHttpUrl, md5, normalizePath, persistentCache } from 'sbg-utility';
+import { md5, normalizePath, persistentCache } from 'sbg-utility';
 import path from 'upath';
 import { fileURLToPath } from 'url';
 import { defaultMarkdownOptions } from '../renderer-markdown-it.js';
 import anchorProcess from './anchors.js';
-import { resolveValidHtmlTags } from './html-tags.js';
 import imageProcess from './images.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 if (typeof require === 'undefined') global.require = createRequire(import.meta.url);
-export const escapeHtml = (str: string) => {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-};
 
 export type MarkdownItRendererOptions =
   | string
@@ -163,49 +153,7 @@ class Renderer {
       });
     }
 
-    // Fix generated html
-
-    const $ = load(html);
-    const regexs: RegExp[] = [];
-    $('*').each((index, element) => {
-      const tagName = (element as any).tagName.toLowerCase();
-      if (!resolveValidHtmlTags.bind(this.hexo)().includes(tagName)) {
-        const regex = new RegExp('</?' + tagName + '>', 'gm');
-        regexs.push(regex);
-      } else if (tagName === 'img' || tagName === 'source' || tagName === 'iframe') {
-        // Fix local post asset folder
-        const src = $(element).attr('src');
-        if (src && !isValidHttpUrl(src) && !src.startsWith(this.hexo.config.root) && !src.startsWith('//')) {
-          const finalSrc = path.join(this.hexo.config.root, src);
-          this.hexo.log.info('fix PAF', src, '->', finalSrc);
-          const escaped = escapeRegex(src) as string;
-          html = html.replace(new RegExp(escaped), finalSrc);
-        }
-      }
-    });
-
-    // Escape invalid html tags inside anchor
-
-    const results = regexs.map((regex) => {
-      const result = html.match(regex);
-      if (typeof hexo != 'undefined') {
-        this.hexo.log.warn('found invalid html tags inside anchor', regex, result);
-      }
-      return { regex, result };
-    });
-    // Flatten the results and filter out null values
-    const matches = results.flat();
-    for (let i = 0; i < matches.length; i++) {
-      const regex_result = matches[i];
-      if (regex_result.result) {
-        for (let i = 0; i < regex_result.result.length; i++) {
-          const replacement = escapeHtml(regex_result.result[i]);
-          // console.log(regex_result.regex, replacement);
-          html = html.replace(regex_result.regex, replacement);
-        }
-      }
-    }
-    if (cache) this.cacheUnit.set(cacheKey, html);
+    this.cacheUnit.setSync(cacheKey, html);
     return html;
   }
 }

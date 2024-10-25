@@ -17,6 +17,8 @@ export interface HexoLocalsData {
   cache?: boolean;
   /** absolute path source post markdown */
   full_source?: string;
+  tags?: any;
+  categories?: any;
 }
 
 export interface HexoRenderData {
