@@ -4,6 +4,7 @@ import MarkdownIt from 'markdown-it';
 import path from 'path';
 import { writefile } from 'sbg-utility';
 import { fileURLToPath } from 'url';
+import { htmlFixer } from '../src/index-exports';
 import rendererMarked from '../src/marked/renderer-new';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -11,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.join(__dirname, 'test-site');
 fs.ensureDirSync(path.join(rootDir, 'tmp'));
 
-const hexo = new Hexo(rootDir, { silent: true });
+const hexo = new Hexo(rootDir, { silent: false });
 hexo.extend.filter.register('markdown-it:renderer', (md: any) => {
   (md as MarkdownIt).validateLink = function () {
     return true;
@@ -20,7 +21,11 @@ hexo.extend.filter.register('markdown-it:renderer', (md: any) => {
 hexo.config.post_asset_folder = true;
 hexo.config.root = '/hexo-themes/hexo-theme-flowbite/';
 hexo.config.renderers = {
-  engines: ['marked']
+  engines: ['marked'],
+  fix: {
+    html: true,
+    cache: false
+  }
 };
 hexo.config.marked = {
   gfm: true,
@@ -48,6 +53,11 @@ hexo.config.marked = {
 };
 const r = rendererMarked.bind(hexo);
 
+const render = (text: string) => {
+  const result = r({ text }, hexo.config.marked);
+  return htmlFixer.call(hexo, result, { text });
+};
+
 function sample() {
   const body = `
 # h1 Heading
@@ -69,18 +79,20 @@ hello
 
 ## Links
 
-[link text](http://dev.nodeca.com)
+- [link text](http://dev.nodeca.com)
 
-[link with title](http://nodeca.github.io/pica/demo/ "title text!")
+- [link with title](http://nodeca.github.io/pica/demo/ "title text!")
 
-Autoconverted link https://github.com/nodeca/pica
+- Autoconverted link https://github.com/nodeca/pica
+
+- [This should escaped <x> <y>](https://stackoverflow.com/questions/43900035/ts4023-exported-variable-x-has-or-is-using-name-y-from-external-module-but)
 `.trim();
-  const result = r({ text: body }, hexo.config.marked);
+  const result = render(body);
   console.log(writefile(rootDir + '/tmp/sample.html', result).file);
 }
 
 function main() {
-  const result = r({ text: fs.readFileSync(rootDir + '/source/_posts/sample.md', 'utf-8') }, hexo.config.marked);
+  const result = render(fs.readFileSync(rootDir + '/source/_posts/sample.md', 'utf-8'));
   console.log(writefile(rootDir + '/tmp/sample2.html', result).file);
 
   sample();

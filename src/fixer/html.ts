@@ -1,7 +1,9 @@
+import ansiColors from 'ansi-colors';
 import { load } from 'cheerio';
 import Hexo from 'hexo';
 import { escapeRegex, isValidHttpUrl, md5, normalizePath, persistentCache } from 'sbg-utility';
 import path from 'upath';
+import getRendererConfig from '../config';
 import { HexoLocalsData } from '../helper/hexoLocalsData';
 import { resolveValidHtmlTags } from '../markdown-it/html-tags';
 
@@ -21,7 +23,7 @@ export const escapeHtml = (str: string) => {
  */
 export function htmlFixer(this: Hexo, html: string, data: Partial<HexoLocalsData>) {
   const hexo = this;
-  const useCache = this.config.renderers.fix.cache || false;
+  const useCache = getRendererConfig(this).fix.cache;
   let cacheKey = '';
   if (data.path) {
     cacheKey = normalizePath(data.path).replace(normalizePath(hexo.base_dir), '');
@@ -63,9 +65,9 @@ export function htmlFixer(this: Hexo, html: string, data: Partial<HexoLocalsData
         // skip /node_modules transformation
         if (src.startsWith('/node_modules')) return;
         if (!isValidHttpUrl(src) && !src.startsWith(hexo.config.root)) {
-          hexo.log.info(`${selector} found with invalid http src: ${src}`);
+          // hexo.log.info(`${selector} found with invalid http src: ${src}`);
           const finalSrc = path.join(hexo.config.root, src);
-          hexo.log.info(`fix PAF for selector (${selector})`, src, '->', finalSrc);
+          hexo.log.info(`fix PAF (${selector})`, src, '->', finalSrc);
           const escaped = escapeRegex(src) as string;
           html = html.replace(new RegExp(escaped), finalSrc);
         }
@@ -74,20 +76,30 @@ export function htmlFixer(this: Hexo, html: string, data: Partial<HexoLocalsData
   });
 
   const anchorInvalidHtmlTags: { regex: RegExp; tagName: string }[] = [];
-  $('a').each((_index, element) => {
-    const tagName = (element as any).tagName.toLowerCase();
-    if (!resolveValidHtmlTags.bind(hexo)().includes(tagName)) {
-      const regex = new RegExp('</?' + escapeRegex(tagName) + '>', 'gm');
-      anchorInvalidHtmlTags.push({ regex, tagName });
-    }
+  $('a').each((_i, anchor) => {
+    // Select all tags inside the current anchor
+    const innerTags = $(anchor).find('*');
+
+    // Process inner tags as needed
+    innerTags.each((_i, element) => {
+      const tagName = (element as any).tagName.toLowerCase();
+      if (!resolveValidHtmlTags.call(hexo).includes(tagName)) {
+        const regex = new RegExp('</?' + escapeRegex(tagName) + '>', 'gm');
+        anchorInvalidHtmlTags.push({ regex, tagName });
+      }
+    });
   });
 
   // Escape invalid html tags inside anchor
 
-  const results = anchorInvalidHtmlTags.map(({ regex }) => {
+  const results = anchorInvalidHtmlTags.map(({ regex, tagName }) => {
     const result = html.match(regex);
     if (typeof hexo != 'undefined') {
-      hexo.log.warn('found invalid html tags inside anchor', regex, result);
+      hexo.log.warn(
+        `found invalid html tags "a > ${tagName}"`,
+        ansiColors.magentaBright(new String(regex).toString()),
+        ansiColors.redBright(Array.from(result).join(', '))
+      );
     }
     return { regex, result };
   });
