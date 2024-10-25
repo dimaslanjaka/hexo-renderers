@@ -45,10 +45,14 @@
   "code-runner.runInTerminal": true,
   "code-runner.saveAllFilesBeforeRun": true,
   "code-runner.executorMapByGlob": {
+    "pom.xml": "cd $dir && mvn clean package",
+    "*.{test,spec}.{ts,js,cjs,mjs}": "yarn test -- $fileNameWithoutExt",
+    "*.runner.ts": "yarn build && node --no-warnings --experimental-specifier-resolution=node --loader ts-node/esm -r dotenv/config",
+    "*.explicit.ts": "node --no-warnings --experimental-specifier-resolution=node --loader ts-node/esm -r dotenv/config",
+    "*.{explicit,runner}.{mjs,cjs,js}": "yarn build && node --no-warnings --experimental-specifier-resolution=node -r dotenv/config",
     "electron-*.ts": "cross-env-shell NODE_ENV=development electron -r ts-node/register",
     "*.py": "python -u",
     "*.electron.js": "cross-env-shell NODE_ENV=development electron -r ts-node/register",
-    "*.test.ts": "mocha --parallel -r ts-node/register",
     "*.ts": "node --no-warnings --experimental-specifier-resolution=node --loader ts-node/esm -r dotenv/config"
   },
   "code-runner.respectShebang": true,
@@ -139,7 +143,6 @@
     "**/.yarn/**": true,
     "**/profiles/**": true,
     "**/tmp/**": true,
-    "**/config/**": true,
     "**/databases/**": true,
     "**/node_modules/**": true,
     "src/database.sqlite*": true
@@ -156,7 +159,6 @@
     "**/.svn": true,
     "**/.venv": true,
     "**/.yarn": true,
-    "**/config": true,
     "**/CVS": true,
     "**/node_modules": true,
     "**/Thumbs.db": true,
@@ -174,6 +176,5 @@
   "typescript.tsdk": "./node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": false,
   "editor.formatOnType": false,
-  "git.autoStash": false,
-  "git.useCommitInputAsStashMessage": false
+  "git.scanRepositories": ["packages/hexo-post-parser"]
 }

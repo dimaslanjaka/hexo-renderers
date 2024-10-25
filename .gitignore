@@ -7,4 +7,5 @@
 yarn.lock
 /lib
 .env
-/dist
+**/dist
+**/coverage
