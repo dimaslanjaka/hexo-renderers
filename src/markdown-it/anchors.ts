@@ -2,7 +2,7 @@
 
 import hutil from 'hexo-util';
 import MarkdownIt from 'markdown-it';
-import Token from 'markdown-it/token';
+import Token from 'markdown-it/dist/token.mjs';
 
 interface renderPermalinkOptions {
   [key: string]: any;
