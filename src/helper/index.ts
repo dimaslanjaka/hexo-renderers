@@ -60,6 +60,14 @@ export function toArray(value: any) {
     return value.toArray();
   } else if (Array.isArray(value)) {
     return value;
+  } else if (value instanceof Map) {
+    const arr = [];
+    value.forEach((v) => arr.push(v));
+    return arr;
+  } else if (value instanceof Set || typeof value === 'string') {
+    return [...value];
+  } else if (isObject(value) && value instanceof Object && Boolean(value)) {
+    return Object.values(value);
   }
 
   return _toArray(value);
