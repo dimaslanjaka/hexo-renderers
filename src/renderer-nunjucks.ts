@@ -99,8 +99,8 @@ export function rendererNunjucks(hexo: Hexo) {
   render.compile = compile;
 
   // hexo.extend.renderer.register('swig', 'html', render, true);
-  hexo.extend.renderer.register('njk', 'html', render as StoreFunction, false);
-  hexo.extend.renderer.register('j2', 'html', render as StoreFunction, false);
+  hexo.extend.renderer.register('njk', 'html', render as StoreFunction, true);
+  hexo.extend.renderer.register('j2', 'html', render as StoreFunction, true);
 
   return { render, rendererNunjucks, compile };
 }
