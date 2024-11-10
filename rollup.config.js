@@ -16,7 +16,7 @@ const __dirname = path.dirname(__filename);
  */
 const pkg = jsonc.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf-8'));
 export const external = Object.keys(pkg.dependencies)
-  .concat(Object.keys(pkg.devDependencies))
+  .concat(...Object.keys(pkg.devDependencies), 'lodash', 'underscore')
   .filter((pkgName) => ![/*'markdown-it', */ 'p-limit', 'deepmerge-ts'].includes(pkgName));
 
 /**
