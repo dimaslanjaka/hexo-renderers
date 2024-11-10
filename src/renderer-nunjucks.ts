@@ -54,7 +54,7 @@ export function rendererNunjucks(hexo: Hexo) {
     }
 
     const result = nunjucks.render(data.path as string, locals);
-    cacheUnit.setSync(cacheKey, result);
+    if (typeof result === 'string') cacheUnit.setSync(cacheKey, result);
     return result;
   }
 
