@@ -1,13 +1,17 @@
 import Hexo from 'hexo';
-import sass from 'node-sass';
 import path from 'path';
+import sass from 'sass';
 // import * as util from 'util';
 const extend = Object.assign; //util['_extend'];
 
 const sassRenderer = (ext: string) =>
   function (this: Hexo, data: { text?: any; path?: any }) {
     // support global and theme-specific config
-    const userConfig = extend(this.theme.config.node_sass || {}, this.config.node_sass || {});
+    // Backward compatibility: support both 'sass' and legacy 'node_sass' config keys
+    const userConfig = extend(
+      this.theme.config.sass || this.theme.config.node_sass || {},
+      this.config.sass || this.config.node_sass || {}
+    );
 
     const config = extend(
       {
@@ -36,11 +40,11 @@ const sassRenderer = (ext: string) =>
     );
 
     try {
-      // node-sass result object:
-      // https://github.com/sass/node-sass#result-object
+      // sass result object:
+      // https://github.com/sass/dart-sass#result-object
       const result = sass.renderSync(config);
       // result is now Buffer instead of String
-      // https://github.com/sass/node-sass/issues/711
+      // https://github.com/sass/dart-sass#result-object
       return Promise.resolve(result.css.toString());
     } catch (error: any) {
       console.error(error.toString());
