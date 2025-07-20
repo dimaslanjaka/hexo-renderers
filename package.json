@@ -57,9 +57,9 @@
     "test": "cross-env-shell NODE_OPTIONS=\"--experimental-vm-modules\" jest",
     "test:stylus": "mocha test/stylus.test.js",
     "test-cov:stylus": "c8 --reporter=lcovonly --reporter=text npm run test",
-    "prepack": "node package-switch.cjs production && node prepack.cjs --yarn",
+    "prepack": "node prepack.cjs --yarn",
     "pack": "node packer.cjs --yarn",
-    "prepublish": "node package-switch.cjs production && node prepack.cjs --yarn",
+    "prepublish": "node prepack.cjs --yarn",
     "site": "yarn run build && yarn workspace hexo-renderers-test run build"
   },
   "engines": {
