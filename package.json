@@ -2,19 +2,14 @@
   "name": "hexo-renderers",
   "version": "3.0.1",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "require": {
-        "default": "./dist/index.cjs",
-        "types": "./dist/index.d.cts"
-      },
-      "import": {
-        "default": "./dist/index.mjs",
-        "types": "./dist/index.d.mts"
-      }
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
     }
   },
   "files": [
@@ -174,7 +169,6 @@
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"
   },
-  "packageManager": "yarn@4.5.1",
   "directories": {
     "test": "test",
     "lib": "dist"
