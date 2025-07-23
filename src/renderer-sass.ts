@@ -1,6 +1,6 @@
 import Hexo from 'hexo';
 import path from 'path';
-import sass from 'sass';
+import * as sass from 'sass';
 // import * as util from 'util';
 const extend = Object.assign; //util['_extend'];
 
