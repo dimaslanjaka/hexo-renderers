@@ -13,7 +13,8 @@ const sassRenderer = (ext: string) =>
       this.config.sass || this.config.node_sass || {}
     );
 
-    const config = extend(
+
+    let config = extend(
       {
         data: data.text,
         file: data.path,
@@ -23,6 +24,11 @@ const sassRenderer = (ext: string) =>
       },
       userConfig
     );
+
+    // Map legacy 'nested' outputStyle to 'expanded' for Dart Sass compatibility
+    if (config.outputStyle === 'nested') {
+      config.outputStyle = 'expanded';
+    }
 
     // turn includePaths into array
     if (typeof config.includePaths === 'string') {
