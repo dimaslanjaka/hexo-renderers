@@ -1,0 +1,82 @@
+/* Variables */
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$font-stack: 'Segoe UI', Arial, sans-serif;
+$base-padding: 1rem;
+
+/* Mixins */
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Base styles */
+body {
+  font-family: $font-stack;
+  background: #f5f6fa;
+  color: #222;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header */
+.header {
+  background: $primary-color;
+  color: #fff;
+  padding: $base-padding * 2;
+  @include flex-center;
+  h1 {
+    margin: 0;
+    font-size: 2rem;
+    letter-spacing: 2px;
+  }
+}
+
+/* Button */
+.button {
+  background: $secondary-color;
+  color: #fff;
+  border: none;
+  padding: $base-padding $base-padding * 2;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+  &:hover {
+    background: darken($secondary-color, 10%);
+  }
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: $base-padding * 2;
+  margin: $base-padding auto;
+  max-width: 400px;
+  .card-title {
+    font-size: 1.25rem;
+    margin-bottom: $base-padding;
+    color: $primary-color;
+  }
+  .card-content {
+    font-size: 1rem;
+    color: #555;
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .header {
+    padding: $base-padding;
+    h1 {
+      font-size: 1.2rem;
+    }
+  }
+  .card {
+    padding: $base-padding;
+    max-width: 100%;
+  }
+}
