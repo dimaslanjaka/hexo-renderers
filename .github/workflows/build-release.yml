@@ -7,11 +7,10 @@ name: Build Release
 
 on:
   push:
-    branches: ['master', 'main', 'private']
     paths-ignore:
       - '**/*.tgz'
       - '**/*.gz'
-      - '**/release/**'
+      - '**/release*/**'
       - '**garbage-collector**'
       - '**codeql**'
       - '**/.github/workflows/tester.yml'
