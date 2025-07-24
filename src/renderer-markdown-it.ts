@@ -7,7 +7,7 @@ import Renderer from './markdown-it/renderer.js';
 export const defaultMarkdownOptions = {
   preset: 'default',
   render: {
-    html: true,
+    html: false,
     xhtmlOut: false,
     langPrefix: 'language-',
     breaks: true,
