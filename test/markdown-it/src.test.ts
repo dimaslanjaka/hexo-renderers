@@ -1,4 +1,4 @@
-import { expect } from '@jest/globals';
+import { describe, expect, test } from '@jest/globals';
 import Hexo from 'hexo';
 import path from 'path';
 import { fileURLToPath } from 'url';
