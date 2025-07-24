@@ -177,11 +177,11 @@
     "url": "https://github.com/dimaslanjaka/hexo-renderers/issues"
   },
   "resolutions": {
-    "@types/git-command-helper": "https://github.com/dimaslanjaka/git-command-helper/raw/34c0cae5545b8bdc6c7b1a3e0f4b85c09af2a855/release/git-command-helper.tgz",
+    "@types/git-command-helper": "https://github.com/dimaslanjaka/git-command-helper/raw/991214dbbea1769747acf40cbbdbe677c4f1ee2e/release/git-command-helper.tgz",
     "@types/hexo": "https://github.com/dimaslanjaka/hexo/raw/62efb19b69dcb3b771e0d607eb77f573d97c2a77/releases/hexo.tgz",
-    "binary-collections": "https://github.com/dimaslanjaka/bin/raw/db7f74ca1e61df729b40c6665eb27349f5c97ccc/releases/bin.tgz",
+    "binary-collections": "https://github.com/dimaslanjaka/bin/raw/b47b882912568d106f13e4fc668b143878ed0133/releases/bin.tgz",
     "cross-spawn": "https://github.com/dimaslanjaka/node-cross-spawn/raw/80999ac7a7031a81e11ddb5fab0f8ba433041c98/release/cross-spawn.tgz",
-    "git-command-helper": "https://github.com/dimaslanjaka/git-command-helper/raw/34c0cae5545b8bdc6c7b1a3e0f4b85c09af2a855/release/git-command-helper.tgz",
+    "git-command-helper": "https://github.com/dimaslanjaka/git-command-helper/raw/991214dbbea1769747acf40cbbdbe677c4f1ee2e/release/git-command-helper.tgz",
     "hexo": "https://github.com/dimaslanjaka/hexo/raw/62efb19b69dcb3b771e0d607eb77f573d97c2a77/releases/hexo.tgz",
     "hexo-adsense": "https://github.com/dimaslanjaka/hexo-adsense/raw/f1bc48e54bd804e0afae0088e622905b052bc91a/release/hexo-adsense.tgz",
     "hexo-asset-link": "https://github.com/dimaslanjaka/hexo/raw/62efb19b69dcb3b771e0d607eb77f573d97c2a77/releases/hexo-asset-link.tgz",
@@ -197,11 +197,11 @@
     "hexo-util": "https://github.com/dimaslanjaka/hexo/raw/62efb19b69dcb3b771e0d607eb77f573d97c2a77/releases/hexo-util.tgz",
     "instant-indexing": "https://github.com/dimaslanjaka/static-blog-generator/raw/f221d11cdc32fa7dd001e5236f8c3f30387e62d2/packages/instant-indexing/release/instant-indexing.tgz",
     "markdown-it": "https://github.com/dimaslanjaka/markdown-it/raw/17ccc825cbb3e4c6d59edada5f6d93f27075d752/release/markdown-it.tgz",
-    "nodejs-package-types": "https://github.com/dimaslanjaka/nodejs-package-types/raw/f34b39f0f95b5acb8e2fcf7444788cd2e03e42be/release/nodejs-package-types.tgz",
+    "nodejs-package-types": "https://github.com/dimaslanjaka/nodejs-package-types/raw/06bd124c73f84a9c1313800660b0b4b48b14e274/release/nodejs-package-types.tgz",
     "sbg-api": "https://github.com/dimaslanjaka/static-blog-generator/raw/95400dd87106542a640092fa2073ee7d5c9b83e6/packages/sbg-api/release/sbg-api.tgz",
     "sbg-cli": "https://github.com/dimaslanjaka/static-blog-generator/raw/4a6d2c0b2a7653402ccb87229fa2f074986e9ede/packages/sbg-cli/release/sbg-cli.tgz",
     "sbg-server": "https://github.com/dimaslanjaka/static-blog-generator/raw/4a6d2c0b2a7653402ccb87229fa2f074986e9ede/packages/sbg-server/release/sbg-server.tgz",
-    "sbg-utility": "https://github.com/dimaslanjaka/static-blog-generator/raw/67e658f4cdc6bab94fef60a9a146a441df43f050/packages/sbg-utility/release/sbg-utility.tgz",
+    "sbg-utility": "https://github.com/dimaslanjaka/static-blog-generator/raw/df939d4cb3e31fded39412534bcef11de9fe0dcc/packages/sbg-utility/release/sbg-utility.tgz",
     "static-blog-generator": "https://github.com/dimaslanjaka/static-blog-generator/raw/4a6d2c0b2a7653402ccb87229fa2f074986e9ede/packages/static-blog-generator/release/static-blog-generator.tgz",
     "warehouse": "https://github.com/dimaslanjaka/hexo/raw/62efb19b69dcb3b771e0d607eb77f573d97c2a77/releases/warehouse.tgz"
   }
