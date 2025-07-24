@@ -3,10 +3,10 @@ import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import color from 'ansi-colors';
-import fs from 'fs';
+import fs from 'fs-extra';
 import jsonc from 'jsonc-parser';
-import path from 'path';
 import { dts } from 'rollup-plugin-dts';
+import path from 'upath';
 import { fileURLToPath } from 'url';
 
 // __filename and __dirname for ESM
@@ -177,8 +177,8 @@ const input = 'src/index.ts';
  * @type {import('rollup').Plugin[]}
  */
 const plugins = [
-  json(),
   resolve({ preferBuiltins: true }),
+  json(),
   typescript({
     tsconfig: 'tsconfig.build.json',
     compilerOptions: {
@@ -197,19 +197,22 @@ const _bundle = {
   input,
   output: [
     {
-      file: 'dist/index.cjs',
+      dir: 'dist',
       format: 'cjs',
-      sourcemap: false
+      sourcemap: false,
+      preserveModules: true,
+      preserveModulesRoot: 'src',
+      entryFileNames: entryFileNamesWithExt('cjs'),
+      chunkFileNames: chunkFileNamesWithExt('cjs')
     },
     {
-      file: 'dist/index.js',
+      dir: 'dist',
       format: 'esm',
-      sourcemap: false
-    },
-    {
-      file: 'dist/index.mjs',
-      format: 'esm',
-      sourcemap: false
+      sourcemap: false,
+      preserveModules: true,
+      preserveModulesRoot: 'src',
+      entryFileNames: entryFileNamesWithExt('js'),
+      chunkFileNames: chunkFileNamesWithExt('js')
     }
   ],
   plugins,
