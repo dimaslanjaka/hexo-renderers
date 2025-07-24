@@ -47,7 +47,7 @@
     "build:tsup": "rimraf dist && node build.tsup.js && tsc -b tsconfig.build.json && gulp",
     "build": "tsc -b tsconfig.build.json && rollup -c && gulp",
     "clean": "rimraf dist tmp && npm run build",
-    "pretest": "npm run build",
+    "pretest": "node --no-warnings --experimental-specifier-resolution=node --loader ts-node/esm -r dotenv/config jest.setup.ts",
     "test": "cross-env-shell NODE_OPTIONS=\"--experimental-vm-modules\" jest",
     "prepack": "node prepack.cjs --yarn",
     "pack": "node packer.cjs --yarn",
