@@ -4,8 +4,6 @@ on:
   # schedule:
   #   - cron: '0 */12 * * *' # Schedule every 12 hours
   push:
-    branches:
-      - master
   workflow_dispatch:
   workflow_call:
     secrets:
