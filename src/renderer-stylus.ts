@@ -1,5 +1,5 @@
 import Hexo from 'hexo';
-import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
+import { StoreFunctionData } from 'hexo/dist/types';
 import { createRequire } from 'module';
 import stylus from 'stylus';
 

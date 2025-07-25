@@ -6,7 +6,7 @@ import path from 'upath';
 import { toArray } from './helper/index.js';
 //const ansiColors = require('ansi-colors');
 import Hexo from 'hexo';
-import { StoreFunction } from 'hexo/dist/extend/renderer-d';
+import { StoreFunction } from 'hexo/dist/types';
 import { PageSchema } from 'hexo/dist/types';
 import { md5, md5FileSync, persistentCache } from 'sbg-utility';
 import { HexoLocalsData, HexoRenderData } from './helper/hexoLocalsData.js';

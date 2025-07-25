@@ -1,5 +1,5 @@
 import Hexo from 'hexo';
-import { StoreFunction } from 'hexo/dist/extend/renderer-d';
+import { StoreFunction } from 'hexo/dist/types';
 import { htmlFixer } from './html';
 
 export function initHtmlFixer(hexo: Hexo) {

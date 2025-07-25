@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import Hexo from 'hexo';
-import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
+import { StoreFunctionData } from 'hexo/dist/types';
 import MarkdownIt from 'markdown-it';
 import path from 'path';
 import { fileURLToPath } from 'url';

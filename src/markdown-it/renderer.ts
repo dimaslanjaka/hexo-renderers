@@ -2,7 +2,7 @@
 
 import fs from 'fs-extra';
 import Hexo from 'hexo';
-import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
+import { StoreFunctionData } from 'hexo/dist/types';
 import MarkdownIt from 'markdown-it';
 import { createRequire } from 'module';
 import { md5, normalizePath, persistentCache } from 'sbg-utility';

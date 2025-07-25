@@ -1,5 +1,5 @@
 import Hexo from 'hexo';
-import { StoreFunction } from 'hexo/dist/extend/renderer-d';
+import { StoreFunction } from 'hexo/dist/types';
 import sass from 'sass';
 
 /**

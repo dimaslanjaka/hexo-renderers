@@ -1,7 +1,7 @@
 'use strict';
 
 import Hexo from 'hexo';
-import type { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
+import type { StoreFunctionData } from 'hexo/dist/types';
 import Renderer from './markdown-it/renderer.js';
 
 export const defaultMarkdownOptions = {

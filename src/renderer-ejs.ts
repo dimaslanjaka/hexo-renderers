@@ -1,6 +1,6 @@
 import * as ejs from 'ejs';
 import Hexo from 'hexo';
-import type { StoreFunction, StoreFunctionData } from 'hexo/dist/extend/renderer-d';
+import type { StoreFunction, StoreFunctionData } from 'hexo/dist/types';
 import { toArray } from './helper/index.js';
 
 /**

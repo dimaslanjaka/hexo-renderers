@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import { StoreFunction } from 'hexo/dist/extend/renderer-d.js';
+import { StoreFunction } from 'hexo/dist/types.js';
 import lodash from 'lodash';
 import path from 'path';
 import {

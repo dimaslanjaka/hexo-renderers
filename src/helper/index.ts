@@ -1,7 +1,7 @@
 import fs from 'fs';
 import Hexo from 'hexo';
 import * as hexoUtil from 'hexo-util';
-import { StoreFunction } from 'hexo/dist/extend/renderer-d.js';
+import { StoreFunction } from 'hexo/dist/types.js';
 import type { PageSchema } from 'hexo/dist/types';
 import lodash from 'lodash';
 import { createRequire } from 'module';
