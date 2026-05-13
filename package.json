@@ -60,7 +60,7 @@
   "license": "MIT",
   "description": "All in one hexo renderers",
   "workspaces": [
-    "packages/markdown-it-math",
+    "packages/markdown-it-mathematics",
     "test/test-site"
   ],
   "dependencies": {
