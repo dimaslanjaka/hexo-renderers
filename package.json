@@ -60,7 +60,8 @@
   "license": "MIT",
   "description": "All in one hexo renderers",
   "workspaces": [
-    "packages/*"
+    "packages/markdown-it-math",
+    "test/test-site"
   ],
   "dependencies": {
     "@babel/core": "^7.28.0",
