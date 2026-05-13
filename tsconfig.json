@@ -15,7 +15,6 @@
     "allowJs": true,
     "checkJs": false,
     "resolveJsonModule": true,
-    "downlevelIteration": true,
     "noImplicitAny": false,
     "noImplicitThis": false,
     /* Strict Type-Checking Options */
