@@ -1,5 +1,4 @@
 import fs from 'fs-extra';
-import { StoreFunction } from 'hexo/dist/types.js';
 import lodash from 'lodash';
 import path from 'path';
 import {
@@ -160,5 +159,5 @@ export function getRelatedPosts(hexo: import('hexo')) {
   } else {
     return;
   }
-  hexo.extend.helper.register('list_related_posts', list_related_posts as StoreFunction);
+  hexo.extend.helper.register('list_related_posts', list_related_posts as any);
 }

@@ -22,5 +22,5 @@ export function rendererMathjax(hexo: import('hexo')) {
       content = content.replace(bodyTag, mathjaxScript + '\n' + bodyTag);
     }
     return ejs.render(content, options, { async: true });
-  });
+  } as any);
 }

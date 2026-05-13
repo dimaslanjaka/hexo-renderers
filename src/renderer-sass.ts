@@ -60,6 +60,6 @@ const sassRenderer = (ext: string) =>
 
 export function rendererSass(hexo: Hexo) {
   // associate the Sass renderer with .scss AND .sass extensions
-  hexo.extend.renderer.register('scss', 'css', sassRenderer('scss'));
-  hexo.extend.renderer.register('sass', 'css', sassRenderer('sass'));
+  hexo.extend.renderer.register('scss', 'css', sassRenderer('scss') as any);
+  hexo.extend.renderer.register('sass', 'css', sassRenderer('sass') as any);
 }

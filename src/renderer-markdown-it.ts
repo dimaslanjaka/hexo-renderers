@@ -1,7 +1,6 @@
 'use strict';
 
 import Hexo from 'hexo';
-import type { StoreFunctionData } from 'hexo/dist/types';
 import Renderer from './markdown-it/renderer.js';
 
 export const defaultMarkdownOptions = {
@@ -57,7 +56,7 @@ export const defaultMarkdownOptions = {
 };
 
 export type rendererMarkdownItReturn = (
-  data: StoreFunctionData & Record<string, any>,
+  data: Record<string, any>,
   options?: Record<string, any>
 ) => string;
 
@@ -108,7 +107,7 @@ export function rendererMarkdownIt(hexo: Hexo): rendererMarkdownItReturn {
   renderer.disableNunjucks =
     hexo.config.markdown.disableNunjucks === 'true' || hexo.config.markdown.disableNunjucks === true;
 
-  function render(data: StoreFunctionData, options: Partial<typeof defaultMarkdownOptions> = {}) {
+  function render(data: Record<string, any>, options: Partial<typeof defaultMarkdownOptions> = {}) {
     return renderer.render(data, options);
   }
 

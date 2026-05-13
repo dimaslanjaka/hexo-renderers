@@ -1,5 +1,4 @@
 import Hexo from 'hexo';
-import { StoreFunction } from 'hexo/dist/types';
 
 /**
  * hexo get post by key with name
@@ -41,5 +40,5 @@ export function getPostByLabelInternal(
 }
 
 export function getPostByLabel(hexo: Hexo) {
-  hexo.extend.helper.register('getPostByLabel', getPostByLabelInternal as StoreFunction);
+  hexo.extend.helper.register('getPostByLabel', getPostByLabelInternal as any);
 }

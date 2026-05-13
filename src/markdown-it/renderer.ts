@@ -2,7 +2,6 @@
 
 import fs from 'fs-extra';
 import Hexo from 'hexo';
-import { StoreFunctionData } from 'hexo/dist/types';
 import MarkdownIt from 'markdown-it';
 import { createRequire } from 'module';
 import { md5, normalizePath, persistentCache } from 'sbg-utility';
@@ -127,7 +126,7 @@ class Renderer {
     this.disableNunjucks = false;
   }
 
-  render(data: StoreFunctionData, options: Partial<typeof defaultMarkdownOptions>) {
+  render(data: Record<string, any>, options: Partial<typeof defaultMarkdownOptions>) {
     const cache = this.markdownConfig.render.cache || false;
     let cacheKey = '';
     if (data.path) {

@@ -6,7 +6,6 @@ import path from 'upath';
 import { toArray } from './helper/index.js';
 //const ansiColors = require('ansi-colors');
 import Hexo from 'hexo';
-import { StoreFunction } from 'hexo/dist/types';
 import { PageSchema } from 'hexo/dist/types';
 import { md5, md5FileSync, persistentCache } from 'sbg-utility';
 import { HexoLocalsData, HexoRenderData } from './helper/hexoLocalsData.js';
@@ -99,8 +98,8 @@ export function rendererNunjucks(hexo: Hexo) {
   render.compile = compile;
 
   // hexo.extend.renderer.register('swig', 'html', render, true);
-  hexo.extend.renderer.register('njk', 'html', render as StoreFunction, true);
-  hexo.extend.renderer.register('j2', 'html', render as StoreFunction, true);
+  hexo.extend.renderer.register('njk', 'html', render as any, true);
+  hexo.extend.renderer.register('j2', 'html', render as any, true);
 
   return { render, rendererNunjucks, compile };
 }

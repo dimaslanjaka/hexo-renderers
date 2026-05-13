@@ -1,6 +1,5 @@
 import fs from 'fs-extra';
 import Hexo from 'hexo';
-import { StoreFunctionData } from 'hexo/dist/types';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { rendererNunjucks } from '../src/renderer-nunjucks.js';
@@ -17,7 +16,7 @@ const context = {
   name: 'world'
 };
 const result = r.render(
-  { text: fs.readFileSync(__dirname + '/fixtures/hello.njk', 'utf-8') } as StoreFunctionData,
+  { text: fs.readFileSync(__dirname + '/fixtures/hello.njk', 'utf-8') } as any,
   context
 );
 // fs.writeFileSync(__dirname + '/fixtures/sample-result.html', result);

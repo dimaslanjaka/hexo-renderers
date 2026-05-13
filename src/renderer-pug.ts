@@ -1,5 +1,4 @@
 import Hexo from 'hexo';
-import { StoreFunction } from 'hexo/dist/types';
 import { createRequire } from 'module';
 import path from 'path';
 import * as pug from 'pug';
@@ -25,13 +24,13 @@ export function rendererPug(hexo: Hexo) {
   const config = hasConfig ? require(configPath) : defaultConfig;
 
   // Validate non-standard keys -- e.g. 'compile'.
-  const hasProp = (obj: StoreFunction, prop: PropertyKey) => Object.prototype.hasOwnProperty.call(obj, prop);
-  const invalidKeys = Object.keys(config).filter((k) => !hasProp(defaultConfig as StoreFunction, k));
+  const hasProp = (fn: (...args: any) => any, prop: PropertyKey) => Object.prototype.hasOwnProperty.call(fn, prop);
+  const invalidKeys = Object.keys(config).filter((k) => !hasProp(defaultConfig as any, k));
   if (invalidKeys.length > 0) {
     throw Error(`Unsupported PUG config keys: ${invalidKeys.join(', ')}`);
   }
 
-  function pugCompile(data) {
+  function pugCompile(data: Record<string, any>) {
     const opts = {
       ...config.compile,
       filename: data.path // always used
@@ -44,7 +43,7 @@ export function rendererPug(hexo: Hexo) {
    * @param {Record<string, any>} locals
    * @returns
    */
-  function pugRenderer(data, locals) {
+  function pugRenderer(data: Record<string, any>, locals: Record<string, any>) {
     return pugCompile(data)(locals);
   }
 
