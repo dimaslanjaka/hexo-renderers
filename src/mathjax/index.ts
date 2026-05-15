@@ -1,8 +1,8 @@
 import ejs from 'ejs';
 import fs from 'fs';
-import { HexoLocalsData } from 'hexo/dist/hexo/locals-d';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { HexoLocalsData } from '../index-exports';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
