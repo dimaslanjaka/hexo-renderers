@@ -6,7 +6,7 @@ import terser from '@rollup/plugin-terser';
 import virtual from '@rollup/plugin-virtual';
 import Hexo from 'hexo';
 import * as rollup from 'rollup';
-import { md5 } from 'sbg-utility';
+import { md5, sanitizeFilename } from 'sbg-utility';
 import { HexoLocalsData } from '../helper/hexoLocalsData.js';
 import { HexoRollupConfigs } from './HexoRollupConfigs.js';
 
@@ -63,7 +63,7 @@ export { _rollupRenderAsync as rollupRenderAsync };
 async function renderer(this: Hexo, data: Partial<HexoLocalsData>, _options: rollup.RollupOptions) {
   const { path: inputPath, text } = data;
   const instance = this instanceof Hexo ? this : hexo;
-  const rollupConfigs = new HexoRollupConfigs(instance);
+  const rollupConfigs = new HexoRollupConfigs(instance as Hexo);
   const config = rollupConfigs.merged();
   if (!config.plugins) config.plugins = plugins;
   // fix when config.plugins is direct class plugin
@@ -116,7 +116,9 @@ async function renderer(this: Hexo, data: Partial<HexoLocalsData>, _options: rol
 
   const result = await bundle.generate({
     ...output,
-    format: 'iife' // Ensure output format is iife
+    // Ensure output format is iife for browser compatibility
+    format: 'iife',
+    name: sanitizeFilename(instance.config.title || 'MyBundle')
   });
 
   // Log output
