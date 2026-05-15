@@ -52,7 +52,8 @@
     "prepack": "node prepack.cjs --yarn",
     "pack": "node packer.cjs --yarn",
     "prepublish": "node prepack.cjs --yarn",
-    "site": "yarn run build && yarn workspace hexo-renderers-test run build"
+    "site": "yarn run build && yarn workspace hexo-renderers-test run build",
+    "serve": "yarn workspace hexo-renderers-site exec \"hexo server\""
   },
   "engines": {
     "node": ">=18"
