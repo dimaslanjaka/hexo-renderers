@@ -1,7 +1,6 @@
 'use strict';
 
 import Hexo from 'hexo';
-
 import { RollupOptions } from 'rollup';
 import createReadFilterProxy from './utils/createReadFilterProxy.js';
 import createRollupPlugin from './utils/createRollupPlugin.js';
