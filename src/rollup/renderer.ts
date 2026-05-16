@@ -118,7 +118,12 @@ async function renderer(this: Hexo, data: Partial<HexoLocalsData>, _options: rol
     ...output,
     // Ensure output format is iife for browser compatibility
     format: 'iife',
-    name: sanitizeFilename(instance.config.title || 'MyBundle')
+    name: sanitizeFilename(instance.config.title || 'MyBundle', {
+      callback: (name) => {
+        // Sanitize the name to be a valid JavaScript identifier
+        return name.replace(/[^a-zA-Z0-9_$]/g, '_');
+      }
+    })
   });
 
   // Log output

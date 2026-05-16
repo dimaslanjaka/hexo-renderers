@@ -192,9 +192,9 @@
     "sbg-api": "https://github.com/dimaslanjaka/static-blog-generator/raw/15947621d036b89bdb9e8dbd7014e1cb07283bb2/packages/sbg-api/release/sbg-api.tgz",
     "sbg-cli": "https://github.com/dimaslanjaka/static-blog-generator/raw/2dd6679e9bf12ae7d97c7cd0d37d8aa18cb8d054/packages/sbg-cli/release/sbg-cli.tgz",
     "sbg-server": "https://github.com/dimaslanjaka/static-blog-generator/raw/2dd6679e9bf12ae7d97c7cd0d37d8aa18cb8d054/packages/sbg-server/release/sbg-server.tgz",
-    "sbg-utility": "https://github.com/dimaslanjaka/static-blog-generator/raw/3f586d10a71bbe2fba8464021031c4dc27759e3b/packages/sbg-utility/release/sbg-utility.tgz",
+    "sbg-utility": "https://github.com/dimaslanjaka/static-blog-generator/raw/3a74cb7/packages/sbg-utility/release/sbg-utility.tgz",
     "static-blog-generator": "https://github.com/dimaslanjaka/static-blog-generator/raw/2dd6679e9bf12ae7d97c7cd0d37d8aa18cb8d054/packages/static-blog-generator/release/static-blog-generator.tgz",
     "warehouse": "https://github.com/dimaslanjaka/hexo/raw/65bbfe29d65b55320eb61bd263f16e1519c6c1b0/releases/warehouse.tgz",
-    "hexo-theme-flowbite": "https://github.com/dimaslanjaka/hexo-themes/raw/3a5b896165ae2eff9fe07a0a1aafa55e819cbec3/releases/hexo-theme-flowbite.tgz"
+    "hexo-theme-flowbite": "https://github.com/dimaslanjaka/hexo-themes/raw/d533780e8488d09f37daf858bb6ab06e40060890/releases/hexo-theme-flowbite.tgz"
   }
 }
