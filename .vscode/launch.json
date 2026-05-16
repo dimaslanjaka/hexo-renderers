@@ -15,6 +15,12 @@
       "name": "start",
       "request": "launch",
       "type": "node-terminal"
+    },
+    {
+      "command": "yarn run build && yarn workspace hexo-renderers-test run build",
+      "name": "build site",
+      "request": "launch",
+      "type": "node-terminal"
     }
   ]
 }

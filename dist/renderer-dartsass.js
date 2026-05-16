@@ -1,9 +1,10 @@
-import sass from 'sass';
+import sass__default from 'sass';
+
 /**
  * hexo-renderer-dartsass
  * @param hexo
  */
-export function rendererDartSass(hexo) {
+function rendererDartSass(hexo) {
     const make = function (data, _options) {
         const config = Object.assign(this.theme.config.sass || {}, this.config.sass || {}, { file: data.path });
         return new Promise((resolve, reject) => {
@@ -14,7 +15,7 @@ export function rendererDartSass(hexo) {
               }
               resolve(result.css.toString());
             });*/
-            sass
+            sass__default
                 .compileAsync(data.path, config)
                 .then(function (result) {
                 resolve(result.css);
@@ -25,3 +26,5 @@ export function rendererDartSass(hexo) {
     hexo.extend.renderer.register('scss', 'css', make);
     hexo.extend.renderer.register('sass', 'css', make);
 }
+
+export { rendererDartSass };

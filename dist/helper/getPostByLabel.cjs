@@ -1,51 +1,42 @@
-"use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+'use strict';
 
-// src/helper/getPostByLabel.ts
-var getPostByLabel_exports = {};
-__export(getPostByLabel_exports, {
-  getPostByLabel: () => getPostByLabel,
-  getPostByLabelInternal: () => getPostByLabelInternal
-});
-module.exports = __toCommonJS(getPostByLabel_exports);
+/**
+ * hexo get post by key with name
+ * @param by
+ * @param filternames
+ * @returns
+ */
 function getPostByLabelInternal(by, filternames) {
-  const hexo = this;
-  const data = hexo.site[by].data;
-  if (Array.isArray(data)) {
-    console.log(typeof data.filter);
-    const map = filternames.map((filtername) => {
-      const filter = data.filter(({ name }) => String(name).toLowerCase() == filtername.toLowerCase());
-      return filter.map((group) => {
-        return group.posts.map(function({ title, permalink, thumbnail, photos }) {
-          return { title, permalink, thumbnail, photos };
-        });
-      });
-    }).flat(2);
-    return map;
-  }
-  return [];
+    const hexo = this;
+    const data = hexo.site[by].data;
+    if (Array.isArray(data)) {
+        console.log(typeof data.filter);
+        const map = filternames
+            .map((filtername) => {
+            const filter = data.filter(({ name }) => String(name).toLowerCase() == filtername.toLowerCase());
+            return filter.map((group) => {
+                return group.posts.map(function ({ title, permalink, thumbnail, photos }) {
+                    // get title and permalink
+                    // for more keys, you can look at https://github.com/dimaslanjaka/nodejs-package-types/blob/ec9b509d81eefdfada79f1658ac02118936a1e5a/index.d.ts#L757-L762
+                    return { title, permalink, thumbnail, photos };
+                });
+            });
+        })
+            // flattern all multidimensional arrays
+            // to get array of hexo post object
+            .flat(2);
+        // dump
+        // console.log(map);
+        // return an JSON string
+        // return JSON.stringify(map, null, 2);
+        // return an Array
+        return map;
+    }
+    return [];
 }
 function getPostByLabel(hexo) {
-  hexo.extend.helper.register("getPostByLabel", getPostByLabelInternal);
+    hexo.extend.helper.register('getPostByLabel', getPostByLabelInternal);
 }
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  getPostByLabel,
-  getPostByLabelInternal
-});
+
+exports.getPostByLabel = getPostByLabel;
+exports.getPostByLabelInternal = getPostByLabelInternal;

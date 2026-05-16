@@ -4,7 +4,7 @@
  * @param filternames
  * @returns
  */
-export function getPostByLabelInternal(by, filternames) {
+function getPostByLabelInternal(by, filternames) {
     const hexo = this;
     const data = hexo.site[by].data;
     if (Array.isArray(data)) {
@@ -32,6 +32,8 @@ export function getPostByLabelInternal(by, filternames) {
     }
     return [];
 }
-export function getPostByLabel(hexo) {
+function getPostByLabel(hexo) {
     hexo.extend.helper.register('getPostByLabel', getPostByLabelInternal);
 }
+
+export { getPostByLabel, getPostByLabelInternal };

@@ -1,15 +1,16 @@
-'use strict';
 import Renderer from './markdown-it/renderer.js';
-export const defaultMarkdownOptions = {
+
+const defaultMarkdownOptions = {
     preset: 'default',
     render: {
-        html: true,
+        html: false,
         xhtmlOut: false,
         langPrefix: 'language-',
         breaks: true,
         linkify: true,
         typographer: true,
-        quotes: '“”‘’'
+        quotes: '“”‘’',
+        cache: false
     },
     enable_rules: null,
     disable_rules: null,
@@ -47,13 +48,14 @@ export const defaultMarkdownOptions = {
         lazyload: false,
         prepend_root: false,
         post_asset: false
-    }
+    },
+    inline: false
 };
 /**
  * hexo-renderer-markdown-it
  * @param hexo
  */
-export default function rendererMarkdownIt(hexo) {
+function rendererMarkdownIt(hexo) {
     hexo.config.markdown = Object.assign({
         preset: 'default',
         render: {},
@@ -80,9 +82,8 @@ export default function rendererMarkdownIt(hexo) {
         separator: '-'
     }, hexo.config.markdown.anchors || {});
     const renderer = new Renderer(hexo);
-    if (typeof hexo.config.markdown.disableNunjucks !== 'boolean') {
-        renderer.disableNunjucks = hexo.config.markdown.disableNunjucks === 'true';
-    }
+    renderer.disableNunjucks =
+        hexo.config.markdown.disableNunjucks === 'true' || hexo.config.markdown.disableNunjucks === true;
     function render(data, options = {}) {
         return renderer.render(data, options);
     }
@@ -95,3 +96,5 @@ export default function rendererMarkdownIt(hexo) {
     hexo.extend.renderer.register('mdtext', 'html', render, true);
     return render;
 }
+
+export { defaultMarkdownOptions, rendererMarkdownIt };

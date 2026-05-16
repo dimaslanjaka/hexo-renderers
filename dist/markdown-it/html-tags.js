@@ -1,7 +1,10 @@
+import Hexo from 'hexo';
 import { array_unique } from 'sbg-utility';
-export const headAndMetadataTags = ['base', 'link', 'meta', 'style', 'title', 'head'];
-export const sectioningTags = ['article', 'aside', 'footer', 'header', 'main', 'nav', 'section', 'body'];
-export const textContentTags = [
+import getRendererConfig from '../config.js';
+
+const headAndMetadataTags = ['base', 'link', 'meta', 'style', 'title', 'head'];
+const sectioningTags = ['article', 'aside', 'footer', 'header', 'main', 'nav', 'section', 'body'];
+const textContentTags = [
     'a',
     'abbr',
     'address',
@@ -25,6 +28,7 @@ export const textContentTags = [
     'small',
     'span',
     'strong',
+    'strike',
     'sub',
     'sup',
     'time',
@@ -38,9 +42,9 @@ export const textContentTags = [
     'h5',
     'h6'
 ];
-export const listTags = ['ul', 'ol', 'li'];
-export const descriptionListTags = ['dl', 'dt', 'dd'];
-export const formAndInputTags = [
+const listTags = ['ul', 'ol', 'li'];
+const descriptionListTags = ['dl', 'dt', 'dd'];
+const formAndInputTags = [
     'button',
     'datalist',
     'fieldset',
@@ -56,8 +60,8 @@ export const formAndInputTags = [
     'select',
     'textarea'
 ];
-export const tableTags = ['caption', 'col', 'colgroup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr'];
-export const mediaTags = [
+const tableTags = ['caption', 'col', 'colgroup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr'];
+const mediaTags = [
     'area',
     'audio',
     'img',
@@ -83,8 +87,8 @@ export const mediaTags = [
     'use',
     'svg'
 ];
-export const scriptAndInteractiveTags = ['canvas', 'noscript', 'script', 'dialog', 'template', 'slot'];
-export const obsoleteTags = [
+const scriptAndInteractiveTags = ['canvas', 'noscript', 'script', 'dialog', 'template', 'slot'];
+const obsoleteTags = [
     'acronym',
     'basefont',
     'big',
@@ -100,7 +104,7 @@ export const obsoleteTags = [
     'tt'
 ];
 // Tags from defaultHtmlTags that don't fit into the above categories
-export const uncategorizedTags = [
+const uncategorizedTags = [
     'bdi',
     'br',
     'data',
@@ -134,7 +138,7 @@ export const uncategorizedTags = [
     'wbr'
 ];
 // MathJax-specific tags (MathML elements used by MathJax for rendering)
-export const mathjaxTags = [
+const mathjaxTags = [
     'math', // Root element for MathML equations
     'mrow', // Grouping element for sub-expressions
     'mi', // Mathematical identifier (e.g., variables)
@@ -159,13 +163,13 @@ export const mathjaxTags = [
     'annotation' // Adds metadata or alternative forms (like LaTeX annotations)
 ];
 // Tex-related tags (for adding or formatting plain text in a math environment)
-export const texTags = [
+const texTags = [
     'mtext', // Plain text in a mathematical expression
     'mpadded', // Adds padding around elements for spacing
     'mstyle' // Applies styling to MathML elements (font size, color, etc.)
 ];
 // LaTeX-related tags (used for LaTeX-style annotations or styling)
-export const latexTags = [
+const latexTags = [
     'annotation', // Adds LaTeX annotations inside MathML
     'msup', // Superscript element (e.g., for exponents in LaTeX)
     'msub', // Subscript element (e.g., LaTeX-style subscript)
@@ -177,7 +181,7 @@ export const latexTags = [
     'mover', // Overscript (e.g., \(\overline{x}\) in LaTeX)
     'munderover' // Combination of underscript and overscript (for summations, integrals)
 ];
-export const validHtmlTags = array_unique([
+const validHtmlTags = array_unique([
     ...headAndMetadataTags,
     ...sectioningTags,
     ...textContentTags,
@@ -193,15 +197,19 @@ export const validHtmlTags = array_unique([
     ...descriptionListTags,
     ...listTags
 ]);
-export const validHtmlTagsRegex = new RegExp('</?(' + validHtmlTags.join('|') + ')(\\s|>)');
-export function resolveValidHtmlTags() {
+new RegExp('</?(' + validHtmlTags.join('|') + ')(\\s|>)');
+function resolveValidHtmlTags() {
     const fromConfig = [];
-    if (typeof hexo !== 'undefined') {
-        if (hexo.config.renderers) {
-            const { html_tags = [] } = hexo.config.renderers;
+    const instance = this instanceof Hexo ? this : hexo;
+    if (typeof instance !== 'undefined') {
+        const config = getRendererConfig(instance);
+        if ('html_tags' in config) {
+            const html_tags = config.html_tags;
             if (Array.isArray(html_tags))
                 fromConfig.push(...html_tags);
         }
     }
     return array_unique(validHtmlTags.concat(fromConfig));
 }
+
+export { descriptionListTags, formAndInputTags, headAndMetadataTags, latexTags, listTags, mathjaxTags, mediaTags, obsoleteTags, resolveValidHtmlTags, scriptAndInteractiveTags, sectioningTags, tableTags, texTags, textContentTags, uncategorizedTags, validHtmlTags };

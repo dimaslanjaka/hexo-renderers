@@ -1,6 +1,6 @@
 import fs from 'fs';
 import Hexo from 'hexo';
-import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
+import { StoreFunctionData } from 'hexo/dist/types';
 import { stylusFn } from '../src/renderer-stylus.js';
 
 const hexo = new Hexo(__dirname, { silent: true });

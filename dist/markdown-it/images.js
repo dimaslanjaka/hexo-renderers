@@ -1,6 +1,6 @@
-'use strict';
-import hutil from 'hexo-util';
-import * as path from 'path';
+import hexoUtil__default from 'hexo-util';
+import path from 'path';
+
 const { basename, dirname, extname, isAbsolute, posix, relative } = path;
 const { join, relative: relativePosix } = posix;
 function images(md, opts) {
@@ -35,9 +35,10 @@ function images(md, opts) {
                     src = asset[0].path.replace(/\\/g, '/');
                 }
             }
-            token.attrSet('src', hutil.url_for.call(hexo, src));
+            token.attrSet('src', hexoUtil__default.url_for.call(hexo, src));
         }
         return self.renderToken(tokens, idx, options);
     };
 }
-export default images;
+
+export { images as default };

@@ -1,5 +1,6 @@
 import { createRequire } from 'module';
 import stylus from 'stylus';
+
 if (typeof require === 'undefined')
     global.require = createRequire(import.meta.url);
 function getProperty(obj, name) {
@@ -41,7 +42,7 @@ function applyPlugins(stylusConfig, plugins) {
  * @param options
  * @param callback
  */
-export function stylusFn(data, options, callback) {
+function stylusFn(data, options, callback) {
     const self = this;
     // if (typeof self === 'undefined') self = hexo;
     const config = self.config.stylus || {};
@@ -67,7 +68,9 @@ stylusFn.disableNunjucks = true;
  * hexo-renderer-stylus
  * @param {import('hexo')} hexo
  */
-export function rendererStylus(hexo) {
+function rendererStylus(hexo) {
     hexo.extend.renderer.register('styl', 'css', stylusFn);
     hexo.extend.renderer.register('stylus', 'css', stylusFn);
 }
+
+export { rendererStylus, stylusFn };

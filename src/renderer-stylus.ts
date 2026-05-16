@@ -1,5 +1,4 @@
 import Hexo from 'hexo';
-import { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import { createRequire } from 'module';
 import stylus from 'stylus';
 
@@ -48,7 +47,7 @@ function applyPlugins(stylusConfig: import('stylus/lib/renderer'), plugins: stri
  */
 export function stylusFn(
   this: Hexo & Record<string, any>,
-  data: StoreFunctionData,
+  data: Record<string, any>,
   options: Record<string, any>,
   callback: (err: Error | undefined | null, result: string) => any
 ) {

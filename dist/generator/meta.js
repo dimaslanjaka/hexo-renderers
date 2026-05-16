@@ -8,7 +8,7 @@ const meta = {
  * create `meta.json` can be accessed at `http://example.com/meta.json`
  * @param hexo
  */
-export function metaJsonCreator(hexo) {
+function metaJsonCreator(hexo) {
     hexo.extend.generator.register('meta', function (locals) {
         locals.tags.sort('name').each(function (tag) {
             if (!meta.tags.includes(tag.name))
@@ -29,3 +29,5 @@ export function metaJsonCreator(hexo) {
         return { path: 'meta.json', data: JSON.stringify(meta) };
     });
 }
+
+export { metaJsonCreator };

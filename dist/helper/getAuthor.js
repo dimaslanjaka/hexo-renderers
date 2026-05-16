@@ -1,4 +1,4 @@
-export function getAuthor(hexo) {
+function getAuthor(hexo) {
     /**
      * usage:
      * {{ getAuthor(page, 'default author') }}
@@ -15,7 +15,7 @@ export function getAuthor(hexo) {
         return 'default user';
     });
 }
-export function getTheAuthor(authorObj) {
+function getTheAuthor(authorObj) {
     if (typeof authorObj === 'string')
         return authorObj;
     if (typeof authorObj.name === 'string')
@@ -25,3 +25,5 @@ export function getTheAuthor(authorObj) {
     if (typeof authorObj.nickname === 'string')
         return authorObj.nickname;
 }
+
+export { getAuthor, getTheAuthor };

@@ -1,38 +1,35 @@
-import Hexo from 'hexo';
 import { del } from 'sbg-utility';
 import path from 'upath';
+import { initCli } from './cli.js';
+import getRendererConfig from './config.js';
+import { initHtmlFixer } from './fixer/index.js';
 import { registerCustomGenerator } from './generator/index.js';
-import { collectorPost, loadPostData } from './helper/collector.js';
 import { registerCustomHelper } from './helper/index.js';
-import { logname } from './helper/util.js';
+import { isPackageInstalled } from './helper/util.js';
 import { rendererDartSass } from './renderer-dartsass.js';
 import { rendererEjs } from './renderer-ejs.js';
-import { default as rendererMarkdownIt } from './renderer-markdown-it.js';
+import { rendererMarkdownIt } from './renderer-markdown-it.js';
+import { rendererMarked } from './renderer-marked.js';
 import { rendererNunjucks } from './renderer-nunjucks.js';
 import { rendererPug } from './renderer-pug.js';
 import { rendererSass } from './renderer-sass.js';
 import { rendererStylus } from './renderer-stylus.js';
-import { rendererRollup } from './renderer/rollup/index.js';
+import { rendererRollup } from './rollup/index.js';
 
 if (typeof hexo !== 'undefined') {
   // assign hexo to global variable
-  (global as any).hexo = hexo;
+  if (!(global as any).hexo) (global as any).hexo = hexo;
 
   // define options
-  const options: { generator: string[]; engines: string[] } = Object.assign(
-    { generator: ['meta'], engines: [] as string[] },
-    hexo.config.renderers?.generator || {}
-  );
-
-  // shim v1 options
-  if (Array.isArray(hexo.config.renderers)) {
-    options.engines = hexo.config.renderers;
-  }
+  const options = getRendererConfig(hexo);
 
   // initial process - restoration
-  hexo.extend.filter.register('after_init', function (this: Hexo) {
-    loadPostData(this);
-  });
+  // hexo.extend.filter.register('after_init', function (this: Hexo) {
+  //   loadPostData(this);
+  // });
+
+  // Initialize CLI
+  initCli(hexo);
 
   // clean temp files after clean
   hexo.extend.filter.register('after_clean', function () {
@@ -44,52 +41,56 @@ if (typeof hexo !== 'undefined') {
   // register custom generator
   registerCustomGenerator(hexo, options.generator);
   // collect post information
-  hexo.extend.filter.register('after_post_render', function (this: Hexo, post: any) {
-    return collectorPost(post, this);
-  });
+  // hexo.extend.filter.register('after_post_render', function (this: Hexo, post: any) {
+  //   return collectorPost(post, this);
+  // });
 
-  if (options.engines.length > 0) {
-    // activate specific engine
-    for (let i = 0; i < options.engines.length; i++) {
-      const engine = options.engines[i];
-      switch (engine) {
-        case 'ejs':
-          rendererEjs(hexo);
-          break;
-        case 'pug':
-          rendererPug(hexo);
-          break;
-        case 'dartsass':
-          rendererDartSass(hexo);
-          break;
-        case 'rollup':
-          rendererRollup(hexo);
-          break;
-        case 'sass':
-          rendererSass(hexo);
-          break;
-        case 'stylus':
-          rendererStylus(hexo);
-          break;
-        case 'nunjucks':
-        case 'njk':
-          rendererNunjucks(hexo);
-          break;
-        case 'markdown-it':
-          rendererMarkdownIt(hexo);
-          break;
-      }
+  hexo.log.info('activating renderer engine', options.engines.join(', '));
+  for (let i = 0; i < options.engines.length; i++) {
+    const engine = options.engines[i];
+    switch (engine) {
+      case 'ejs':
+        rendererEjs(hexo);
+        break;
+      case 'pug':
+        rendererPug(hexo);
+        break;
+      case 'dartsass':
+        rendererDartSass(hexo);
+        break;
+      case 'rollup':
+        rendererRollup(hexo);
+        break;
+      case 'sass':
+        rendererSass(hexo);
+        break;
+      case 'stylus':
+        rendererStylus(hexo);
+        break;
+      case 'nunjucks':
+      case 'njk':
+        rendererNunjucks(hexo);
+        break;
+      case 'markdown-it':
+        rendererMarkdownIt(hexo);
+        break;
+      case 'marked':
+        rendererMarked(hexo);
+        break;
     }
-  } else {
-    hexo.log.info(logname, 'activating all engines');
-    // activate all available engines
-    rendererNunjucks(hexo);
-    rendererEjs(hexo);
-    rendererPug(hexo);
-    rendererStylus(hexo);
-    // rendererRollup(hexo);
-    // rendererDartSass(hexo);
-    rendererSass(hexo);
-    rendererMarkdownIt(hexo);
+  }
+
+  // enable marked renderer when markdown-it not enabled
+  if (
+    !isPackageInstalled('hexo-renderer-marked') &&
+    !options.engines.includes('marked') &&
+    !options.engines.includes('markdown-it')
+  ) {
+    hexo.log.info('Enabling renderer marked');
+    rendererMarked(hexo);
+  }
+
+  if (options.fix.html) {
+    initHtmlFixer(hexo);
   }
 }

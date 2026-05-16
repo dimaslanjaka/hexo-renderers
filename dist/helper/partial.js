@@ -1,6 +1,7 @@
-import * as path from 'upath';
+import path from 'upath';
+
 // original https://github.com/hexojs/hexo/blob/cb19b2938d1f7882a4cb41a98974a3d673a63b45/lib/plugins/helper/partial.js#L5
-export function partialWithLayout(ctx) {
+function partialWithLayout(ctx) {
     return function partialWithLayout(name, locals, options = {}) {
         if (typeof name !== 'string')
             throw new TypeError('argument name must be a string!');
@@ -29,3 +30,5 @@ export function partialWithLayout(ctx) {
         return view.renderSync(viewLocals);
     };
 }
+
+export { partialWithLayout };

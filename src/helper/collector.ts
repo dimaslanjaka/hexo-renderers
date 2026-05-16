@@ -4,14 +4,14 @@ import Hexo from 'hexo';
 import path from 'path';
 import {
   copyPath,
-  file_to_hash,
   jsonParseWithCircularRefs,
   jsonStringifyWithCircularRefs,
   md5,
+  md5FileSync,
   writefile
 } from 'sbg-utility';
 import type { HexoLocalsData } from './hexoLocalsData.js';
-import { DeepPartial, categorieName, logname, tagName } from './util.js';
+import { DeepPartial, categoriesName, logname, tagName } from './util.js';
 
 let postData: HexoLocalsData[] = [];
 
@@ -48,10 +48,14 @@ export function loadPostData(hexo: Hexo) {
  */
 export const getPostData = () => postData;
 
-export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
-  const integrity = post.full_source
-    ? await file_to_hash('sha1', post.full_source, 'hex')
-    : md5(String(post.path + post.raw));
+export function collectorPost(post: HexoLocalsData, hexo: Hexo) {
+  // const cacheUnit = new persistentCache({
+  //   base: path.join(hexo.base_dir, 'tmp/hexo-renderers'),
+  //   name: 'collector',
+  //   persist: true,
+  //   memory: false
+  // });
+  const integrity = post.full_source ? md5FileSync(post.full_source) : md5(String(post.path + post.raw));
   /** existing post */
   const exPostIndex = postData.findIndex((exPost) => post.path === exPost.path);
   const exPost = postData.find((exPost) => post.path === exPost.path);
@@ -110,7 +114,7 @@ export async function collectorPost(post: HexoLocalsData, hexo: Hexo) {
     post.tags = names;
   }
   if ('categories' in post) {
-    const names = categorieName(post.categories);
+    const names = categoriesName(post.categories);
     delete (post as DeepPartial<typeof post>).categories;
     post.categories = names;
   }

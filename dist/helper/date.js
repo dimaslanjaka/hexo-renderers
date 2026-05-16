@@ -1,6 +1,7 @@
-'use strict';
-import { default as moize } from 'moize';
+import moize from 'moize';
 import moment from 'moment-timezone';
+export { default as moment } from 'moment-timezone';
+
 const { isMoment } = moment;
 const isDate = (value) => typeof value === 'object' && value instanceof Date && !isNaN(value.getTime());
 function getMoment(date, lang, timezone) {
@@ -88,11 +89,12 @@ function toMomentLocales(lang) {
     }
     return lang.toLowerCase().replace('_', '-');
 }
-export const date = dateHelper;
-export const date_xml = toISOString;
-export const time = timeHelper;
-export const full_date = fullDateHelper;
-export const relative_date = relativeDateHelper;
-export const time_tag = timeTagHelper;
-export { moment };
-export const toMomentLocale = moize.shallow(toMomentLocales);
+const date = dateHelper;
+const date_xml = toISOString;
+const time = timeHelper;
+const full_date = fullDateHelper;
+const relative_date = relativeDateHelper;
+const time_tag = timeTagHelper;
+const toMomentLocale = moize.shallow(toMomentLocales);
+
+export { date, date_xml, full_date, relative_date, time, time_tag, toMomentLocale };

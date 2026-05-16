@@ -1,5 +1,7 @@
 // forked from https://gist.github.com/mh61503891/544d3c1eefd00b1012463b860222d34f
 
+import { HexoLocalsData } from '../helper/hexoLocalsData';
+
 const meta = {
   tags: [] as string[],
   posts: [] as Record<string, any>[],
@@ -11,7 +13,7 @@ const meta = {
  * @param hexo
  */
 export function metaJsonCreator(hexo: import('hexo')) {
-  hexo.extend.generator.register('meta', function (locals) {
+  hexo.extend.generator.register('meta', function (locals: Partial<HexoLocalsData>) {
     locals.tags.sort('name').each(function (tag: Record<string, any>) {
       if (!meta.tags.includes(tag.name)) meta.tags.push(tag.name);
     });

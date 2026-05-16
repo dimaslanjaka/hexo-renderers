@@ -1,18 +1,21 @@
-'use strict';
 import fs from 'fs-extra';
 import nunjucks from 'nunjucks';
 import path from 'upath';
 import { toArray } from './helper/index.js';
-import { writefile } from 'sbg-utility';
+import { persistentCache, md5FileSync, md5 } from 'sbg-utility';
+
 //const logname = ansiColors.magentaBright('hexo-renderer-nunjucks');
-const base_dir = typeof hexo !== 'undefined' && hexo.base_dir ? hexo.base_dir : process.cwd();
-const tmpdir = path.join(base_dir, 'tmp', 'hexo-renderers');
-const logfile = path.join(tmpdir, 'nunjucks-log.json');
 /**
  * hexo-renderer-nunjucks
  * @param hexo
  */
-export function rendererNunjucks(hexo) {
+function rendererNunjucks(hexo) {
+    const cacheUnit = new persistentCache({
+        base: path.join(hexo.base_dir, 'tmp/hexo-renderers'),
+        name: 'nunjucks-renderer',
+        persist: true,
+        memory: false
+    });
     /**
      * theme directory
      */
@@ -25,10 +28,6 @@ export function rendererNunjucks(hexo) {
         lstripBlocks: false
     });
     env.addFilter('toArray', toArray);
-    const logs = {
-        render: [],
-        compile: []
-    };
     /**
      * render
      * @param data
@@ -36,13 +35,17 @@ export function rendererNunjucks(hexo) {
      * @returns
      */
     function render(data, locals) {
+        const cacheKey = 'render-' + (md5FileSync(data.path) || md5(data.text));
+        const cacheValue = cacheUnit.getSync(cacheKey, '');
+        if (cacheValue.length > 0)
+            return cacheValue;
         if ('text' in data) {
             return nunjucks.renderString(data.text, locals);
         }
-        // hexo.log.info(logname, 'render', data.path);
-        logs.render.push(data.path);
-        writefile(logfile, JSON.stringify(logs, null, 2));
-        return nunjucks.render(data.path, locals);
+        const result = nunjucks.render(data.path, locals);
+        if (typeof result === 'string')
+            cacheUnit.setSync(cacheKey, result);
+        return result;
     }
     /**
      * compile
@@ -50,18 +53,37 @@ export function rendererNunjucks(hexo) {
      * @returns
      */
     function compile(data) {
-        // hexo.log.info(logname, 'compile', data.path);
-        logs.compile.push(data.path);
-        writefile(logfile, JSON.stringify(logs, null, 2));
+        // const cacheKey = 'compile-' + (md5FileSync(data.path as string) || md5(data.text as string));
         // hexo.log.info(logname, 'text' in data ? data.text : data.path);
         const compiled = nunjucks.compile('text' in data ? data.text : fs.readFileSync(data.path, 'utf-8'), env);
+        // const originalRender = compiled.render;
+        // compiled.render = function (context?: Record<string, any>, callback?: nunjucks.TemplateCallback<string>) {
+        //   if (typeof callback === 'function') {
+        //     const cacheValue = cacheUnit.getSync(cacheKey, '');
+        //     if (cacheValue.length > 0) {
+        //       callback(null, cacheValue);
+        //     } else {
+        //       originalRender(context, function (err, result) {
+        //         cacheUnit.setSync(cacheKey, result);
+        //         callback(err, result);
+        //       });
+        //     }
+        //   } else {
+        //     const cacheValue = cacheUnit.getSync(cacheKey, '');
+        //     if (cacheValue.length > 0) return cacheValue;
+        //     const result = originalRender(context);
+        //     cacheUnit.setSync(cacheKey, result);
+        //     return result;
+        //   }
+        // } as any;
         return compiled.render.bind(compiled);
     }
     // hexo Renderer API implicitly requires 'compile' to be a value of the rendering function
     render.compile = compile;
     // hexo.extend.renderer.register('swig', 'html', render, true);
-    hexo.extend.renderer.register('njk', 'html', render, false);
-    hexo.extend.renderer.register('j2', 'html', render, false);
+    hexo.extend.renderer.register('njk', 'html', render, true);
+    hexo.extend.renderer.register('j2', 'html', render, true);
     return { render, rendererNunjucks, compile };
 }
-export default rendererNunjucks;
+
+export { rendererNunjucks };

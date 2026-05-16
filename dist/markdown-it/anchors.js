@@ -1,7 +1,6 @@
-'use strict';
-import hutil from 'hexo-util';
-// import Token from 'markdown-it/lib/token';
-import Token from 'markdown-it/token';
+import hexoUtil__default from 'hexo-util';
+import Token from '../dependencies/markdown-it/dist/token.js';
+
 const renderPermalink = function (slug, opts, tokens, idx) {
     const permalink = [
         Object.assign(new Token('link_open', 'a', 1), {
@@ -24,10 +23,10 @@ const renderPermalink = function (slug, opts, tokens, idx) {
     return tokens[idx + 1].children.unshift(...permalink);
 };
 const anchor = function (md, opts) {
-    Object.assign(opts, { renderPermalink });
+    opts = Object.assign(opts, { renderPermalink });
     let titleStore = {};
     const originalHeadingOpen = md.renderer.rules.heading_open;
-    const slugOpts = { transform: opts.case, ...opts };
+    const slugOpts = Object.assign({ transform: opts.case }, opts);
     md.renderer.rules.heading_open = function (...args) {
         const [tokens, idx, _something, _somethingelse, self] = args;
         if (tokens[idx].tag.substr(1) >= opts.level) {
@@ -35,7 +34,7 @@ const anchor = function (md, opts) {
             const title = tokens[idx + 1].children.reduce((acc, t) => {
                 return acc + t.content;
             }, '');
-            let slug = hutil.slugize(title, slugOpts);
+            let slug = hexoUtil__default.slugize(title, slugOpts);
             if (Object.prototype.hasOwnProperty.call(titleStore, slug)) {
                 titleStore[slug] = titleStore[slug] + 1;
                 slug = slug + '-' + opts.collisionSuffix + titleStore[slug].toString();
@@ -48,13 +47,16 @@ const anchor = function (md, opts) {
                 slug
             ]);
             if (opts.permalink) {
-                opts.renderPermalink.apply(opts, [slug, opts].concat(args));
+                // opts.renderPermalink.apply(opts, [slug, opts].concat(args));
+                opts.renderPermalink(slug, opts, tokens, idx);
             }
         }
-        return originalHeadingOpen ? originalHeadingOpen.apply(this, args) : self.renderToken.apply(self, args);
+        // return originalHeadingOpen ? originalHeadingOpen.apply(this, args) : self.renderToken.apply(self, args);
+        return originalHeadingOpen ? originalHeadingOpen(...args) : self.renderToken(...args);
     };
     md.core.ruler.push('clear_anchor_title_store', () => {
         titleStore = {};
     });
 };
-export default anchor;
+
+export { anchor as default };

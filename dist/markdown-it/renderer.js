@@ -1,26 +1,16 @@
-'use strict';
-import { load } from 'cheerio';
 import fs from 'fs-extra';
-import MarkdownIt from 'markdown-it';
+import { MarkdownIt } from '../dependencies/markdown-it/lib/index.js';
 import { createRequire } from 'module';
-import { escapeRegex, isValidHttpUrl } from 'sbg-utility';
+import { persistentCache, normalizePath, md5 } from 'sbg-utility';
 import path from 'upath';
 import { fileURLToPath } from 'url';
-import anchorProcess from './anchors.js';
-import { resolveValidHtmlTags } from './html-tags.js';
-import imageProcess from './images.js';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import anchor from './anchors.js';
+import images from './images.js';
+
+const __filename$1 = fileURLToPath(import.meta.url);
+const __dirname$1 = path.dirname(__filename$1);
 if (typeof require === 'undefined')
     global.require = createRequire(import.meta.url);
-export const escapeHtml = (str) => {
-    return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-};
 class Renderer {
     /**
      * constructor
@@ -29,6 +19,12 @@ class Renderer {
      */
     constructor(hexo) {
         this.hexo = hexo;
+        this.cacheUnit = new persistentCache({
+            base: path.join(hexo.base_dir, 'tmp/hexo-renderers'),
+            name: 'markdown-it-renderer',
+            persist: true,
+            memory: false
+        });
         let { markdown } = hexo.config;
         // Temporary backward compatibility
         if (typeof markdown === 'string') {
@@ -37,7 +33,8 @@ class Renderer {
             };
             hexo.log.warn(`Deprecated config detected. Please use\n\nmarkdown:\n  preset: ${markdown.preset}\n\nSee https://github.com/hexojs/hexo-renderer-markdown-it#options`);
         }
-        const { preset, render, enable_rules, disable_rules, plugins, anchors, images } = markdown;
+        const { preset, render, enable_rules, disable_rules, plugins, anchors, images: images$1 } = markdown;
+        this.markdownConfig = markdown;
         this.parser = new MarkdownIt(preset, render);
         if (enable_rules) {
             this.parser.enable(enable_rules, false);
@@ -51,105 +48,86 @@ class Renderer {
                 path.join(hexo.base_dir, 'node_modules'),
                 path.join(process.cwd(), 'node_modules'),
                 // when installed inside node_modules
-                path.join(__dirname, '../../'),
-                path.join(__dirname, '../../node_modules'),
-                path.join(__dirname, '../../../node_modules')
+                path.join(__dirname$1, '../../'),
+                path.join(__dirname$1, '../../node_modules'),
+                path.join(__dirname$1, '../../../node_modules')
             ].filter(fs.existsSync);
             this.parser = plugins.reduce((parser, mdOpt) => {
+                let pluginName = '';
+                const pluginOptions = mdOpt && typeof mdOpt === 'object' && 'options' in mdOpt ? mdOpt.options : {};
                 if (mdOpt instanceof Object && mdOpt.name) {
-                    const resolved = require.resolve(mdOpt.name, {
-                        paths: node_modules_paths
-                    });
-                    // eslint-disable-next-line @typescript-eslint/no-require-imports
-                    const r = require(resolved);
-                    if (typeof r === 'function')
-                        return parser.use(r, mdOpt.options || {});
-                    hexo.log.error(`markdown-it plugin ${mdOpt.name} is not a function`);
+                    pluginName = mdOpt.name;
                 }
                 else if (typeof mdOpt === 'string') {
-                    const resolved = require.resolve(mdOpt, {
+                    pluginName = mdOpt;
+                }
+                else if (pluginName === '') {
+                    hexo.log.error(`markdown-it plugin failed load ${mdOpt}`);
+                    return parser;
+                }
+                if (pluginName === '@renbaoshuo/markdown-it-katex')
+                    pluginName = 'markdown-it-mathematics';
+                else if (pluginName === 'markdown-it-katex')
+                    pluginName = 'markdown-it-mathematics';
+                try {
+                    const resolved = require.resolve(pluginName, {
                         paths: node_modules_paths
                     });
                     // eslint-disable-next-line @typescript-eslint/no-require-imports
                     const r = require(resolved);
-                    if (typeof r === 'function')
-                        return parser.use(r);
-                    hexo.log.error(`markdown-it plugin ${mdOpt} is not a function`);
-                }
-                else {
-                    hexo.log.error(`markdown-it plugin failed load ${mdOpt}`);
-                }
-                /*else {
-                  if (isModuleInstalled(pugs.name)) {
-                    return parser.use(require(pugs.name), pugs.options);
-                  } else {
-                    try {
-                      hexo.log.e(pugs.name, 'not installed', { resolve: require.resolve(pugs.name) });
-                      return parser.use(require(require.resolve(pugs.name)), pugs.options);
-                    } catch (e) {
-                      console.log(require.resolve(pugs.name));
+                    if (typeof r !== 'function') {
+                        hexo.log.error(`markdown-it plugin ${pluginName} is not a function`);
                     }
-                  }
-                }*/
+                    else {
+                        return parser.use(r, pluginOptions);
+                    }
+                }
+                catch (error) {
+                    hexo.log.error(`markdown-it plugin failed load ${mdOpt}`, error);
+                }
                 // return default parser
                 return parser;
             }, this.parser);
         }
         if (anchors) {
-            this.parser.use(anchorProcess, anchors);
+            this.parser.use(anchor, anchors);
         }
-        if (images) {
-            this.parser.use(imageProcess, {
-                images,
+        if (images$1) {
+            this.parser.use(images, {
+                images: images$1,
                 hexo: this.hexo
             });
         }
         this.disableNunjucks = false;
     }
-    render(data, _options) {
-        this.hexo.execFilterSync('markdown-it:renderer', this.parser, { context: this });
-        let html = this.parser.render(data.text, {
-            postPath: data.path
-        });
-        const $ = load(html);
-        const regexs = [];
-        $('*').each((index, element) => {
-            const tagName = element.tagName.toLowerCase();
-            if (!resolveValidHtmlTags().includes(tagName)) {
-                const regex = new RegExp('</?' + tagName + '>', 'gm');
-                regexs.push(regex);
-            }
-            else if (tagName === 'img' || tagName === 'source' || tagName === 'iframe') {
-                // fix local post asset folder
-                const src = $(element).attr('src');
-                if (src && !isValidHttpUrl(src) && !src.startsWith(this.hexo.config.root) && !src.startsWith('//')) {
-                    const finalSrc = path.join(this.hexo.config.root, src);
-                    this.hexo.log.info('fix PAF', src, '->', finalSrc);
-                    html = html.replace(new RegExp(escapeRegex(src)), finalSrc);
-                }
-            }
-        });
-        const results = regexs.map((regex) => {
-            const result = html.match(regex);
-            if (typeof hexo != 'undefined') {
-                hexo.log.warn('found invalid html tags inside anchor', regex, result);
-            }
-            return { regex, result };
-        });
-        // Flatten the results and filter out null values
-        const matches = results.flat();
-        for (let i = 0; i < matches.length; i++) {
-            const regex_result = matches[i];
-            if (regex_result.result) {
-                for (let i = 0; i < regex_result.result.length; i++) {
-                    const replacement = escapeHtml(regex_result.result[i]);
-                    // console.log(regex_result.regex, replacement);
-                    html = html.replace(regex_result.regex, replacement);
-                }
-            }
+    render(data, options) {
+        const cache = this.markdownConfig.render.cache || false;
+        let cacheKey = '';
+        if (data.path) {
+            cacheKey = normalizePath(data.path).replace(normalizePath(this.hexo.base_dir), '');
         }
+        if (data.text)
+            cacheKey += '-' + md5(data.text);
+        if (cache) {
+            const cacheValue = this.cacheUnit.getSync(cacheKey, '');
+            if (cacheValue !== '')
+                return cacheValue;
+        }
+        this.hexo.execFilterSync('markdown-it:renderer', this.parser, { context: this });
+        let html;
+        if (options != null && options.inline === true) {
+            html = this.parser.renderInline(data.text, {
+                postPath: data.path
+            });
+        }
+        else {
+            html = this.parser.render(data.text, {
+                postPath: data.path
+            });
+        }
+        this.cacheUnit.setSync(cacheKey, html);
         return html;
     }
 }
-// module.exports = Renderer;
-export default Renderer;
+
+export { Renderer as default };

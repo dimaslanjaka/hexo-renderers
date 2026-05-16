@@ -40,5 +40,5 @@ export function getPostByLabelInternal(
 }
 
 export function getPostByLabel(hexo: Hexo) {
-  hexo.extend.helper.register('getPostByLabel', getPostByLabelInternal);
+  hexo.extend.helper.register('getPostByLabel', getPostByLabelInternal as any);
 }

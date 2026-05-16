@@ -1,19 +1,19 @@
 'use strict';
 
 import Hexo from 'hexo';
-import type { StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import Renderer from './markdown-it/renderer.js';
 
 export const defaultMarkdownOptions = {
   preset: 'default',
   render: {
-    html: true,
+    html: false,
     xhtmlOut: false,
     langPrefix: 'language-',
     breaks: true,
     linkify: true,
     typographer: true,
-    quotes: '“”‘’'
+    quotes: '“”‘’',
+    cache: false
   },
   enable_rules: null,
   disable_rules: null,
@@ -51,16 +51,20 @@ export const defaultMarkdownOptions = {
     lazyload: false,
     prepend_root: false,
     post_asset: false
-  }
+  },
+  inline: false
 };
+
+export type rendererMarkdownItReturn = (
+  data: Record<string, any>,
+  options?: Record<string, any>
+) => string;
 
 /**
  * hexo-renderer-markdown-it
  * @param hexo
  */
-export default function rendererMarkdownIt(
-  hexo: Hexo
-): (data: StoreFunctionData, options?: Record<string, any>) => string {
+export function rendererMarkdownIt(hexo: Hexo): rendererMarkdownItReturn {
   hexo.config.markdown = Object.assign(
     {
       preset: 'default',
@@ -100,11 +104,10 @@ export default function rendererMarkdownIt(
 
   const renderer = new Renderer(hexo);
 
-  if (typeof hexo.config.markdown.disableNunjucks !== 'boolean') {
-    renderer.disableNunjucks = hexo.config.markdown.disableNunjucks === 'true';
-  }
+  renderer.disableNunjucks =
+    hexo.config.markdown.disableNunjucks === 'true' || hexo.config.markdown.disableNunjucks === true;
 
-  function render(data: StoreFunctionData, options: Record<string, any> = {}) {
+  function render(data: Record<string, any>, options: Partial<typeof defaultMarkdownOptions> = {}) {
     return renderer.render(data, options);
   }
 

@@ -1,6 +1,5 @@
 import * as ejs from 'ejs';
 import Hexo from 'hexo';
-import type { StoreFunction, StoreFunctionData } from 'hexo/dist/extend/renderer-d';
 import { toArray } from './helper/index.js';
 
 /**
@@ -9,17 +8,17 @@ import { toArray } from './helper/index.js';
  */
 export function rendererEjs(hexo: Hexo) {
   if ((ejs as any).filters) (ejs as any).filters.toArray = toArray;
-  function ejsRenderer(data: StoreFunctionData, locals: any) {
+  function ejsRenderer(data: Record<string, any>, locals: any) {
     return ejs.render(data.text as string, Object.assign({ filename: data.path }, locals));
   }
 
-  ejsRenderer.compile = function (data: StoreFunctionData) {
+  ejsRenderer.compile = function (data: Record<string, any>) {
     return ejs.compile(data.text as string, {
       filename: data.path
     });
   };
 
-  hexo.extend.renderer.register('ejs', 'html', ejsRenderer as StoreFunction, true);
+  hexo.extend.renderer.register('ejs', 'html', ejsRenderer as any, true);
 }
 
 export default rendererEjs;
