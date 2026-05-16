@@ -15,7 +15,7 @@ Custom `markdown-it` from [https://github.com/dimaslanjaka/markdown-it](https://
 
 > This only required when you add `markdown-it` on `_config_yml.renderers.engine`
 
-<pre><code>yarn add markdown-it@https://github.com/dimaslanjaka/markdown-it/raw/17ccc825cbb3e4c6d59edada5f6d93f27075d752/release/markdown-it.tgz</code></pre>
+<pre><code>yarn add markdown-it@https://github.com/dimaslanjaka/markdown-it/raw/7f4f9d5ec08ebcfde42affb517ea7c8e6a305534/release/markdown-it.tgz</code></pre>
 
 > Change **hash** with latest commit hash
 >
