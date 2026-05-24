@@ -18,12 +18,12 @@ const _toArray = lodash.toArray;
 export const BASE_DIR = typeof hexo === 'undefined' ? process.cwd() : hexo.base_dir;
 
 const configFile = path.join(BASE_DIR, '_config.yml');
-let config: import('hexo')['config'] = {} as any;
+let config = {} as import('hexo')['config'];
 if (fs.existsSync(configFile)) {
   if (typeof hexo === 'undefined') {
-    config = yaml.parse(fs.readFileSync(configFile, 'utf-8'));
+    (config as any) = yaml.parse(fs.readFileSync(configFile, 'utf-8'));
   } else {
-    config = hexo.config;
+    (config as any) = hexo.config;
   }
 }
 
@@ -117,8 +117,8 @@ export function registerCustomHelper(hexo: Hexo) {
 
   hexo.extend.helper.register('partialWithLayout', partialWithLayout as any);
   hexo.extend.helper.register('date', date.date);
-  //hexo.extend.helper.register('format_date', date.date);
-  //hexo.extend.helper.register('date_format', date.date);
+  hexo.extend.helper.register('format_date', date.date);
+  hexo.extend.helper.register('date_format', date.date);
   hexo.extend.helper.register('date_xml', date.date_xml);
   hexo.extend.helper.register('time', date.time);
   hexo.extend.helper.register('full_date', date.full_date);
