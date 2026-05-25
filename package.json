@@ -114,8 +114,7 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.27.1",
-    "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.32.0",
+    "@dimaslanjaka/eslint-base-config": "^1.0.0",
     "@jest/environment": "^30.0.5",
     "@jest/expect": "^30.0.5",
     "@jest/globals": "^30.0.5",
@@ -134,8 +133,6 @@
     "@types/pug": "^2.0.10",
     "@types/sinon": "^17.0.4",
     "@types/stylus": "^0.48.43",
-    "@typescript-eslint/eslint-plugin": "^8.38.0",
-    "@typescript-eslint/parser": "^8.38.0",
     "axios": "^1.11.0",
     "babel-jest": "^30.0.5",
     "binary-collections": "^2.0.11",
@@ -143,12 +140,8 @@
     "cross-env": "^10.0.0",
     "cross-spawn": "https://github.com/dimaslanjaka/node-cross-spawn/raw/80999ac7a7031a81e11ddb5fab0f8ba433041c98/release/cross-spawn.tgz",
     "dotenv": "^17.2.1",
-    "eslint": "^9.32.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.3",
     "git-command-helper": "^2.1.1",
     "glob": "^11.0.3",
-    "globals": "^16.3.0",
     "gulp": "^5.0.1",
     "gulp-cli": "^3.1.0",
     "hexo": "*",
@@ -195,6 +188,7 @@
     "sbg-utility": "https://github.com/dimaslanjaka/static-blog-generator/raw/44e5c7b79b4e60f8c2d34857c27b8ce677d7493e/packages/sbg-utility/release/sbg-utility.tgz",
     "static-blog-generator": "https://github.com/dimaslanjaka/static-blog-generator/raw/5a35b0a691f24095cb761878ce98f18a8b5b8566/packages/static-blog-generator/release/static-blog-generator.tgz",
     "warehouse": "https://github.com/dimaslanjaka/hexo/raw/65bbfe29d65b55320eb61bd263f16e1519c6c1b0/releases/warehouse.tgz",
-    "hexo-theme-flowbite": "https://github.com/dimaslanjaka/hexo-themes/raw/d533780e8488d09f37daf858bb6ab06e40060890/releases/hexo-theme-flowbite.tgz"
+    "hexo-theme-flowbite": "https://github.com/dimaslanjaka/hexo-themes/raw/d533780e8488d09f37daf858bb6ab06e40060890/releases/hexo-theme-flowbite.tgz",
+    "@dimaslanjaka/eslint-base-config": "https://github.com/dimaslanjaka/eslint-base-config/raw/6c1253ec2dbe53c1f28d9012e14236d08eebd9a0/release/dimaslanjaka-eslint-base-config.tgz"
   }
 }
